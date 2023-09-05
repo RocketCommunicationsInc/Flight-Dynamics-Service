@@ -1,0 +1,14 @@
+services:
+  fds-ui:
+    build:
+      context: .
+      # only needed if not named Dockerfile
+      # dockerfile: Dockerfile
+      # can target different stages of the Dockerfile
+      # target: dev
+    ports:
+      - 4201:4201
+    container_name: ui
+    volumes:
+      - ./:/opt/fds
+      - /opt/fds/node_modules
