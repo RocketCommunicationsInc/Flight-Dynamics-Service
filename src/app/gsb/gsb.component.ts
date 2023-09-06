@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-gsb',
@@ -7,42 +7,21 @@ import { Component, ElementRef } from '@angular/core';
 })
 export class GsbComponent {
   constructor(private toast: ElementRef) {}
-  selectedItem: string | undefined;
-  addToast: boolean = false;
+
+  @Output() ruxmenuselected: EventEmitter<any> = new EventEmitter<any>();
 
   showToast() {
-    // message: string;
-    // hideClose: boolean;
-    // closeAfter: number;
-
     const toastStack =
       this.toast.nativeElement.querySelector('rux-toast-stack');
 
     toastStack.addToast({
-      message: 'This feature has not been implemented',
-      hideClose: true,
+      message: 'This feature has not been implemented.',
+      hideClose: false,
       closeAfter: 3000,
     });
   }
 
-  // showToast() {
-  //   const toast = {
-  //     message: 'This feature has not been implemented',
-  //     hideClose: true,
-  //     closeAfter: 3000,
-  //   }
-  // }
-
-  menuSelect(event: any): void {
-    this.selectedItem ? (this.addToast = true) : (this.addToast = false);
-    console.log(event);
+  menuSelect() {
+    this.showToast();
   }
-
-  // @ViewChild('gsbPopUpMenu')
-  //   myTestPopUpMenu: any
-  //   async onAction() {
-  //       await this.myTestPopUpMenu.nativeElement.isOpen()
-  //       alert('works')
-
-  //   }
 }

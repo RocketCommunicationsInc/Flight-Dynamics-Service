@@ -17,7 +17,12 @@
     </div>
   </div>
   <div class="actions-wrapper">
-    <rux-segmented-button [data]="segmentedBtnData" [selected]="selectedBtn" (click)="viewGraph($event)" (onRuxchange)="checkChange($event)"/>
+    <rux-segmented-button
+      [data]="segmentedBtnData"
+      [selected]="selectedBtn"
+      (click)="viewGraph($event)"
+      (onRuxchange)="checkChange($event)"
+    />
     <rux-icon icon="more-horiz" />
   </div>
   <rux-table>
@@ -43,9 +48,9 @@
         <rux-table-cell>####</rux-table-cell>
         <rux-table-cell>####</rux-table-cell>
         <rux-table-cell>
-            <rux-select>
-                <rux-option label="Unit"/>
-            </rux-select>
+          <rux-select size="small">
+            <rux-option label="Unit" />
+          </rux-select>
         </rux-table-cell>
       </rux-table-row>
     </rux-table-body>
