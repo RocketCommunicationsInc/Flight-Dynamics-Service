@@ -1,0 +1,28 @@
+<rux-toast-stack/>
+<rux-global-status-bar
+  app-domain="FDS"
+  app-name="DSCS"
+  app-state="Demo"
+  username="J.Smith"
+>
+  <rux-pop-up #gsbPopUpMenu slot="left-side" placement="bottom-start" closeOnSelect>
+    <rux-icon icon="apps" slot="trigger" size="small" />
+    <rux-menu (onruxmenuselected)="menuSelect(menuSelect)">
+      <rux-menu-item>Flight Dynamics Service</rux-menu-item>
+      <rux-menu-item>App</rux-menu-item>
+      <rux-menu-item>Preferences</rux-menu-item>
+      <rux-menu-item>Sign Out</rux-menu-item>
+    </rux-menu>
+  </rux-pop-up>
+  <rux-tabs>
+    <rux-tab routerLink="/orbit" routerLinkActive="active" id="orbit" selected>Orbit Determination</rux-tab>
+    <rux-tab routerLink="maneuvering" routerLinkActive="active" id="maneuvering">Maneuvering</rux-tab>
+    <rux-tab routerLink="reporting" routerLinkActive="active" id="reporting">Reporting</rux-tab>
+  </rux-tabs>
+  <rux-clock />
+  <div slot="right-side" class="icon-wrapper">
+  <rux-icon size="small" icon="notifications"/>
+  <rux-icon size="small" icon="chat-bubble"/>
+  <rux-icon size="small" icon="person-outline"/>
+</div>
+</rux-global-status-bar>

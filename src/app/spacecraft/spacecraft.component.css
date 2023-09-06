@@ -1,0 +1,30 @@
+.header-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.spacecraft-id {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bolder);
+}
+
+.btn-group {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-4);
+}
+
+.btn-group span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-group span rux-button {
+  width: var(--spacing-16);
+}
+
+.btn-group span:nth-of-type(3) {
+  margin-left: var(--spacing-8);
+}

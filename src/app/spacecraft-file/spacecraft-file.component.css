@@ -1,0 +1,22 @@
+.inputs-wrapper rux-input::part(label) {
+  margin-top: var(--spacing-4);
+}
+
+.orbit-source {
+  margin-top: var(--spacing-4);
+  display: flex;
+}
+
+.orbit-source rux-select {
+  width: 41%;
+}
+
+.orbit-source rux-input::part(input-field) {
+  margin-top: var(--spacing-8);
+  margin-left: var(--spacing-2);
+}
+
+rux-input::part(input) {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,0 +1,5 @@
+.spacecraft-properties div[slot="header"] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

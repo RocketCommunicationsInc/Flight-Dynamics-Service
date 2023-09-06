@@ -1,0 +1,35 @@
+.orbit-determination-body {
+  height: calc(100vh - 6.75rem);
+  overflow-y: hidden;
+  padding: var(--spacing-3);
+  background-color: var(--color-background-base-default);
+  color: var(--color-text-primary);
+  display: grid;
+  gap: var(--spacing-2);
+  grid-template-columns: calc(15% - 8px) 20% calc(65% - 8px);
+  grid-template-rows: 11.5% 27% auto;
+  grid-template-areas:
+    "scenarios-tree spacecraft spacecraft"
+    "scenarios-tree spacecraft-file spacecraft-table"
+    "spacecraft-properties spacecraft-file spacecraft-table";
+}
+
+.scenarios-tree {
+  grid-area: scenarios-tree;
+}
+
+.spacecraft {
+  grid-area: spacecraft;
+}
+
+.spacecraft-properties {
+  grid-area: spacecraft-properties;
+}
+
+.spacecraft-file {
+  grid-area: spacecraft-file;
+}
+
+.spacecraft-table {
+  grid-area: spacecraft-table;
+}
