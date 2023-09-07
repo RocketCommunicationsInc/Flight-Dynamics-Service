@@ -21,6 +21,7 @@ FROM base as dev-environment
 RUN <<EOF
 apt-get update
 apt-get install -y --no-install-recommends git
+apt-get install -y --reinstall ca-certificates
 EOF
 # add vscode user
 RUN <<EOF
