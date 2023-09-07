@@ -2,6 +2,8 @@ services:
   fds-ui:
     build:
       context: .
+      # only needed if not named Dockerfile
+      dockerfile: Dockerfile-dev
       target: base
     ports:
       - 4200:4200
