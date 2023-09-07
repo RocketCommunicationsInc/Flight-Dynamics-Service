@@ -1,0 +1,12 @@
+services:
+  fds-ui:
+    build:
+      context: .
+      target: dev-environment
+    ports:
+      - 4200:4200
+    volumes:
+      - ./:/opt/fds
+      - /opt/fds/node_modules
+      # next line is docker socket and needed for Dev Environments
+      - /var/run/docker.sock:/var/run/docker.sock

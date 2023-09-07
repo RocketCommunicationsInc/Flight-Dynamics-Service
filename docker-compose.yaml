@@ -1,0 +1,11 @@
+services:
+  fds-ui:
+    build:
+      context: .
+      target: base
+    ports:
+      - 4200:4200
+    container_name: ui
+    volumes:
+      - ./:/opt/fds
+      - /opt/fds/node_modules
