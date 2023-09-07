@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:17.0.1-bullseye-slim as base
+FROM node:18-bullseye-slim as base
 
 WORKDIR /opt/fds
 
@@ -20,11 +20,11 @@ apt-get update
 apt-get install -y --no-install-recommends git
 EOF
 # add vscode user
-# RUN <<EOF
-# useradd -s /bin/bash -m vscode
-# groupadd docker
-# usermod -aG docker vscode
-# EOF
+RUN <<EOF
+useradd -s /bin/bash -m vscode
+groupadd docker
+usermod -aG docker vscode
+EOF
 # install Docker tools (cli, buildx, compose)
 COPY --from=gloursdocker/docker / /
 
