@@ -10,9 +10,10 @@ import { SpacecraftFileComponent } from './spacecraft-file/spacecraft-file.compo
 import { SpacecraftComponent } from './spacecraft/spacecraft.component';
 import { SpacecraftTableComponent } from './spacecraft-table/spacecraft-table.component';
 import { SpacecraftGraphComponent } from './spacecraft-graph/spacecraft-graph.component';
-import { DialogComponent } from './dialog/dialog.component';
+import { PropertiesDialogComponent } from './dialog/properties-dialog.component';
 import { CommonModule } from '@angular/common';
 import { IfAuthorizedDirective } from './if-authorized.directive';
+import { LogUtilityDialogComponent } from './log-utility-dialog/log-utility-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,8 +25,9 @@ import { IfAuthorizedDirective } from './if-authorized.directive';
     SpacecraftFileComponent,
     SpacecraftTableComponent,
     SpacecraftGraphComponent,
-    DialogComponent,
+    PropertiesDialogComponent,
     IfAuthorizedDirective,
+    LogUtilityDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -11,7 +11,7 @@
         Create Report
       </span>
       <span>
-        <rux-button iconOnly icon="notes" />
+        <rux-button iconOnly icon="notes" (click)="showLogDialog()" />
         Log
       </span>
       <span>
@@ -23,5 +23,9 @@
         Propagator
       </span>
     </div>
+    <app-log-utility-dialog
+      [openDialog]="isDialogOpen"
+      message="test"
+    ></app-log-utility-dialog>
   </div>
 </rux-container>
