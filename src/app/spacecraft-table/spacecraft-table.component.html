@@ -1,58 +1,66 @@
 <rux-container>
   <div slot="header">
-    <rux-tabs>
-      <rux-tab selected>OD Solution</rux-tab>
-      <rux-tab>OD Performance</rux-tab>
+    <rux-tabs (click)="setTab($event)">
+      <rux-tab id="solutions-tab" selected>OD Solution</rux-tab>
+      <rux-tab id="performance-tab">OD Performance</rux-tab>
     </rux-tabs>
   </div>
-  <div class="od-header">
-    <div class="totals-wrapper">
-      <span> <span class="deviations-total">5</span> Deviations</span>
-      <span><rux-status slot="prefix" status="caution" />Warning (4)</span>
-      <span><rux-status slot="prefix" status="critical" />Critical (1)</span>
+  <div [ngSwitch]="selectedTab">
+    <div *ngSwitchCase="'solutions-tab'">
+      <div class="od-header">
+        <div class="totals-wrapper">
+          <span> <span class="deviations-total">5</span> Deviations</span>
+          <span><rux-status slot="prefix" status="caution" />Warning (4)</span>
+          <span
+            ><rux-status slot="prefix" status="critical" />Critical (1)</span
+          >
+        </div>
+        <div class="button-wrapper">
+          <rux-button secondary>Secondary Action</rux-button>
+          <rux-button>Primary Action</rux-button>
+        </div>
+      </div>
+      <div class="actions-wrapper">
+        <rux-segmented-button
+          [data]="segmentedBtnData"
+          (ruxchange)="checkChange($event)"
+        />
+        <rux-icon icon="more-horiz" />
+      </div>
+      <div [ngSwitch]="selectedBtn">
+      <rux-table *ngSwitchCase="'View Graph'">
+        <rux-table-header-row>
+          <rux-table-header-cell>
+            <rux-checkbox />
+          </rux-table-header-cell>
+          <rux-table-header-cell>Solve For</rux-table-header-cell>
+          <rux-table-header-cell>Inital State</rux-table-header-cell>
+          <rux-table-header-cell>Final State</rux-table-header-cell>
+          <rux-table-header-cell>Difference</rux-table-header-cell>
+          <rux-table-header-cell>Std Dev</rux-table-header-cell>
+          <rux-table-header-cell>Units</rux-table-header-cell>
+        </rux-table-header-row>
+        <rux-table-body>
+          <rux-table-row>
+            <rux-table-cell>
+              <rux-checkbox />
+            </rux-table-cell>
+            <rux-table-cell>Orbit Property</rux-table-cell>
+            <rux-table-cell>####</rux-table-cell>
+            <rux-table-cell>####</rux-table-cell>
+            <rux-table-cell>####</rux-table-cell>
+            <rux-table-cell>####</rux-table-cell>
+            <rux-table-cell>
+              <rux-select size="small">
+                <rux-option label="Unit" />
+              </rux-select>
+            </rux-table-cell>
+          </rux-table-row>
+        </rux-table-body>
+      </rux-table>
+      <div *ngSwitchCase="'View Table'">I am the graph</div>
     </div>
-    <div class="button-wrapper">
-      <rux-button secondary>Secondary Action</rux-button>
-      <rux-button>Primary Action</rux-button>
     </div>
+    <div *ngSwitchCase="'performance-tab'">OD Performance, woohoo!</div>
   </div>
-  <div class="actions-wrapper">
-    <rux-segmented-button
-      [data]="segmentedBtnData"
-      [selected]="selectedBtn"
-      (click)="viewGraph($event)"
-      (onRuxchange)="checkChange($event)"
-    />
-    <rux-icon icon="more-horiz" />
-  </div>
-  <rux-table>
-    <rux-table-header-row>
-      <rux-table-header-cell>
-        <rux-checkbox />
-      </rux-table-header-cell>
-      <rux-table-header-cell>Solve For</rux-table-header-cell>
-      <rux-table-header-cell>Inital State</rux-table-header-cell>
-      <rux-table-header-cell>Final State</rux-table-header-cell>
-      <rux-table-header-cell>Difference</rux-table-header-cell>
-      <rux-table-header-cell>Std Dev</rux-table-header-cell>
-      <rux-table-header-cell>Units</rux-table-header-cell>
-    </rux-table-header-row>
-    <rux-table-body>
-      <rux-table-row>
-        <rux-table-cell>
-          <rux-checkbox />
-        </rux-table-cell>
-        <rux-table-cell>Orbit Property</rux-table-cell>
-        <rux-table-cell>####</rux-table-cell>
-        <rux-table-cell>####</rux-table-cell>
-        <rux-table-cell>####</rux-table-cell>
-        <rux-table-cell>####</rux-table-cell>
-        <rux-table-cell>
-          <rux-select size="small">
-            <rux-option label="Unit" />
-          </rux-select>
-        </rux-table-cell>
-      </rux-table-row>
-    </rux-table-body>
-  </rux-table>
 </rux-container>

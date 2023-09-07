@@ -7,7 +7,7 @@
   display: grid;
   gap: var(--spacing-2);
   grid-template-columns: calc(15% - 8px) 20% calc(65% - 8px);
-  grid-template-rows: 11.5% 27% auto;
+  grid-template-rows: 11.5% 29% auto;
   grid-template-areas:
     "scenarios-tree spacecraft spacecraft"
     "scenarios-tree spacecraft-file spacecraft-table"

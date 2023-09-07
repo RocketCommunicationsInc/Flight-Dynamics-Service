@@ -24,4 +24,12 @@ export class GsbComponent {
   menuSelect() {
     this.showToast();
   }
+
+  selectedTab: string = 'orbit';
+
+  tabSelect(event: any) {
+    if (event.target.id !== this.selectedTab) {
+      this.showToast();
+    }
+  }
 }

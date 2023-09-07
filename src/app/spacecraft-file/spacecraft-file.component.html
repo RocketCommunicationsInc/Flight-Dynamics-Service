@@ -1,27 +1,59 @@
 <rux-container>
   <div slot="header">
-    <rux-tabs>
-      <rux-tab selected>Inputs</rux-tab>
-      <rux-tab>Outputs</rux-tab>
+    <rux-tabs (click)="setTab($event)">
+      <rux-tab id="inputs-tab" selected>Inputs</rux-tab>
+      <rux-tab id="outputs-tab">Outputs</rux-tab>
     </rux-tabs>
   </div>
-  <div class="inputs-wrapper">
-    <rux-input label="Database File" placeholder="input_file_name.abc" />
+  <div [ngSwitch]="selectedTab">
+    <div *ngSwitchCase="'inputs-tab'" class="inputs-wrapper">
+      <rux-input label="Database File" placeholder="input_file_name.abc" />
 
-    <div class="orbit-source">
-      <rux-select label="Orbit Source">
-        <rux-option label="Ephemeris" />
-      </rux-select>
-      <rux-input placeholder="input_file_name.abc" />
+      <div class="orbit-source">
+        <rux-select label="Orbit Source">
+          <rux-option label="Ephemeris" />
+        </rux-select>
+        <rux-input placeholder="input_file_name.abc" />
+      </div>
+
+      <rux-input label="Epoch" placeholder="MM/DD/YY 00:00:00 .000" />
+      <rux-input
+        label="Epoch Range"
+        placeholder="MM/DD/YY 00:00:00 .000 - MM/DD/YY 00:00:00 .000"
+      />
+      <rux-input label="Epoch Span" placeholder="# Days" />
+      <rux-input label="Thrust Profile" placeholder="input_file_name.abc" />
+      <rux-input
+        label="Processed Track File"
+        placeholder="input_file_name.abc"
+      />
     </div>
+    <div *ngSwitchCase="'outputs-tab'" class="outputs-wrapper">
+      <span>Select the products you need to output</span>
+      <rux-checkbox label="Product Output"/>
 
-    <rux-input label="Epoch" placeholder="MM/DD/YY 00:00:00 .000" />
-    <rux-input
-      label="Epoch Range"
-      placeholder="MM/DD/YY 00:00:00 .000 - MM/DD/YY 00:00:00 .000"
-    />
-    <rux-input label="Epoch Span" placeholder="# Days" />
-    <rux-input label="Thrust Profile" placeholder="input_file_name.abc" />
-    <rux-input label="Processed Track File" placeholder="input_file_name.abc" />
+      <rux-checkbox label="Product Output"/>
+      <rux-radio label="Format A"/>
+      <rux-radio class="last-radio" label="Format B"/>
+
+      <rux-checkbox label="Product Output"/>
+
+      <rux-checkbox label="Product Output"/>
+
+      <rux-checkbox label="Product Output"/>
+
+      <rux-checkbox label="Product Output"/>
+      <rux-radio label="Include"/>
+      <rux-radio label="Include"/>
+      <rux-radio class="last-radio" label="Include"/>
+
+      <rux-checkbox label="Product Output"/>
+
+      <rux-checkbox label="Product Output"/>
+
+    </div>
   </div>
+  <footer slot="footer">
+    <rux-button>Determine Orbit</rux-button>
+  </footer>
 </rux-container>

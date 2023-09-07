@@ -6,25 +6,24 @@ import { Component, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./spacecraft-table.component.css'],
 })
 export class SpacecraftTableComponent {
-  @Output() onRuxchange: EventEmitter<any> = new EventEmitter()
-  segmentedBtnData = [
-    {
-      label: 'View Table',
-    },
-    { label: 'View Graph' },
-  ];
+  @Output() onRuxchange: EventEmitter<any> = new EventEmitter();
+  
+  segmentedBtnData = [{ label: 'View Table' }, { label: 'View Graph' }];
 
-  selectedBtn: string = "Table";
+  selectedBtn: string = 'View Graph';
 
-  viewGraph(event: any): void {
-    this.selectedBtn;
-    console.log(this.selectedBtn, 'selected');
-    console.log(event, 'event');
+  checkChange(event: any) {
+    const label = event.target.getAttribute('selected');
+    if (label) {
+      this.selectedBtn = label;
+    }
   }
 
-  checkChange(event: any): void {
-    this.onRuxchange.emit(event)
-    alert('works')
-    console.log(event,'change event works')
+  selectedTab: string = 'solutions-tab';
+
+  setTab(event: any) {
+    if (event.target.id) {
+      this.selectedTab = event.target.id;
+    }
   }
 }

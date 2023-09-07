@@ -1,5 +1,13 @@
-.spacecraft-properties div[slot="header"] {
+rux-container::part(body) {
+  padding-top: 0;
+}
+
+div[slot="header"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.settings-icon {
+  cursor: pointer;
 }

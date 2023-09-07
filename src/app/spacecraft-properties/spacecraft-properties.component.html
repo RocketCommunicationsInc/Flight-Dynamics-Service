@@ -1,12 +1,24 @@
-<rux-container class="spacecraft-properties">
+<rux-container>
+
+    <rux-dialog message="test"/>
+
+    <!-- <app-dialog [openDialog]="isDialogOpen" message="test"></app-dialog> -->
+
   <div slot="header">
-    Spacecraft Properties <rux-icon icon="settings" size="small" />
+    Spacecraft Properties
+    <rux-icon
+      class="settings-icon"
+      (click)="showDialog()"
+      icon="settings"
+      size="small"
+    />
   </div>
+
   <rux-input type="number" readonly label="Catalog ID:" placeholder="####" />
 
   <label
-    >Semi-Major Axis (km):<rux-icon icon="unfold-more" size="1.25rem"
-  /></label>
+    >Semi-Major Axis (km):<rux-icon icon="unfold-more" size="1.25rem" />
+  </label>
   <rux-input type="number" placeholder="####" />
 
   <label>Perigee (km):<rux-icon icon="unfold-more" size="1.25rem" /></label>
@@ -19,3 +31,4 @@
   <rux-input type="number" readonly label="Eccentricity:" placeholder="####" />
   <rux-input type="number" readonly label="Mass:" placeholder="####" />
 </rux-container>
+

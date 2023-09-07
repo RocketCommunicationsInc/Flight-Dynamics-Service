@@ -1,39 +1,47 @@
+rux-container::part(body) {
+  padding-top: 0;
+}
+
+rux-container::part(header) {
+  padding-bottom: 0;
+}
+
 .od-header {
-    display: flex;
-    align-items: baseline
+  display: flex;
+  align-items: baseline;
 }
 
 .totals-wrapper {
-    display: flex;
-    gap: var(--spacing-6);
-    align-items: baseline;
+  display: flex;
+  gap: var(--spacing-6);
+  align-items: baseline;
 }
 
 .totals-wrapper span {
-    display: flex;
-    gap: var(--spacing-2);
-    align-items: baseline;
+  display: flex;
+  gap: var(--spacing-2);
+  align-items: baseline;
 }
 
 .deviations-total {
-    font-size: var(--font-size-5xl);
-    font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-bold);
 }
 
 .button-wrapper {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .button-wrapper rux-button:nth-of-type(1) {
-    margin-right: var(--spacing-6);
+  margin-right: var(--spacing-6);
 }
 
 .actions-wrapper {
-    display: flex;
-    justify-content: space-between;
-    padding-block: var(--spacing-2);
+  display: flex;
+  justify-content: space-between;
+  padding-block: var(--spacing-2);
 }
 
 rux-icon {
-    cursor: pointer;
+  cursor: pointer;
 }
