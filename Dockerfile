@@ -28,11 +28,6 @@ useradd -s /bin/bash -m vscode
 groupadd docker
 usermod -aG docker vscode
 EOF
-# add certs for github
-RUN <<EOF
-apt-get update
-apt-get install --reinstall ca-certificates
-EOF
 # install Docker tools (cli, buildx, compose)
 COPY --from=gloursdocker/docker / /
 
