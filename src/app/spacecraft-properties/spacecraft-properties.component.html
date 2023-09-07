@@ -1,8 +1,5 @@
 <rux-container>
-
-    <rux-dialog message="test"/>
-
-    <!-- <app-dialog [openDialog]="isDialogOpen" message="test"></app-dialog> -->
+  <app-dialog [openDialog]="isDialogOpen" message="test"></app-dialog>
 
   <div slot="header">
     Spacecraft Properties
@@ -31,4 +28,3 @@
   <rux-input type="number" readonly label="Eccentricity:" placeholder="####" />
   <rux-input type="number" readonly label="Mass:" placeholder="####" />
 </rux-container>
-

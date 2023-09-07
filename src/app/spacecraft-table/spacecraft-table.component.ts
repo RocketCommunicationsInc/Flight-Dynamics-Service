@@ -7,7 +7,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class SpacecraftTableComponent {
   @Output() onRuxchange: EventEmitter<any> = new EventEmitter();
-  
+
   segmentedBtnData = [{ label: 'View Table' }, { label: 'View Graph' }];
 
   selectedBtn: string = 'View Graph';

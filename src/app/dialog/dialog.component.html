@@ -1,3 +1,6 @@
-<ng-template *ngIf="openDialog">
-<rux-dialog message="test"/>
-</ng-template>
+<rux-dialog
+  [open]="openDialog"
+  message="Doing dialog things"
+  clickToClose="true"
+  header="Dialog"
+/>
