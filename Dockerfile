@@ -14,10 +14,11 @@ CMD ["npm", "run", "dev"]
 
 FROM base as dev-environment
 
-# install git in container
+# install git in container with certs
 RUN <<EOF
 apt-get update
 apt-get install -y --no-install-recommends git
+apt-get install --reinstall ca-certificates
 EOF
 # add vscode user
 RUN <<EOF
