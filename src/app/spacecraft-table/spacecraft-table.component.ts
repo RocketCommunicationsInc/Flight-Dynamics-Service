@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-spacecraft-table',
@@ -25,5 +25,24 @@ export class SpacecraftTableComponent {
     if (event.target.id) {
       this.selectedTab = event.target.id;
     }
+  }
+
+  constructor(private toast: ElementRef) {}
+
+  @Output() ruxmenuselected: EventEmitter<any> = new EventEmitter<any>();
+
+  showToast() {
+    const toastStack =
+      this.toast.nativeElement.querySelector('rux-toast-stack');
+
+    toastStack.addToast({
+      message: 'This feature has not been implemented.',
+      hideClose: false,
+      closeAfter: 3000,
+    });
+  }
+
+  menuSelect() {
+    this.showToast();
   }
 }

@@ -8,6 +8,6 @@ export class SpacecraftPropertiesComponent {
   isDialogOpen: boolean = false;
 
   showDialog() {
-    this.isDialogOpen = true
+    this.isDialogOpen = true;
   }
 }

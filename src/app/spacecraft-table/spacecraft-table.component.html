@@ -1,3 +1,4 @@
+<rux-toast-stack/>
 <rux-container>
   <div slot="header">
     <rux-tabs (click)="setTab($event)">
@@ -25,41 +26,52 @@
           [data]="segmentedBtnData"
           (ruxchange)="checkChange($event)"
         />
-        <rux-icon icon="more-horiz" />
+        <rux-pop-up slot="left-side" placement="bottom-start" closeOnSelect>
+        <rux-icon icon="more-horiz" size="2rem" slot="trigger" />
+        <rux-menu (ruxmenuselected)="menuSelect()">
+          <rux-menu-item>Action Item</rux-menu-item>
+          <rux-menu-item>Action Item</rux-menu-item>
+          <rux-menu-item>Action Item</rux-menu-item>
+          <rux-menu-item>Action Item</rux-menu-item>
+          <rux-menu-item> <rux-icon icon="settings" size=".75rem"/>
+            Display Settings
+          </rux-menu-item>
+        </rux-menu>
+        </rux-pop-up>
       </div>
       <div [ngSwitch]="selectedBtn">
-      <rux-table *ngSwitchCase="'View Graph'">
-        <rux-table-header-row>
-          <rux-table-header-cell>
-            <rux-checkbox />
-          </rux-table-header-cell>
-          <rux-table-header-cell>Solve For</rux-table-header-cell>
-          <rux-table-header-cell>Inital State</rux-table-header-cell>
-          <rux-table-header-cell>Final State</rux-table-header-cell>
-          <rux-table-header-cell>Difference</rux-table-header-cell>
-          <rux-table-header-cell>Std Dev</rux-table-header-cell>
-          <rux-table-header-cell>Units</rux-table-header-cell>
-        </rux-table-header-row>
-        <rux-table-body>
-          <rux-table-row>
-            <rux-table-cell>
+        <rux-table *ngSwitchCase="'View Graph'">
+          <rux-table-header-row>
+            <rux-table-header-cell>
               <rux-checkbox />
-            </rux-table-cell>
-            <rux-table-cell>Orbit Property</rux-table-cell>
-            <rux-table-cell>####</rux-table-cell>
-            <rux-table-cell>####</rux-table-cell>
-            <rux-table-cell>####</rux-table-cell>
-            <rux-table-cell>####</rux-table-cell>
-            <rux-table-cell>
-              <rux-select size="small">
-                <rux-option label="Unit" />
-              </rux-select>
-            </rux-table-cell>
-          </rux-table-row>
-        </rux-table-body>
-      </rux-table>
-      <div *ngSwitchCase="'View Table'">I am groot</div>
-    </div>
+            </rux-table-header-cell>
+            <rux-table-header-cell>Solve For</rux-table-header-cell>
+            <rux-table-header-cell>Initial State</rux-table-header-cell>
+            <rux-table-header-cell>Final State</rux-table-header-cell>
+            <rux-table-header-cell>Difference</rux-table-header-cell>
+            <rux-table-header-cell>Std Dev</rux-table-header-cell>
+            <rux-table-header-cell>Units</rux-table-header-cell>
+          </rux-table-header-row>
+          <rux-table-body>
+            <rux-table-row>
+              <rux-table-cell>
+                <rux-checkbox />
+              </rux-table-cell>
+              <rux-table-cell>Orbit Property</rux-table-cell>
+              <rux-table-cell>####</rux-table-cell>
+              <rux-table-cell>####</rux-table-cell>
+              <rux-table-cell>####</rux-table-cell>
+              <rux-table-cell>####</rux-table-cell>
+              <rux-table-cell>
+                <rux-select size="small">
+                  <rux-option label="Unit" />
+                </rux-select>
+              </rux-table-cell>
+            </rux-table-row>
+          </rux-table-body>
+        </rux-table>
+        <div *ngSwitchCase="'View Table'">I am groot</div>
+      </div>
     </div>
     <div *ngSwitchCase="'performance-tab'">OD Performance, woohoo!</div>
   </div>
