@@ -2,36 +2,11 @@ services:
   fds-ui:
     build:
       context: .
-      # only needed if not named Dockerfile
-      # dockerfile: Dockerfile
-      # can target different stages of the Dockerfile
-      # target: dev
+      target: dev-environment
     ports:
-      - 4200:4200
+      - 5000:4200
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - ./:/opt/fds
       - /opt/fds/node_modules
-# Dev Enviro
-# services:
-#   web:
-#     build:
-#       context: angular
-#       target: dev-envs
-#     ports:
-#       - 4200:4200
-#     volumes:
-#       - /var/run/docker.sock:/var/run/docker.sock
-#       - ./angular:/project
-#       - /project/node_modules
-# standard
-# services:
-#   web:
-#     build:
-#       context: angular
-#       target: builder
-#     ports:
-#       - 4200:4200
-#     volumes:
-#       - ./angular:/project
-#       - /project/node_modules
+      # next line is docker socket and needed for Dev Environments
+      - /var/run/docker.sock:/var/run/docker.sock

@@ -2,12 +2,9 @@ services:
   fds-ui:
     build:
       context: .
-      # only needed if not named Dockerfile
-      # dockerfile: Dockerfile
-      # can target different stages of the Dockerfile
-      # target: dev
+      target: base
     ports:
-      - 4200:4200
+      - 5000:4200
     container_name: ui
     volumes:
       - ./:/opt/fds
