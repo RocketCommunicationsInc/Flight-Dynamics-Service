@@ -1,6 +1,2 @@
-# this file is only really needed if using images in production and pushing
-# to a docker remote repo
-Dockerfile
-.dockerignore
 node_modules
-docker-compose.yml
+
