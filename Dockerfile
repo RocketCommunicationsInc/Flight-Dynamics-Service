@@ -21,13 +21,17 @@ FROM base as dev-environment
 RUN <<EOF
 apt-get update
 apt-get install -y --no-install-recommends git
-apt-get install --reinstall ca-certificates
 EOF
 # add vscode user
 RUN <<EOF
 useradd -s /bin/bash -m vscode
 groupadd docker
 usermod -aG docker vscode
+EOF
+# add certs for github
+RUN <<EOF
+apt-get update
+apt-get install --reinstall ca-certificates
 EOF
 # install Docker tools (cli, buildx, compose)
 COPY --from=gloursdocker/docker / /
