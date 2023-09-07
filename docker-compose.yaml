@@ -7,7 +7,7 @@ services:
       # can target different stages of the Dockerfile
       # target: dev
     ports:
-      - 4201:4201
+      - 4200:4200
     container_name: ui
     volumes:
       - ./:/opt/fds
