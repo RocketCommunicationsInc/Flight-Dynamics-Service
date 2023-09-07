@@ -28,4 +28,4 @@ EOF
 # install Docker tools (cli, buildx, compose)
 COPY --from=gloursdocker/docker / /
 
-CMD ["npm", "run", "dev"]
+CMD ["ng", "serve", "--host", "0.0.0.0"]
