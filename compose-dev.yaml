@@ -4,7 +4,7 @@ services:
       context: .
       target: dev-environment
     ports:
-      - 5000:4200
+      - 4200:4200
     volumes:
       - ./:/opt/fds
       - /opt/fds/node_modules

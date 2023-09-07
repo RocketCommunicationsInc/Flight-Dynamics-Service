@@ -4,7 +4,7 @@ services:
       context: .
       target: base
     ports:
-      - 5000:4200
+      - 4200:4200
     container_name: ui
     volumes:
       - ./:/opt/fds
