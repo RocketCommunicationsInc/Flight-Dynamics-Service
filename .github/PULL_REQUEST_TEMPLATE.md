@@ -3,7 +3,7 @@
 ## Brief Description
 
 <!-- Reference coding changes rather than just the elements of the task (one-liner), what do you want to call out to the reviewer?  -->
-<!-- It is also good practice to put your own comments in the file view to easily identify locations in the code you believe need explination -->
+<!-- It is also good practice to put your own comments in the file view to easily identify locations in the code you believe need explanation -->
 
 ## Issues and/or Limitations
 
