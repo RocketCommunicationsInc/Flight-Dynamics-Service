@@ -1,0 +1,50 @@
+<rux-toast-stack />
+<rux-container>
+  <div slot="header">
+    <rux-tabs (click)="setTab($event)">
+      <rux-tab id="solutions-tab" selected>OD Solution</rux-tab>
+      <rux-tab id="performance-tab">OD Performance</rux-tab>
+    </rux-tabs>
+  </div>
+  <div [ngSwitch]="selectedTab">
+    <div *ngSwitchCase="'solutions-tab'">
+      <div class="od-header">
+        <div class="totals-wrapper">
+          <span> <span class="deviations-total">5</span> Deviations</span>
+          <span><rux-status slot="prefix" status="caution" />Warning (4)</span>
+          <span
+            ><rux-status slot="prefix" status="critical" />Critical (1)</span
+          >
+        </div>
+        <div class="button-wrapper">
+          <rux-button secondary>Secondary Action</rux-button>
+          <rux-button>Primary Action</rux-button>
+        </div>
+      </div>
+      <div class="actions-wrapper">
+        <rux-segmented-button
+          [data]="segmentedBtnData"
+          (ruxchange)="checkChange($event)"
+        />
+        <rux-pop-up slot="left-side" placement="bottom-start" closeOnSelect>
+          <rux-icon icon="more-horiz" size="2rem" slot="trigger" />
+          <rux-menu (ruxmenuselected)="menuSelect()">
+            <rux-menu-item>Action Item</rux-menu-item>
+            <rux-menu-item>Action Item</rux-menu-item>
+            <rux-menu-item>Action Item</rux-menu-item>
+            <rux-menu-item>Action Item</rux-menu-item>
+            <rux-menu-item>
+              <rux-icon icon="settings" size=".75rem" />
+              Display Settings
+            </rux-menu-item>
+          </rux-menu>
+        </rux-pop-up>
+      </div>
+      <div [ngSwitch]="selectedBtn">
+        <app-output-table *ngSwitchCase="'View Graph'" />
+        <app-output-graph *ngSwitchCase="'View Table'" />
+      </div>
+    </div>
+    <div *ngSwitchCase="'performance-tab'">OD Performance Tab, woohoo!</div>
+  </div>
+</rux-container>

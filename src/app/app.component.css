@@ -9,27 +9,27 @@
   grid-template-columns: calc(15% - 8px) 20% calc(65% - 8px);
   grid-template-rows: 11.5% 29% auto;
   grid-template-areas:
-    "scenarios-tree spacecraft spacecraft"
-    "scenarios-tree spacecraft-file spacecraft-table"
-    "spacecraft-properties spacecraft-file spacecraft-table";
+    "scenarios-library utility-toolkit utility-toolkit"
+    "scenarios-library data-inputs-outputs output-data-display"
+    "scenario-data data-inputs-outputs output-data-display";
 }
 
-.scenarios-tree {
-  grid-area: scenarios-tree;
+.scenarios-library {
+  grid-area: scenarios-library;
 }
 
-.spacecraft {
-  grid-area: spacecraft;
+.utility-toolkit {
+  grid-area: utility-toolkit;
 }
 
-.spacecraft-properties {
-  grid-area: spacecraft-properties;
+.scenario-data {
+  grid-area: scenario-data;
 }
 
-.spacecraft-file {
-  grid-area: spacecraft-file;
+.data-inputs-outputs {
+  grid-area: data-inputs-outputs;
 }
 
-.spacecraft-table {
-  grid-area: spacecraft-table;
+.output-data-display {
+  grid-area: output-data-display;
 }
