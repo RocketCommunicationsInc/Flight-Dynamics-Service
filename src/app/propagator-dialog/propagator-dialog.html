@@ -1,0 +1,60 @@
+<rux-dialog
+  [open]="openDialog"
+  clickToClose="true"
+  header="Propagator Utility"
+  confirmText="Primary Action"
+  denyText="Secondary Action"
+>
+  <div class="tabs-wrapper">
+    <rux-tabs (click)="tabSelect($event)">
+      <rux-tab id="input-source" small selected="true">Input Source</rux-tab>
+      <rux-tab id="view-orbit" small>View Orbit</rux-tab>
+    </rux-tabs>
+  </div>
+  <div class="button-wrapper">
+    <rux-button>Controls</rux-button>
+    <rux-button iconOnly="true" icon="more-horiz" size="1.5rem" />
+  </div>
+  <div [ngSwitch]="selectedTab">
+    <div *ngSwitchCase="'input-source'">
+      <div class="section">
+        <span>Source Settings</span>
+        <div class="option-wrapper">
+          <rux-select>
+            <rux-option label="Ephemeris" />
+          </rux-select>
+          <rux-input placeholder="eph_020120.ephm" />
+        </div>
+      </div>
+
+      <div class="section">
+        <span>Epoch Settings</span>
+        <div class="option-wrapper">
+          <rux-input label="Epoch" placeholder="YYYY/MM/DD 00:00:00 000" />
+          <rux-select class="epoch-select">
+            <rux-option label="UTC YmdHMs3" />
+          </rux-select>
+          <div class="switch-wrapper">
+            <rux-switch checked label="Include item" />
+            <rux-switch label="Include item" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <span>Date & Duration Settings</span>
+        <div class="date-format-select">
+          <rux-select label="Date Format">
+            <rux-option label="UTC YmdHMs3" />
+          </rux-select>
+        </div>
+        <div class="option-wrapper">
+          <rux-input type="date" label="Start Date" placeholder="YYYY/MM/DD" />
+          <rux-input type="time" label="Start Time" placeholder="HH:MM:SS" />
+          <rux-input type="number" label="Span (Days)" placeholder="#" />
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="'view-orbit'">View Orbit</div>
+  </div>
+</rux-dialog>

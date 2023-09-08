@@ -1,0 +1,51 @@
+.tabs-wrapper {
+  background-color: var(--color-palette-brightblue-800);
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-4);
+}
+
+rux-button {
+  padding: var(--spacing-2);
+}
+
+rux-dialog::part(dialog) {
+  width: 50rem;
+}
+
+.section span {
+  color: var(--color-text-secondary);
+}
+
+.section {
+  margin-bottom: var(--spacing-4);
+}
+
+.option-wrapper {
+  display: flex;
+  gap: var(--spacing-4);
+  padding-top: var(--spacing-4);
+}
+
+rux-input,
+rux-select {
+  margin-bottom: var(--spacing-3);
+}
+
+.date-format-select {
+  display: flex;
+  padding-top: var(--spacing-4);
+}
+
+rux-input::part(input) {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.epoch-select,
+.switch-wrapper {
+  margin-top: var(--spacing-8);
+}

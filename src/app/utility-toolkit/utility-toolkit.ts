@@ -6,9 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./utility-toolkit.css'],
 })
 export class UtilityToolkit {
-  isDialogOpen: boolean = false;
+  isLogDialogOpen: boolean = false;
+  isPropagatorDialogOpen: boolean = false;
 
   showLogDialog() {
-    this.isDialogOpen = true;
+    this.isLogDialogOpen = true;
+  }
+
+  showPropagatorDialog() {
+    this.isPropagatorDialogOpen = true;
   }
 }

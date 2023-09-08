@@ -1,4 +1,4 @@
-import { Component, EventEmitter, ElementRef, Output } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-output-data-display',
@@ -6,11 +6,12 @@ import { Component, EventEmitter, ElementRef, Output } from '@angular/core';
   styleUrls: ['./output-data-display.css'],
 })
 export class OutputDataDisplay {
-  @Output() onRuxchange: EventEmitter<any> = new EventEmitter();
+  constructor(private toast: ElementRef) {}
 
   segmentedBtnData = [{ label: 'View Table' }, { label: 'View Graph' }];
-
   selectedBtn: string = 'View Graph';
+  selectedTab: string = 'solutions-tab';
+
 
   checkChange(event: any) {
     const label = event.target.getAttribute('selected');
@@ -19,17 +20,11 @@ export class OutputDataDisplay {
     }
   }
 
-  selectedTab: string = 'solutions-tab';
-
   setTab(event: any) {
     if (event.target.id) {
       this.selectedTab = event.target.id;
     }
   }
-
-  constructor(private toast: ElementRef) {}
-
-  @Output() ruxmenuselected: EventEmitter<any> = new EventEmitter<any>();
 
   showToast() {
     const toastStack =

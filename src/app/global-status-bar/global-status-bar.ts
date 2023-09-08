@@ -1,4 +1,4 @@
-import { Component, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-global-status-bar',
@@ -8,7 +8,7 @@ import { Component, ElementRef, Output, EventEmitter } from '@angular/core';
 export class GlobalStatusBar {
   constructor(private toast: ElementRef) {}
 
-  @Output() ruxmenuselected: EventEmitter<any> = new EventEmitter<any>();
+  selectedTab: string = 'orbit';
 
   showToast() {
     const toastStack =
@@ -24,8 +24,6 @@ export class GlobalStatusBar {
   menuSelect() {
     this.showToast();
   }
-
-  selectedTab: string = 'orbit';
 
   tabSelect(event: any) {
     if (event.target.id !== this.selectedTab) {

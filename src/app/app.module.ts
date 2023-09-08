@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { IfAuthorizedDirective } from './if-authorized.directive';
 import { LogUtilityDialog } from './log-utility-dialog/log-utility-dialog';
 import { OutputGraph } from './output-graph/output-graph';
+import { PropagatorDialog } from './propagator-dialog/propagator-dialog';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { OutputGraph } from './output-graph/output-graph';
     IfAuthorizedDirective,
     LogUtilityDialog,
     OutputGraph,
+    PropagatorDialog,
   ],
   imports: [
     BrowserModule,

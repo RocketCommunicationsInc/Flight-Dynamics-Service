@@ -19,13 +19,11 @@
         Track Data
       </span>
       <span>
-        <rux-button iconOnly icon="public" />
+        <rux-button iconOnly icon="public" (click)="showPropagatorDialog()" />
         Propagator
       </span>
     </div>
-    <app-log-utility-dialog
-      [openDialog]="isDialogOpen"
-      message="test"
-    ></app-log-utility-dialog>
   </div>
+  <app-log-utility-dialog [openDialog]="isLogDialogOpen" />
+  <app-propagator-dialog [openDialog]="isPropagatorDialogOpen" />
 </rux-container>
