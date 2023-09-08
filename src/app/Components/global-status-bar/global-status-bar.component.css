@@ -1,0 +1,12 @@
+.gsb_right-side-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+#gsb_tabs {
+  margin-right: auto;
+}
+
+rux-clock.gsb_clock {
+  margin-right: var(--spacing-24);
+}

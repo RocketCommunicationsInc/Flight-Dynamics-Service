@@ -1,0 +1,5 @@
+.object-data-display_wrapper{
+  display: grid;
+  grid-area: object-data-display;
+  height:100%;
+}

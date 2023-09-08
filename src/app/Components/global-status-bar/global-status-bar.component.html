@@ -1,0 +1,13 @@
+<rux-global-status-bar appName="Test" appState="DEMO" appDomain="FDS" username="F.Morrison" includeIcon="app">
+  <rux-tabs id="gsb_tabs">
+    <rux-tab selected="true" id="orbit-determination">Orbit Determination</rux-tab>
+    <rux-tab id="manuevering">Manuevering</rux-tab>
+    <rux-tab id="reporting">Reporting</rux-tab>
+  </rux-tabs>
+  <rux-clock class="gsb_clock"></rux-clock>
+  <div class="gsb_right-side-wrapper" slot="right-side">
+    <rux-monitoring-icon icon="satellite" label="SARM" status="standby" notifications="3"></rux-monitoring-icon>
+    <rux-monitoring-icon icon="satellite-transmit" label="RF" status="caution" notifications="100"></rux-monitoring-icon>
+    <rux-monitoring-icon icon="satellite-receive" label="Equipment" status="normal" notifications="24"></rux-monitoring-icon>
+  </div>
+</rux-global-status-bar>

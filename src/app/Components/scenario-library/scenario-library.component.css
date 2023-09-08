@@ -1,0 +1,6 @@
+
+.scenario-library_wrapper{
+  height: 100%;
+  display: grid;
+  grid-area: scenario-library;
+}

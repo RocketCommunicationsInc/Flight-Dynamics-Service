@@ -1,0 +1,40 @@
+.app-wrapper {
+  display: grid;
+  height: calc(100vh - 96px);
+  grid-template-columns: 18% auto;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "sidebar main";
+}
+
+.app-sidebar {
+  grid-area: sidebar;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "scenario-library"
+    "object-data-display";
+}
+
+.app-main {
+  grid-area: main;
+  display: grid;
+  grid-template-rows: 10% auto;
+  grid-template-columns: 25% auto;
+  grid-template-areas:
+    "utilities-toolkit utilities-toolkit"
+    "inputs-outputs output-data-display";
+}
+
+.utilities-toolkit_wrapper {
+  display: grid;
+  grid-area: utilities-toolkit;
+}
+.inputs-outputs_wrapper {
+  display: grid;
+  grid-area: inputs-outputs;
+}
+.output-data-display_wrapper {
+  display: grid;
+  grid-area: output-data-display;
+}
