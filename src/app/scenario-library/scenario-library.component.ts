@@ -64,6 +64,9 @@ export class ScenarioLibraryComponent {
     this.showToast();
   }
 
+  /**
+   * Show the 'feature not implemented' toast.
+   */
   showToast() {
     const toastStack =
       this.toast.nativeElement.querySelector('rux-toast-stack');
