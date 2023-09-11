@@ -5,6 +5,7 @@ import { ScenarioLibraryComponent } from './scenario-library/scenario-library.co
 import { GlobalStatusBarComponent } from './global-status-bar/global-status-bar.component';
 import { OutputDataDisplayComponent } from './output-data-display/output-data-display.component';
 import { DataInputsOutputsComponent } from './data-inputs-outputs/data-inputs-outputs.component';
+import { AstroComponentsModule } from '@astrouxds/angular';
 
 @Component({
   standalone: true,
@@ -18,6 +19,7 @@ import { DataInputsOutputsComponent } from './data-inputs-outputs/data-inputs-ou
     GlobalStatusBarComponent,
     OutputDataDisplayComponent,
     DataInputsOutputsComponent,
+    AstroComponentsModule,
   ],
 })
 export class AppComponent {
