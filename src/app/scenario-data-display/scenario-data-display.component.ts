@@ -1,7 +1,9 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
 import { UnitConverterPipe } from '../unit-converter.pipe';
+import { RouterLink, RouterOutlet } from '@angular/router';
+
 @Component({
   standalone: true,
   selector: 'app-scenario-data-display',
@@ -11,11 +13,11 @@ import { UnitConverterPipe } from '../unit-converter.pipe';
     AstroComponentsModule,
     PropertiesDialogComponent,
     UnitConverterPipe,
+    RouterLink,
+    RouterOutlet,
   ],
 })
 export class ScenarioDataDisplayComponent {
-  isDialogOpen: boolean = false;
-
   catalogId = 30184;
   semiMajorAxis = 63714327;
   perigee = 363396432;
@@ -36,9 +38,5 @@ export class ScenarioDataDisplayComponent {
 
   selectInclinationUnit(event: any) {
     this.currentInclinationUnit = event.detail.value;
-  }
-
-  showDialog() {
-    this.isDialogOpen = true;
   }
 }

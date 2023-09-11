@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-properties-dialog',
@@ -7,11 +8,12 @@ import { AstroComponentsModule } from '@astrouxds/angular';
   imports: [AstroComponentsModule],
   templateUrl: './properties-dialog.component.html',
   styleUrls: ['./properties-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PropertiesDialogComponent {
-  @Input() openDialog = false;
+  constructor(private router: Router) {}
 
-  handleClose() {
-    this.openDialog = false;
+  onClose() {
+    this.router.navigate([{ outlets: { dialog: null } }]);
   }
 }

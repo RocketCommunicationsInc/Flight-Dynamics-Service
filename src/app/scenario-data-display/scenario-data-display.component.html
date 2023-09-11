@@ -1,11 +1,9 @@
 <rux-container>
-  <app-properties-dialog [openDialog]="isDialogOpen" />
-
   <div slot="header">
     <span class="title">Spacecraft Properties</span>
     <rux-icon
       class="settings-icon"
-      (click)="showDialog()"
+      [routerLink]="[{ outlets: { dialog: ['properties-dialog'] } }]"
       icon="settings"
       size="1.5rem"
     />

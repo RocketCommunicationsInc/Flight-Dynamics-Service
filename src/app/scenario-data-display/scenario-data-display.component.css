@@ -1,39 +1,39 @@
 rux-container::part(body) {
-    padding-top: 0;
- }
-  
-  div[slot="header"] {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .settings-icon {
-    cursor: pointer;
-  }
+  padding-top: 0;
+}
 
-  .title {
-    font-size: var(--font-size-lg);
-  }
+div[slot="header"] {
+  display: flex;
+  justify-content: space-between;
+}
 
-  ul {
-    margin: 0;
-    padding: 0;
-  }
+.settings-icon {
+  cursor: pointer;
+}
 
-  li {
-    list-style-type: none;
-    display: flex;
-  }
+.title {
+  font-size: var(--font-size-lg);
+}
 
-  li:nth-of-type(1) {
-    margin-top: var(--spacing-3);
-  }
+ul {
+  margin: 0;
+  padding: 0;
+}
 
-  li:nth-child(even) {
-    margin-bottom: var(--spacing-3);
-  }
+li {
+  list-style-type: none;
+  display: flex;
+}
 
-  rux-icon {
-    cursor: pointer;
-    display: flex;
-  }
+li:nth-of-type(1) {
+  margin-top: var(--spacing-3);
+}
+
+li:nth-child(even) {
+  margin-bottom: var(--spacing-3);
+}
+
+rux-icon {
+  cursor: pointer;
+  display: flex;
+}
