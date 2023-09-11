@@ -11,7 +11,7 @@ import { AstroComponentsModule } from '@astrouxds/angular';
 export class ScenarioLibraryComponent {
   constructor(private toast: ElementRef) {}
 
-  selectedCraft = signal<HTMLRuxTreeNodeElement | null>(null);
+  selectedCraft = signal<string | null>('');
   dummyScenariosData = [
     {
       parent: 'Scenario A',
@@ -57,7 +57,7 @@ export class ScenarioLibraryComponent {
   @HostListener('ruxtreenodeselected', ['$event.target'])
   onTreeNodeSelected(el: HTMLRuxTreeNodeElement) {
     //We don't want to select the parent nodes, just the nodes being used as slots
-    if (el.slot === 'node') this.selectedCraft.set(el);
+    if (el.slot === 'node') this.selectedCraft.set(el.textContent);
   }
 
   onIconClick() {
