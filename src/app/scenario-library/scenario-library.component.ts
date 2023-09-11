@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, signal, HostListener } from '@angular/core';
-import { AstroComponentsModule } from '@astrouxds/angular';
+import { Component, signal, ViewChild } from '@angular/core';
+import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
 @Component({
   standalone: true,
   selector: 'app-scenario-library',
@@ -9,9 +9,10 @@ import { AstroComponentsModule } from '@astrouxds/angular';
   imports: [AstroComponentsModule, CommonModule],
 })
 export class ScenarioLibraryComponent {
-  constructor(private toast: ElementRef) {}
+  @ViewChild(RuxToastStack) toastStack?: HTMLRuxToastStackElement | null;
 
   selectedCraft = signal<string | null>('');
+
   dummyScenariosData = [
     {
       parent: 'Scenario A',
@@ -68,13 +69,12 @@ export class ScenarioLibraryComponent {
    * Show the 'feature not implemented' toast.
    */
   showToast() {
-    const toastStack =
-      this.toast.nativeElement.querySelector('rux-toast-stack');
-
-    toastStack.addToast({
-      message: 'This feature has not been implemented.',
-      hideClose: false,
-      closeAfter: 3000,
-    });
+    if (this.toastStack) {
+      this.toastStack.addToast({
+        message: 'This feature has not been implemented.',
+        hideClose: false,
+        closeAfter: 3000,
+      });
+    }
   }
 }
