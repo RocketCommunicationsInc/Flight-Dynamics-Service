@@ -6,12 +6,11 @@
   color: var(--color-text-primary);
   display: grid;
   gap: var(--spacing-2);
-  grid-template-columns: calc(15% - 8px) 20% calc(65% - 8px);
-  grid-template-rows: 11.5% 29% auto;
+  grid-template-columns: calc(15% - 8px) auto;
+  grid-template-rows: 50% auto;
   grid-template-areas:
-    "scenarios-library utility-toolkit utility-toolkit"
-    "scenarios-library data-inputs-outputs output-data-display"
-    "scenario-data data-inputs-outputs output-data-display";
+    "scenarios-library main"
+    "scenario-data main";
 }
 
 .scenarios-library {
@@ -19,22 +18,12 @@
   background-color: blue;
 }
 
-.utility-toolkit {
-  grid-area: utility-toolkit;
-  background-color: purple;
-}
-
 .scenario-data {
   grid-area: scenario-data;
   background-color: green;
 }
 
-.data-inputs-outputs {
-  grid-area: data-inputs-outputs;
-  background-color: yellow;
-}
-
-.output-data-display {
-  grid-area: output-data-display;
-  background-color: red;
+.main {
+  grid-area: main;
+  background-color: rebeccapurple;
 }
