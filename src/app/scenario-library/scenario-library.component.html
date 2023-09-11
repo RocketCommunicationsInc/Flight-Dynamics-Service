@@ -1,1 +1,15 @@
-<p>scenario-library works!</p>
+<rux-toast-stack />
+<rux-container class="scenarios-tree">
+  <div slot="header">
+    Scenarios
+    <rux-icon icon="add" size="small" (click)="onIconClick()" />
+  </div>
+  <rux-tree tree>
+    <rux-tree-node *ngFor="let parentNode of dummyScenariosData">
+      {{ parentNode.parent }}
+      <rux-tree-node slot="node" *ngFor="let childNode of parentNode.children">
+        {{ childNode }}
+      </rux-tree-node>
+    </rux-tree-node>
+  </rux-tree>
+</rux-container>

@@ -1,0 +1,12 @@
+.scenarios-tree > [slot="header"] {
+  display: flex;
+  justify-content: space-between;
+}
+
+rux-icon {
+  cursor: pointer;
+}
+
+rux-tree-node[slot="node"] {
+  cursor: pointer;
+}

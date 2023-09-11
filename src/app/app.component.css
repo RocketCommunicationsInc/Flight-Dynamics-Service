@@ -16,7 +16,7 @@
 
 .scenarios-library {
   grid-area: scenarios-library;
-  background-color: blue;
+  overflow-y: auto;
 }
 
 .utility-toolkit {
