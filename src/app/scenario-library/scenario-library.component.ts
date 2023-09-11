@@ -54,8 +54,8 @@ export class ScenarioLibraryComponent {
    * Listen for the ruxtreenodeselected event and store the selected node in the selectedCraft signal
    * @param el the rux-tree-node element
    */
-  @HostListener('ruxtreenodeselected', ['$event.target'])
-  onTreeNodeSelected(el: HTMLRuxTreeNodeElement) {
+  onTreeNodeSelected(e: Event) {
+    const el = e.target as HTMLRuxTreeNodeElement;
     //We don't want to select the parent nodes, just the nodes being used as slots
     if (el.slot === 'node') this.selectedCraft.set(el.textContent);
   }

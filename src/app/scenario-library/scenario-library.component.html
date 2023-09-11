@@ -4,7 +4,7 @@
     Scenarios
     <rux-button icon-only icon="add" size="small" (click)="onIconClick()"></rux-button>
   </div>
-  <rux-tree tree>
+  <rux-tree (ruxtreenodeselected)="onTreeNodeSelected($event)">
     <rux-tree-node *ngFor="let parentNode of dummyScenariosData">
       {{ parentNode.parent }}
       <rux-tree-node slot="node" *ngFor="let childNode of parentNode.children">
