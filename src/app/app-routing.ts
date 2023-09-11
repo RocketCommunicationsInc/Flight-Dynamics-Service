@@ -5,7 +5,7 @@ import { PropertiesDialogComponent } from './properties-dialog/properties-dialog
 export const Routes: Route[] = [
   { path: '', component: AppComponent },
   {
-    path: 'properties-dialog',
+    path: 'properties',
     outlet: 'dialog',
     component: PropertiesDialogComponent,
   },
