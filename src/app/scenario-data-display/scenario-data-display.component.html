@@ -1,1 +1,30 @@
-<p>scenario-data-display works!</p>
+<rux-container>
+  <!-- <app-properties-dialog [openDialog]="isDialogOpen"></app-properties-dialog> -->
+
+  <div slot="header">
+    Spacecraft Properties
+    <rux-icon
+      class="settings-icon"
+      (click)="showDialog()"
+      icon="settings"
+      size="small"
+    />
+  </div>
+
+  <rux-input type="number" readonly label="Catalog ID:" placeholder="####" />
+
+  <label
+    >Semi-Major Axis (km):<rux-icon icon="unfold-more" size="1.25rem" />
+  </label>
+  <rux-input type="number" placeholder="####" />
+
+  <label>Perigee (km):<rux-icon icon="unfold-more" size="1.25rem" /></label>
+  <rux-input type="number" placeholder="####" />
+
+  <label
+    >Inclination (deg):<rux-icon icon="unfold-more" size="1.25rem"
+  /></label>
+  <rux-input type="number" placeholder="####" />
+  <rux-input type="number" readonly label="Eccentricity:" placeholder="####" />
+  <rux-input type="number" readonly label="Mass:" placeholder="####" />
+</rux-container>
