@@ -1,0 +1,42 @@
+.dialog-content {
+    display: flex;
+  }
+  
+  rux-dialog::part(dialog) {
+    width: 40rem;
+  }
+  
+  rux-dialog::part(message) {
+    padding-left: 0;
+    padding-top: 0;
+  }
+  
+  .button-wrapper {
+    flex: 1;
+  }
+  
+  rux-button {
+    padding-block: var(--spacing-2);
+    border-left: black 1px solid;
+    border-right: black 1px solid;
+    border-top: black 1px solid;
+  }
+  
+  .properties-wrapper {
+    flex: 2;
+  }
+  
+  .properties-wrapper span {
+    display: flex;
+    padding-bottom: var(--spacing-4);
+    justify-content: space-between;
+  }
+  
+  .select-msg {
+    padding-top: var(--spacing-4);
+    font-style: italic;
+  }
+  
+  rux-dialog::part(footer) {
+    box-shadow: 0px 0 10px rgba(0, 0, 0, 0.8);
+  }
