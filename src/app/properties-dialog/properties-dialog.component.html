@@ -8,66 +8,21 @@
 >
   <div class="dialog-content">
     <div class="button-wrapper">
-      <rux-button borderless="true" secondary="true"
-        >Spacecraft Property</rux-button
-      >
-      <rux-button borderless="true" secondary="true"
-        >Spacecraft Property</rux-button
-      >
-      <rux-button borderless="true" secondary="true"
-        >Spacecraft Property</rux-button
-      >
-      <rux-button borderless="true" secondary="true"
-        >Spacecraft Property</rux-button
-      >
-      <rux-button borderless="true" secondary="true"
-        >Spacecraft Property</rux-button
-      >
-      <rux-button borderless="true" secondary="true"
-        >Spacecraft Property</rux-button
-      >
-      <rux-button borderless="true" secondary="true"
-        >Spacecraft Property</rux-button
+      <rux-button
+        *ngFor="let label of dummyProperties"
+        borderless="true"
+        secondary="true"
+        >{{ label.label }}</rux-button
       >
     </div>
 
     <div class="properties-wrapper">
       <span class="select-msg">Select the data you wish to view</span>
 
-      <span>
-        <rux-checkbox label="Individual Passes" />
+      <span *ngFor="let options of dummyOptions">
+        <rux-checkbox label="{{ options.cb }}" />
         <rux-select>
-          <rux-option label="Drop Down" />
-        </rux-select>
-      </span>
-      <span>
-        <rux-checkbox label="Data Display" />
-        <rux-select>
-          <rux-option label="Drop Down" />
-        </rux-select>
-      </span>
-      <span>
-        <rux-checkbox label="Data Display" />
-        <rux-select>
-          <rux-option label="Drop Down" />
-        </rux-select>
-      </span>
-      <span>
-        <rux-checkbox label="Data Display" />
-        <rux-select>
-          <rux-option label="Drop Down" />
-        </rux-select>
-      </span>
-      <span>
-        <rux-checkbox label="Data Display" />
-        <rux-select>
-          <rux-option label="Drop Down" />
-        </rux-select>
-      </span>
-      <span>
-        <rux-checkbox label="Data Display" />
-        <rux-select>
-          <rux-option label="Drop Down" />
+          <rux-option label="{{ options.option }}" />
         </rux-select>
       </span>
     </div>

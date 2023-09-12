@@ -12,8 +12,8 @@ export class UnitConverterPipe implements PipeTransform {
       return value * 0.621371;
     } else if (unit === 'deg') {
       return `${value}\u00B0`;
-    } else if (unit === '%') {
-      return `${value}%`;
+    } else if (unit === 'rad') {
+      return value * (Math.PI / 180);
     } else {
       return value;
     }
