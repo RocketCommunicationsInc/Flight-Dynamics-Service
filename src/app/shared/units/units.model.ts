@@ -1,4 +1,4 @@
-export type Unit = 'm' | 'km' | 'mi' | 'deg' | 'rad';
+export type Unit = 'm' | 'km' | 'mi' | 'deg' | 'rad' | 'rev';
 
 export interface MenuItem {
   val: Unit;
@@ -26,8 +26,19 @@ export const radians: MenuItem = {
   val: 'rad',
   label: 'Radians (rad)',
 };
+export const revolutions: MenuItem = {
+  val: 'rev',
+  label: 'Revolutions (rev)',
+};
 
-export const UnitMenuItems = { meters, kilometers, miles, degrees, radians };
+export const UnitMenuItems = {
+  meters,
+  kilometers,
+  miles,
+  degrees,
+  radians,
+  revolutions,
+};
 
 export function selectUnit(unit: MenuItem) {
   return { ...unit, selected: true };

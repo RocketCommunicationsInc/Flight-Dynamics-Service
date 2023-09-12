@@ -30,5 +30,9 @@ export class ScenarioDataDisplayComponent {
     selectUnit(UnitMenuItems.kilometers),
     UnitMenuItems.miles,
   ];
-  arcUnits = [selectUnit(UnitMenuItems.degrees), UnitMenuItems.radians];
+  arcUnits = [
+    selectUnit(UnitMenuItems.degrees),
+    UnitMenuItems.radians,
+    UnitMenuItems.revolutions,
+  ];
 }

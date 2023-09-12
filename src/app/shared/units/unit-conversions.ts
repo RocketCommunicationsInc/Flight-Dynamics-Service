@@ -10,4 +10,5 @@ export const Conversions: UnitConversion = {
   deg: (val: number) => `${val}\u00B0`,
   rad: (val: number) => val * (Math.PI / 180),
   km: (val: number) => val,
+  rev: (val: number) => val / 360
 };
