@@ -7,7 +7,7 @@ import { UnitMenuItems, selectUnit } from '../shared/units/units.model';
 
 @Component({
   standalone: true,
-  selector: 'app-scenario-data-display',
+  selector: 'fds-scenario-data-display',
   templateUrl: './scenario-data-display.component.html',
   styleUrls: ['./scenario-data-display.component.css'],
   imports: [

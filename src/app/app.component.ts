@@ -7,7 +7,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   standalone: true,
-  selector: 'app-root',
+  selector: 'fds-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   imports: [
