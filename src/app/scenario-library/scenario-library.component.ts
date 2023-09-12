@@ -3,7 +3,7 @@ import { Component, signal, ViewChild } from '@angular/core';
 import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
 @Component({
   standalone: true,
-  selector: 'app-scenario-library',
+  selector: 'fds-scenario-library',
   templateUrl: './scenario-library.component.html',
   styleUrls: ['./scenario-library.component.css', '../app.component.css'],
   imports: [AstroComponentsModule, CommonModule],
