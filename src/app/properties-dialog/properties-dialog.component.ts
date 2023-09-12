@@ -22,49 +22,49 @@ export class PropertiesDialogComponent {
     {
       cb: 'Individual Passes',
       options: [
-        { value: 'km', label: 'Kilometer' },
-        { value: 'm', label: 'Meters' },
-        { value: 'mi', label: 'Miles' },
+        { value: '1', label: '5423' },
+        { value: '2', label: '6543' },
+        { value: '3', label: '7654' },
       ],
     },
     {
       cb: 'Epoch',
       options: [
-        { value: 'km', label: 'Kilometer' },
-        { value: 'm', label: 'Meters' },
-        { value: 'mi', label: 'Miles' },
+        { value: 'julian', label: 'Julian' },
+        { value: 'epoch', label: 'Epoch' },
+        { value: 'time', label: 'HH:mm:ss' },
       ],
     },
     {
       cb: 'Mean Motion',
       options: [
-        { value: 'km', label: 'Kilometer' },
-        { value: 'm', label: 'Meters' },
-        { value: 'mi', label: 'Miles' },
+        { value: 'deg', label: 'Degree' },
+        { value: 'rad', label: 'Radian' },
+        { value: 'rev', label: 'Revolution' },
       ],
     },
     {
       cb: 'Longitude of Periapsis ',
       options: [
-        { value: 'km', label: 'Kilometer' },
-        { value: 'm', label: 'Meters' },
-        { value: 'mi', label: 'Miles' },
+        { value: 'deg', label: 'Degree' },
+        { value: 'rad', label: 'Radian' },
+        { value: 'rev', label: 'Revolution' },
       ],
     },
     {
       cb: 'True Anomaly',
       options: [
-        { value: 'km', label: 'Kilometer' },
-        { value: 'm', label: 'Meters' },
-        { value: 'mi', label: 'Miles' },
+        { value: 'deg', label: 'Degree' },
+        { value: 'rad', label: 'Radian' },
+        { value: 'rev', label: 'Revolution' },
       ],
     },
     {
       cb: 'Mean Anomaly',
       options: [
-        { value: 'km', label: 'Kilometer' },
-        { value: 'm', label: 'Meters' },
-        { value: 'mi', label: 'Miles' },
+        { value: 'deg', label: 'Degree' },
+        { value: 'rad', label: 'Radian' },
+        { value: 'rev', label: 'Revolution' },
       ],
     },
   ];
