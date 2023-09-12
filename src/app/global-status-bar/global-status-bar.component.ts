@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AstroComponentsModule } from '@astrouxds/angular';
+import { AstroComponentsModule} from '@astrouxds/angular';
 
 @Component({
   standalone: true,
@@ -8,4 +8,8 @@ import { AstroComponentsModule } from '@astrouxds/angular';
   styleUrls: ['./global-status-bar.component.css'],
   imports: [AstroComponentsModule],
 })
-export class GlobalStatusBarComponent {}
+export class GlobalStatusBarComponent {
+  handleSelection(e: Event){
+    const event = e as CustomEvent
+  }
+}

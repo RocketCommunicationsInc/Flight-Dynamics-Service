@@ -11,7 +11,7 @@
     slot="left-side"
   >
     <rux-icon icon="apps" slot="trigger" size="2rem"></rux-icon>
-    <rux-menu>
+    <rux-menu (ruxmenuselected)="handleSelection($event)">
       <rux-menu-item href="#">Flight Dynamic Service</rux-menu-item>
       <rux-menu-item value="unavailable">App 2</rux-menu-item>
       <rux-menu-item value="unavailable">App 3</rux-menu-item>
