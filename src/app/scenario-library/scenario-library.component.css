@@ -7,6 +7,10 @@ rux-icon {
   cursor: pointer;
 }
 
+rux-tree {
+  overflow-y: auto;
+}
+
 rux-tree-node[slot="node"] {
   cursor: pointer;
 }
