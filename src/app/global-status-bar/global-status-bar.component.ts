@@ -12,6 +12,8 @@ export class GlobalStatusBarComponent {
 
   lightMode: Boolean;
 
+
+
   handleSelection(e: Event){
     const event = e as CustomEvent
     if(event.detail.value === 'mode'){
@@ -22,11 +24,26 @@ export class GlobalStatusBarComponent {
       this.lightMode = !this.lightMode
     }
     if(event.detail.value === 'unavailable'){
-      console.log('toast goes here')
+      this.showToast()
+    }
+  }
+  /**
+   * Show the 'feature not implemented' toast.
+   */
+  showToast() {
+    console.log('running!')
+    const toastStack = document.querySelector('rux-toast-stack')
+    if (toastStack) {
+      toastStack.addToast({
+        message: 'This feature has not been implemented.',
+        hideClose: false,
+        closeAfter: 3000,
+      });
     }
   }
 
   constructor(){
     this.lightMode = false
+    this.showToast()
   }
 }

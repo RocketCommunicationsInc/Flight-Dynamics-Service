@@ -32,6 +32,7 @@
     <rux-clock date-in></rux-clock>
     <div class="gsb-icons" slot="right-side">
       <rux-monitoring-icon
+        (click)="showToast()"
         icon="notifications"
         status="off"
         notifications="1"
@@ -40,8 +41,9 @@
         icon="message"
         status="off"
         notifications="1"
+        (click)="showToast()"
       ></rux-monitoring-icon>
-      <rux-icon icon="account-circle"></rux-icon>
+      <rux-icon (click)="showToast()" icon="account-circle"></rux-icon>
     </div>
   </div>
 </rux-global-status-bar>
