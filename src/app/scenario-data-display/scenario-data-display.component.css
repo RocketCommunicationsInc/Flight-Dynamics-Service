@@ -37,3 +37,7 @@ rux-icon {
   cursor: pointer;
   display: flex;
 }
+
+rux-container, rux-container::part(container) {
+  height: 100%;
+}

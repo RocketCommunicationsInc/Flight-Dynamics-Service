@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
-import { UnitConverterPipe } from '../unit-converter.pipe';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { UnitSelectorComponent } from '../shared';
+import { UnitMenuItems, selectUnit } from '../shared/units/units.model';
 
 @Component({
   standalone: true,
@@ -12,7 +13,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   imports: [
     AstroComponentsModule,
     PropertiesDialogComponent,
-    UnitConverterPipe,
+    UnitSelectorComponent,
     RouterLink,
     RouterOutlet,
   ],
@@ -24,19 +25,6 @@ export class ScenarioDataDisplayComponent {
   inclination = 23.4362;
   eccentricity = 92.39401;
   mass = 43.23404;
-  currentAxisUnit: string = 'km';
-  currentPerigeeUnit: string = 'km';
-  currentInclinationUnit: string = 'deg';
-
-  selectAxisUnit(event: any) {
-    this.currentAxisUnit = event.detail.value;
-  }
-
-  selectPerigeeUnit(event: any) {
-    this.currentPerigeeUnit = event.detail.value;
-  }
-
-  selectInclinationUnit(event: any) {
-    this.currentInclinationUnit = event.detail.value;
-  }
+  distanceUnits = [ UnitMenuItems.meters, selectUnit(UnitMenuItems.kilometers), UnitMenuItems.miles];
+  arcUnits = [selectUnit(UnitMenuItems.degrees), UnitMenuItems.radians];
 }
