@@ -1,0 +1,25 @@
+<rux-dialog
+  open="true"
+  (ruxdialogclosed)="onClose()"
+  clickToClose="true"
+  header="Edit Spacecraft Properties View"
+  confirmText="Save"
+  denyText="Close"
+>
+  <div class="dialog-content">
+    <div class="properties-wrapper">
+      <span class="select-msg">Select the data you wish to view</span>
+
+      <span *ngFor="let options of dummyOptions">
+        <rux-checkbox label="{{ options.cb }}" />
+        <rux-select>
+          <rux-option
+            *ngFor="let selections of options.options"
+            label="{{ selections.label }}"
+            value="{{ selections.value }}"
+          />
+        </rux-select>
+      </span>
+    </div>
+  </div>
+</rux-dialog>

@@ -15,12 +15,10 @@
 
 .scenarios-library {
   grid-area: scenarios-library;
-  background-color: blue;
 }
 
 .scenario-data {
   grid-area: scenario-data;
-  background-color: green;
 }
 
 .main {
