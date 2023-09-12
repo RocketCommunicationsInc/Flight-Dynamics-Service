@@ -3,6 +3,8 @@ import { ScenarioDataDisplayComponent } from './scenario-data-display/scenario-d
 import { ScenarioLibraryComponent } from './scenario-library/scenario-library.component';
 import { GlobalStatusBarComponent } from './global-status-bar/global-status-bar.component';
 import { MainComponent } from './main/main.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
+
 @Component({
   standalone: true,
   selector: 'fds-root',
@@ -13,6 +15,8 @@ import { MainComponent } from './main/main.component';
     ScenarioLibraryComponent,
     GlobalStatusBarComponent,
     MainComponent,
+    RouterLink,
+    RouterOutlet,
   ],
 })
 export class AppComponent {
