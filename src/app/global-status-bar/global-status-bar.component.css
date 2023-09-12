@@ -1,0 +1,37 @@
+rux-global-status-bar rux-pop-up {
+  height: calc(var(--spacing-14) + var(--spacing-050));
+}
+
+rux-global-status-bar::part(middle) {
+  align-self: stretch;
+  flex-grow: 1;
+}
+
+.gsb-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  gap: var(--spacing-2);
+
+  & rux-tabs {
+    height: auto;
+    align-self: flex-end;
+  }
+
+  & .gsb-icons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-2);
+
+    & rux-monitoring-icon::part(status-icon) {
+      display: none;
+    }
+
+    & *::part(icon) {
+      color: var(--color-text-interactive-default);
+      cursor: pointer;
+    }
+  }
+}
