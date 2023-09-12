@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AstroComponentsModule} from '@astrouxds/angular';
+import { AstroComponentsModule, RuxToastStack} from '@astrouxds/angular';
 
 @Component({
   standalone: true,
@@ -9,7 +9,24 @@ import { AstroComponentsModule} from '@astrouxds/angular';
   imports: [AstroComponentsModule],
 })
 export class GlobalStatusBarComponent {
+
+  lightMode: Boolean;
+
   handleSelection(e: Event){
     const event = e as CustomEvent
+    if(event.detail.value === 'mode'){
+      const body = document.body;
+      if(body){
+        body.classList.toggle('light-theme')
+      }
+      this.lightMode = !this.lightMode
+    }
+    if(event.detail.value === 'unavailable'){
+      console.log('toast goes here')
+    }
+  }
+
+  constructor(){
+    this.lightMode = false
   }
 }

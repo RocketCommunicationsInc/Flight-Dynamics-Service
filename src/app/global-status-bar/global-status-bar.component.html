@@ -16,7 +16,9 @@
       <rux-menu-item value="unavailable">App 2</rux-menu-item>
       <rux-menu-item value="unavailable">App 3</rux-menu-item>
       <rux-menu-item-divider></rux-menu-item-divider>
-      <rux-menu-item value="mode">{{ this }} Mode</rux-menu-item>
+      <rux-menu-item value="mode"
+        >{{ this.lightMode ? "Dark" : "Light" }} Mode</rux-menu-item
+      >
       <rux-menu-item value="unavailable">Preferences</rux-menu-item>
       <rux-menu-item value="unavailable">Sign Out</rux-menu-item>
     </rux-menu>
