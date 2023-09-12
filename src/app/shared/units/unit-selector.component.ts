@@ -9,7 +9,7 @@ import { MenuItem, Unit } from './units.model';
 @Component({
   selector: 'app-unit-selector',
   standalone: true,
-  imports: [CommonModule, AstroComponentsModule, UnitConverterPipe, NgFor],
+  imports: [CommonModule, AstroComponentsModule, UnitConverterPipe],
   templateUrl: './unit-selector.component.html',
   styleUrls: ['./unit-selector.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -4,8 +4,8 @@
     <rux-icon icon="unfold-more" size="1.25rem" slot="trigger" />
     <rux-menu value="currentAxisUnit" (ruxmenuselected)="setUnit($event)">
       <rux-menu-item
-        *ngFor="let item of units"
-        value="item.val"
+        *ngFor="let item of _units"
+        [value]="item.val"
         [attr.selected]="item.selected"
         >{{ item.label }}</rux-menu-item
       >
