@@ -9,18 +9,13 @@ import { AstroComponentsModule, RuxToastStack} from '@astrouxds/angular';
   imports: [AstroComponentsModule],
 })
 export class GlobalStatusBarComponent {
-
   lightMode: Boolean;
-
-
 
   handleSelection(e: Event){
     const event = e as CustomEvent
     if(event.detail.value === 'mode'){
       const body = document.body;
-      if(body){
-        body.classList.toggle('light-theme')
-      }
+      body?.classList.toggle('light-theme')
       this.lightMode = !this.lightMode
     }
     if(event.detail.value === 'unavailable'){
@@ -31,15 +26,13 @@ export class GlobalStatusBarComponent {
    * Show the 'feature not implemented' toast.
    */
   showToast() {
-    console.log('running!')
+    /* Scenario Library is currently housing RuxToastStack */
     const toastStack = document.querySelector('rux-toast-stack')
-    if (toastStack) {
-      toastStack.addToast({
-        message: 'This feature has not been implemented.',
-        hideClose: false,
-        closeAfter: 3000,
-      });
-    }
+    toastStack?.addToast({
+      message: 'This feature has not been implemented.',
+      hideClose: false,
+      closeAfter: 3000,
+    });
   }
 
   constructor(){
