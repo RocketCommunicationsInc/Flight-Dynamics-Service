@@ -10,23 +10,11 @@
     />
   </div>
   <section>
-    <div>Catalog ID:</div>
-    <div>{{ catalogId }}</div>
-
-    <app-unit-selector [units]="distanceUnits" [value]="semiMajorAxis"
-      >Semi-Major Axis</app-unit-selector
-    >
-    <app-unit-selector [units]="distanceUnits" [value]="perigee"
-      >Perigee</app-unit-selector
-    >
-    <app-unit-selector [units]="arcUnits" [value]="inclination"
-      >Inclination</app-unit-selector
-    >
-
-    <div>Eccentricity:</div>
-    <div>{{ eccentricity }}</div>
-
-    <div>Mass:</div>
-    <div>{{ mass }}</div>
+    <app-unit-selector
+      *ngFor="let item of itemsDisplayed"
+      [units]="distanceUnits"
+      [value]="semiMajorAxis"
+      >{{ item }}
+    </app-unit-selector>
   </section>
 </rux-container>

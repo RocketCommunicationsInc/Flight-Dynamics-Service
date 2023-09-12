@@ -4,6 +4,7 @@
 
 rux-dialog::part(dialog) {
   width: 30rem;
+  height: 35.5rem;
 }
 
 rux-dialog::part(message) {
@@ -33,4 +34,11 @@ rux-dialog::part(footer) {
 
 rux-select::part(select) {
   width: 7.5rem;
+}
+
+/* Extra padding to accomodate for the size of the select */
+rux-checkbox:nth-of-type(1),
+rux-checkbox:nth-of-type(2),
+rux-checkbox:nth-of-type(3) {
+  padding-bottom: var(--spacing-4);
 }

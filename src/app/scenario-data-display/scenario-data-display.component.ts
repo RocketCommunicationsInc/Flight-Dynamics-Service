@@ -4,7 +4,8 @@ import { PropertiesDialogComponent } from '../properties-dialog/properties-dialo
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { UnitSelectorComponent } from '../shared';
 import { UnitMenuItems, selectUnit } from '../shared/units/units.model';
-
+import { DialogService } from '../services/dialog.service';
+import { CommonModule } from '@angular/common';
 @Component({
   standalone: true,
   selector: 'fds-scenario-data-display',
@@ -16,15 +17,29 @@ import { UnitMenuItems, selectUnit } from '../shared/units/units.model';
     UnitSelectorComponent,
     RouterLink,
     RouterOutlet,
+    CommonModule
   ],
 })
 export class ScenarioDataDisplayComponent {
+constructor(private dialogService: DialogService) {}
+itemsDisplayed: any[] = []
+
+ngOnInit() {
+  this.itemsDisplayed = this.dialogService.selectedProperties
+}
+
   catalogId = 30184;
   semiMajorAxis = 63714327;
   perigee = 363396432;
   inclination = 23.4362;
   eccentricity = 92.39401;
-  mass = 43.23404;
+  mass = 43.28404;
+  meanMotion = 1.790294538;
+  longitutdeOfPeriapsis = 0.05;
+  trueAnomaly = 0.1;
+  meanAnomaly = 0.90723429381761343;
+  raan = 206.6145
+
   distanceUnits = [
     UnitMenuItems.meters,
     selectUnit(UnitMenuItems.kilometers),

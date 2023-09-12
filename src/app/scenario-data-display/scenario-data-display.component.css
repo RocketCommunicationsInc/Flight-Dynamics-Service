@@ -27,7 +27,7 @@ rux-icon {
 
 rux-container,
 rux-container::part(container) {
-  height: 100%;
+  height: 99.9%;
 }
 
 div:nth-of-type(1),
