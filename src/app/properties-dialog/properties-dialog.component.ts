@@ -17,16 +17,6 @@ export class PropertiesDialogComponent {
   onClose() {
     this.router.navigate([{ outlets: { dialog: null } }]);
   }
-  
-  dummyProperties = [
-    { label: 'Spacecraft Property'},
-    { label: 'Spacecraft Property'},
-    { label: 'Spacecraft Property'},
-    { label: 'Spacecraft Property'},
-    { label: 'Spacecraft Property'},
-    { label: 'Spacecraft Property'},
-    { label: 'Spacecraft Property'},
-  ]
 
   dummyOptions = [
    { cb: 'Individual Passes', option: 'Drop Down'},

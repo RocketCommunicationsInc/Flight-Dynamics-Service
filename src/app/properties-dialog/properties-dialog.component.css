@@ -3,7 +3,7 @@
 }
 
 rux-dialog::part(dialog) {
-  width: 40rem;
+  width: 30rem;
 }
 
 rux-dialog::part(message) {
@@ -11,19 +11,9 @@ rux-dialog::part(message) {
   padding-top: 0;
 }
 
-.button-wrapper {
-  flex: 1;
-}
-
-rux-button {
-  padding-block: var(--spacing-2);
-  border-left: black 1px solid;
-  border-right: black 1px solid;
-  border-top: black 1px solid;
-}
-
 .properties-wrapper {
   flex: 2;
+  padding-left: var(--spacing-4);
 }
 
 .properties-wrapper span {
