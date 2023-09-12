@@ -1,1 +1,49 @@
-<p>global-status-bar works!</p>
+<rux-global-status-bar
+  app-state="Demo"
+  app-domain="FDS"
+  app-name="DSCS"
+  username="J. Smith"
+>
+  <rux-pop-up
+    placement="bottom-start"
+    disable-auto-update
+    close-on-select
+    slot="left-side"
+  >
+    <rux-icon icon="apps" slot="trigger" size="2rem"></rux-icon>
+    <rux-menu (ruxmenuselected)="handleSelection($event)">
+      <rux-menu-item href="#">Flight Dynamic Service</rux-menu-item>
+      <rux-menu-item value="unavailable">App 2</rux-menu-item>
+      <rux-menu-item value="unavailable">App 3</rux-menu-item>
+      <rux-menu-item-divider></rux-menu-item-divider>
+      <rux-menu-item value="mode"
+        >{{ this.lightMode ? "Dark" : "Light" }} Mode</rux-menu-item
+      >
+      <rux-menu-item value="unavailable">Preferences</rux-menu-item>
+      <rux-menu-item value="unavailable">Sign Out</rux-menu-item>
+    </rux-menu>
+  </rux-pop-up>
+  <div class="gsb-tools">
+    <rux-tabs id="workspaces">
+      <rux-tab id="workspace-1" selected>Orbit Determination</rux-tab>
+      <rux-tab id="workspace-2" disabled>Maneuvering</rux-tab>
+      <rux-tab id="workspace-3" disabled>Reporting</rux-tab>
+    </rux-tabs>
+    <rux-clock date-in></rux-clock>
+    <div class="gsb-icons" slot="right-side">
+      <rux-monitoring-icon
+        (click)="showToast()"
+        icon="notifications"
+        status="off"
+        notifications="1"
+      ></rux-monitoring-icon>
+      <rux-monitoring-icon
+        icon="message"
+        status="off"
+        notifications="1"
+        (click)="showToast()"
+      ></rux-monitoring-icon>
+      <rux-icon (click)="showToast()" icon="account-circle"></rux-icon>
+    </div>
+  </div>
+</rux-global-status-bar>

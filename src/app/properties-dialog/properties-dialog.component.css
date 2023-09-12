@@ -1,0 +1,36 @@
+.dialog-content {
+  display: flex;
+}
+
+rux-dialog::part(dialog) {
+  width: 30rem;
+}
+
+rux-dialog::part(message) {
+  padding-left: 0;
+  padding-top: 0;
+}
+
+.properties-wrapper {
+  flex: 2;
+  padding-left: var(--spacing-4);
+}
+
+.properties-wrapper span {
+  display: flex;
+  padding-bottom: var(--spacing-4);
+  justify-content: space-between;
+}
+
+.select-msg {
+  padding-top: var(--spacing-4);
+  font-style: italic;
+}
+
+rux-dialog::part(footer) {
+  box-shadow: 0px 0 10px rgba(0, 0, 0, 0.8);
+}
+
+rux-select::part(select) {
+  width: 7.5rem;
+}
