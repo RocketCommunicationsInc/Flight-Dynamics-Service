@@ -3,7 +3,7 @@ import { AstroComponentsModule} from '@astrouxds/angular';
 
 @Component({
   standalone: true,
-  selector: 'app-global-status-bar',
+  selector: 'fds-global-status-bar',
   templateUrl: './global-status-bar.component.html',
   styleUrls: ['./global-status-bar.component.css'],
   imports: [AstroComponentsModule],

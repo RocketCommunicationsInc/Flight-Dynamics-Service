@@ -5,7 +5,7 @@ import { GlobalStatusBarComponent } from './global-status-bar/global-status-bar.
 import { MainComponent } from './main/main.component';
 @Component({
   standalone: true,
-  selector: 'app-root',
+  selector: 'fds-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   imports: [
