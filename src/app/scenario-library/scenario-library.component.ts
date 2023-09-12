@@ -5,7 +5,7 @@ import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
   standalone: true,
   selector: 'fds-scenario-library',
   templateUrl: './scenario-library.component.html',
-  styleUrls: ['./scenario-library.component.css', '../app.component.css'],
+  styleUrls: ['./scenario-library.component.css'],
   imports: [AstroComponentsModule, CommonModule],
 })
 export class ScenarioLibraryComponent {

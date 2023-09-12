@@ -1,1 +1,32 @@
-<p>scenario-data-display works!</p>
+<rux-toast-stack />
+<rux-container>
+  <div slot="header">
+    <span class="title">Spacecraft Properties</span>
+    <rux-icon
+      class="settings-icon"
+      [routerLink]="[{ outlets: { dialog: ['properties'] } }]"
+      icon="settings"
+      size="1.5rem"
+    />
+  </div>
+  <section>
+    <div>Catalog ID:</div>
+    <div>{{ catalogId }}</div>
+
+    <app-unit-selector [units]="distanceUnits" [value]="semiMajorAxis"
+      >Semi-Major Axis</app-unit-selector
+    >
+    <app-unit-selector [units]="distanceUnits" [value]="perigee"
+      >Perigee</app-unit-selector
+    >
+    <app-unit-selector [units]="arcUnits" [value]="inclination"
+      >Inclination</app-unit-selector
+    >
+
+    <div>Eccentricity:</div>
+    <div>{{ eccentricity }}</div>
+
+    <div>Mass:</div>
+    <div>{{ mass }}</div>
+  </section>
+</rux-container>

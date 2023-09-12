@@ -19,34 +19,9 @@
 
 .scenario-data {
   grid-area: scenario-data;
-  background-color: green;
 }
 
 .main {
   grid-area: main;
   background-color: rebeccapurple;
-}
-
-/* rux-container styles */
-rux-container {
-  height: 100%;
-}
-
-rux-container::part(container) {
-  display: flex;
-  flex-direction: column;
-  height: calc(100% - 2px);
-  overflow-y: hidden;
-}
-
-rux-container::part(body) {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: hidden;
-}
-
-/* Move toast stack down below gsb */
-rux-toast-stack {
-  top: 6rem;
 }
