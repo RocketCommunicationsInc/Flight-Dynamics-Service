@@ -30,3 +30,7 @@ rux-dialog::part(message) {
 rux-dialog::part(footer) {
   box-shadow: 0px 0 10px rgba(0, 0, 0, 0.8);
 }
+
+rux-select::part(select) {
+  width: 7.5rem;
+}

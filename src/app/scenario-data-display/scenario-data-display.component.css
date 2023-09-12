@@ -15,25 +15,24 @@ div[slot="header"] {
   font-size: var(--font-size-lg);
 }
 
-ul {
+section {
   margin: 0;
   padding: 0;
-}
-
-li {
-  list-style-type: none;
-  display: flex;
-}
-
-li:nth-of-type(1) {
-  margin-top: var(--spacing-3);
-}
-
-li:nth-child(even) {
-  margin-bottom: var(--spacing-3);
 }
 
 rux-icon {
   cursor: pointer;
   display: flex;
+}
+
+rux-container,
+rux-container::part(container) {
+  height: 100%;
+}
+
+div:nth-of-type(1),
+div:nth-of-type(3),
+div:nth-of-type(5),
+div:nth-of-type(7) {
+  margin-top: var(--spacing-3);
 }

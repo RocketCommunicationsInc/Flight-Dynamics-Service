@@ -1,0 +1,4 @@
+div:nth-child(odd) {
+  display: flex;
+  margin-top: var(--spacing-3);
+}

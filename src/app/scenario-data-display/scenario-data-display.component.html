@@ -1,3 +1,4 @@
+<rux-toast-stack />
 <rux-container>
   <div slot="header">
     <span class="title">Spacecraft Properties</span>
@@ -8,61 +9,24 @@
       size="1.5rem"
     />
   </div>
-  <ul>
-    <li>Catalog ID:</li>
-    <li>{{ catalogId }}</li>
+  <section>
+    <div>Catalog ID:</div>
+    <div>{{ catalogId }}</div>
 
-    <li>
-      Semi-Major Axis ({{ currentAxisUnit }}):
-      <rux-pop-up slot="left-side" placement="bottom-start" closeOnSelect>
-        <rux-icon icon="unfold-more" size="1.25rem" slot="trigger" />
-        <rux-menu
-          value="currentAxisUnit"
-          (ruxmenuselected)="selectAxisUnit($event)"
-        >
-          <rux-menu-item value="m">Meters (m)</rux-menu-item>
-          <rux-menu-item selected value="km">Kilometers (km)</rux-menu-item>
-          <rux-menu-item value="mi">Miles (mi) </rux-menu-item>
-        </rux-menu>
-      </rux-pop-up>
-    </li>
-    <li>{{ semiMajorAxis | unitConverter: currentAxisUnit }}</li>
+    <app-unit-selector [units]="distanceUnits" [value]="semiMajorAxis"
+      >Semi-Major Axis</app-unit-selector
+    >
+    <app-unit-selector [units]="distanceUnits" [value]="perigee"
+      >Perigee</app-unit-selector
+    >
+    <app-unit-selector [units]="arcUnits" [value]="inclination"
+      >Inclination</app-unit-selector
+    >
 
-    <li>
-      Perigee ({{ currentPerigeeUnit }}):
-      <rux-pop-up slot="left-side" placement="bottom-start" closeOnSelect>
-        <rux-icon icon="unfold-more" size="1.25rem" slot="trigger" />
-        <rux-menu
-          value="currentPerigeeUnit"
-          (ruxmenuselected)="selectPerigeeUnit($event)"
-        >
-          <rux-menu-item value="m">Meters (m)</rux-menu-item>
-          <rux-menu-item selected value="km">Kilometers (km)</rux-menu-item>
-          <rux-menu-item value="mi">Miles (mi) </rux-menu-item>
-        </rux-menu>
-      </rux-pop-up>
-    </li>
-    <li>{{ perigee | unitConverter: currentPerigeeUnit }}</li>
+    <div>Eccentricity:</div>
+    <div>{{ eccentricity }}</div>
 
-    <li>
-      Inclination ({{ currentInclinationUnit }}):
-      <rux-pop-up slot="left-side" placement="bottom-start" closeOnSelect>
-        <rux-icon icon="unfold-more" size="1.25rem" slot="trigger" />
-        <rux-menu
-          value="currentInclinationUnit"
-          (ruxmenuselected)="selectInclinationUnit($event)"
-        >
-          <rux-menu-item selected value="deg">Degrees (deg)</rux-menu-item>
-          <rux-menu-item value="rad">Radians (rad)</rux-menu-item>
-        </rux-menu>
-      </rux-pop-up>
-    </li>
-    <li>{{ inclination | unitConverter: currentInclinationUnit }}</li>
-
-    <li>Eccentricity:</li>
-    <li>{{ eccentricity }}</li>
-
-    <li>Mass:</li>
-    <li>{{ mass }}</li>
-  </ul>
+    <div>Mass:</div>
+    <div>{{ mass }}</div>
+  </section>
 </rux-container>
