@@ -19,11 +19,53 @@ export class PropertiesDialogComponent {
   }
 
   dummyOptions = [
-   { cb: 'Individual Passes', option: 'Drop Down'},
-   { cb: 'Data Display', option: 'Drop Down'},
-   { cb: 'Data Display', option: 'Drop Down'},
-   { cb: 'Data Display', option: 'Drop Down'},
-   { cb: 'Data Display', option: 'Drop Down'},
-   { cb: 'Data Display', option: 'Drop Down'},
-  ]
+    {
+      cb: 'Individual Passes',
+      options: [
+        { value: 'km', label: 'Kilometer' },
+        { value: 'm', label: 'Meters' },
+        { value: 'mi', label: 'Miles' },
+      ],
+    },
+    {
+      cb: 'Epoch',
+      options: [
+        { value: 'km', label: 'Kilometer' },
+        { value: 'm', label: 'Meters' },
+        { value: 'mi', label: 'Miles' },
+      ],
+    },
+    {
+      cb: 'Mean Motion',
+      options: [
+        { value: 'km', label: 'Kilometer' },
+        { value: 'm', label: 'Meters' },
+        { value: 'mi', label: 'Miles' },
+      ],
+    },
+    {
+      cb: 'Longitude of Periapsis ',
+      options: [
+        { value: 'km', label: 'Kilometer' },
+        { value: 'm', label: 'Meters' },
+        { value: 'mi', label: 'Miles' },
+      ],
+    },
+    {
+      cb: 'True Anomaly',
+      options: [
+        { value: 'km', label: 'Kilometer' },
+        { value: 'm', label: 'Meters' },
+        { value: 'mi', label: 'Miles' },
+      ],
+    },
+    {
+      cb: 'Mean Anomaly',
+      options: [
+        { value: 'km', label: 'Kilometer' },
+        { value: 'm', label: 'Meters' },
+        { value: 'mi', label: 'Miles' },
+      ],
+    },
+  ];
 }
