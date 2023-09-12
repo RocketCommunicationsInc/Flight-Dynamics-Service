@@ -1,3 +1,7 @@
+rux-global-status-bar rux-pop-up {
+  height: calc(var(--spacing-14) + var(--spacing-050));
+}
+
 rux-global-status-bar::part(middle) {
   align-self: stretch;
   flex-grow: 1;
