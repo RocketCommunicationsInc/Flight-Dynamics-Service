@@ -17,6 +17,22 @@ h6 {
   margin: 0;
 }
 
+h1 {
+  font-family: var(--font-heading-1-font-family);
+  font-size: var(--font-heading-1-font-size);
+  font-weight: var(--font-heading-1-font-weight);
+  letter-spacing: var(--font-heading-1-letter-spacing);
+  line-height: var(--font-heading-1-line-height);
+}
+
+p {
+  font-family: var(--font-body-1-font-family);
+  font-size: var(--font-body-1-font-size);
+  font-weight: var(--font-body-1-font-weight);
+  letter-spacing: var(--font-body-1-letter-spacing);
+  line-height: var(--font-body-1-line-height);
+}
+
 /* rux-container styles */
 rux-container {
   height: 100%;
