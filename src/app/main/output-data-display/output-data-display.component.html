@@ -9,7 +9,7 @@
   </rux-tabs>
 
   <rux-notification open small hideClose [status]="ods[0].status">{{
-    ods[0].message + (ods[0].timestamp | date: "short")
+    ods[0].message + " " + (ods[0].timestamp | date: "short")
   }}</rux-notification>
 
   <header>
