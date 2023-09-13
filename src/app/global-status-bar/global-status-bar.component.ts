@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { AstroComponentsModule, RuxToastStack} from '@astrouxds/angular';
+import { ToastService } from '../shared/toast.service';
 
 @Component({
   standalone: true,
@@ -9,34 +10,30 @@ import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
   imports: [AstroComponentsModule],
 })
 export class GlobalStatusBarComponent {
-  lightMode: Boolean;
+  @Output() onChangeTheme = new EventEmitter();
+  @Input() lightMode = false;
 
-  handleSelection(e: Event) {
-    const event = e as CustomEvent;
-    if (event.detail.value === 'mode') {
-      const body = document.body;
-      body?.classList.toggle('light-theme');
-      this.lightMode = !this.lightMode;
-    }
-    if (event.detail.value === 'unavailable') {
-      this.showToast();
-    }
+  handleSelection(e: Event){
+    const menuActions = {
+      mode: () => this.onChangeTheme.emit(),
+      unavailable: () => this.showToast(),
+    };
+    const key: 'mode' | 'unavailable' = (e as CustomEvent).detail.value;
+    menuActions[key]();
   }
   /**
    * Show the 'feature not implemented' toast.
    */
   showToast() {
-    /* Scenario Library is currently housing RuxToastStack */
-    const toastStack = document.querySelector('rux-toast-stack');
-    toastStack?.addToast({
+    this.toasts.addToast({
       message: 'This feature has not been implemented.',
       hideClose: false,
       closeAfter: 3000,
     });
   }
 
-  constructor() {
-    this.lightMode = false;
-    this.showToast();
+  constructor(private toasts: ToastService){
+    this.lightMode = false
+    this.showToast()
   }
 }

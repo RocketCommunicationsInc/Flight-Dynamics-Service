@@ -1,5 +1,5 @@
 .orbit-determination-body {
-  height: calc(100vh - 6.75rem);
+  height: calc(100vh - 6rem);
   overflow-y: hidden;
   padding: var(--spacing-3);
   background-color: var(--color-background-base-default);
@@ -23,5 +23,4 @@
 
 .main {
   grid-area: main;
-  background-color: rebeccapurple;
 }
