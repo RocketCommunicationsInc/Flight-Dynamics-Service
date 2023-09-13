@@ -1,10 +1,10 @@
 
+<rux-notification small [open]="notificationActive" message="Update database file to initialize new orbit" status="caution"></rux-notification>
 <form [formGroup]="inputForm" (ngSubmit)="onSubmit()">
   <div class="inputs_main">
-    <rux-notification small open message="Update database file to initialize new orbit" status="caution"></rux-notification>
-    <div class="inputs_input-button-wrapper">
+    <div [ngClass]="{alertActive: notificationActive}" class="inputs_input-button-wrapper">
       <rux-input type="text" label="Database File" formControlName="databaseFile" />
-      <rux-button iconOnly icon="sync" />
+      <rux-button iconOnly icon="sync" (click)="handleSyncClick()" />
     </div>
     <div class="inputs_input-menu-wrapper">
       <rux-select label="Orbit Source" formControlName="orbitSource">

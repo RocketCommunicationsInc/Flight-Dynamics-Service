@@ -2,17 +2,11 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'fds-inputs',
   standalone: true,
-  imports: [
-    CommonModule,
-    AstroComponentsModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, AstroComponentsModule, ReactiveFormsModule],
   templateUrl: './inputs.component.html',
   styleUrls: ['./inputs.component.css'],
 })
@@ -26,8 +20,15 @@ export class InputsComponent {
     thrustProfile: new FormControl('input_file_name.abc'),
     processedTrackFile: new FormControl('input_file_name.abc'),
   });
+  notificationActive = true;
   onSubmit(): void {
     console.log(this.inputForm.value);
     //TODO hook form data into where it's going to go
+  }
+
+  handleSyncClick(): void {
+    if (!this.notificationActive) return;
+    this.notificationActive = false;
+    //TODO This method would handle
   }
 }

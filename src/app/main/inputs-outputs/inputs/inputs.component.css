@@ -1,11 +1,17 @@
 :host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+form {
   display: flex;
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.inputs_main > * {
+.inputs_main > *, .inputs_main > :first-child.alertActive {
   padding-block-start: var(--spacing-3);
 }
 
