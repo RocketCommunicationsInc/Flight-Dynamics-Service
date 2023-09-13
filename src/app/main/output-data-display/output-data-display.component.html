@@ -13,7 +13,7 @@
   }}</rux-notification>
 
   <header>
-    <div class="deviations">
+    <div class="container">
       <div class="data">
         <div class="heading">
           <h1>{{ diviations.length }}</h1>
@@ -32,6 +32,19 @@
       </div>
 
       <rux-segmented-button [data]="actions"></rux-segmented-button>
+    </div>
+
+    <div class="container">
+      <rux-segmented-button size="small" [data]="views"></rux-segmented-button>
+
+      <rux-pop-up>
+        <rux-icon icon="more-horiz" slot="trigger" size="1.75rem"></rux-icon>
+        <rux-menu>
+          <rux-menu-item href="#">Menu Item 1</rux-menu-item>
+          <rux-menu-item href="#">Menu Item 2</rux-menu-item>
+          <rux-menu-item href="#">Menu Item 3</rux-menu-item>
+        </rux-menu>
+      </rux-pop-up>
     </div>
   </header>
 </fds-child-container>

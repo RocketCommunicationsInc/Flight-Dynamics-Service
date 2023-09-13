@@ -84,6 +84,11 @@ export class OutputDataDisplayComponent {
     { label: 'Primary Action', selected: true },
   ];
 
+  views: SegmentedButton[] = [
+    { label: 'View Table', selected: true },
+    { label: 'View Graph', selected: false },
+  ];
+
   constructor() {
     this.criticals = this.ods.filter((od) => od.status === 'critical');
     this.diviations = this.ods.filter((od) => od.status !== 'normal');

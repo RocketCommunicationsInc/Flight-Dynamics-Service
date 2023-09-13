@@ -3,11 +3,16 @@
   flex: 3;
 }
 
+/* this sets the height of the pop up to the height of the trigger */
+rux-pop-up::part(container) {
+  display: flex;
+}
+
 header {
   background-color: var(--color-background-surface-header);
 }
 
-.deviations {
+.container {
   display: flex;
   justify-content: space-between;
   padding: var(--spacing-4);
