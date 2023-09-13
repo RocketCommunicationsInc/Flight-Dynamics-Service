@@ -10,7 +10,7 @@ import { BehaviorSubject, Subject, filter, takeUntil, tap } from 'rxjs';
 
 @Component({
   standalone: true,
-  selector: 'fds-root',
+  selector: 'body',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   imports: [
