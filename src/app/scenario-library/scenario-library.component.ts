@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal, ViewChild } from '@angular/core';
 import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
+import { Store } from '@ngrx/store';
+import { SatelliteActions } from '../store/app.actions';
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -76,5 +78,11 @@ export class ScenarioLibraryComponent {
         closeAfter: 3000,
       });
     }
+  }
+
+  constructor(private store: Store) {}
+
+  ngOnInit() { 
+    this.store.dispatch(SatelliteActions.satelliteSelected({ satId: 123 }));
   }
 }
