@@ -16,7 +16,6 @@ export class MainComponent {
       private store: Store,
 
     ) {
-      this.store.dispatch(SatelliteActions.satellitesRequested());
       this.satellites$.subscribe(res => console.log(res))
     }
   
