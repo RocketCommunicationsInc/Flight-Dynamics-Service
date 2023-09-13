@@ -1,6 +1,6 @@
 export interface AppStore {
   satellites: Satellite[];
-  selectedSatId: number
+  selectedSatId: number;
 }
 
 export interface Satellite {
