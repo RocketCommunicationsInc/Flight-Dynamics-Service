@@ -1,3 +1,11 @@
 <fds-child-container>
-  <nav header>Header</nav>
+  <rux-tabs header small (ruxselected)="onSelect($event)">
+    <rux-tab
+      [selected]="tab.selected"
+      [disabled]="tab.disabled"
+      *ngFor="let tab of tabs"
+    >
+      {{ tab.label }}
+    </rux-tab>
+  </rux-tabs>
 </fds-child-container>
