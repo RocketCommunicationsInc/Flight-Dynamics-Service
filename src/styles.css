@@ -1,5 +1,22 @@
 @import "@astrouxds/astro-web-components/dist/astro-web-components/astro-web-components.css";
 
+/* resets */
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
 /* rux-container styles */
 rux-container {
   height: 100%;
@@ -8,7 +25,7 @@ rux-container {
 rux-container::part(container) {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 2px);
+  height: 100%;
   overflow-y: hidden;
 }
 

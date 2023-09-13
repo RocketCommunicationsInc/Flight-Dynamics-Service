@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  row-gap: var(--spacing-4);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  min-height: 2rem;
+}
+
+main {
+  box-shadow: 0 0 0 1px var(--color-border-interactive-muted) inset;
+  flex-grow: 1;
+}
