@@ -1,10 +1,14 @@
 <fds-child-container>
-  <rux-tabs id="inputs-outputs-tabs" size="small" header>
+  <rux-tabs id="inputs-outputs-tabs" small header>
     <rux-tab id="inputs-tab" selected>Inputs</rux-tab>
     <rux-tab id="outputs-tab">Outputs</rux-tab>
   </rux-tabs>
   <rux-tab-panels aria-labelledby="inputs-outputs-tabs" main>
-    <rux-tab-panel aria-labelledby="inputs-tab">I am an input</rux-tab-panel>
-    <rux-tab-panel aria-labelledby="outputs-tab">I am an output</rux-tab-panel>
+    <rux-tab-panel aria-labelledby="inputs-tab">
+      <fds-inputs></fds-inputs>
+    </rux-tab-panel>
+    <rux-tab-panel aria-labelledby="outputs-tab">
+      <fds-outputs></fds-outputs>
+    </rux-tab-panel>
   </rux-tab-panels>
 </fds-child-container>

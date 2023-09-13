@@ -14,4 +14,5 @@ header {
 main {
   box-shadow: 0 0 0 1px var(--color-border-interactive-muted) inset;
   flex-grow: 1;
+  padding: var(--spacing-3);
 }

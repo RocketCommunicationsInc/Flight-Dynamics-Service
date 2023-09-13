@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.inputs_main > * {
+  padding-block-start: var(--spacing-3);
+}
+
+.inputs_main > :first-child {
+  padding-block-start: var(--spacing-0);
+}
+
+.inputs_input-button-wrapper {
+  display: flex;
+  align-items: flex-end;
+}
+
+.inputs_input-button-wrapper rux-input {
+  width: 100%;
+  padding-inline-end: var(--spacing-3);
+}
+
+.inputs_input-menu-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.inputs_input-menu-wrapper rux-select {
+  padding-inline-end: var(--spacing-3);
+}
+
+.inputs_footer {
+  margin-inline: auto;
+}
