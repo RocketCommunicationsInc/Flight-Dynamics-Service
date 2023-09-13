@@ -11,7 +11,7 @@ header {
   min-height: 2rem;
 }
 
-main {
+div {
   box-shadow: 0 0 0 1px var(--color-border-interactive-muted) inset;
   flex-grow: 1;
 }
