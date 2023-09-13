@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AstroComponentsModule, RuxTab } from '@astrouxds/angular';
+import { AstroComponentsModule } from '@astrouxds/angular';
 
 import { ChildContainerComponent } from 'src/app/shared';
-
-interface Tab {
-  label: string;
-  disabled?: RuxTab['disabled'];
-  selected?: RuxTab['selected'];
-}
 
 @Component({
   selector: 'fds-output-data-display',
@@ -18,12 +12,30 @@ interface Tab {
   styleUrls: ['./output-data-display.component.css'],
 })
 export class OutputDataDisplayComponent {
-  tabs: Tab[] = [
+  tabs = [
     { label: 'OD Solution', selected: true },
     { label: 'OD Performance', disabled: true },
   ];
 
+  notifications = [
+    {
+      message: 'Happened before the notification at index 1',
+      status: 'critical',
+      timestamp: new Date().getTime() - 10_000,
+    },
+    {
+      message: 'OD succesfully completed on ',
+      status: 'normal',
+      timestamp: new Date().getTime(),
+    },
+  ];
+
+  constructor() {
+    this.notifications.sort((a, b) => b.timestamp - a.timestamp);
+  }
+
   onSelect(e: Event) {
-    console.log(e);
+    const event = e as CustomEvent;
+    console.log(event.detail);
   }
 }

@@ -4,8 +4,11 @@
       [selected]="tab.selected"
       [disabled]="tab.disabled"
       *ngFor="let tab of tabs"
+      >{{ tab.label }}</rux-tab
     >
-      {{ tab.label }}
-    </rux-tab>
   </rux-tabs>
+
+  <rux-notification open small hideClose [status]="notifications[0].status">{{
+    notifications[0].message + (notifications[0].timestamp | date: "short")
+  }}</rux-notification>
 </fds-child-container>
