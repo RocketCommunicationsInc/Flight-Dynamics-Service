@@ -2,3 +2,36 @@
   display: block;
   flex: 3;
 }
+
+header {
+  background-color: var(--color-background-surface-header);
+}
+
+.deviations {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-4);
+}
+
+.data {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-10);
+}
+
+.heading {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-3);
+}
+
+.alerts {
+  display: flex;
+  gap: var(--spacing-6);
+}
+
+.h-stack {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}

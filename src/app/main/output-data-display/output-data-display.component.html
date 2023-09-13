@@ -8,7 +8,30 @@
     >
   </rux-tabs>
 
-  <rux-notification open small hideClose [status]="notifications[0].status">{{
-    notifications[0].message + (notifications[0].timestamp | date: "short")
+  <rux-notification open small hideClose [status]="ods[0].status">{{
+    ods[0].message + (ods[0].timestamp | date: "short")
   }}</rux-notification>
+
+  <header>
+    <div class="deviations">
+      <div class="data">
+        <div class="heading">
+          <h1>{{ diviations.length }}</h1>
+          <p>Deviations</p>
+        </div>
+        <div class="alerts">
+          <div class="h-stack">
+            <rux-status status="caution"></rux-status>
+            <p>Warning ({{ warnings.length }})</p>
+          </div>
+          <div class="h-stack">
+            <rux-status status="critical"></rux-status>
+            <p>Critical ({{ criticals.length }})</p>
+          </div>
+        </div>
+      </div>
+
+      <rux-segmented-button [data]="actions"></rux-segmented-button>
+    </div>
+  </header>
 </fds-child-container>
