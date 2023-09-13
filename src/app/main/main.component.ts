@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SatelliteActions } from '../store/app.actions';
 import { Store } from '@ngrx/store';
 import { selectSatellites } from '../store/app.reducer';
 

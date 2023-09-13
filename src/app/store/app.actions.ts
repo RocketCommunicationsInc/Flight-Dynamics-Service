@@ -5,5 +5,6 @@ export const SatelliteActions = createActionGroup({
   source: 'Satellite',
   events: {
     'Satellites Retrieved': props<{ satellites: Satellite[] }>(),
+    'Satellite Selected': props<{ satId: number }>()
   },
 });

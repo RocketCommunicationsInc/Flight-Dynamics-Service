@@ -1,8 +1,8 @@
 import { createSelector } from '@ngrx/store';
 import { satellitesFeature } from './app.reducer';
 
-export const selectBookListPageViewModel = createSelector(
+export const selectSelectedSatellite = createSelector(
   satellitesFeature.selectSatellites,
-  satellitesFeature.selectSatellites,
-  (satellites) => ({ satellites })
+  satellitesFeature.selectSelectedSatId,
+  (satellites, selectedSatId) => satellites.find(sat => sat.catalogId === selectedSatId)
 );
