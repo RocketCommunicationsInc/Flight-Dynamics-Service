@@ -1,6 +1,12 @@
 
-.scenario-library_wrapper{
+.scenario-library_wrapper {
   height: 100%;
   display: grid;
   grid-area: scenario-library;
+}
+
+.scenario-library_wrapper::part(header) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

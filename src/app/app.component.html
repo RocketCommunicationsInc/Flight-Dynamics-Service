@@ -1,12 +1,13 @@
 <app-global-status-bar></app-global-status-bar>
 <div class="app-wrapper">
   <div class="app-sidebar">
-    <app-scenario-library></app-scenario-library>
+    <app-scenario-library (onSelected)="onSelectedSpacecraft($event)">
+    </app-scenario-library>
     <app-object-data-display></app-object-data-display>
   </div>
   <div class="app-main">
     <rux-container class="utilities-toolkit_wrapper">
-      <app-utilities-toolkit></app-utilities-toolkit>
+      <app-utilities-toolkit [spacecraft]="currentSpacecraft"></app-utilities-toolkit>
     </rux-container>
     <rux-container class="inputs-outputs_wrapper">
       <app-inputs-outputs></app-inputs-outputs>

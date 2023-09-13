@@ -1,22 +1,13 @@
 <rux-container class="scenario-library_wrapper">
 <div slot="header">
-  Scenarios
-<rux-button secondary iconOnly="true" icon="add"size="small"></rux-button>
+  <div>{{headerName}}</div>
+  <rux-button secondary iconOnly="true" icon="add"size="small" />
 </div>
 <rux-tree>
-  <rux-tree-node>
-    Scenario A
-    <rux-tree-node slot="node">
-      Spacecraft #
-    </rux-tree-node>
-    <rux-tree-node slot="node">
-      Spacecraft #
-    </rux-tree-node>
-    <rux-tree-node slot="node">
-      Spacecraft #
-    </rux-tree-node>
-    <rux-tree-node slot="node">
-      Spacecraft #
+  <rux-tree-node *ngFor="let scenario of scenarios, index as i" [expanded]="i === 0 ? true : false">
+    Scenario {{scenario.name}}
+    <rux-tree-node *ngFor="let spacecraft of scenario.spacecraft, index as i" [selected]='i === 0 ? true : false' slot="node" (ruxtreenodeselected)="handleSelected(scenario.name, spacecraft)">
+      Spacecraft {{scenario.name}}-{{spacecraft}}
     </rux-tree-node>
   </rux-tree-node>
 </rux-tree>
