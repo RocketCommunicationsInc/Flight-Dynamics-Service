@@ -20,13 +20,20 @@ export class PropertiesDialogComponent {
     private dialogService: DialogService,
   ) {
     this.updatedProperties = [
-      'Catalog Id',
+      'Catalog ID',
       'Eccentricity',
       'Mass',
       'Perigee',
       'Inclination',
       'Semi-Major Axis',
     ];
+  }
+  ngOnInit() {
+    this.dialogService.getSelectedProperties().subscribe((checkedItems) => {
+      this.dummyOptions.forEach((cb) => {
+        cb.checked = checkedItems.includes(cb.cb);
+      });
+    });
   }
 
   // disableCheckboxes(checkbox: HTMLRuxCheckboxElement) {
@@ -49,7 +56,6 @@ export class PropertiesDialogComponent {
   checkedProperties: number = 6;
 
   updateDisabledValue() {
-
     // const isDisabled = this.checkedProperties >= 6 ? false : true
     // this.dummyOptions.forEach((cb) => {
     //   if(!cb.checked) {
@@ -65,16 +71,15 @@ export class PropertiesDialogComponent {
     //   }
     // })
 
-// if(this.checkedProperties < 6) {
-//   this.dummyOptions.forEach((cb, index) => {
-//     if(!cb.checked) {
-//       this.disabledCheckboxes[index] = true
-//     }
-//   })
-// } else {
-//   this.disabledCheckboxes = this.dummyOptions.map((cb) => cb.checked)
-// }
-
+    // if(this.checkedProperties < 6) {
+    //   this.dummyOptions.forEach((cb, index) => {
+    //     if(!cb.checked) {
+    //       this.disabledCheckboxes[index] = true
+    //     }
+    //   })
+    // } else {
+    //   this.disabledCheckboxes = this.dummyOptions.map((cb) => cb.checked)
+    // }
 
     this.dummyOptions.forEach((property) => {
       if (this.checkedProperties < 6) {

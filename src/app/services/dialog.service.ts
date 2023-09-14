@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DialogService {
   private selectedPropertiesSub = new BehaviorSubject<string[]>([
-    'Catalog Id',
+    'Catalog ID',
     'Eccentricity',
     'Mass',
     'Perigee',
