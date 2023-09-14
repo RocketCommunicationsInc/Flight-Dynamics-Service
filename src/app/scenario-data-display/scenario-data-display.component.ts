@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
   selector: 'fds-scenario-data-display',
   templateUrl: './scenario-data-display.component.html',
   styleUrls: ['./scenario-data-display.component.css'],
+  providers: [DialogService],
   imports: [
     AstroComponentsModule,
     PropertiesDialogComponent,
@@ -21,11 +22,13 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class ScenarioDataDisplayComponent {
-constructor(private dialogService: DialogService) {}
-itemsDisplayed: any[] = []
+  constructor(private dialogService: DialogService) {}
+
+  itemsDisplayed: any[] = []
 
 ngOnInit() {
-  this.itemsDisplayed = this.dialogService.selectedProperties
+   this.itemsDisplayed = this.dialogService.getSelectedProperties()
+   console.log(this.dialogService.getSelectedProperties(), "final array displayed")
 }
 
   catalogId = 30184;

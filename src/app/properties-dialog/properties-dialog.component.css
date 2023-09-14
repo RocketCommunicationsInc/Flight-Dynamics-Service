@@ -42,3 +42,9 @@ rux-checkbox:nth-of-type(2),
 rux-checkbox:nth-of-type(3) {
   padding-bottom: var(--spacing-4);
 }
+
+div[slot="footer"] {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-2);
+}

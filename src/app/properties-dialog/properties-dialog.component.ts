@@ -1,13 +1,9 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DialogService } from '../services/dialog.service';
+import { dummyOptions } from './dummy-data';
 
 @Component({
   selector: 'app-properties-dialog',
@@ -15,135 +11,125 @@ import { DialogService } from '../services/dialog.service';
   imports: [AstroComponentsModule, CommonModule],
   templateUrl: './properties-dialog.component.html',
   styleUrls: ['./properties-dialog.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PropertiesDialogComponent {
+  dummyOptions = dummyOptions;
+  updatedProperties: any[] = [];
   constructor(
     private router: Router,
     private dialogService: DialogService,
-  ) {}
+  ) {
+    this.updatedProperties = [
+      'Catalog Id',
+      'Eccentricity',
+      'Mass',
+      'Perigee',
+      'Inclination',
+      'Semi-Major Axis',
+    ];
+  }
 
-  @Output() saveSelection = new EventEmitter();
+  // disableCheckboxes(checkbox: HTMLRuxCheckboxElement) {
+  //   if(this.checkedProperties === 6) {
+  //     if(!checkbox.checked) {
+  //       checkbox.disabled = true
+  //     } else {
+  //       checkbox.disabled = false
+  //     }
+  //   }
+  //  else {checkbox.disabled = false
+  // }
+  //   // return (
+  //   //    this.checkedProperties >= 6 && !checkbox.checked
+  //   // )
+  // }
 
-  onClose() {
-    this.saveSelection.emit(this.dialogService.selectedProperties);
-    this.router.navigate([{ outlets: { dialog: null } }]);
+  disabledCheckboxes: boolean[] = this.dummyOptions.map((cb) => !cb.checked);
+
+  checkedProperties: number = 6;
+
+  updateDisabledValue() {
+
+    // const isDisabled = this.checkedProperties >= 6 ? false : true
+    // this.dummyOptions.forEach((cb) => {
+    //   if(!cb.checked) {
+    //     cb.disabled = isDisabled
+    //   }
+    // })
+    // const uncheckedCheckboxes = this.dummyOptions.filter((cb) => !cb.checked)
+    // this.dummyOptions.forEach((cb) => {
+    //   if(this.checkedProperties >= 6 || cb.checked) {
+    //     cb.disabled = false
+    //   } else {
+    //     cb.disabled = true
+    //   }
+    // })
+
+// if(this.checkedProperties < 6) {
+//   this.dummyOptions.forEach((cb, index) => {
+//     if(!cb.checked) {
+//       this.disabledCheckboxes[index] = true
+//     }
+//   })
+// } else {
+//   this.disabledCheckboxes = this.dummyOptions.map((cb) => cb.checked)
+// }
+
+
+    this.dummyOptions.forEach((property) => {
+      if (this.checkedProperties < 6) {
+        property.disabled = false;
+      } else if (!property.checked) {
+        property.disabled = true;
+      } else {
+        property.disabled = false;
+      }
+    });
   }
 
   onCheckboxSelection(event: any) {
     const checkbox = event.target as HTMLRuxCheckboxElement;
-
+    const indexVal = this.updatedProperties.indexOf(
+      (cb: any) => cb.label === cb.value,
+    );
     if (checkbox.checked) {
-      if (!this.dialogService.selectedProperties.includes(checkbox.value)) {
-        this.dialogService.selectedProperties.push(checkbox.value);
+      if (!this.updatedProperties.includes(checkbox.value)) {
+        this.updatedProperties.push(checkbox.value);
+        this.checkedProperties++;
+        // this.disabledCheckboxes[indexVal]= false
       }
     } else {
-      const index = this.dialogService.selectedProperties.indexOf(
-        checkbox.value,
-      );
+      this.checkedProperties--;
+      // this.disabledCheckboxes[indexVal]= true
+      const index = this.updatedProperties.indexOf(checkbox.value);
+
       if (index !== -1) {
-        this.dialogService.selectedProperties.splice(index, 1);
+        this.updatedProperties.splice(index, 1);
       }
     }
+    this.checkedProperties = Math.max(this.checkedProperties, 0);
+    this.updateDisabledValue();
+    // const isDisabled = this.disableCheckboxes(checkbox)
+    // checkbox.disabled = isDisabled
+    // this.disableCheckboxes(checkbox)
   }
 
-  disableCheckboxes(): boolean {
-    return (
-      this.dialogService.selectedProperties.filter((cb) => cb.checked === true)
-        .length >= 6
-    );
+  disableSave(): boolean {
+    return this.updatedProperties.length < 6;
   }
 
-  dummyOptions = [
-    {
-      cb: 'Catalog ID',
-      checked: true,
-    },
-    {
-      cb: 'Eccentricity',
-      checked: true,
-    },
-    {
-      cb: 'Mass',
-      checked: true,
-    },
-    {
-      cb: 'Raan',
-      checked: false,
-      options: [
-        { value: 'deg', label: 'Degree' },
-        { value: 'rad', label: 'Radian' },
-        { value: 'rev', label: 'Revolution' },
-      ],
-    },
-    {
-      cb: 'Mean Motion',
-      checked: false,
+  onSave() {
+    this.dialogService.updatedProperties(this.updatedProperties);
+    this.dialogService.getSelectedProperties();
+    const dialog = document.getElementById('dialog');
+    (dialog as HTMLRuxDialogElement).open = false;
+    this.router.navigate([{ outlets: { dialog: null } }]);
+    console.log(this.dialogService.getSelectedProperties(), 'on save- the final array');
+  }
 
-      options: [
-        { value: 'deg', label: 'Degree' },
-        { value: 'rad', label: 'Radian' },
-        { value: 'rev', label: 'Revolution' },
-      ],
-    },
-    {
-      cb: 'Perigee',
-      checked: true,
-      options: [
-        { value: 'deg', label: 'Meters' },
-        { value: 'rad', label: 'Kilometers' },
-        { value: 'rev', label: 'Miles' },
-      ],
-    },
-
-    {
-      cb: 'Longitude of Periapsis ',
-      checked: false,
-
-      options: [
-        { value: 'deg', label: 'Degree' },
-        { value: 'rad', label: 'Radian' },
-        { value: 'rev', label: 'Revolution' },
-      ],
-    },
-    {
-      cb: 'True Anomaly',
-      checked: false,
-
-      options: [
-        { value: 'deg', label: 'Degree' },
-        { value: 'rad', label: 'Radian' },
-        { value: 'rev', label: 'Revolution' },
-      ],
-    },
-    {
-      cb: 'Mean Anomaly',
-      checked: false,
-
-      options: [
-        { value: 'deg', label: 'Degree' },
-        { value: 'rad', label: 'Radian' },
-        { value: 'rev', label: 'Revolution' },
-      ],
-    },
-    {
-      cb: 'Inclination',
-      checked: true,
-      options: [
-        { value: 'deg', label: 'Degree' },
-        { value: 'rad', label: 'Radian' },
-        { value: 'rev', label: 'Revolution' },
-      ],
-    },
-    {
-      cb: 'Semi-Major Axis',
-      checked: true,
-
-      options: [
-        { value: 'deg', label: 'Meters' },
-        { value: 'rad', label: 'Kilometers' },
-        { value: 'rev', label: 'Miles' },
-      ],
-    },
-  ];
+  onClose() {
+    const dialog = document.getElementById('dialog');
+    (dialog as HTMLRuxDialogElement).open = false;
+    this.router.navigate([{ outlets: { dialog: null } }]);
+  }
 }

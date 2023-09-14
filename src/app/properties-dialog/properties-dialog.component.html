@@ -1,17 +1,16 @@
 <rux-dialog
+id="dialog"
   open="true"
   (ruxdialogclosed)="onClose()"
   clickToClose="true"
   header="Edit Spacecraft Properties View"
-  confirmText="Save"
-  denyText="Close"
 >
   <div class="dialog-content">
     <div class="properties-wrapper">
       <span class="select-msg">Select the data you wish to view</span>
 
-      <span *ngFor="let options of dummyOptions">
-        <rux-checkbox [disabled]="disableCheckboxes()" [checked]="options.checked" [value]=options.cb (ruxchange)="onCheckboxSelection($event)" label="{{ options.cb }}" />
+      <span *ngFor="let options of dummyOptions; let i = index">
+        <rux-checkbox  [disabled]="options.disabled" [checked]="options.checked" [value]=options.cb (ruxchange)="onCheckboxSelection($event)" label="{{ options.cb }}" />
         <rux-select *ngIf="options.options">
           <rux-option
             *ngFor="let selections of options.options"
@@ -22,4 +21,10 @@
       </span>
     </div>
   </div>
+    <div slot="footer">
+    <rux-button id="close" (click)="onClose()">Close</rux-button>
+    <rux-button id="save" [disabled]="disableSave()" (click)="onSave()">Save</rux-button>
+</div>
 </rux-dialog>
+
+<!-- [disabled]="disabledCheckboxes[i]"  -->
