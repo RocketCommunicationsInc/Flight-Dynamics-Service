@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChildContainerComponent } from 'src/app/shared/child-container/child-container.component';
+import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
+import { TabbedChildContainerComponent } from 'src/app/shared/tabbed-child-container/tabbed-child-container.component';
 import { InputsComponent } from './inputs/inputs.component';
 import { OutputsComponent } from './outputs/outputs.component';
 
@@ -11,7 +11,7 @@ import { OutputsComponent } from './outputs/outputs.component';
   imports: [
     CommonModule,
     AstroComponentsModule,
-    ChildContainerComponent,
+    TabbedChildContainerComponent,
     InputsComponent,
     OutputsComponent,
   ],
@@ -19,6 +19,19 @@ import { OutputsComponent } from './outputs/outputs.component';
   styleUrls: ['./inputs-outputs.component.css'],
 })
 export class InputsOutputsComponent {
+  tabs = [
+    { label: 'Inputs', id: 'inputs-tab', selected: true },
+    { label: 'Outputs', id: 'outputs-tab', selected: false },
+  ];
+  tabsId = 'inputs-outputs-tabs';
+  notificationData = [
+    {
+      message: 'Update database file to initialize new orbit',
+      status: 'caution',
+      hideClose: false,
+    },
+  ];
+
   selected = 'inputs';
 
   handleSelected(e: Event): void {

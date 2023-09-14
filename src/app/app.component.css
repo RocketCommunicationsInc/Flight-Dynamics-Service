@@ -7,7 +7,7 @@
   display: grid;
   gap: var(--spacing-2);
   grid-template-columns: calc(15% - 8px) auto;
-  grid-template-rows: 45% auto;
+  grid-template-rows: 45% calc(55% - 8px);
   grid-template-areas:
     "scenarios-library main"
     "scenario-data main";
@@ -19,6 +19,7 @@
 
 .scenario-data {
   grid-area: scenario-data;
+  overflow: auto;
 }
 
 .main {

@@ -9,6 +9,7 @@ form.inputs_form {
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
+  padding: var(--spacing-3);
 }
 
 .inputs_main > *, .inputs_main > :first-child.alertActive {
@@ -41,4 +42,5 @@ form.inputs_form {
 
 .inputs_footer {
   margin-inline: auto;
+  padding-block-start: var(--spacing-3);
 }
