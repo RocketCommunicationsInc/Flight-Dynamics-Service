@@ -18,4 +18,13 @@ import { OutputsComponent } from './outputs/outputs.component';
   templateUrl: './inputs-outputs.component.html',
   styleUrls: ['./inputs-outputs.component.css'],
 })
-export class InputsOutputsComponent {}
+export class InputsOutputsComponent {
+  selected = 'inputs';
+
+  handleSelected(e: Event): void {
+    const customEvent = e as CustomEvent;
+    customEvent.detail.id === 'inputs-tab'
+      ? (this.selected = 'inputs')
+      : (this.selected = 'outputs');
+  }
+}

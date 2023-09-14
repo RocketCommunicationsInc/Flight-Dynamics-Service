@@ -4,7 +4,7 @@
   flex-direction: column;
 }
 
-form {
+form.inputs_form {
   display: flex;
   height: 100%;
   flex-direction: column;

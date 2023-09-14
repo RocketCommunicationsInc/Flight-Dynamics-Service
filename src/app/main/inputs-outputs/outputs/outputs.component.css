@@ -3,36 +3,36 @@
   background: var(--color-background-surface-header);
 }
 
-form {
+form.outputs_form {
   display: flex;
   flex-direction: column;
 }
 
-form > div {
+form.outputs_form > div {
   display: flex;
   flex-direction: column;
   border-top: 1px solid var(--color-text-placeholder);
   padding-block: var(--spacing-2)
 }
 
-form > div:first-child {
+form.outputs_form > div:first-child {
   border-top: none;
 }
 
-form > div * {
+form.outputs_form > div * {
   padding-block: var(--spacing-3);
 }
 
-form > div rux-radio-group {
+form.outputs_form > div rux-radio-group {
   padding-block-start: var(--spacing-1);
 }
 
-form rux-radio-group rux-radio {
+form.outputs_form rux-radio-group rux-radio {
   padding-block: var(--spacing-1);
   padding-inline-start: var(--spacing-6);
 }
 
-form rux-radio-group::part(radiogroup) {
+form.outputs_form rux-radio-group::part(radiogroup) {
   padding: 0;
   box-shadow: none;
 }

@@ -27,8 +27,7 @@ export class InputsComponent {
   }
 
   handleSyncClick(): void {
-    if (!this.notificationActive) return;
-    this.notificationActive = false;
+    console.log('sync data');
     //TODO This method would handle
   }
 }

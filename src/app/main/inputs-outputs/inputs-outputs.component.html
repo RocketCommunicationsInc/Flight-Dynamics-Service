@@ -1,8 +1,9 @@
 <fds-child-container>
-  <rux-tabs id="inputs-outputs-tabs" small header>
-    <rux-tab id="inputs-tab" selected>Inputs</rux-tab>
-    <rux-tab id="outputs-tab">Outputs</rux-tab>
+  <rux-tabs id="inputs-outputs-tabs" small header (ruxselected)="handleSelected($event)">
+    <rux-tab id="inputs-tab" [selected]="selected === 'inputs'">Inputs</rux-tab>
+    <rux-tab id="outputs-tab" [selected]="selected === 'outputs'">Outputs</rux-tab>
   </rux-tabs>
+  <rux-notification small [open]="selected === 'inputs' ? true : false" message="Update database file to initialize new orbit" status="caution"></rux-notification>
   <rux-tab-panels aria-labelledby="inputs-outputs-tabs" main>
     <rux-tab-panel aria-labelledby="inputs-tab">
       <fds-inputs></fds-inputs>
