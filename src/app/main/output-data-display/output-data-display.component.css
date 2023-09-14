@@ -2,3 +2,52 @@
   display: block;
   flex: 3;
 }
+
+div[header] {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: var(--spacing-4);
+}
+
+/* this sets the height of the pop up to the height of the trigger */
+rux-pop-up::part(container) {
+  display: flex;
+}
+
+.sub-header {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-background-surface-header);
+  padding: var(--spacing-2) var(--spacing-4) var(--spacing-4);
+  gap: var(--spacing-3);
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.data {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-10);
+}
+
+.heading {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-3);
+}
+
+.alerts {
+  display: flex;
+  gap: var(--spacing-6);
+}
+
+.h-stack {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}

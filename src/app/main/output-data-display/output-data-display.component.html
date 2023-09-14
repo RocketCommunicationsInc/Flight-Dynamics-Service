@@ -1,3 +1,62 @@
 <fds-child-container>
-  <nav header>Header</nav>
+  <div header>
+    <rux-tabs small (ruxselected)="onSelect($event)">
+      <rux-tab
+        [selected]="tab.selected"
+        [disabled]="tab.disabled"
+        *ngFor="let tab of tabs"
+        >{{ tab.label }}</rux-tab
+      >
+    </rux-tabs>
+
+    <rux-notification open small hideClose [status]="ods[0].status">
+      {{ ods[0].message }} {{ ods[0].timestamp | date: "short" }}
+    </rux-notification>
+  </div>
+
+  <div class="sub-header">
+    <div class="container">
+      <div class="data">
+        <div class="heading">
+          <h1>{{ diviations.length }}</h1>
+          <p>Deviations</p>
+        </div>
+        <div class="alerts">
+          <div class="h-stack">
+            <rux-status status="caution"></rux-status>
+            <p>Warning ({{ warnings.length }})</p>
+          </div>
+          <div class="h-stack">
+            <rux-status status="critical"></rux-status>
+            <p>Critical ({{ criticals.length }})</p>
+          </div>
+        </div>
+      </div>
+
+      <rux-segmented-button
+        size="small"
+        [data]="actions"
+      ></rux-segmented-button>
+    </div>
+
+    <div class="container">
+      <rux-segmented-button
+        size="small"
+        [data]="views"
+        (ruxchange)="setCurrentView($event)"
+      ></rux-segmented-button>
+
+      <rux-pop-up>
+        <rux-icon icon="more-horiz" slot="trigger" size="1.75rem"></rux-icon>
+        <rux-menu>
+          <rux-menu-item href="#">Menu Item 1</rux-menu-item>
+          <rux-menu-item href="#">Menu Item 2</rux-menu-item>
+          <rux-menu-item href="#">Menu Item 3</rux-menu-item>
+        </rux-menu>
+      </rux-pop-up>
+    </div>
+  </div>
+
+  <fds-view-table *ngIf="currentView === 'View Table'"></fds-view-table>
+  <fds-view-graph *ngIf="currentView === 'View Graph'"></fds-view-graph>
 </fds-child-container>
