@@ -3,19 +3,30 @@
   flex: 3;
 }
 
+div[header] {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: var(--spacing-4);
+}
+
 /* this sets the height of the pop up to the height of the trigger */
 rux-pop-up::part(container) {
   display: flex;
 }
 
-header {
+.sub-header {
+  display: flex;
+  flex-direction: column;
   background-color: var(--color-background-surface-header);
+  padding: var(--spacing-2) var(--spacing-4) var(--spacing-4);
+  gap: var(--spacing-3);
 }
 
 .container {
   display: flex;
   justify-content: space-between;
-  padding: var(--spacing-4);
+  align-items: center;
 }
 
 .data {

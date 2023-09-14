@@ -7,10 +7,14 @@ import {
 } from '@astrouxds/astro-web-components/dist/types/components';
 
 import { ChildContainerComponent } from 'src/app/shared';
+import { ViewGraphComponent } from './view-graph/view-graph.component';
+import { ViewTableComponent } from './view-table/view-table.component';
 
 function random(min = 10_000, max = 80_000) {
   return Math.random() * (max - min) + min;
 }
+
+type CurrentView = 'View Table' | 'View Graph';
 
 interface OrbitDeterminations {
   message: string;
@@ -21,7 +25,13 @@ interface OrbitDeterminations {
 @Component({
   selector: 'fds-output-data-display',
   standalone: true,
-  imports: [CommonModule, ChildContainerComponent, AstroComponentsModule],
+  imports: [
+    CommonModule,
+    ChildContainerComponent,
+    AstroComponentsModule,
+    ViewGraphComponent,
+    ViewTableComponent,
+  ],
   templateUrl: './output-data-display.component.html',
   styleUrls: ['./output-data-display.component.css'],
 })
@@ -30,6 +40,7 @@ export class OutputDataDisplayComponent {
   criticals: OrbitDeterminations[] = [];
   diviations: OrbitDeterminations[] = [];
   warnings: OrbitDeterminations[] = [];
+  currentView: CurrentView = 'View Table';
 
   tabs = [
     { label: 'OD Solution', selected: true },
@@ -85,8 +96,8 @@ export class OutputDataDisplayComponent {
   ];
 
   views: SegmentedButton[] = [
-    { label: 'View Table', selected: true },
-    { label: 'View Graph', selected: false },
+    { label: 'View Table', selected: this.currentView === 'View Table' },
+    { label: 'View Graph', selected: this.currentView === 'View Graph' },
   ];
 
   constructor() {
@@ -99,5 +110,10 @@ export class OutputDataDisplayComponent {
   onSelect(e: Event) {
     const event = e as CustomEvent;
     console.log(event.detail);
+  }
+
+  setCurrentView(e: Event) {
+    const event = e as CustomEvent;
+    this.currentView = event.detail;
   }
 }

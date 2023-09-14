@@ -1,18 +1,20 @@
 <fds-child-container>
-  <rux-tabs header small (ruxselected)="onSelect($event)">
-    <rux-tab
-      [selected]="tab.selected"
-      [disabled]="tab.disabled"
-      *ngFor="let tab of tabs"
-      >{{ tab.label }}</rux-tab
-    >
-  </rux-tabs>
+  <div header>
+    <rux-tabs small (ruxselected)="onSelect($event)">
+      <rux-tab
+        [selected]="tab.selected"
+        [disabled]="tab.disabled"
+        *ngFor="let tab of tabs"
+        >{{ tab.label }}</rux-tab
+      >
+    </rux-tabs>
 
-  <rux-notification open small hideClose [status]="ods[0].status">{{
-    ods[0].message + " " + (ods[0].timestamp | date: "short")
-  }}</rux-notification>
+    <rux-notification open small hideClose [status]="ods[0].status">
+      {{ ods[0].message }} {{ ods[0].timestamp | date: "short" }}
+    </rux-notification>
+  </div>
 
-  <header>
+  <div class="sub-header">
     <div class="container">
       <div class="data">
         <div class="heading">
@@ -31,11 +33,18 @@
         </div>
       </div>
 
-      <rux-segmented-button [data]="actions"></rux-segmented-button>
+      <rux-segmented-button
+        size="small"
+        [data]="actions"
+      ></rux-segmented-button>
     </div>
 
     <div class="container">
-      <rux-segmented-button size="small" [data]="views"></rux-segmented-button>
+      <rux-segmented-button
+        size="small"
+        [data]="views"
+        (ruxchange)="setCurrentView($event)"
+      ></rux-segmented-button>
 
       <rux-pop-up>
         <rux-icon icon="more-horiz" slot="trigger" size="1.75rem"></rux-icon>
@@ -46,5 +55,8 @@
         </rux-menu>
       </rux-pop-up>
     </div>
-  </header>
+  </div>
+
+  <fds-view-table *ngIf="currentView === 'View Table'"></fds-view-table>
+  <fds-view-graph *ngIf="currentView === 'View Graph'"></fds-view-graph>
 </fds-child-container>
