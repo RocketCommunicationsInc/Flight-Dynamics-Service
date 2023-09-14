@@ -120,11 +120,9 @@ export class PropertiesDialogComponent {
 
   onSave() {
     this.dialogService.updatedProperties(this.updatedProperties);
-    this.dialogService.getSelectedProperties();
     const dialog = document.getElementById('dialog');
     (dialog as HTMLRuxDialogElement).open = false;
     this.router.navigate([{ outlets: { dialog: null } }]);
-    console.log(this.dialogService.getSelectedProperties(), 'on save- the final array');
   }
 
   onClose() {

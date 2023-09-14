@@ -6,30 +6,25 @@ import { UnitSelectorComponent } from '../shared';
 import { UnitMenuItems, selectUnit } from '../shared/units/units.model';
 import { DialogService } from '../services/dialog.service';
 import { CommonModule } from '@angular/common';
+import { tap } from 'rxjs';
 @Component({
   standalone: true,
   selector: 'fds-scenario-data-display',
   templateUrl: './scenario-data-display.component.html',
   styleUrls: ['./scenario-data-display.component.css'],
-  providers: [DialogService],
   imports: [
     AstroComponentsModule,
     PropertiesDialogComponent,
     UnitSelectorComponent,
     RouterLink,
     RouterOutlet,
-    CommonModule
+    CommonModule,
   ],
 })
 export class ScenarioDataDisplayComponent {
   constructor(private dialogService: DialogService) {}
 
-  itemsDisplayed: any[] = []
-
-ngOnInit() {
-   this.itemsDisplayed = this.dialogService.getSelectedProperties()
-   console.log(this.dialogService.getSelectedProperties(), "final array displayed")
-}
+  itemsDisplayed = this.dialogService.getSelectedProperties();
 
   catalogId = 30184;
   semiMajorAxis = 63714327;
@@ -41,7 +36,7 @@ ngOnInit() {
   longitutdeOfPeriapsis = 0.05;
   trueAnomaly = 0.1;
   meanAnomaly = 0.90723429381761343;
-  raan = 206.6145
+  raan = 206.6145;
 
   distanceUnits = [
     UnitMenuItems.meters,

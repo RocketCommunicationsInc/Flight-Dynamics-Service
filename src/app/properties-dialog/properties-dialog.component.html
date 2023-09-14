@@ -10,7 +10,7 @@ id="dialog"
       <span class="select-msg">Select the data you wish to view</span>
 
       <span *ngFor="let options of dummyOptions; let i = index">
-        <rux-checkbox  [disabled]="options.disabled" [checked]="options.checked" [value]=options.cb (ruxchange)="onCheckboxSelection($event)" label="{{ options.cb }}" />
+        <rux-checkbox  [checked]="options.checked" [value]=options.cb (ruxchange)="onCheckboxSelection($event)" label="{{ options.cb }}" />
         <rux-select *ngIf="options.options">
           <rux-option
             *ngFor="let selections of options.options"

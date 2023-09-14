@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btns {
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+.second {
+  margin-right: var(--spacing-12);
+}

@@ -1,4 +1,3 @@
-<rux-toast-stack />
 <rux-container>
   <div slot="header">
     <span class="title">Spacecraft Properties</span>
@@ -11,7 +10,7 @@
   </div>
   <section>
     <app-unit-selector
-      *ngFor="let item of itemsDisplayed"
+      *ngFor="let item of itemsDisplayed | async"
       [units]="distanceUnits"
       [value]="semiMajorAxis"
       >{{ item }}

@@ -1,5 +1,38 @@
 @import "@astrouxds/astro-web-components/dist/astro-web-components/astro-web-components.css";
 
+/* resets */
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+h1 {
+  font-family: var(--font-heading-1-font-family);
+  font-size: var(--font-heading-1-font-size);
+  font-weight: var(--font-heading-1-font-weight);
+  letter-spacing: var(--font-heading-1-letter-spacing);
+  line-height: var(--font-heading-1-line-height);
+}
+
+p {
+  font-family: var(--font-body-1-font-family);
+  font-size: var(--font-body-1-font-size);
+  font-weight: var(--font-body-1-font-weight);
+  letter-spacing: var(--font-body-1-letter-spacing);
+  line-height: var(--font-body-1-line-height);
+}
+
 /* rux-container styles */
 rux-container {
   height: 100%;
@@ -8,7 +41,7 @@ rux-container {
 rux-container::part(container) {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 2px);
+  height: 100%;
   overflow-y: hidden;
 }
 
