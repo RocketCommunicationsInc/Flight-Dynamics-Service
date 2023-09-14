@@ -32,30 +32,44 @@ export class PropertiesDialogComponent {
 
   onCheckboxSelection(event: any) {
     const checkbox = event.target as HTMLRuxCheckboxElement;
+
     if (checkbox.checked) {
-      this.dialogService.selectedProperties.push(checkbox.value);
+      if (!this.dialogService.selectedProperties.includes(checkbox.value)) {
+        this.dialogService.selectedProperties.push(checkbox.value);
+      }
     } else {
-      const itemIndex = this.dialogService.selectedProperties.indexOf(
-        checkbox.checked,
+      const index = this.dialogService.selectedProperties.indexOf(
+        checkbox.value,
       );
-      if (itemIndex !== -1) {
-        this.dialogService.selectedProperties.splice(itemIndex, 1);
+      if (index !== -1) {
+        this.dialogService.selectedProperties.splice(index, 1);
       }
     }
+  }
+
+  disableCheckboxes(): boolean {
+    return (
+      this.dialogService.selectedProperties.filter((cb) => cb.checked === true)
+        .length >= 6
+    );
   }
 
   dummyOptions = [
     {
       cb: 'Catalog ID',
+      checked: true,
     },
     {
       cb: 'Eccentricity',
+      checked: true,
     },
     {
       cb: 'Mass',
+      checked: true,
     },
     {
       cb: 'Raan',
+      checked: false,
       options: [
         { value: 'deg', label: 'Degree' },
         { value: 'rad', label: 'Radian' },
@@ -64,6 +78,8 @@ export class PropertiesDialogComponent {
     },
     {
       cb: 'Mean Motion',
+      checked: false,
+
       options: [
         { value: 'deg', label: 'Degree' },
         { value: 'rad', label: 'Radian' },
@@ -72,6 +88,7 @@ export class PropertiesDialogComponent {
     },
     {
       cb: 'Perigee',
+      checked: true,
       options: [
         { value: 'deg', label: 'Meters' },
         { value: 'rad', label: 'Kilometers' },
@@ -81,6 +98,8 @@ export class PropertiesDialogComponent {
 
     {
       cb: 'Longitude of Periapsis ',
+      checked: false,
+
       options: [
         { value: 'deg', label: 'Degree' },
         { value: 'rad', label: 'Radian' },
@@ -89,6 +108,8 @@ export class PropertiesDialogComponent {
     },
     {
       cb: 'True Anomaly',
+      checked: false,
+
       options: [
         { value: 'deg', label: 'Degree' },
         { value: 'rad', label: 'Radian' },
@@ -97,6 +118,8 @@ export class PropertiesDialogComponent {
     },
     {
       cb: 'Mean Anomaly',
+      checked: false,
+
       options: [
         { value: 'deg', label: 'Degree' },
         { value: 'rad', label: 'Radian' },
@@ -105,6 +128,7 @@ export class PropertiesDialogComponent {
     },
     {
       cb: 'Inclination',
+      checked: true,
       options: [
         { value: 'deg', label: 'Degree' },
         { value: 'rad', label: 'Radian' },
@@ -113,6 +137,8 @@ export class PropertiesDialogComponent {
     },
     {
       cb: 'Semi-Major Axis',
+      checked: true,
+
       options: [
         { value: 'deg', label: 'Meters' },
         { value: 'rad', label: 'Kilometers' },
