@@ -48,12 +48,20 @@ export class UtilityToolkitComponent {
     {
       icon: 'tune',
       label: 'Track Data',
-      onClick: (e) => console.log('do the Track Data thingy', e),
+      onClick: () =>
+        this.router.navigateByUrl('/').then(() => {
+          this.router.navigate([{ outlets: { track: ['track-util'] } }]);
+        }),
     },
     {
       icon: 'tune',
       label: 'Propagator',
-      onClick: (e) => console.log('do the Propagator thingy', e),
+      onClick: () =>
+        this.router.navigateByUrl('/').then(() => {
+          this.router.navigate([
+            { outlets: { propagator: ['propagator-util'] } },
+          ]);
+        }),
     },
   ];
 }
