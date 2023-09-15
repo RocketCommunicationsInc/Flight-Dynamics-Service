@@ -6,7 +6,7 @@ import { UnitSelectorComponent } from '../shared';
 import { UnitMenuItems, selectUnit } from '../shared/units/units.model';
 import { DialogService } from '../services/dialog.service';
 import { CommonModule } from '@angular/common';
-import { tap } from 'rxjs';
+import { dummyOptions } from '../properties-dialog/dummy-data';
 @Component({
   standalone: true,
   selector: 'fds-scenario-data-display',
@@ -23,21 +23,18 @@ import { tap } from 'rxjs';
 })
 export class ScenarioDataDisplayComponent {
   constructor(private dialogService: DialogService) {}
+  itemsDisplayed: any[] = [];
+  ngOnInit() {
+    this.dialogService.getSelectedProperties().subscribe((items) => {
+      this.itemsDisplayed = items;
+    });
 
-  itemsDisplayed = this.dialogService.getSelectedProperties();
+    this.findValue();
+  }
+  dummyOptions = dummyOptions;
 
-  catalogId = 30184;
-  semiMajorAxis = 63714327;
-  perigee = 363396432;
-  inclination = 23.4362;
-  eccentricity = 92.39401;
-  mass = 43.28404;
-  meanMotion = 1.790294538;
-  longitutdeOfPeriapsis = 0.05;
-  trueAnomaly = 0.1;
-  meanAnomaly = 0.90723429381761343;
-  raan = 206.6145;
-
+  valueDisplayed: { [key: string]: any } = {};
+  unitDisplayed: any[] = [];
   distanceUnits = [
     UnitMenuItems.meters,
     selectUnit(UnitMenuItems.kilometers),
@@ -48,4 +45,20 @@ export class ScenarioDataDisplayComponent {
     UnitMenuItems.radians,
     UnitMenuItems.revolutions,
   ];
+
+  findValue() {
+    for (const items of this.itemsDisplayed) {
+      const val = this.dummyOptions.find((item) => item.cb === items);
+      if (val) {
+        this.valueDisplayed[items] = val.value;
+        if (val.unit === 'deg') {
+          this.unitDisplayed = this.distanceUnits;
+        } else if (val.unit === 'km') {
+          this.unitDisplayed = this.arcUnits;
+        } else if(val.unit === '') {
+          this.unitDisplayed = []
+        }
+      }
+    }
+  }
 }

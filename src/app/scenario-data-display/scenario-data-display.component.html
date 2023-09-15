@@ -8,11 +8,20 @@
       size="1.5rem"
     />
   </div>
-  <section>
+  <section *ngIf="unitDisplayed === distanceUnits">
     <app-unit-selector
-      *ngFor="let item of itemsDisplayed | async"
+      *ngFor="let item of itemsDisplayed"
       [units]="distanceUnits"
-      [value]="semiMajorAxis"
+      [value]="valueDisplayed[item]"
+      >{{ item }}
+    </app-unit-selector>
+  </section>
+  
+  <section *ngIf="unitDisplayed === arcUnits">
+    <app-unit-selector
+      *ngFor="let item of itemsDisplayed"
+      [units]="arcUnits"
+      [value]="valueDisplayed[item]"
       >{{ item }}
     </app-unit-selector>
   </section>
