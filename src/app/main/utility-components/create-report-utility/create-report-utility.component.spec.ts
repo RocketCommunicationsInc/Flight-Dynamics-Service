@@ -8,7 +8,7 @@ describe('CreateReportUtilityComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CreateReportUtilityComponent]
+      imports: [CreateReportUtilityComponent],
     });
     fixture = TestBed.createComponent(CreateReportUtilityComponent);
     component = fixture.componentInstance;

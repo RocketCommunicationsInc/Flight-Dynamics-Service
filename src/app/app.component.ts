@@ -1,4 +1,10 @@
-import { Component, HostBinding, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ScenarioDataDisplayComponent } from './scenario-data-display/scenario-data-display.component';
 import { ScenarioLibraryComponent } from './scenario-library/scenario-library.component';
 import { GlobalStatusBarComponent } from './global-status-bar/global-status-bar.component';
@@ -20,7 +26,7 @@ import { BehaviorSubject, Subject, filter, takeUntil, tap } from 'rxjs';
     MainComponent,
     RouterLink,
     RouterOutlet,
-    AstroComponentsModule
+    AstroComponentsModule,
   ],
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -32,15 +38,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.lightTheme = !this.lightTheme;
   }
 
-  constructor(private toasts: ToastService) { }
+  constructor(private toasts: ToastService) {}
 
   ngOnInit() {
-    this.toasts.getStack().pipe(
-      takeUntil(this.destroyed),
-      filter((val): val is ToastConfig => !!val)
-    ).subscribe((config: ToastConfig) =>
-      this.toastStack?.addToast(config)
-  );
+    this.toasts
+      .getStack()
+      .pipe(
+        takeUntil(this.destroyed),
+        filter((val): val is ToastConfig => !!val),
+      )
+      .subscribe((config: ToastConfig) => this.toastStack?.addToast(config));
   }
 
   ngOnDestroy(): void {

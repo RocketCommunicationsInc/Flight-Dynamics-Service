@@ -8,7 +8,7 @@ describe('CompareUtilityComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CompareUtilityComponent]
+      imports: [CompareUtilityComponent],
     });
     fixture = TestBed.createComponent(CompareUtilityComponent);
     component = fixture.componentInstance;

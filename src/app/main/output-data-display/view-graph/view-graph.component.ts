@@ -6,8 +6,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './view-graph.component.html',
-  styleUrls: ['./view-graph.component.css']
+  styleUrls: ['./view-graph.component.css'],
 })
-export class ViewGraphComponent {
-
-}
+export class ViewGraphComponent {}

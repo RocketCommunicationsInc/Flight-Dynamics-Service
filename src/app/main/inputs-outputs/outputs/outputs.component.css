@@ -17,7 +17,7 @@ form.outputs_form > div {
   display: flex;
   flex-direction: column;
   border-top: 1px solid var(--color-text-placeholder);
-  padding-block: var(--spacing-2)
+  padding-block: var(--spacing-2);
 }
 
 form.outputs_form > div:first-child {

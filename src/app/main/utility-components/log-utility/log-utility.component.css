@@ -1,0 +1,29 @@
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-4);
+}
+
+rux-button {
+  padding: var(--spacing-2);
+}
+
+rux-dialog::part(message) {
+  padding: 0;
+}
+
+rux-dialog::part(dialog) {
+  width: 50rem;
+}
+
+div[slot="header"] {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-2xl);
+  padding-top: var(--spacing-2);
+}
+
+rux-icon {
+  color: white;
+}
