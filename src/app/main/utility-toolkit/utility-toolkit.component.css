@@ -8,6 +8,6 @@
   gap: var(--spacing-3);
 }
 
-.second {
+.btns *:nth-child(2) {
   margin-right: var(--spacing-12);
 }
