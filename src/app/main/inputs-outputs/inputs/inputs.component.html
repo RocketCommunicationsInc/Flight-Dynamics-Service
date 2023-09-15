@@ -1,0 +1,24 @@
+
+<form class="inputs_form" [formGroup]="inputForm" (ngSubmit)="onSubmit()">
+  <div class="inputs_main">
+    <div class="inputs_input-button-wrapper">
+      <rux-input type="text" label="Database File" formControlName="databaseFile" />
+      <rux-button iconOnly icon="sync" (click)="handleSyncClick()" />
+    </div>
+    <div class="inputs_input-menu-wrapper">
+      <rux-select label="Orbit Source" formControlName="orbitSource">
+        <rux-option label="Ephemeris" value="ephemeris"></rux-option>
+        <rux-option label="TLE" value="tle"></rux-option>
+      </rux-select>
+      <rux-input label="" formControlName="databaseFile" readonly />
+    </div>
+    <rux-input label="Epoch" placeholder="MM/DD/YY 00:00:00 .000" formControlName="epoch"></rux-input>
+    <rux-input label="Epoch Range" placeholder="MM/DD/YY 00:00:00 - MM/DD/YY 00:00:00" formControlName="epochRange"></rux-input>
+    <rux-input label="Epoch Span" formControlName="epochSpan" placeholder="# Days"></rux-input>
+    <rux-input label="Thrust Profile" formControlName="thrustProfile" />
+    <rux-input label="Processed Track File" formControlName="processedTrackFile" />
+  </div>
+  <div class="inputs_footer">
+    <rux-button type="submit">Determine Orbit</rux-button>
+  </div>
+</form>

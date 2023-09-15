@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal, ViewChild } from '@angular/core';
 import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
+import { Store } from '@ngrx/store';
+import { SatelliteActions } from '../store/app.actions';
 import { ToastService } from '../shared/toast.service';
 @Component({
   standalone: true,
@@ -51,7 +53,7 @@ export class ScenarioLibraryComponent {
     },
   ];
 
-  constructor(private toasts: ToastService) {}
+  constructor(private toasts: ToastService, private store: Store) {}
 
   /**
    * Listen for the ruxtreenodeselected event and store the selected node in the selectedCraft signal
@@ -76,5 +78,9 @@ export class ScenarioLibraryComponent {
       hideClose: false,
       closeAfter: 3000,
     });
+  }
+
+  ngOnInit() { 
+    this.store.dispatch(SatelliteActions.satelliteSelected({ satId: 123 }));
   }
 }

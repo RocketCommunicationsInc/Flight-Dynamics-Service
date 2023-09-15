@@ -6,10 +6,11 @@ import {
   Status,
 } from '@astrouxds/astro-web-components/dist/types/components';
 
-import { ChildContainerComponent } from 'src/app/shared';
+import { TabbedChildContainerComponent } from 'src/app/shared/tabbed-child-container/tabbed-child-container.component';
 import { ViewGraphComponent } from './view-graph/view-graph.component';
 import { ViewTableComponent } from './view-table/view-table.component';
 import { random } from './random-num';
+import { Tabs } from 'src/app/types/Tabs';
 
 type CurrentView = 'View Table' | 'View Graph';
 
@@ -24,7 +25,7 @@ interface OrbitDeterminations {
   standalone: true,
   imports: [
     CommonModule,
-    ChildContainerComponent,
+    TabbedChildContainerComponent,
     AstroComponentsModule,
     ViewGraphComponent,
     ViewTableComponent,
@@ -39,10 +40,12 @@ export class OutputDataDisplayComponent {
   warnings: OrbitDeterminations[] = [];
   currentView: CurrentView = 'View Table';
 
-  tabs = [
-    { label: 'OD Solution', selected: true },
-    { label: 'OD Performance', disabled: true },
+  tabs: Tabs[] = [
+    { label: 'OD Solution', id: 'od-solution', selected: true },
+    { label: 'OD Performance', id: 'od-performance', disabled: true },
   ];
+
+  tabsId = 'ods-display';
 
   ods: OrbitDeterminations[] = [
     {
