@@ -1,3 +1,28 @@
+:host {
+  overflow-y: scroll;
+  height: 100%;
+  display: block;
+  background-color: var(--color-background-base-header); /* This goes along with the fix for pushing the scrollbar down past the sticky header */
+}
+
+:host::-webkit-scrollbar-track {
+  margin-top: 40px; /*Pushing the scrollbar down past the sticky header */
+}
+
+table {
+  position: relative;
+}
+
+thead {
+  z-index: 10;
+  position: relative;
+}
+
+th {
+  position: sticky;
+  top: 0; /* Don't forget this, required for the stickiness */
+}
+
 .h-stack {
   display: flex;
   align-items: center;
