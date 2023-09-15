@@ -6,8 +6,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './compare-utility.component.html',
-  styleUrls: ['./compare-utility.component.css']
+  styleUrls: ['./compare-utility.component.css'],
 })
-export class CompareUtilityComponent {
-
-}
+export class CompareUtilityComponent {}

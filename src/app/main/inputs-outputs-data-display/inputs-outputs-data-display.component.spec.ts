@@ -8,7 +8,7 @@ describe('InputsOutputsDataDisplayComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [InputsOutputsDataDisplayComponent]
+      imports: [InputsOutputsDataDisplayComponent],
     });
     fixture = TestBed.createComponent(InputsOutputsDataDisplayComponent);
     component = fixture.componentInstance;
