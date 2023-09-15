@@ -4,6 +4,7 @@ import { PropertiesDialogComponent } from './properties-dialog/properties-dialog
 import { LogUtilityComponent } from './main/log-utility/log-utility.component';
 import { MainComponent } from './main/main.component';
 import { InputsOutputsDataDisplayComponent } from './main/inputs-outputs-data-display/inputs-outputs-data-display.component';
+import { CompareUtilityComponent } from './main/compare-utility/compare-utility.component';
 
 export const Routes: Route[] = [
   {
@@ -21,5 +22,11 @@ export const Routes: Route[] = [
     outlet: 'log',
     pathMatch: 'full',
     component: LogUtilityComponent,
+  },
+  {
+    path: 'compare-util',
+    outlet: 'compare',
+    pathMatch: 'full',
+    component: CompareUtilityComponent,
   },
 ];

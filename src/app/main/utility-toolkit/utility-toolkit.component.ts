@@ -24,7 +24,10 @@ export class UtilityToolkitComponent {
     {
       icon: 'tune',
       label: 'Compare',
-      onClick: (e) => console.log('do the Compare thingy', e),
+      onClick: () =>
+        this.router.navigateByUrl('/').then(() => {
+          this.router.navigate([{ outlets: { compare: ['compare-util'] } }]);
+        }),
     },
     {
       icon: 'tune',
@@ -34,7 +37,10 @@ export class UtilityToolkitComponent {
     {
       icon: 'tune',
       label: 'Log',
-      onClick: () => this.router.navigate([{ outlets: { log: ['log-util'] } }]),
+      onClick: () =>
+        this.router.navigateByUrl('/').then(() => {
+          this.router.navigate([{ outlets: { log: ['log-util'] } }]);
+        }),
     },
     {
       icon: 'tune',
