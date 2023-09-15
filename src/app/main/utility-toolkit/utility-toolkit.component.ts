@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 interface Utility {
   icon: string;
   label: string;
-  onClick: (e: Event) => void;
+  onClick: () => void;
 }
 
 @Component({
