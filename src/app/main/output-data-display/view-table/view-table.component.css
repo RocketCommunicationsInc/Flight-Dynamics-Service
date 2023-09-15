@@ -2,13 +2,12 @@
   overflow-y: scroll;
   height: 100%;
   display: block;
-  background-color: var(
-    --color-background-base-header
-  ); /* This goes along with the fix for pushing the scrollbar down past the sticky header */
+  /* This goes along with the fix for pushing the scrollbar down past the sticky header */
+  background-color: var(--color-background-base-header);
 }
 
 :host::-webkit-scrollbar-track {
-  margin-top: 40px; /*Pushing the scrollbar down past the sticky header */
+  margin-top: 48px; /*Pushing the scrollbar down past the sticky header */
 }
 
 table {
