@@ -8,7 +8,7 @@ describe('ChildContainerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ChildContainerComponent]
+      imports: [ChildContainerComponent],
     });
     fixture = TestBed.createComponent(ChildContainerComponent);
     component = fixture.componentInstance;

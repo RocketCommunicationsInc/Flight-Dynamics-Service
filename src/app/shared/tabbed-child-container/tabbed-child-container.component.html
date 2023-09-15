@@ -9,8 +9,14 @@
     >
   </rux-tabs>
   <ng-container *ngIf="notificationData">
-    <rux-notification open small [hideClose]="notificationHideClose" [status]="notificationData[0].status">
-      {{ notificationData[0].message }} {{ notificationData[0].timestamp | date: "short" }}
+    <rux-notification
+      open
+      small
+      [hideClose]="notificationHideClose"
+      [status]="notificationData[0].status"
+    >
+      {{ notificationData[0].message }}
+      {{ notificationData[0].timestamp | date: "short" }}
     </rux-notification>
   </ng-container>
 </header>
@@ -27,4 +33,3 @@
   </rux-tab-panel>
 </rux-tab-panels>
 </ng-template> -->
-
