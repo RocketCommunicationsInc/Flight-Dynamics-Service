@@ -3,13 +3,6 @@
   flex: 3;
 }
 
-div[header] {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: var(--spacing-4);
-}
-
 /* this sets the height of the pop up to the height of the trigger */
 rux-pop-up::part(container) {
   display: flex;
