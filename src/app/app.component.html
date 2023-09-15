@@ -1,7 +1,8 @@
-<fds-global-status-bar />
+<fds-global-status-bar [lightMode]="lightTheme" (onChangeTheme)="changeTheme()" />
 <div class="orbit-determination-body">
   <fds-scenario-library class="scenarios-library" />
   <fds-scenario-data-display class="scenario-data" />
   <fds-main class="main" />
 </div>
 <router-outlet name="dialog"></router-outlet>
+<rux-toast-stack />

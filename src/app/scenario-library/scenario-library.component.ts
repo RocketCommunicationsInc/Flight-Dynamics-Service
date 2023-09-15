@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal, ViewChild } from '@angular/core';
 import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
+import { Store } from '@ngrx/store';
+import { SatelliteActions } from '../store/app.actions';
+import { ToastService } from '../shared/toast.service';
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -9,7 +12,6 @@ import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
   imports: [AstroComponentsModule, CommonModule],
 })
 export class ScenarioLibraryComponent {
-  @ViewChild(RuxToastStack) toastStack?: HTMLRuxToastStackElement | null;
 
   selectedCraft = signal<string | null>('');
 
@@ -51,6 +53,8 @@ export class ScenarioLibraryComponent {
     },
   ];
 
+  constructor(private toasts: ToastService, private store: Store) {}
+
   /**
    * Listen for the ruxtreenodeselected event and store the selected node in the selectedCraft signal
    * @param el the rux-tree-node element
@@ -69,12 +73,14 @@ export class ScenarioLibraryComponent {
    * Show the 'feature not implemented' toast.
    */
   showToast() {
-    if (this.toastStack) {
-      this.toastStack.addToast({
-        message: 'This feature has not been implemented.',
-        hideClose: false,
-        closeAfter: 3000,
-      });
-    }
+    this.toasts.addToast({
+      message: 'This feature has not been implemented.',
+      hideClose: false,
+      closeAfter: 3000,
+    });
+  }
+
+  ngOnInit() { 
+    this.store.dispatch(SatelliteActions.satelliteSelected({ satId: 123 }));
   }
 }

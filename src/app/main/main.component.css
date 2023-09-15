@@ -1,5 +1,10 @@
-main {
+div {
   display: flex;
   gap: var(--spacing-4);
   flex-grow: 1;
+  height: 100%;
+}
+
+rux-container::part(body) {
+  padding-block-start: var(--spacing-0);
 }
