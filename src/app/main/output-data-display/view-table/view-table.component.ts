@@ -92,9 +92,14 @@ export class ViewTableComponent {
     console.log([...this.selectedRows]);
   }
 
-  setIcon() {
+  setIcon(field: keyof SummaryData) {
     const icons = { ASC: 'arrow-drop-down', DESC: 'arrow-drop-up' };
-    return icons[this.sorted?.direction || 'ASC'];
+
+    if (this.sorted?.field === field) {
+      return icons[this.sorted.direction];
+    }
+
+    return icons['ASC'];
   }
 
   sortData(field: keyof SummaryData) {

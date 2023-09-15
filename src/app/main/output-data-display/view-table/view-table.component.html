@@ -18,7 +18,11 @@
           (click)="sortData(column.field)"
         >
           {{ column.header }}
-          <rux-icon *ngIf="column.sortable" [icon]="setIcon()" size="small" />
+          <rux-icon
+            *ngIf="column.sortable"
+            [icon]="setIcon(column.field)"
+            size="small"
+          />
         </div>
       </th>
     </tr>
