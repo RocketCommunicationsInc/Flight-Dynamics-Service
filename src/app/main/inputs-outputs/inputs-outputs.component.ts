@@ -4,6 +4,7 @@ import { AstroComponentsModule } from '@astrouxds/angular';
 import { TabbedChildContainerComponent } from 'src/app/shared/tabbed-child-container/tabbed-child-container.component';
 import { InputsComponent } from './inputs/inputs.component';
 import { OutputsComponent } from './outputs/outputs.component';
+import { Tabs } from 'src/app/types/Tabs';
 
 @Component({
   selector: 'fds-inputs-outputs',
@@ -19,11 +20,11 @@ import { OutputsComponent } from './outputs/outputs.component';
   styleUrls: ['./inputs-outputs.component.css'],
 })
 export class InputsOutputsComponent {
-  tabs = [
+  tabs: Tabs[] = [
     { label: 'Inputs', id: 'inputs-tab', selected: true },
     { label: 'Outputs', id: 'outputs-tab', selected: false },
   ];
-  tabsId = 'inputs-outputs-tabs';
+  tabsId: string = 'inputs-outputs-tabs';
   notificationData = [
     {
       message: 'Update database file to initialize new orbit',

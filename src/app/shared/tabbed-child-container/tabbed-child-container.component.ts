@@ -16,7 +16,7 @@ export class TabbedChildContainerComponent {
     selected?: boolean;
     disabled?: boolean;
   }[];
-  @Input() tabsParentId!: string;
+  @Input() tabsParentId?: string;
   @Input() hasTabPanels: boolean = true;
 
   @Input() notificationData?: any[];

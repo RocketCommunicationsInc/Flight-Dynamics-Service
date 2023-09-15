@@ -9,6 +9,7 @@ import {
 import { TabbedChildContainerComponent } from 'src/app/shared/tabbed-child-container/tabbed-child-container.component';
 import { ViewGraphComponent } from './view-graph/view-graph.component';
 import { ViewTableComponent } from './view-table/view-table.component';
+import { Tabs } from 'src/app/types/Tabs';
 
 function random(min = 10_000, max = 80_000) {
   return Math.random() * (max - min) + min;
@@ -42,7 +43,7 @@ export class OutputDataDisplayComponent {
   warnings: OrbitDeterminations[] = [];
   currentView: CurrentView = 'View Table';
 
-  tabs = [
+  tabs: Tabs[] = [
     { label: 'OD Solution', id: 'od-solution', selected: true },
     { label: 'OD Performance', id: 'od-performance', disabled: true },
   ];
