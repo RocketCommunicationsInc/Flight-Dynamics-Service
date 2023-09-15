@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { UnitSelectorComponent } from '../shared';
 import { UnitMenuItems, selectUnit } from '../shared/units/units.model';
@@ -12,7 +11,6 @@ import { UnitMenuItems, selectUnit } from '../shared/units/units.model';
   styleUrls: ['./scenario-data-display.component.css'],
   imports: [
     AstroComponentsModule,
-    PropertiesDialogComponent,
     UnitSelectorComponent,
     RouterLink,
     RouterOutlet,

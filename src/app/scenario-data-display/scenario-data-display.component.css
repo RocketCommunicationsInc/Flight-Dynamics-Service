@@ -1,5 +1,6 @@
 rux-container::part(body) {
   padding-top: 0;
+  overflow-y: auto;
 }
 
 div[slot="header"] {
@@ -9,10 +10,6 @@ div[slot="header"] {
 
 .settings-icon {
   cursor: pointer;
-}
-
-.title {
-  font-size: var(--font-size-lg);
 }
 
 section {
@@ -27,7 +24,7 @@ rux-icon {
 
 rux-container,
 rux-container::part(container) {
-  height: 100%;
+  overflow: hidden;
 }
 
 div:nth-of-type(1),
@@ -35,4 +32,8 @@ div:nth-of-type(3),
 div:nth-of-type(5),
 div:nth-of-type(7) {
   margin-top: var(--spacing-3);
+}
+
+.title {
+  font-size: var(--font-size-xl);
 }
