@@ -6,8 +6,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './view-table.component.html',
-  styleUrls: ['./view-table.component.css']
+  styleUrls: ['./view-table.component.css'],
 })
-export class ViewTableComponent {
-
-}
+export class ViewTableComponent {}

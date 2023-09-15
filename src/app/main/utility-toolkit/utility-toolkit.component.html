@@ -5,11 +5,8 @@
     secondary
     [icon]="util.icon"
     *ngFor="let util of utilities; index as i"
-    [ngClass]="{ second: i === 1 }"
-    (click)="util.onClick($event)"
+    (click)="util.onClick()"
   >
     {{ util.label }}
   </rux-button>
-  <!-- !Temporary until routes are set up -->
-  <fds-log-utility-dialog [openDialog]="isLogDialogOpen" />
 </div>

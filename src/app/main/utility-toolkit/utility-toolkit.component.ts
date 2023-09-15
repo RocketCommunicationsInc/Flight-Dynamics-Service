@@ -1,50 +1,67 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { LogUtilityDialogComponent } from 'src/app/log-utility-dialog/log-utility-dialog.component';
+import { Router } from '@angular/router';
 
 interface Utility {
   icon: string;
   label: string;
-  onClick: (e: Event) => void;
+  onClick: () => void;
 }
 
 @Component({
   selector: 'fds-utility-toolkit',
   standalone: true,
-  imports: [CommonModule, AstroComponentsModule, LogUtilityDialogComponent],
+  imports: [CommonModule, AstroComponentsModule],
   templateUrl: './utility-toolkit.component.html',
   styleUrls: ['./utility-toolkit.component.css'],
 })
 export class UtilityToolkitComponent {
+  constructor(private router: Router) {}
   id = '000';
-  isLogDialogOpen: boolean = false;
 
   utilities: Utility[] = [
     {
       icon: 'tune',
       label: 'Compare',
-      onClick: (e) => console.log('do the Compare thingy', e),
+      onClick: () =>
+        this.router.navigateByUrl('/').then(() => {
+          this.router.navigate([{ outlets: { compare: ['compare-util'] } }]);
+        }),
     },
     {
-      icon: 'tune',
+      icon: 'add-circle',
       label: 'Create Report',
-      onClick: (e) => console.log('do the Create Report thingy', e),
+      onClick: () =>
+        this.router.navigateByUrl('/').then(() => {
+          this.router.navigate([{ outlets: { report: ['report-util'] } }]);
+        }),
     },
     {
-      icon: 'tune',
+      icon: 'list',
       label: 'Log',
-      onClick: () => (this.isLogDialogOpen = true),
+      onClick: () =>
+        this.router.navigateByUrl('/').then(() => {
+          this.router.navigate([{ outlets: { log: ['log-util'] } }]);
+        }),
     },
     {
-      icon: 'tune',
+      icon: 'antenna',
       label: 'Track Data',
-      onClick: (e) => console.log('do the Track Data thingy', e),
+      onClick: () =>
+        this.router.navigateByUrl('/').then(() => {
+          this.router.navigate([{ outlets: { track: ['track-util'] } }]);
+        }),
     },
     {
-      icon: 'tune',
+      icon: 'public',
       label: 'Propagator',
-      onClick: (e) => console.log('do the Propagator thingy', e),
+      onClick: () =>
+        this.router.navigateByUrl('/').then(() => {
+          this.router.navigate([
+            { outlets: { propagator: ['propagator-util'] } },
+          ]);
+        }),
     },
   ];
 }

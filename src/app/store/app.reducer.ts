@@ -16,7 +16,7 @@ export const SatellitesReducer = createReducer(
   on(SatelliteActions.satelliteSelected, (state, { satId }) => ({
     ...state,
     selectedSatId: satId,
-  }))
+  })),
 );
 
 export const satellitesFeature = createFeature({
@@ -24,5 +24,10 @@ export const satellitesFeature = createFeature({
   reducer: SatellitesReducer,
 });
 
-export const { name, reducer, selectSatellitesState, selectSatellites, selectSelectedSatId } =
-  satellitesFeature;
+export const {
+  name,
+  reducer,
+  selectSatellitesState,
+  selectSatellites,
+  selectSelectedSatId,
+} = satellitesFeature;

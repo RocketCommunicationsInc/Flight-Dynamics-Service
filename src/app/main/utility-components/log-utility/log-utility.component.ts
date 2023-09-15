@@ -1,17 +1,16 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'fds-log-utility-dialog',
   standalone: true,
-  imports: [CommonModule, AstroComponentsModule],
-  templateUrl: './log-utility-dialog.component.html',
-  styleUrls: ['./log-utility-dialog.component.css'],
+  selector: 'fds-log-utility',
+  templateUrl: './log-utility.component.html',
+  styleUrls: ['./log-utility.component.css'],
+  imports: [AstroComponentsModule, RouterLink, RouterOutlet, CommonModule],
 })
-export class LogUtilityDialogComponent {
-  @Input() openDialog = false;
-
+export class LogUtilityComponent {
   selectedTab: string = 'tab-a';
 
   tabSelect(event: any) {
