@@ -6,11 +6,11 @@ import {
   Status,
 } from '@astrouxds/astro-web-components/dist/types/components';
 
+import type { Tabs } from 'src/app/types/Tabs';
 import { TabbedChildContainerComponent } from 'src/app/shared/tabbed-child-container/tabbed-child-container.component';
 import { ViewGraphComponent } from './view-graph/view-graph.component';
 import { ViewTableComponent } from './view-table/view-table.component';
-import { random } from './random-num';
-import { Tabs } from 'src/app/types/Tabs';
+import { randomNum } from './random';
 
 type CurrentView = 'View Table' | 'View Graph';
 
@@ -51,12 +51,12 @@ export class OutputDataDisplayComponent {
     {
       message: 'OD warning message on',
       status: 'caution',
-      timestamp: this.now - random(),
+      timestamp: this.now - randomNum(),
     },
     {
       message: 'OD critical message on',
       status: 'critical',
-      timestamp: this.now - random(),
+      timestamp: this.now - randomNum(),
     },
     {
       message: 'OD success message on',
@@ -66,27 +66,27 @@ export class OutputDataDisplayComponent {
     {
       message: 'OD success message on',
       status: 'normal',
-      timestamp: this.now - random(),
+      timestamp: this.now - randomNum(),
     },
     {
       message: 'OD warning message on',
       status: 'caution',
-      timestamp: this.now - random(),
+      timestamp: this.now - randomNum(),
     },
     {
       message: 'OD warning message on',
       status: 'caution',
-      timestamp: this.now - random(),
+      timestamp: this.now - randomNum(),
     },
     {
       message: 'OD warning message on',
       status: 'caution',
-      timestamp: this.now - random(),
+      timestamp: this.now - randomNum(),
     },
     {
       message: 'OD success message on',
       status: 'normal',
-      timestamp: this.now - random(),
+      timestamp: this.now - randomNum(),
     },
   ];
 

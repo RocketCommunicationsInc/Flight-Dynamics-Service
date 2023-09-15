@@ -1,19 +1,24 @@
 <table>
   <thead>
     <tr>
-      <th *ngFor="let column of columns" [ngSwitch]="column.field">
+      <th
+        *ngFor="let column of columns"
+        [ngSwitch]="column.field"
+        [ngClass]="{ sortable: column.sortable }"
+      >
         <rux-checkbox
           *ngSwitchCase="'id'"
           [checked]="selectedRows.size === summaryData.length"
           (ruxchange)="onRowSelectAll($event)"
         />
-        <div *ngSwitchDefault class="h-stack">
+        <div
+          *ngSwitchDefault
+          [ngClass]="{ active: sorted?.field === column.field }"
+          class="h-stack"
+          (click)="sortData(column.field)"
+        >
           {{ column.header }}
-          <rux-icon
-            *ngIf="column.sortable === undefined || column.sortable"
-            icon="add"
-            size="1.25rem"
-          />
+          <rux-icon *ngIf="column.sortable" [icon]="setIcon()" size="small" />
         </div>
       </th>
     </tr>

@@ -1,3 +1,19 @@
+th.sortable {
+  cursor: pointer;
+}
+
+th rux-icon {
+  visibility: hidden;
+}
+
+th:hover rux-icon {
+  visibility: visible;
+}
+
+th .active rux-icon {
+  visibility: visible;
+}
+
 .h-stack {
   display: flex;
   align-items: center;
