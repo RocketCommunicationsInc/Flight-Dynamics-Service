@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
+import { Tabs } from 'src/app/types/Tabs';
 
 @Component({
   selector: 'fds-tabbed-child-container',
@@ -10,12 +11,7 @@ import { AstroComponentsModule } from '@astrouxds/angular';
   styleUrls: ['./tabbed-child-container.component.css'],
 })
 export class TabbedChildContainerComponent {
-  @Input() tabs?: {
-    label: string;
-    id: string;
-    selected?: boolean;
-    disabled?: boolean;
-  }[];
+  @Input() tabs?: Tabs[];
   @Input() tabsParentId?: string;
   @Input() hasTabPanels: boolean = true;
 
