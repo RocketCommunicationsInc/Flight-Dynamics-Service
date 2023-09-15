@@ -1,7 +1,3 @@
-.tabs-wrapper {
-  background-color: var(--color-palette-brightblue-800);
-}
-
 .button-wrapper {
   display: flex;
   justify-content: flex-end;
