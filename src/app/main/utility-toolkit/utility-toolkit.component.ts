@@ -30,7 +30,7 @@ export class UtilityToolkitComponent {
         }),
     },
     {
-      icon: 'tune',
+      icon: 'add-circle',
       label: 'Create Report',
       onClick: () =>
         this.router.navigateByUrl('/').then(() => {
@@ -38,7 +38,7 @@ export class UtilityToolkitComponent {
         }),
     },
     {
-      icon: 'tune',
+      icon: 'list',
       label: 'Log',
       onClick: () =>
         this.router.navigateByUrl('/').then(() => {
@@ -46,7 +46,7 @@ export class UtilityToolkitComponent {
         }),
     },
     {
-      icon: 'tune',
+      icon: 'antenna',
       label: 'Track Data',
       onClick: () =>
         this.router.navigateByUrl('/').then(() => {
@@ -54,7 +54,7 @@ export class UtilityToolkitComponent {
         }),
     },
     {
-      icon: 'tune',
+      icon: 'public',
       label: 'Propagator',
       onClick: () =>
         this.router.navigateByUrl('/').then(() => {
