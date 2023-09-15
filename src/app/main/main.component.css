@@ -1,5 +1,8 @@
+:host {
+  height: calc(100vh - 7.5rem);
+}
+
 div {
   display: flex;
   gap: var(--spacing-4);
-  flex-grow: 1;
 }

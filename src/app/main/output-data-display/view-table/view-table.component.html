@@ -1,1 +1,41 @@
-<p>view-table works!</p>
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let column of columns" [ngSwitch]="column.field">
+        <rux-checkbox
+          *ngSwitchCase="'id'"
+          [checked]="selectedRows.size === summaryData.length"
+          (ruxchange)="onRowSelectAll($event)"
+        />
+        <div *ngSwitchDefault class="h-stack">
+          {{ column.header }}
+          <rux-icon
+            *ngIf="column.sortable === undefined || column.sortable"
+            icon="add"
+            size="1.25rem"
+          />
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of summaryData">
+      <td *ngFor="let column of columns" [ngSwitch]="column.field">
+        <rux-checkbox
+          *ngSwitchCase="'id'"
+          [checked]="selectedIds.has(row.id)"
+          (ruxchange)="onRowSelect($event, row)"
+        />
+
+        <rux-select *ngSwitchCase="'unit'">
+          <rux-option label="Option 1" value="a" />
+          <rux-option label="Option 2" value="b" />
+          <rux-option label="Option 3" value="c" />
+        </rux-select>
+        <ng-container *ngSwitchDefault>
+          {{ row[column.field] }}
+        </ng-container>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -9,10 +9,7 @@ import {
 import { ChildContainerComponent } from 'src/app/shared';
 import { ViewGraphComponent } from './view-graph/view-graph.component';
 import { ViewTableComponent } from './view-table/view-table.component';
-
-function random(min = 10_000, max = 80_000) {
-  return Math.random() * (max - min) + min;
-}
+import { random } from './random-num';
 
 type CurrentView = 'View Table' | 'View Graph';
 
