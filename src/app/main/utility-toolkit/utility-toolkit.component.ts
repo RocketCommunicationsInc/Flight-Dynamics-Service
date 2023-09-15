@@ -32,7 +32,10 @@ export class UtilityToolkitComponent {
     {
       icon: 'tune',
       label: 'Create Report',
-      onClick: (e) => console.log('do the Create Report thingy', e),
+      onClick: () =>
+        this.router.navigateByUrl('/').then(() => {
+          this.router.navigate([{ outlets: { report: ['report-util'] } }]);
+        }),
     },
     {
       icon: 'tune',

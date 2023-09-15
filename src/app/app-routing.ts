@@ -1,10 +1,9 @@
 import { Route } from '@angular/router';
-import { AppComponent } from './app.component';
 import { PropertiesDialogComponent } from './properties-dialog/properties-dialog.component';
-import { LogUtilityComponent } from './main/log-utility/log-utility.component';
-import { MainComponent } from './main/main.component';
+import { LogUtilityComponent } from './main/utility-components/log-utility/log-utility.component';
 import { InputsOutputsDataDisplayComponent } from './main/inputs-outputs-data-display/inputs-outputs-data-display.component';
-import { CompareUtilityComponent } from './main/compare-utility/compare-utility.component';
+import { CompareUtilityComponent } from './main/utility-components/compare-utility/compare-utility.component';
+import { CreateReportUtilityComponent } from './main/utility-components/create-report-utility/create-report-utility.component';
 
 export const Routes: Route[] = [
   {
@@ -20,13 +19,16 @@ export const Routes: Route[] = [
   {
     path: 'log-util',
     outlet: 'log',
-    pathMatch: 'full',
     component: LogUtilityComponent,
   },
   {
     path: 'compare-util',
     outlet: 'compare',
-    pathMatch: 'full',
     component: CompareUtilityComponent,
+  },
+  {
+    path: 'report-util',
+    outlet: 'report',
+    component: CreateReportUtilityComponent,
   },
 ];
