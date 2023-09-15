@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
+import { LogUtilityDialogComponent } from 'src/app/log-utility-dialog/log-utility-dialog.component';
 
 interface Utility {
   icon: string;
@@ -11,12 +12,13 @@ interface Utility {
 @Component({
   selector: 'fds-utility-toolkit',
   standalone: true,
-  imports: [CommonModule, AstroComponentsModule],
+  imports: [CommonModule, AstroComponentsModule, LogUtilityDialogComponent],
   templateUrl: './utility-toolkit.component.html',
   styleUrls: ['./utility-toolkit.component.css'],
 })
 export class UtilityToolkitComponent {
   id = '000';
+  isLogDialogOpen: boolean = false;
 
   utilities: Utility[] = [
     {
@@ -32,7 +34,7 @@ export class UtilityToolkitComponent {
     {
       icon: 'tune',
       label: 'Log',
-      onClick: (e) => console.log('do the Log thingy', e),
+      onClick: () => (this.isLogDialogOpen = true),
     },
     {
       icon: 'tune',

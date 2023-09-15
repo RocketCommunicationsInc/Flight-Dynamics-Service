@@ -1,0 +1,25 @@
+<rux-dialog
+  [open]="openDialog"
+  message="Doing dialog things"
+  clickToClose="true"
+  confirmText="Save"
+  denyText="Close"
+>
+  <div slot="header">
+    <rux-icon icon="notes" size="small" />Log Utility: Satellite #
+  </div>
+  <div class="tabs-wrapper">
+    <rux-tabs (click)="tabSelect($event)">
+      <rux-tab id="tab-a" small selected="true">Log A</rux-tab>
+      <rux-tab id="tab-b" small>Log B</rux-tab>
+    </rux-tabs>
+  </div>
+  <div class="button-wrapper">
+    <rux-button secondary size="small" icon="tune">Controls</rux-button>
+    <rux-button size="small" iconOnly="true" icon="more-horiz" />
+  </div>
+  <div [ngSwitch]="selectedTab">
+    <rux-log *ngSwitchCase="'tab-a'" [data]="logDataA" />
+    <rux-log *ngSwitchCase="'tab-b'" [data]="logDataB" />
+  </div>
+</rux-dialog>
