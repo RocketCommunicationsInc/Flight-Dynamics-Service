@@ -8,21 +8,12 @@
       size="1.5rem"
     />
   </div>
-  <section *ngIf="unitDisplayed === distanceUnits">
+  <section>
     <app-unit-selector
       *ngFor="let item of itemsDisplayed"
-      [units]="distanceUnits"
+      [units]="unitDisplayed[item] === '(deg)' ? arcUnits : distanceUnits"
       [value]="valueDisplayed[item]"
-      >{{ item }}
-    </app-unit-selector>
-  </section>
-  
-  <section *ngIf="unitDisplayed === arcUnits">
-    <app-unit-selector
-      *ngFor="let item of itemsDisplayed"
-      [units]="arcUnits"
-      [value]="valueDisplayed[item]"
-      >{{ item }}
+      >{{ item }} {{ unitDisplayed[item] }}:
     </app-unit-selector>
   </section>
 </rux-container>

@@ -24,6 +24,8 @@ import { dummyOptions } from '../properties-dialog/dummy-data';
 export class ScenarioDataDisplayComponent {
   constructor(private dialogService: DialogService) {}
   itemsDisplayed: any[] = [];
+  dummyOptions = dummyOptions;
+
   ngOnInit() {
     this.dialogService.getSelectedProperties().subscribe((items) => {
       this.itemsDisplayed = items;
@@ -31,32 +33,37 @@ export class ScenarioDataDisplayComponent {
 
     this.findValue();
   }
-  dummyOptions = dummyOptions;
 
-  valueDisplayed: { [key: string]: any } = {};
-  unitDisplayed: any[] = [];
   distanceUnits = [
     UnitMenuItems.meters,
     selectUnit(UnitMenuItems.kilometers),
     UnitMenuItems.miles,
   ];
+
   arcUnits = [
     selectUnit(UnitMenuItems.degrees),
     UnitMenuItems.radians,
     UnitMenuItems.revolutions,
   ];
 
+  valueDisplayed: { [key: string]: any } = {};
+  unitDisplayed: { [key: string]: any } = {};
+
+  isUnit: boolean = false;
+
+  showInParentheses(value: string): string {
+    return `(${value})`;
+  }
+
   findValue() {
     for (const items of this.itemsDisplayed) {
       const val = this.dummyOptions.find((item) => item.cb === items);
       if (val) {
+        console.log(val);
         this.valueDisplayed[items] = val.value;
-        if (val.unit === 'deg') {
-          this.unitDisplayed = this.distanceUnits;
-        } else if (val.unit === 'km') {
-          this.unitDisplayed = this.arcUnits;
-        } else if(val.unit === '') {
-          this.unitDisplayed = []
+        if (val.unit) {
+          this.unitDisplayed[items] = this.showInParentheses(val.unit);
+
         }
       }
     }

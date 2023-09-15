@@ -4,21 +4,18 @@ export const dummyOptions = [
     checked: true,
     disabled: false,
     value: 30182,
-    unit: ''
   },
   {
     cb: 'Eccentricity',
     checked: true,
     disabled: false,
     value: 92.39401,
-    unit: ''
   },
   {
     cb: 'Mass',
     checked: true,
     disabled: false,
     value: 43.28404,
-    unit: ''
   },
   {
     cb: 'Raan',
