@@ -1,13 +1,9 @@
 :host {
   display: block;
   flex: 1;
-  width: 20%;
 }
 
-fds-child-container {
-  row-gap: 0;
-}
-
-rux-tab-panels, rux-tab-panel {
+rux-tab-panels,
+rux-tab-panel {
   height: 100%;
 }
