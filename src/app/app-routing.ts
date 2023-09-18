@@ -1,5 +1,4 @@
 import { Route } from '@angular/router';
-import { PropertiesDialogComponent } from './properties-dialog/properties-dialog.component';
 import { LogUtilityComponent } from './main/utility-components/log-utility/log-utility.component';
 import { InputsOutputsDataDisplayComponent } from './main/inputs-outputs-data-display/inputs-outputs-data-display.component';
 import { CompareUtilityComponent } from './main/utility-components/compare-utility/compare-utility.component';
@@ -12,11 +11,6 @@ export const Routes: Route[] = [
     path: '',
     pathMatch: 'full',
     component: InputsOutputsDataDisplayComponent,
-  },
-  {
-    path: 'properties',
-    outlet: 'dialog',
-    component: PropertiesDialogComponent,
   },
   {
     path: 'log-util',

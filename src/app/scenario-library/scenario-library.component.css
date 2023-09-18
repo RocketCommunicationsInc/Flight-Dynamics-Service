@@ -14,3 +14,7 @@ rux-tree {
 rux-tree-node[slot="node"] {
   cursor: pointer;
 }
+
+.title {
+  font-size: var(--font-size-xl);
+}
