@@ -69,3 +69,7 @@ rux-table-cell {
   color: var(--color-text-secondary);
   margin-bottom: var(--spacing-3);
 }
+
+.edit-file {
+  padding: var(--spacing-4);
+}

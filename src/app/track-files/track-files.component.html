@@ -21,32 +21,57 @@
           <rux-table-header-cell>File Size</rux-table-header-cell>
         </rux-table-header-row>
         <rux-table-body>
-          <rux-table-row *ngFor="let row of dummyFileData" >
+          <rux-table-row *ngFor="let file of dummyFileData">
             <rux-table-cell>
-              <rux-checkbox checked="{{row.selected}}" />
+              <rux-checkbox
+                [checked]="file.selected"
+                (ruxchange)="handleSelect(file)"
+                [disabled]="editTrackFile"
+              />
             </rux-table-cell>
-            <rux-table-cell>{{row.fileName}}</rux-table-cell>
-            <rux-table-cell>{{row.date}}</rux-table-cell>
-            <rux-table-cell>{{row.size}} kb</rux-table-cell>
-        </rux-table-row>
+            <rux-table-cell>{{ file.fileName }}</rux-table-cell>
+            <rux-table-cell>{{ file.date }}</rux-table-cell>
+            <rux-table-cell>{{ file.size }} kb</rux-table-cell>
+          </rux-table-row>
         </rux-table-body>
       </rux-table>
     </div>
 
     <div class="file-wrapper">
       <div slot="header">
-        <span>trackfile_01</span>
-       <div>
-          <rux-button borderless secondary icon="cancel">Cancel</rux-button>
-          <rux-button borderless secondary icon="save">Save As</rux-button>
-     </div>
+        <span>{{ selectedFileName }}</span>
+        <div>
+          <rux-button
+            [disabled]="!isFileSelected"
+            borderless
+            secondary
+            icon="cancel"
+            (click)="handleCancel()"
+            >Cancel</rux-button
+          >
+          <rux-button
+            [disabled]="!isFileSelected"
+            borderless
+            secondary
+            icon="save"
+            (click)="handleSave()"
+            >Save As</rux-button
+          >
+        </div>
       </div>
 
-      <div class="file-content">
-        <rux-icon icon="antenna-transmit" size="7rem"/>
-         <rux-button>Edit Track File</rux-button>
+      <div class="file-content" *ngIf="!editTrackFile">
+        <rux-icon icon="antenna-transmit" size="7rem" />
+        <rux-button [disabled]="!isFileSelected" (click)="handleClick()"
+          >Edit Track File</rux-button
+        >
       </div>
-     
+      <rux-textarea
+        *ngIf="editTrackFile"
+        class="edit-file"
+        value=" {{ selectedFileContent }}"
+        (ruxchange)="handleTextarea($event)"
+      />
     </div>
   </div>
 </div>
