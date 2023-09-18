@@ -19,16 +19,17 @@
             <rux-checkbox (ruxchange)="handleSelectAll($event)" />
           </rux-table-header-cell>
           <rux-table-header-cell>File Name </rux-table-header-cell>
-          <rux-table-header-cell (click)="sortColumn()"
+          <rux-table-header-cell (click)="sortColumn('date')"
             >Date
             <rux-icon
-              (click)="sortColumn()"
-              [icon]="
-                sortDirection === 'ASC' ? 'arrow-drop-down' : 'arrow-drop-up'
-              "
+              (click)="sortColumn('date')"
+              [icon]="{
+                'arrow-drop-up': sortDirection === 'ASC',
+                'arrow-drop-down': sortDirection === 'DESC'
+              }"
             />
           </rux-table-header-cell>
-          <rux-table-header-cell (click)="sortColumn()"
+          <rux-table-header-cell (click)="sortColumn('size')"
             >File Size
             <rux-icon
               [icon]="{

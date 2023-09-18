@@ -5,7 +5,7 @@ import { dummyFileData } from './dummy-file-data';
 import { FormsModule } from '@angular/forms';
 import { Files } from '../types/Files';
 
-type Sort = 'ASC' | 'DESC';
+type Sort = 'ASC' | 'DESC' | ''
 @Component({
   selector: 'fds-track-files',
   standalone: true,
@@ -69,10 +69,20 @@ export class TrackFilesComponent {
   }
 
   sortDirection: Sort = 'ASC';
+  sortedColumn: string = '';
 
-  sortColumn() {
+  sortColumn(column: string) {
+    if (column === this.sortedColumn) {
+      this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
+    } else {
+      this.sortedColumn = column;
+      this.sortDirection = 'ASC';
+    }
     this.filteredData.sort((a: any, b: any) => {
-      return this.sortDirection === 'ASC' ? a - b : b - a;
+      console.log(this.sortDirection);
+      return this.sortDirection === 'ASC'
+        ? a[this.sortedColumn].localeCompare(b[this.sortedColumn])
+        : b[this.sortedColumn].localeCompare(a[this.sortedColumn]);
     });
   }
 
