@@ -1,1 +1,15 @@
-<p>track-data-util works!</p>
+<div>
+  <div slot="header">
+    <rux-icon icon="mission" size="small" />Tracking Data Utility: IRON ####
+  </div>
+
+  <rux-tabs (click)="tabSelect($event)">
+    <rux-tab id="files" small selected="true">Select Files</rux-tab>
+    <rux-tab id="data" small>Filter/Edit Data</rux-tab>
+  </rux-tabs>
+
+  <div [ngSwitch]="selectedTab">
+    <fds-track-files *ngSwitchCase="'files'"/>
+    <fds-track-data *ngSwitchCase="'data'"/>
+  </div>
+</div>

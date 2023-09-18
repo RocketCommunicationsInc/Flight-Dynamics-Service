@@ -1,0 +1,52 @@
+<div>
+  <div class="button-wrapper">
+    <span> Raw Track Files</span>
+    <span>
+      <rux-select label="Filter By">
+        <rux-option label="Last 7 Days" value="seven-days" />
+        <rux-option label="Last 30 Days" value="thirty-days" />
+      </rux-select>
+    </span>
+    <rux-button size="small" iconOnly="true" icon="more-horiz" />
+  </div>
+  <div class="content">
+    <div class="table-wrapper">
+      <rux-table>
+        <rux-table-header-row>
+          <rux-table-header-cell>
+            <rux-checkbox />
+          </rux-table-header-cell>
+          <rux-table-header-cell>File Name</rux-table-header-cell>
+          <rux-table-header-cell>Date</rux-table-header-cell>
+          <rux-table-header-cell>File Size</rux-table-header-cell>
+        </rux-table-header-row>
+        <rux-table-body>
+          <rux-table-row *ngFor="let row of dummyFileData" >
+            <rux-table-cell>
+              <rux-checkbox checked="{{row.selected}}" />
+            </rux-table-cell>
+            <rux-table-cell>{{row.fileName}}</rux-table-cell>
+            <rux-table-cell>{{row.date}}</rux-table-cell>
+            <rux-table-cell>{{row.size}} kb</rux-table-cell>
+        </rux-table-row>
+        </rux-table-body>
+      </rux-table>
+    </div>
+
+    <div class="file-wrapper">
+      <div slot="header">
+        <span>trackfile_01</span>
+       <div>
+          <rux-button borderless secondary icon="cancel">Cancel</rux-button>
+          <rux-button borderless secondary icon="save">Save As</rux-button>
+     </div>
+      </div>
+
+      <div class="file-content">
+        <rux-icon icon="antenna-transmit" size="7rem"/>
+         <rux-button>Edit Track File</rux-button>
+      </div>
+     
+    </div>
+  </div>
+</div>
