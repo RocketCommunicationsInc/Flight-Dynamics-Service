@@ -1,7 +1,15 @@
-export const dummyFileData = [
+import { Files } from '../types/Files';
+
+const randomDate = (start: Date, end: Date) => {
+  return new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime()),
+  );
+};
+
+export const dummyFileData: Files[] = [
   {
     fileName: 'trackfile_01',
-    date: '03/13/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 565,
     selected: false,
     content:
@@ -9,7 +17,7 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_02',
-    date: '04/01/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 18,
     selected: false,
     content:
@@ -17,7 +25,7 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_03',
-    date: '06/24/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 743,
     selected: false,
     content:
@@ -25,7 +33,7 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_04',
-    date: '06/27/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 1245,
     selected: false,
     content:
@@ -33,14 +41,14 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_05',
-    date: '07/02/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 458,
     selected: false,
     content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
   },
   {
     fileName: 'trackfile_06',
-    date: '05/04/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 790,
     selected: false,
     content:
@@ -48,7 +56,7 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_07',
-    date: '07/17/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 499,
     selected: false,
     content:
@@ -56,7 +64,7 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_08',
-    date: '03/12/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 7,
     selected: false,
     content:
@@ -64,7 +72,7 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_09',
-    date: '05/23/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 2343,
     selected: false,
     content:
@@ -72,7 +80,7 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_10',
-    date: '03/16/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 800,
     selected: false,
     content:
@@ -80,21 +88,21 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_11',
-    date: '04/28/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 459,
     selected: false,
     content: 'Deleniti eos cupiditate dolore doloribus!',
   },
   {
     fileName: 'trackfile_12',
-    date: '03/31/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 195,
     selected: false,
     content: 'Consequatur rerum amet fuga expedita sunt et tempora saepe? ',
   },
   {
     fileName: 'trackfile_13',
-    date: '02/01/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 195,
     selected: false,
     content:
@@ -102,7 +110,7 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_14',
-    date: '02/08/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 1245,
     selected: false,
     content:
@@ -110,14 +118,14 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_15',
-    date: '08/20/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 458,
     selected: false,
     content: 'Lorem ipsum dolor sit amet!',
   },
   {
     fileName: 'trackfile_16',
-    date: '03/22/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 8,
     selected: false,
     content:
@@ -125,7 +133,7 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_17',
-    date: '01/17/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 27,
     selected: false,
     content:
@@ -133,7 +141,7 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_18',
-    date: '01/01/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 257,
     selected: false,
     content:
@@ -141,7 +149,7 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_19',
-    date: '02/09/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 54,
     selected: false,
     content:
@@ -149,7 +157,7 @@ export const dummyFileData = [
   },
   {
     fileName: 'trackfile_20',
-    date: '08/06/2023',
+    date: randomDate(new Date(2023, 0, 1), new Date()),
     size: 1008,
     selected: false,
     content: 'Officia quibusdam deleniti eos cupiditate dolore doloribus!',

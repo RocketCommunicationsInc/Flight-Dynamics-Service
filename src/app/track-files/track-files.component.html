@@ -2,9 +2,11 @@
   <div class="button-wrapper">
     <span> Raw Track Files</span>
     <span>
-      <rux-select label="Filter By">
+      <rux-select label="Filter By" (ruxchange)="onSelect($event)">
+        <rux-option label="All" value="all" />
         <rux-option label="Last 7 Days" value="seven-days" />
         <rux-option label="Last 30 Days" value="thirty-days" />
+        <rux-option label="Last 90 Days" value="ninety-days" />
       </rux-select>
     </span>
     <rux-button size="small" iconOnly="true" icon="more-horiz" />
@@ -14,23 +16,41 @@
       <rux-table>
         <rux-table-header-row>
           <rux-table-header-cell>
-            <rux-checkbox />
+            <rux-checkbox (ruxchange)="handleSelectAll($event)" />
           </rux-table-header-cell>
-          <rux-table-header-cell>File Name</rux-table-header-cell>
-          <rux-table-header-cell>Date</rux-table-header-cell>
-          <rux-table-header-cell>File Size</rux-table-header-cell>
+          <rux-table-header-cell>File Name </rux-table-header-cell>
+          <rux-table-header-cell (click)="sortColumn()"
+            >Date
+            <rux-icon
+              (click)="sortColumn()"
+              [icon]="
+                sortDirection === 'ASC' ? 'arrow-drop-down' : 'arrow-drop-up'
+              "
+            />
+          </rux-table-header-cell>
+          <rux-table-header-cell (click)="sortColumn()"
+            >File Size
+            <rux-icon
+              [icon]="{
+                'arrow-drop-up': sortDirection === 'ASC',
+                'arrow-drop-down': sortDirection === 'DESC'
+              }"
+            />
+          </rux-table-header-cell>
         </rux-table-header-row>
         <rux-table-body>
-          <rux-table-row *ngFor="let file of dummyFileData">
+          <rux-table-row *ngFor="let file of filteredData">
             <rux-table-cell>
               <rux-checkbox
                 [checked]="file.selected"
-                (ruxchange)="handleSelect(file)"
+                (ruxchange)="handleCheckbox(file)"
                 [disabled]="editTrackFile"
               />
             </rux-table-cell>
             <rux-table-cell>{{ file.fileName }}</rux-table-cell>
-            <rux-table-cell>{{ file.date }}</rux-table-cell>
+            <rux-table-cell>{{
+              file.date | date: "MM/dd/YYYY"
+            }}</rux-table-cell>
             <rux-table-cell>{{ file.size }} kb</rux-table-cell>
           </rux-table-row>
         </rux-table-body>
@@ -62,7 +82,7 @@
 
       <div class="file-content" *ngIf="!editTrackFile">
         <rux-icon icon="antenna-transmit" size="7rem" />
-        <rux-button [disabled]="!isFileSelected" (click)="handleClick()"
+        <rux-button [disabled]="!isFileSelected" (click)="handleEdit()"
           >Edit Track File</rux-button
         >
       </div>
