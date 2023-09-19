@@ -43,7 +43,10 @@
               (mouseenter)="showSecondIcon = true"
               (mouseleave)="showSecondIcon = false"
               >File Size
-              <span class="icon-span" [ngClass]="{ 'show-icon': showIcon }">
+              <span
+                class="icon-span"
+                [ngClass]="{ 'show-icon': showSecondIcon }"
+              >
                 <rux-icon
                   size="small"
                   *ngIf="showSecondIcon"

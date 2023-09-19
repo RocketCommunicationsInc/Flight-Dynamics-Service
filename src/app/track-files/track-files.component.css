@@ -35,7 +35,7 @@ rux-select::part(label) {
 /* TABLE STYLES */
 
 .table-wrapper {
-  overflow-y: auto;
+  overflow: auto;
   width: 55%;
   background-color: var(--color-background-base-header);
 }
@@ -82,7 +82,7 @@ rux-table-cell:nth-of-type(4) {
 }
 
 rux-table-header-cell.show-icon {
-  padding-right: var(--spacing-6)
+  padding-right: var(--spacing-6);
 }
 
 /* FILE STYLES */

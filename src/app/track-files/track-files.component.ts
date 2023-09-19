@@ -99,8 +99,9 @@ export class TrackFilesComponent {
       this.selectedFileName = file.fileName;
       this.selectedFileContent = file.content;
       this.isFileSelected = true;
-    } else if (file.selected && this.selectedFileName === '') {
-      const selectedCB = this.filteredData.filter((cb) => cb);
+    } else if (!file.selected && this.selectedFileName) {
+      //if there are multiple checkboxes selected and you uncheck one, the selected file/content will default to first item in the array
+      const selectedCB = this.filteredData.filter((cb) => cb.selected);
       this.selectedFileName = selectedCB[0].fileName;
       this.selectedFileContent = selectedCB[0].content;
     } else {
