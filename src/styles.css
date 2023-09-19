@@ -51,3 +51,96 @@ rux-container::part(body) {
   flex-direction: column;
   overflow-y: hidden;
 }
+
+/*
+ * table styles - start
+ * .table-wrapper is not needed on all table elements for this to work
+ * and using it as an "optin" of sorts to use these styles in a table
+*/
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100%;
+  /* This goes along with the fix for pushing the scrollbar down past the sticky header */
+  background-color: var(--color-background-base-header);
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  margin-top: 48px; /*Pushing the scrollbar down past the sticky header */
+}
+
+.table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-wrapper thead {
+  position: relative;
+  box-shadow: var(--table-header-shadow);
+  z-index: 10;
+}
+
+.table-wrapper th {
+  position: sticky;
+  top: 0; /* Don't forget this, required for the stickiness */
+  padding: var(--table-header-cell-padding);
+  text-align: left;
+  background-color: var(--color-background-surface-header);
+  font-family: var(--font-heading-5-font-family);
+  font-size: var(--font-heading-5-font-size);
+  font-weight: var(--font-heading-5-font-weight);
+  line-height: var(--font-heading-5-line-height);
+  letter-spacing: var(--font-heading-5-letter-spacing);
+}
+
+.table-wrapper tbody {
+  background-color: var(--color-background-surface-default);
+}
+
+.table-wrapper tbody tr {
+  color: var(--color-text-primary);
+  border-bottom-style: solid;
+  border-bottom-color: var(--color-background-base-default);
+  border-bottom-width: var(--table-row-border-width);
+  font-family: var(--font-body-1-font-family);
+  font-size: var(--font-body-1-font-size);
+  font-weight: var(--font-body-1-font-weight);
+  line-height: var(--font-body-1-line-height);
+  letter-spacing: var(--font-body-1-letter-spacing);
+}
+
+.table-wrapper tbody tr:hover {
+  background-color: var(--color-background-surface-hover);
+}
+
+.table-wrapper tbody tr[selected="true"] {
+  background-color: var(--color-background-surface-selected);
+}
+
+.table-wrapper td {
+  padding-inline: var(--table-body-cell-padding-x);
+  padding-block: var(--table-body-cell-padding-y);
+}
+
+.table-wrapper table rux-checkbox {
+  display: flex;
+  justify-content: center;
+}
+
+.table-wrapper th.sortable {
+  cursor: pointer;
+}
+
+.table-wrapper th rux-icon {
+  visibility: hidden;
+}
+
+.table-wrapper th:hover rux-icon {
+  visibility: visible;
+}
+
+.table-wrapper th .active rux-icon {
+  visibility: visible;
+}
+/*** table styles - end ***/

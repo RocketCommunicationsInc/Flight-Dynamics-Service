@@ -11,24 +11,25 @@
     </span>
     <rux-button size="small" iconOnly="true" icon="more-horiz" />
   </div>
+
   <div class="content">
     <div class="table-wrapper">
-      <rux-table>
-        <rux-table-header>
-          <rux-table-header-row>
-            <rux-table-header-cell>
+      <table>
+        <thead>
+          <tr>
+            <th>
               <rux-checkbox (ruxchange)="handleSelectAll($event)" />
-            </rux-table-header-cell>
-            <rux-table-header-cell>File Name </rux-table-header-cell>
-            <rux-table-header-cell
+            </th>
+            <th>File Name</th>
+            <th
               (click)="sortColumn('date')"
               (mouseenter)="showIcon = true"
               (mouseleave)="showIcon = false"
-              >Date
+            >
+              Date
               <span class="icon-span" [ngClass]="{ 'show-icon': showIcon }">
                 <rux-icon
                   size="small"
-                  class="visible"
                   *ngIf="showIcon"
                   [icon]="
                     sortDirection === 'ASC'
@@ -37,12 +38,14 @@
                   "
                 />
               </span>
-            </rux-table-header-cell>
-            <rux-table-header-cell
+            </th>
+
+            <th
               (click)="sortColumn('size')"
               (mouseenter)="showSecondIcon = true"
               (mouseleave)="showSecondIcon = false"
-              >File Size
+            >
+              File Size
               <span
                 class="icon-span"
                 [ngClass]="{ 'show-icon': showSecondIcon }"
@@ -56,26 +59,24 @@
                       : 'arrow-drop-up'
                   "
               /></span>
-            </rux-table-header-cell>
-          </rux-table-header-row>
-        </rux-table-header>
-        <rux-table-body>
-          <rux-table-row *ngFor="let file of filteredData">
-            <rux-table-cell>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of filteredData">
+            <td>
               <rux-checkbox
                 [checked]="file.selected"
                 (ruxchange)="handleCheckbox(file)"
                 [disabled]="editTrackFile"
               />
-            </rux-table-cell>
-            <rux-table-cell>{{ file.fileName }}</rux-table-cell>
-            <rux-table-cell>{{
-              file.date | date: "MM/dd/YYYY"
-            }}</rux-table-cell>
-            <rux-table-cell>{{ file.size }} kb</rux-table-cell>
-          </rux-table-row>
-        </rux-table-body>
-      </rux-table>
+            </td>
+            <td>{{ file.fileName }}</td>
+            <td>{{ file.date | date: "MM/dd/YYYY" }}</td>
+            <td>{{ file.size }} kb</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="file-wrapper">

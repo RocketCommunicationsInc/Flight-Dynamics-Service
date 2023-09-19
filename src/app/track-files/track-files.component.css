@@ -35,43 +35,31 @@ rux-select::part(label) {
 /* TABLE STYLES */
 
 .table-wrapper {
-  overflow: auto;
   width: 55%;
-  background-color: var(--color-background-base-header);
 }
 
-.table-wrapper::-webkit-scrollbar-track {
-  margin-top: 40px;
-}
-
-rux-table-header {
-  top: 0;
-  position: sticky;
-  z-index: 10;
-}
-
-rux-table-cell {
+th {
   border: none;
 }
 
-rux-table-header-row rux-icon {
+rux-icon {
   vertical-align: middle;
 }
 
-rux-table-header-row rux-table-header-cell:nth-of-type(3):hover,
-rux-table-header-row rux-table-header-cell:nth-of-type(4):hover {
+th:nth-of-type(3):hover,
+th:nth-of-type(4):hover {
   cursor: pointer;
 }
 
-rux-table-header-row rux-table-header-cell:nth-of-type(3),
-rux-table-header-row rux-table-header-cell:nth-of-type(4),
-rux-table-cell:nth-of-type(3),
-rux-table-cell:nth-of-type(4) {
+td:nth-of-type(3),
+td:nth-of-type(4),
+th:nth-of-type(3),
+th:nth-of-type(4) {
   text-align: right;
 }
 
-rux-table-cell:nth-of-type(3),
-rux-table-cell:nth-of-type(4) {
+td:nth-of-type(3),
+td:nth-of-type(4) {
   padding-right: var(--spacing-8);
 }
 
@@ -81,7 +69,7 @@ rux-table-cell:nth-of-type(4) {
   padding-right: 0;
 }
 
-rux-table-header-cell.show-icon {
+th.show-icon {
   padding-right: var(--spacing-6);
 }
 
