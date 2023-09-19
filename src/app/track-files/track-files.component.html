@@ -1,0 +1,119 @@
+<div>
+  <div class="button-wrapper">
+    <span> Raw Track Files</span>
+    <span>
+      <rux-select label="Filter By" (ruxchange)="onSelect($event)">
+        <rux-option label="All" value="all" />
+        <rux-option label="Last 7 Days" value="seven-days" />
+        <rux-option label="Last 30 Days" value="thirty-days" />
+        <rux-option label="Last 90 Days" value="ninety-days" />
+      </rux-select>
+    </span>
+    <rux-button size="small" iconOnly="true" icon="more-horiz" />
+  </div>
+
+  <div class="content">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <rux-checkbox (ruxchange)="handleSelectAll($event)" />
+            </th>
+            <th>File Name</th>
+            <th
+              (click)="sortColumn('date')"
+              (mouseenter)="showIcon = true"
+              (mouseleave)="showIcon = false"
+            >
+              Date
+              <span class="icon-span" [ngClass]="{ 'show-icon': showIcon }">
+                <rux-icon
+                  size="small"
+                  *ngIf="showIcon"
+                  [icon]="
+                    sortDirection === 'ASC'
+                      ? 'arrow-drop-down'
+                      : 'arrow-drop-up'
+                  "
+                />
+              </span>
+            </th>
+
+            <th
+              (click)="sortColumn('size')"
+              (mouseenter)="showSecondIcon = true"
+              (mouseleave)="showSecondIcon = false"
+            >
+              File Size
+              <span
+                class="icon-span"
+                [ngClass]="{ 'show-icon': showSecondIcon }"
+              >
+                <rux-icon
+                  size="small"
+                  *ngIf="showSecondIcon"
+                  [icon]="
+                    sortDirection === 'ASC'
+                      ? 'arrow-drop-down'
+                      : 'arrow-drop-up'
+                  "
+              /></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of filteredData">
+            <td>
+              <rux-checkbox
+                [checked]="file.selected"
+                (ruxchange)="handleCheckbox(file)"
+                [disabled]="editTrackFile"
+              />
+            </td>
+            <td>{{ file.fileName }}</td>
+            <td>{{ file.date | date: "MM/dd/YYYY" }}</td>
+            <td>{{ file.size }} kb</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="file-wrapper">
+      <div slot="header">
+        <span>{{ selectedFileName }}</span>
+        <div>
+          <rux-button
+            [disabled]="!isFileSelected"
+            borderless
+            secondary
+            icon="cancel"
+            (click)="handleCancel()"
+            >Cancel</rux-button
+          >
+          <rux-button
+            [disabled]="!isFileSelected"
+            borderless
+            secondary
+            icon="save"
+            (click)="handleSave()"
+            >Save As</rux-button
+          >
+        </div>
+      </div>
+
+      <div class="file-content" *ngIf="!editTrackFile">
+        <rux-icon icon="antenna-transmit" size="7rem" />
+        <rux-button [disabled]="!isFileSelected" (click)="handleEdit()"
+          >Edit Track File</rux-button
+        >
+      </div>
+      <rux-textarea
+        *ngIf="editTrackFile"
+        class="edit-file"
+        value=" {{ selectedFileContent }}"
+        (ruxchange)="handleTextarea($event)"
+      />
+    </div>
+  </div>
+</div>

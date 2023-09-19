@@ -1,0 +1,105 @@
+.button-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-3);
+  align-items: center;
+  box-shadow: 0 2px 1px -1px black;
+}
+
+span:nth-of-type(1) {
+  font-weight: var(--font-weights-bold);
+}
+
+span:nth-of-type(2) {
+  margin-right: 55%;
+}
+
+rux-select {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+rux-select::part(label) {
+  margin-right: var(--spacing-2);
+  width: 6rem;
+  margin-top: var(--spacing-2);
+}
+
+.content {
+  display: flex;
+  margin-top: var(--spacing-2);
+  height: 36.5rem;
+}
+
+/* TABLE STYLES */
+
+.table-wrapper {
+  width: 55%;
+}
+
+th {
+  border: none;
+}
+
+rux-icon {
+  vertical-align: middle;
+}
+
+th:nth-of-type(3):hover,
+th:nth-of-type(4):hover {
+  cursor: pointer;
+}
+
+td:nth-of-type(3),
+td:nth-of-type(4),
+th:nth-of-type(3),
+th:nth-of-type(4) {
+  text-align: right;
+}
+
+td:nth-of-type(3),
+td:nth-of-type(4) {
+  padding-right: var(--spacing-8);
+}
+
+.icon-span {
+  width: var(--spacing-6);
+  display: inline-block;
+  padding-right: 0;
+}
+
+th.show-icon {
+  padding-right: var(--spacing-6);
+}
+
+/* FILE STYLES */
+
+.file-wrapper {
+  width: 100%;
+}
+
+.file-wrapper div[slot="header"] {
+  display: flex;
+  background-color: var(--color-background-surface-header);
+  align-items: center;
+  padding-left: var(--spacing-4);
+  justify-content: space-between;
+}
+
+.file-content {
+  height: calc(100% - 2.5rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.file-wrapper rux-icon {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-3);
+}
+
+.edit-file {
+  padding: var(--spacing-4);
+}
