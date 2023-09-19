@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 export interface ToastConfig {
   message: string;
@@ -7,7 +7,7 @@ export interface ToastConfig {
   closeAfter: number;
 }
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class ToastService {
   private _stackSubject = new BehaviorSubject<ToastConfig | null>(null);
 

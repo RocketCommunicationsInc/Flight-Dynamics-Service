@@ -13,7 +13,6 @@ import { RouterLink, RouterOutlet } from '@angular/router'
 import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular'
 import { ToastConfig, ToastService } from './shared/toast.service'
 import { BehaviorSubject, Subject, filter, takeUntil, tap } from 'rxjs'
-
 import { mockScenarios, mockTrackFiles } from './mock-data/generate-data'
 
 @Component({
@@ -52,6 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
         filter((val): val is ToastConfig => !!val)
       )
       .subscribe((config: ToastConfig) => this.toastStack?.addToast(config))
+    filter((val): val is ToastConfig => !!val)
   }
 
   ngOnDestroy(): void {

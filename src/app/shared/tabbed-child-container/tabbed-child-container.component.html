@@ -1,0 +1,35 @@
+<header>
+  <rux-tabs [id]="tabsParentId" small (ruxselected)="onSelect($event)">
+    <rux-tab
+      [id]="tab.id"
+      [selected]="tab.selected"
+      [disabled]="tab.disabled"
+      *ngFor="let tab of tabs"
+      >{{ tab.label }}</rux-tab
+    >
+  </rux-tabs>
+  <ng-container *ngIf="notificationData">
+    <rux-notification
+      open
+      small
+      [hideClose]="notificationHideClose"
+      [status]="notificationData[0].status"
+    >
+      {{ notificationData[0].message }}
+      {{ notificationData[0].timestamp | date: "short" }}
+    </rux-notification>
+  </ng-container>
+</header>
+<div>
+  <ng-content></ng-content>
+</div>
+<!-- <div *ngIf="hasTabPanels else panels">
+  <ng-content></ng-content>
+</div>
+<ng-template #panels>
+<rux-tab-panels [attr.aria-labelledby]="tabsParentId">
+  <rux-tab-panel *ngFor="let tab of tabs" [attr.aria-labelledby]="tab.id">
+    <ng-content select="[tab][label]"></ng-content>
+  </rux-tab-panel>
+</rux-tab-panels>
+</ng-template> -->

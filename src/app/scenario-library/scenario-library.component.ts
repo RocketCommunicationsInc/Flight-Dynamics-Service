@@ -12,7 +12,6 @@ import { ToastService } from '../shared/toast.service';
   imports: [AstroComponentsModule, CommonModule],
 })
 export class ScenarioLibraryComponent {
-
   selectedCraft = signal<string | null>('');
 
   dummyScenariosData = [
@@ -53,7 +52,10 @@ export class ScenarioLibraryComponent {
     },
   ];
 
-  constructor(private toasts: ToastService, private store: Store) {}
+  constructor(
+    private toasts: ToastService,
+    private store: Store,
+  ) {}
 
   /**
    * Listen for the ruxtreenodeselected event and store the selected node in the selectedCraft signal
@@ -80,7 +82,7 @@ export class ScenarioLibraryComponent {
     });
   }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.store.dispatch(SatelliteActions.satelliteSelected({ satId: 123 }));
   }
 }

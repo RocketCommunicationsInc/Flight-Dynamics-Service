@@ -5,5 +5,5 @@ export const selectSelectedSatellite = createSelector(
   satellitesFeature.selectSatellites,
   satellitesFeature.selectSelectedSatId,
   (satellites, selectedSatId) =>
-    satellites.find((sat) => sat.catalogId === selectedSatId)
+    satellites.find((sat) => sat.catalogId === selectedSatId),
 );

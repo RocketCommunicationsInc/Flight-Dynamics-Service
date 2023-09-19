@@ -1,19 +1,9 @@
-<fds-child-container>
-  <div header>
-    <rux-tabs small (ruxselected)="onSelect($event)">
-      <rux-tab
-        [selected]="tab.selected"
-        [disabled]="tab.disabled"
-        *ngFor="let tab of tabs"
-        >{{ tab.label }}</rux-tab
-      >
-    </rux-tabs>
-
-    <rux-notification open small hideClose [status]="ods[0].status">
-      {{ ods[0].message }} {{ ods[0].timestamp | date: "short" }}
-    </rux-notification>
-  </div>
-
+<fds-tabbed-child-container
+  [tabs]="tabs"
+  [tabsParentId]="tabsId"
+  [notificationData]="ods"
+  [notificationHideClose]="true"
+>
   <div class="sub-header">
     <div class="container">
       <div class="data">
@@ -59,4 +49,4 @@
 
   <fds-view-table *ngIf="currentView === 'View Table'"></fds-view-table>
   <fds-view-graph *ngIf="currentView === 'View Graph'"></fds-view-graph>
-</fds-child-container>
+</fds-tabbed-child-container>
