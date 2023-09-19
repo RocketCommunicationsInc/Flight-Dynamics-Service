@@ -10,7 +10,7 @@ import {
   NgApexchartsModule,
   ApexMarkers,
   ApexStroke,
-  ApexTooltip
+  ApexTooltip,
 } from 'ng-apexcharts';
 
 type ChartOptions = {
@@ -21,7 +21,7 @@ type ChartOptions = {
   markers: ApexMarkers | any;
   stroke: ApexStroke | any;
   legend: any;
-  tooltip: ApexTooltip | any
+  tooltip: ApexTooltip | any;
 };
 
 @Component({
@@ -51,6 +51,30 @@ export class TrackDataComponent {
       series: [
         {
           data: dummyFileSize,
+          type: 'scatter',
+        },
+        {
+          name: 'Slope Line',
+          data: [
+            [800, 825],
+            [850, 875],
+            [900, 1000],
+            [1025, 1050],
+            [1075, 1100],
+            [1225, 1250],
+            [1275, 1300],
+            [1325, 1350],
+            [1375, 1400],
+            [1425, 1450],
+            [1470, 1500],
+            [1525, 1550],
+            [1575, 1600],
+            [1600, 1700],
+            [1700, 1800],
+            [1800, 1900],
+            [1900, 2000],
+          ],
+          type: 'line',
         },
       ],
       chart: {
@@ -59,15 +83,19 @@ export class TrackDataComponent {
         toolbar: {
           show: false,
         },
+        zoom: {
+          enabled: false,
+        },
       },
       legend: {
         show: false,
       },
       markers: {
-        size: 5,
+        size: [5, 0],
       },
       stroke: {
-        width: 0,
+        width: 2,
+        curve: 'smooth',
       },
       xaxis: {
         categories: dummyDates,
@@ -93,7 +121,7 @@ export class TrackDataComponent {
           show: false,
         },
         theme: '',
-        custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
+        custom: function ({ series, seriesIndex, dataPointIndex }: any) {
           return (
             '<div class="tooltip-box">' +
             '<span> DGS' +

@@ -50,8 +50,9 @@ div[slot="footer"] {
   gap: var(--spacing-8);
 }
 
-.tooltip-box {
+:host ::ng-deep .tooltip-box {
   background-color: var(--color-background-base-selected);
-  padding: var(--spacing-1);
+  padding-inline: var(--spacing-3);
+  padding-block: var(--spacing-1);
   border: none;
 }
