@@ -4,71 +4,58 @@ export type Scenario = {
   spaceCraft: Spacecraft[]
 }
 
-type Spacecraft = {
+export type Spacecraft = {
   id: string
   catalogId: string
   trackFileIds: string[]
 }
 
-type OrbitProperty = {
+export type OrbitProperty = {
   value: number
   unit: string
 }
 
-type TrackFile = {
+export type OrbitProperties = {
+  argOfPerigee: OrbitProperty
+  apogee: OrbitProperty
+  meanMotionDDot: OrbitProperty
+  perigee: OrbitProperty
+  semiMajorAxis: OrbitProperty
+  bStar: OrbitProperty
+  inclination: OrbitProperty
+  period: OrbitProperty
+  meanMotion: OrbitProperty
+  eccentricity: OrbitProperty
+  raan: OrbitProperty
+  revNo: OrbitProperty
+  meanMotionDot: OrbitProperty
+  meanAnomaly: OrbitProperty
+  mass: OrbitProperty
+}
+
+export type TrackFile = {
   id: string
+  spaceCraftRefId: string
   name: string
-  creationDate: string
+  creationDate: Date
   fileSize: number
-  epehemerisSourceFile: EphemerisFile
+  ephemerisSourceFile: EphemerisFile
   tleSourceFile: TLEFile
-  epochRangeStart: string
-  epochRangeEnd: string
+  epochRangeStart: Date
+  epochRangeEnd: Date
   thrustProfileFileName: string
   processedTrackFile: ProcessedTrackFile | null
-  initialOrbitProperties: {
-    argOfPerigee: OrbitProperty
-    apogee: OrbitProperty
-    meanMotionDDot: OrbitProperty
-    perigee: OrbitProperty
-    semiMajorAxis: OrbitProperty
-    bStar: OrbitProperty
-    inclination: OrbitProperty
-    period: OrbitProperty
-    meanMotion: OrbitProperty
-    eccentricity: OrbitProperty
-    raan: OrbitProperty
-    revNo: OrbitProperty
-    meanMotionDot: OrbitProperty
-    meanAnomaly: OrbitProperty
-    mass: OrbitProperty
-  }
+  initialOrbitProperties: OrbitProperties
 }
 
-type ProcessedTrackFile = {
+export type ProcessedTrackFile = {
   trackFileRefId: string
   name: string
-  creationDate: string
-  finalOrbitProperties: {
-    argOfPerigee: OrbitProperty
-    apogee: OrbitProperty
-    meanMotionDDot: OrbitProperty
-    perigee: OrbitProperty
-    semiMajorAxis: OrbitProperty
-    bStar: OrbitProperty
-    inclination: OrbitProperty
-    period: OrbitProperty
-    meanMotion: OrbitProperty
-    eccentricity: OrbitProperty
-    raan: OrbitProperty
-    revNo: OrbitProperty
-    meanMotionDot: OrbitProperty
-    meanAnomaly: OrbitProperty
-    mass: OrbitProperty
-  }
+  creationDate: Date
+  finalOrbitProperties: OrbitProperties
 }
 
-type EphemerisFile = {
+export type EphemerisFile = {
   trackFileRefId: string
   name: string
   data: {
@@ -76,7 +63,7 @@ type EphemerisFile = {
   }
 }
 
-type TLEFile = {
+export type TLEFile = {
   trackFileRefId: string
   name: string
   line1: string
