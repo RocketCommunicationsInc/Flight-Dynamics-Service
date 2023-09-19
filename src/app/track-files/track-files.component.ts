@@ -21,14 +21,13 @@ export class TrackFilesComponent {
   editedContent: string = '';
   editTrackFile: boolean = false;
   isFileSelected: boolean = false;
-
-  randomDate(start: { getTime: () => number }, end: { getTime: () => number }) {
-    return new Date(
-      start.getTime() + Math.random() * (end.getTime() - start.getTime()),
-    );
-  }
-
   filteredData: Files[] = this.dummyFileData;
+  filteredFiles: Files[] = [];
+
+  sortDirection: Sort = 'ASC';
+  sortedColumn: string = '';
+  showIcon: boolean = false;
+  showSecondIcon: boolean = false;
 
   handleFilter(selection: string): Files[] {
     const today = new Date();
@@ -62,16 +61,9 @@ export class TrackFilesComponent {
     return this.filteredData;
   }
 
-  filteredFiles: Files[] = [];
-
   onSelect(event: any) {
     this.filteredFiles = this.handleFilter(event.target.value);
   }
-
-  sortDirection: Sort = 'ASC';
-  sortedColumn: string = '';
-  showIcon: boolean = false;
-  showSecondIcon: boolean = false;
 
   sortColumn(column: string) {
     if (column === this.sortedColumn) {
