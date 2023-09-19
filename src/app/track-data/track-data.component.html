@@ -2,10 +2,10 @@
   <div slot="header">
     <rux-segmented-button [data]="segmentedBtnData" />
     <div class="button-wrapper">
-      <rux-button secondary>Filters</rux-button>
-      <rux-button secondary>Sites</rux-button>
-      <rux-button secondary>Settings</rux-button>
-      <rux-button iconOnly icon="more-horiz" size="small" />
+      <rux-button size="small" secondary>Filters</rux-button>
+      <rux-button size="small" secondary>Sites</rux-button>
+      <rux-button size="small" secondary>Settings</rux-button>
+      <rux-button size="small" iconOnly icon="more-horiz" size="small" />
     </div>
   </div>
 
@@ -13,6 +13,7 @@
     <div class="remove-outliers">
       <span>Remove Outliers</span>
       <rux-slider />
+      <rux-button>##</rux-button>
       <rux-button iconOnly icon="edit" />
       <rux-button iconOnly icon="replay" />
       <rux-button iconOnly icon="delete" />
@@ -34,6 +35,7 @@
     [markers]="chartOptions.markers"
     [stroke]="chartOptions.stroke"
     [legend]="chartOptions.legend"
+    [tooltip]="chartOptions.tooltip"
   ></apx-chart>
 
   <div slot="footer">

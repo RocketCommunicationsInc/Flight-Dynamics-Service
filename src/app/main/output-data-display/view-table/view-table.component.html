@@ -1,1 +1,65 @@
-<p>view-table works!</p>
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th
+          *ngFor="let column of columns"
+          [ngSwitch]="column.field"
+          [ngClass]="{ sortable: column.sortable }"
+        >
+          <rux-checkbox
+            *ngSwitchCase="'id'"
+            [checked]="selectedRows.size === summaryData.length"
+            (ruxchange)="onRowSelectAll($event)"
+          />
+          <div
+            *ngSwitchDefault
+            [ngClass]="{ active: sorted?.field === column.field }"
+            class="h-stack"
+            (click)="sortData(column.field)"
+          >
+            {{ column.header }}
+            <rux-icon
+              *ngIf="column.sortable"
+              [icon]="setSortIcon(column.field)"
+              size="small"
+            />
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let row of summaryData"
+        [attr.selected]="selectedIds.has(row.id)"
+      >
+        <td *ngFor="let column of columns" [ngSwitch]="column.field">
+          <rux-checkbox
+            *ngSwitchCase="'id'"
+            [checked]="selectedIds.has(row.id)"
+            (ruxchange)="onRowSelect($event, row)"
+          />
+          <ng-container *ngSwitchCase="'status'">
+            <rux-status *ngIf="row.status !== 'normal'" [status]="row.status" />
+          </ng-container>
+          <rux-select
+            size="small"
+            *ngSwitchCase="'units'"
+            (ruxchange)="setRowUnits($event, row)"
+            [value]="getRowUnit(row)"
+          >
+            <rux-option
+              *ngFor="let unit of row.units"
+              [label]="unit.label"
+              [value]="unit.val"
+            />
+          </rux-select>
+
+          <ng-container *ngSwitchDefault>
+            {{ setDefaultCase(row[column.field], getRowUnit(row)) }}
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

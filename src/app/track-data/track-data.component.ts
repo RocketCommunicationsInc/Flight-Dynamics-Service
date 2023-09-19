@@ -12,6 +12,7 @@ import {
   NgApexchartsModule,
   ApexMarkers,
   ApexStroke,
+  ApexTooltip
 } from 'ng-apexcharts';
 
 type ChartOptions = {
@@ -23,6 +24,7 @@ type ChartOptions = {
   markers: ApexMarkers | any;
   stroke: ApexStroke | any;
   legend: any;
+  tooltip: ApexTooltip | any
 };
 
 @Component({
@@ -55,7 +57,7 @@ export class TrackDataComponent {
         },
       ],
       chart: {
-        height: 350,
+        height: 450,
         type: 'line',
         toolbar: {
           show: false,
@@ -90,6 +92,41 @@ export class TrackDataComponent {
           },
         },
         title: 'test',
+      },
+      tooltip: {
+        enabled: true,
+        x: {
+          show: false,
+        },
+        theme: '',
+        custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
+          return (
+            '<div class="tooltip-box">' +
+            '<span>' +
+            w.globals.seriesNames[seriesIndex] +
+            '</span> <br/>' +
+            '<span>Allocations: ' +
+            series[seriesIndex][dataPointIndex] +
+            '%</span> <br/>' +
+            '<span> ' +
+            // labels[dataPointIndex] +
+            '</span>' +
+            '</div>'
+          );
+        },
+        fillSeriesColor: true,
+        style: {
+          color: 'var(--color-text-primary)',
+          background: 'var(--color-background-base-default)',
+        },
+        shared: false,
+        intersect: false,
+        onDatasetHover: {
+          highlightDataSeries: false,
+        },
+        marker: {
+          show: false,
+        },
       },
       yaxis: [
         {

@@ -27,8 +27,17 @@ div[slot="header"] {
   align-items: center;
 }
 
-.remove-outliers rux-button {
-  gap: var(--spacing-3);
+.toolbar rux-button {
+  margin-left: var(--spacing-4);
+}
+
+.toolbar rux-button:nth-of-type(2) {
+  padding-left: var(--spacing-4);
+}
+
+rux-slider {
+  width: 13rem;
+  padding-inline: var(--spacing-2);
 }
 
 .zoom-wrapper {
@@ -38,4 +47,5 @@ div[slot="header"] {
 div[slot="footer"] {
   display: flex;
   justify-content: center;
+  gap: var(--spacing-8);
 }

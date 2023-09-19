@@ -13,20 +13,17 @@
         </div>
         <div class="alerts">
           <div class="h-stack">
-            <rux-status status="caution"></rux-status>
+            <rux-status status="caution" />
             <p>Warning ({{ warnings.length }})</p>
           </div>
           <div class="h-stack">
-            <rux-status status="critical"></rux-status>
+            <rux-status status="critical" />
             <p>Critical ({{ criticals.length }})</p>
           </div>
         </div>
       </div>
 
-      <rux-segmented-button
-        size="small"
-        [data]="actions"
-      ></rux-segmented-button>
+      <rux-segmented-button size="small" [data]="actions" />
     </div>
 
     <div class="container">
@@ -34,10 +31,10 @@
         size="small"
         [data]="views"
         (ruxchange)="setCurrentView($event)"
-      ></rux-segmented-button>
+      />
 
       <rux-pop-up>
-        <rux-icon icon="more-horiz" slot="trigger" size="1.75rem"></rux-icon>
+        <rux-icon icon="more-horiz" slot="trigger" size="1.75rem" />
         <rux-menu>
           <rux-menu-item href="#">Menu Item 1</rux-menu-item>
           <rux-menu-item href="#">Menu Item 2</rux-menu-item>
