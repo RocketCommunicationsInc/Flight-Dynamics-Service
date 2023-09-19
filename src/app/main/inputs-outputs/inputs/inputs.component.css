@@ -12,7 +12,8 @@ form.inputs_form {
   padding: var(--spacing-3);
 }
 
-.inputs_main > *, .inputs_main > :first-child.alertActive {
+.inputs_main > *,
+.inputs_main > :first-child.alertActive {
   padding-block-start: var(--spacing-3);
 }
 

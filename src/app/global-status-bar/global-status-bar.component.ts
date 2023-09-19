@@ -1,5 +1,11 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { AstroComponentsModule, RuxToastStack} from '@astrouxds/angular';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
 import { ToastService } from '../shared/toast.service';
 
 @Component({
@@ -13,7 +19,7 @@ export class GlobalStatusBarComponent {
   @Output() onChangeTheme = new EventEmitter();
   @Input() lightMode = false;
 
-  handleSelection(e: Event){
+  handleSelection(e: Event) {
     const menuActions = {
       mode: () => this.onChangeTheme.emit(),
       unavailable: () => this.showToast(),
@@ -32,8 +38,8 @@ export class GlobalStatusBarComponent {
     });
   }
 
-  constructor(private toasts: ToastService){
-    this.lightMode = false
-    this.showToast()
+  constructor(private toasts: ToastService) {
+    this.lightMode = false;
+    this.showToast();
   }
 }

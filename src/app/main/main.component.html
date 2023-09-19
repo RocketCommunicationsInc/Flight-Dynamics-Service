@@ -2,8 +2,12 @@
   <header slot="header">
     <fds-utility-toolkit></fds-utility-toolkit>
   </header>
-  <div>
-    <fds-inputs-outputs></fds-inputs-outputs>
-    <fds-output-data-display></fds-output-data-display>
-  </div>
+  <main>
+    <router-outlet></router-outlet>
+    <router-outlet name="log"></router-outlet>
+    <router-outlet name="compare"></router-outlet>
+    <router-outlet name="report"></router-outlet>
+    <router-outlet name="track"></router-outlet>
+    <router-outlet name="propagator"></router-outlet>
+  </main>
 </rux-container>
