@@ -49,3 +49,9 @@ div[slot="footer"] {
   justify-content: center;
   gap: var(--spacing-8);
 }
+
+.tooltip-box {
+  background-color: var(--color-background-base-selected);
+  padding: var(--spacing-1);
+  border: none;
+}

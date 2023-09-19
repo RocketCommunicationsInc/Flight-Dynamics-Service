@@ -3,12 +3,10 @@ import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { dummyFileData } from '../track-files/dummy-file-data';
 import {
-  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
   ApexXAxis,
   ApexYAxis,
-  ApexTitleSubtitle,
   NgApexchartsModule,
   ApexMarkers,
   ApexStroke,
@@ -20,7 +18,6 @@ type ChartOptions = {
   chart: ApexChart | any;
   xaxis: ApexXAxis | any;
   yaxis: ApexYAxis | any;
-  title: ApexTitleSubtitle | any;
   markers: ApexMarkers | any;
   stroke: ApexStroke | any;
   legend: any;
@@ -66,9 +63,6 @@ export class TrackDataComponent {
       legend: {
         show: false,
       },
-      title: {
-        // text: 'My First Angular Chart',
-      },
       markers: {
         size: 5,
       },
@@ -102,14 +96,13 @@ export class TrackDataComponent {
         custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
           return (
             '<div class="tooltip-box">' +
-            '<span>' +
-            w.globals.seriesNames[seriesIndex] +
+            '<span> DGS' +
             '</span> <br/>' +
-            '<span>Allocations: ' +
-            series[seriesIndex][dataPointIndex] +
-            '%</span> <br/>' +
             '<span> ' +
-            // labels[dataPointIndex] +
+            dummyDates[dataPointIndex] +
+            '</span> <br/>' +
+            '<span>El: ' +
+            series[seriesIndex][dataPointIndex] +
             '</span>' +
             '</div>'
           );
