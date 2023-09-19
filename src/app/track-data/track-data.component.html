@@ -1,1 +1,43 @@
-<p>track-data works!</p>
+<div>
+  <div slot="header">
+    <rux-segmented-button [data]="segmentedBtnData" />
+    <div class="button-wrapper">
+      <rux-button secondary>Filters</rux-button>
+      <rux-button secondary>Sites</rux-button>
+      <rux-button secondary>Settings</rux-button>
+      <rux-button iconOnly icon="more-horiz" size="small" />
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="remove-outliers">
+      <span>Remove Outliers</span>
+      <rux-slider />
+      <rux-button iconOnly icon="edit" />
+      <rux-button iconOnly icon="replay" />
+      <rux-button iconOnly icon="delete" />
+    </div>
+
+    <div class="zoom-wrapper">
+      <rux-icon icon="search" size="extra-small" />
+      <rux-slider />
+      <rux-icon icon="search" size="1.5rem" />
+    </div>
+  </div>
+
+  <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [title]="chartOptions.title"
+    [xaxis]="chartOptions.xaxis"
+    [yaxis]="chartOptions.yaxis"
+    [markers]="chartOptions.markers"
+    [stroke]="chartOptions.stroke"
+    [legend]="chartOptions.legend"
+  ></apx-chart>
+
+  <div slot="footer">
+    <span>OD Quality Est: 82/100</span>
+    <span>Data Points: 000, 000</span>
+  </div>
+</div>

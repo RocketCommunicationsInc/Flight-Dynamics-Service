@@ -1,0 +1,41 @@
+div[slot="header"] {
+  display: flex;
+  padding-block: var(--spacing-4);
+  gap: var(--spacing-2);
+  justify-content: space-between;
+}
+
+.button-wrapper {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.button-wrapper rux-button:nth-of-type(4) {
+  margin-left: var(--spacing-8);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-2);
+  background-color: var(--color-background-surface-header);
+}
+
+.remove-outliers {
+  display: flex;
+  align-items: center;
+}
+
+.remove-outliers rux-button {
+  gap: var(--spacing-3);
+}
+
+.zoom-wrapper {
+  display: flex;
+}
+
+div[slot="footer"] {
+  display: flex;
+  justify-content: center;
+}

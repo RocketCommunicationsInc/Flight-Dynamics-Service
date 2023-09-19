@@ -65,7 +65,7 @@ export const dummyFileData: Files[] = [
   {
     fileName: 'trackfile_08',
     date: randomDate(new Date(2023, 0, 1), new Date()),
-    size: 7,
+    size: 72,
     selected: false,
     content:
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam vero',
@@ -73,7 +73,7 @@ export const dummyFileData: Files[] = [
   {
     fileName: 'trackfile_09',
     date: randomDate(new Date(2023, 0, 1), new Date()),
-    size: 2343,
+    size: 1343,
     selected: false,
     content:
       'Tenetur quod quidem in voluptatem corporis dolorum dicta sit pariatur porro quaerat autem ipsam odit quam beatae tempora quibusdam illum! Modi velit odio nam nulla unde amet odit pariatur at!',
@@ -126,7 +126,7 @@ export const dummyFileData: Files[] = [
   {
     fileName: 'trackfile_16',
     date: randomDate(new Date(2023, 0, 1), new Date()),
-    size: 8,
+    size: 80,
     selected: false,
     content:
       'Laboriosam quaerat sapiente minima nam minus similique illum architecto et!',
