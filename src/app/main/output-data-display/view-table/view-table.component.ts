@@ -2,28 +2,16 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 
+import { Unit, UnitMenuItems } from 'src/app/shared/units/units.model';
+import { Conversions } from 'src/app/shared/units/unit-conversions';
 import { randomNum, randomId } from '../random';
-
-interface Column {
-  header: string;
-  field: keyof SummaryData;
-  sortable?: boolean;
-}
-
-interface SummaryData {
-  id: string;
-  property: string;
-  initial: string;
-  final: string;
-  difference: string;
-  deviation: string;
-  unit: 'Unit';
-}
-
-interface Sorted {
-  field: Column['field'];
-  direction: 'ASC' | 'DESC';
-}
+import {
+  Column,
+  SelectOption,
+  Sorted,
+  StatusOptions,
+  SummaryData,
+} from './view-table.model';
 
 @Component({
   selector: 'fds-view-table',
@@ -40,11 +28,16 @@ export class ViewTableComponent {
   summaryData: SummaryData[] = Array.from({ length: 48 }, () => ({
     id: randomId(),
     property: 'Orbit Property_' + randomId().toUpperCase(),
-    initial: '0.' + randomNum(),
-    final: '0.' + randomNum(),
-    difference: '0.' + randomNum(),
-    deviation: `0.${randomNum(100, 500)}-${randomNum(10, 50)}`,
-    unit: 'Unit',
+    initial: randomNum(),
+    final: randomNum(),
+    status: StatusOptions[randomNum(0, 2)],
+    difference: randomNum(),
+    deviation: randomNum(100, 500),
+    units: [
+      { ...UnitMenuItems.meters, selected: false },
+      { ...UnitMenuItems.kilometers, selected: true },
+      { ...UnitMenuItems.miles, selected: false },
+    ],
   }));
 
   columns: Column[] = [
@@ -52,10 +45,29 @@ export class ViewTableComponent {
     { header: 'Solve For', field: 'property', sortable: true },
     { header: 'Initial State', field: 'initial' },
     { header: 'Final State', field: 'final' },
+    { header: '', field: 'status' },
     { header: 'Difference', field: 'difference', sortable: true },
     { header: 'Std Dev', field: 'deviation' },
-    { header: 'Units', field: 'unit' },
+    { header: 'Units', field: 'units' },
   ];
+
+  setRowUnits(e: Event, row: SummaryData) {
+    const event = e.target as HTMLRuxSelectElement;
+    const newUnit = event.value as Unit;
+    row.units.forEach((unit) => {
+      unit.selected = unit.val === newUnit;
+    });
+  }
+
+  getRowUnit(row: SummaryData): Unit {
+    const selected = row.units.find((unit) => unit.selected);
+    return selected?.val || 'km';
+  }
+
+  setDefaultCase(value: string | number | SelectOption[], unit: Unit) {
+    if (typeof value === 'number') return Conversions[unit](value);
+    return value;
+  }
 
   onRowSelectAll(e: Event) {
     const isChecked = (e.target as HTMLRuxCheckboxElement).checked;
@@ -92,13 +104,9 @@ export class ViewTableComponent {
     console.log([...this.selectedRows]);
   }
 
-  setIcon(field: keyof SummaryData) {
+  setSortIcon(field: keyof SummaryData) {
     const icons = { ASC: 'arrow-drop-down', DESC: 'arrow-drop-up' };
-
-    if (this.sorted?.field === field) {
-      return icons[this.sorted.direction];
-    }
-
+    if (this.sorted?.field === field) return icons[this.sorted.direction];
     return icons['ASC'];
   }
 
@@ -124,7 +132,6 @@ export class ViewTableComponent {
         if (a[field] > b[field]) return 1;
         return 0;
       }
-
       if (a[field] < b[field]) return 1;
       if (a[field] > b[field]) return -1;
       return 0;

@@ -20,7 +20,7 @@
           {{ column.header }}
           <rux-icon
             *ngIf="column.sortable"
-            [icon]="setIcon(column.field)"
+            [icon]="setSortIcon(column.field)"
             size="small"
           />
         </div>
@@ -28,21 +28,34 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of summaryData">
+    <tr
+      *ngFor="let row of summaryData"
+      [attr.selected]="selectedIds.has(row.id)"
+    >
       <td *ngFor="let column of columns" [ngSwitch]="column.field">
         <rux-checkbox
           *ngSwitchCase="'id'"
           [checked]="selectedIds.has(row.id)"
           (ruxchange)="onRowSelect($event, row)"
         />
-
-        <rux-select *ngSwitchCase="'unit'">
-          <rux-option label="Option 1" value="a" />
-          <rux-option label="Option 2" value="b" />
-          <rux-option label="Option 3" value="c" />
+        <ng-container *ngSwitchCase="'status'">
+          <rux-status *ngIf="row.status !== 'normal'" [status]="row.status" />
+        </ng-container>
+        <rux-select
+          size="small"
+          *ngSwitchCase="'units'"
+          (ruxchange)="setRowUnits($event, row)"
+          [value]="getRowUnit(row)"
+        >
+          <rux-option
+            *ngFor="let unit of row.units"
+            [label]="unit.label"
+            [value]="unit.val"
+          />
         </rux-select>
+
         <ng-container *ngSwitchDefault>
-          {{ row[column.field] }}
+          {{ setDefaultCase(row[column.field], getRowUnit(row)) }}
         </ng-container>
       </td>
     </tr>

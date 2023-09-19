@@ -1,7 +1,8 @@
 :host {
-  overflow-y: scroll;
-  height: 100%;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: calc(100% - 6.5rem);
   /* This goes along with the fix for pushing the scrollbar down past the sticky header */
   background-color: var(--color-background-base-header);
 }
@@ -11,17 +12,61 @@
 }
 
 table {
-  position: relative;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 thead {
-  z-index: 10;
   position: relative;
+  box-shadow: var(--table-header-shadow);
+  z-index: 10;
 }
 
 th {
   position: sticky;
   top: 0; /* Don't forget this, required for the stickiness */
+  padding: var(--table-header-cell-padding);
+  text-align: left;
+  background-color: var(--table-header-color-background);
+  font-family: var(--font-heading-5-font-family);
+  font-size: var(--font-heading-5-font-size);
+  font-weight: var(--font-heading-5-font-weight);
+  line-height: var(--font-heading-5-line-height);
+  letter-spacing: var(--font-heading-5-letter-spacing);
+}
+
+tbody {
+  background-color: var(--table-row-color-background-default);
+}
+
+tbody tr {
+  color: var(--table-row-color-text);
+  border-bottom-style: solid;
+  border-bottom-color: var(--table-row-color-border);
+  border-bottom-width: var(--table-row-border-width);
+  font-family: var(--font-body-1-font-family);
+  font-size: var(--font-body-1-font-size);
+  font-weight: var(--font-body-1-font-weight);
+  line-height: var(--font-body-1-line-height);
+  letter-spacing: var(--font-body-1-letter-spacing);
+}
+
+tbody tr:hover {
+  background-color: var(--table-row-color-background-hover);
+}
+
+tbody tr[selected="true"] {
+  background-color: var(--table-row-color-background-selected);
+}
+
+td {
+  padding-inline: var(--table-body-cell-padding-x);
+  padding-block: var(--table-body-cell-padding-y);
+}
+
+table rux-checkbox {
+  display: flex;
+  justify-content: center;
 }
 
 th.sortable {
