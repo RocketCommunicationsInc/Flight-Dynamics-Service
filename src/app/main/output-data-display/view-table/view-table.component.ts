@@ -111,9 +111,9 @@ export class ViewTableComponent {
   }
 
   sortData(field: keyof SummaryData) {
-    const [column] = this.columns.filter((column) => column.field === field);
+    const column = this.columns.find((column) => column.field === field);
 
-    if (column.sortable) {
+    if (column?.sortable) {
       if (!this.sorted || this.sorted.field !== field) {
         this.sorted = { direction: 'ASC', field };
         this._sort({ direction: 'ASC', field });
