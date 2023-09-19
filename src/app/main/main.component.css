@@ -1,7 +1,5 @@
-div {
-  display: flex;
-  gap: var(--spacing-4);
-  flex-grow: 1;
+main {
+  display: block;
   height: 100%;
 }
 

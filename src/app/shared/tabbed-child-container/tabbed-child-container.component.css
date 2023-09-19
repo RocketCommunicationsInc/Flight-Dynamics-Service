@@ -14,5 +14,5 @@ header {
 div {
   box-shadow: 0 0 0 1px var(--color-border-interactive-muted);
   flex-grow: 1;
-  overflow: auto;
+  overflow: hidden;
 }

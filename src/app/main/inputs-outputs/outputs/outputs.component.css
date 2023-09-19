@@ -1,7 +1,3 @@
-:host {
-  overflow: auto;
-}
-
 .outputs_header {
   padding: var(--spacing-3);
   background: var(--color-background-surface-header);
@@ -11,6 +7,8 @@ form.outputs_form {
   display: flex;
   flex-direction: column;
   padding-inline: var(--spacing-3);
+  height: 100%;
+  overflow: auto;
 }
 
 form.outputs_form > div {
