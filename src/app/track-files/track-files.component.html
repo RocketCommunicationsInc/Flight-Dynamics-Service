@@ -14,31 +14,48 @@
   <div class="content">
     <div class="table-wrapper">
       <rux-table>
-        <rux-table-header-row>
-          <rux-table-header-cell>
-            <rux-checkbox (ruxchange)="handleSelectAll($event)" />
-          </rux-table-header-cell>
-          <rux-table-header-cell>File Name </rux-table-header-cell>
-          <rux-table-header-cell (click)="sortColumn('date')"
-            >Date
-            <rux-icon
+        <rux-table-header>
+          <rux-table-header-row>
+            <rux-table-header-cell>
+              <rux-checkbox (ruxchange)="handleSelectAll($event)" />
+            </rux-table-header-cell>
+            <rux-table-header-cell>File Name </rux-table-header-cell>
+            <rux-table-header-cell
               (click)="sortColumn('date')"
-              [icon]="{
-                'arrow-drop-up': sortDirection === 'ASC',
-                'arrow-drop-down': sortDirection === 'DESC'
-              }"
-            />
-          </rux-table-header-cell>
-          <rux-table-header-cell (click)="sortColumn('size')"
-            >File Size
-            <rux-icon
-              [icon]="{
-                'arrow-drop-up': sortDirection === 'ASC',
-                'arrow-drop-down': sortDirection === 'DESC'
-              }"
-            />
-          </rux-table-header-cell>
-        </rux-table-header-row>
+              (mouseenter)="showIcon = true"
+              (mouseleave)="showIcon = false"
+              >Date
+              <span class="icon-span" [ngClass]="{ 'show-icon': showIcon }">
+                <rux-icon
+                  size="small"
+                  class="visible"
+                  *ngIf="showIcon"
+                  [icon]="
+                    sortDirection === 'ASC'
+                      ? 'arrow-drop-down'
+                      : 'arrow-drop-up'
+                  "
+                />
+              </span>
+            </rux-table-header-cell>
+            <rux-table-header-cell
+              (click)="sortColumn('size')"
+              (mouseenter)="showSecondIcon = true"
+              (mouseleave)="showSecondIcon = false"
+              >File Size
+              <span class="icon-span" [ngClass]="{ 'show-icon': showIcon }">
+                <rux-icon
+                  size="small"
+                  *ngIf="showSecondIcon"
+                  [icon]="
+                    sortDirection === 'ASC'
+                      ? 'arrow-drop-down'
+                      : 'arrow-drop-up'
+                  "
+              /></span>
+            </rux-table-header-cell>
+          </rux-table-header-row>
+        </rux-table-header>
         <rux-table-body>
           <rux-table-row *ngFor="let file of filteredData">
             <rux-table-cell>

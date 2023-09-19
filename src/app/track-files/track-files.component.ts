@@ -5,7 +5,7 @@ import { dummyFileData } from './dummy-file-data';
 import { FormsModule } from '@angular/forms';
 import { Files } from '../types/Files';
 
-type Sort = 'ASC' | 'DESC' | ''
+type Sort = 'ASC' | 'DESC' | '';
 @Component({
   selector: 'fds-track-files',
   standalone: true,
@@ -70,19 +70,26 @@ export class TrackFilesComponent {
 
   sortDirection: Sort = 'ASC';
   sortedColumn: string = '';
+  showIcon: boolean = false;
+  showSecondIcon: boolean = false;
 
   sortColumn(column: string) {
     if (column === this.sortedColumn) {
+      if (column === 'date') {
+        this.showIcon = !this.showIcon;
+      }
+      if (column === 'size') {
+        this.showSecondIcon = !this.showSecondIcon;
+      }
       this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
     } else {
       this.sortedColumn = column;
       this.sortDirection = 'ASC';
     }
     this.filteredData.sort((a: any, b: any) => {
-      console.log(this.sortDirection);
       return this.sortDirection === 'ASC'
-        ? a[this.sortedColumn].localeCompare(b[this.sortedColumn])
-        : b[this.sortedColumn].localeCompare(a[this.sortedColumn]);
+        ? a[this.sortedColumn] - b[this.sortedColumn]
+        : b[this.sortedColumn] - a[this.sortedColumn];
     });
   }
 
@@ -92,6 +99,10 @@ export class TrackFilesComponent {
       this.selectedFileName = file.fileName;
       this.selectedFileContent = file.content;
       this.isFileSelected = true;
+    } else if (file.selected && this.selectedFileName === '') {
+      const selectedCB = this.filteredData.filter((cb) => cb);
+      this.selectedFileName = selectedCB[0].fileName;
+      this.selectedFileContent = selectedCB[0].content;
     } else {
       this.selectedFileName = '';
       this.selectedFileContent = '';
