@@ -87,7 +87,6 @@ export class TrackFilesComponent {
 
   handleCheckbox(file: any): void {
     const selectedCB = this.filteredData.filter((cb) => cb.selected);
-    console.log(selectedCB.length);
     file.selected = !file.selected;
     if (file.selected) {
       this.selectedFileName = file.fileName;
