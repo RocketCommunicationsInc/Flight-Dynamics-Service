@@ -30,3 +30,19 @@
   </rux-tab-panels>
 </ng-template>
 
+<!-- Above is what I landed one, but below you will find the direction I was going in, commented out -->
+
+<!-- <ng-template #panels>
+  <rux-tab-panels [attr.aria-labelledby]="tabsParentId">
+    <ng-container *ngFor="let tab of tabs">
+      <rux-tab-panel [attr.aria-labelledby]="tab.id">
+        <ng-template [ngTemplateOutlet]="tab.label | lowercase"></ng-template>
+      </rux-tab-panel>
+    </ng-container>
+    <ng-content select="[panels]"></ng-content>
+  </rux-tab-panels>
+</ng-template>
+
+<ng-template #tab.label>
+  <ng-content select="['+tab.label+']"></ng-content>
+</ng-template> -->
