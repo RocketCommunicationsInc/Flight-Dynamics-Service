@@ -34,6 +34,7 @@ type ChartOptions = {
 export class TrackDataComponent {
   public chartOptions: Partial<ChartOptions>;
   dummyFileData = dummyFileData;
+  dataPointLength: number = 0
 
   segmentedBtnData = [
     { label: 'View Graph', selected: true },
@@ -45,7 +46,9 @@ export class TrackDataComponent {
       file.date.toLocaleDateString(),
     );
 
+    
     const dummyFileSize = dummyFileData.map((file) => file.size);
+    this.dataPointLength = dummyFileSize.length
 
     this.chartOptions = {
       series: [
