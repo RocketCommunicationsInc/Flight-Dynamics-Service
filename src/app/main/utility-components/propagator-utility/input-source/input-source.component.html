@@ -1,45 +1,58 @@
 <rux-container>
   <div class="toolbar">
-    Toolbar
-    <!-- <rux-button>Controls</rux-button> -->
+    <rux-button>Controls</rux-button>
   </div>
 
   <form>
-    Form
-    <!-- <section class="form-section">
-      <h3>Source Settings</h3>
-
+    <h3>Source Settings</h3>
+    <section class="form-section">
       <rux-select label="Orbit Source">
         <rux-option label="Ephemeris" />
         <rux-option label="TLE" />
       </rux-select>
-      <rux-input placeholder="eph_020120.ephm" />
+
+      <rux-pop-up placement="bottom" closeOnSelect="true">
+        <rux-input placeholder="eph_020120.ephm" slot="trigger" />
+        <rux-menu>
+          <span>Recent TLE Files</span>
+          <rux-menu-item>tle_12242019_1.tle</rux-menu-item>
+          <rux-menu-item>tle_12242019_1.tle</rux-menu-item>
+          <rux-menu-item>tle_12242019_1.tle</rux-menu-item>
+          <rux-menu-item>tle_12242019_1.tle</rux-menu-item>
+          <rux-menu-item>tle_12242019_1.tle</rux-menu-item>
+        </rux-menu>
+        <span>Import TLE File</span>
+      </rux-pop-up>
     </section>
 
+    <h3>Epoch Settings</h3>
     <section class="form-section">
-      <h3>Epoch Settings</h3>
-
-      <rux-select label="Orbit Source">
-        <rux-option label="Ephemeris" />
-        <rux-option label="TLE" />
-      </rux-select>
       <rux-input placeholder="eph_020120.ephm" />
+      <rux-select>
+        <rux-option label="UTCYmdHMs3" />
+      </rux-select>
+      <rux-switch label="Include Item"></rux-switch>
+      <rux-switch label="Include Item"></rux-switch>
     </section>
 
+    <h3>Date & Duration</h3>
     <section class="form-section">
-      <h3>Date & Duration</h3>
-
-      <rux-select label="Orbit Source">
-        <rux-option label="Ephemeris" />
-        <rux-option label="TLE" />
+      <rux-select label="Date Format">
+        <rux-option label="UTC YmdHMs3" />
       </rux-select>
-      <rux-input placeholder="eph_020120.ephm" />
-    </section> -->
+      <rux-input type="date" label="Start Date" placeholder="eph_020120.ephm" />
+      <rux-input
+        type="datetime-local"
+        label="End Date"
+        placeholder="eph_020120.ephm"
+      />
+      <rux-input label="Span (Days)" placeholder="#" type="number" />
+    </section>
   </form>
   <aside class="controls">Controls</aside>
 
   <div class="footer">
-    <!-- <rux-button>Secondary Action</rux-button>
-    <rux-button>Primary Action</rux-button> -->
+    <rux-button>Secondary Action</rux-button>
+    <rux-button>Primary Action</rux-button>
   </div>
 </rux-container>

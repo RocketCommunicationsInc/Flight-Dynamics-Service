@@ -1,3 +1,11 @@
 rux-container::part(container) {
   border: none;
 }
+
+h3 {
+  padding-block-end: 1em;
+}
+
+.form-section {
+  display: flex;
+}
