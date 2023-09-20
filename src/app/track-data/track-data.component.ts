@@ -12,6 +12,9 @@ import {
   ApexStroke,
   ApexTooltip,
 } from 'ng-apexcharts';
+import { Files } from '../types/Files';
+
+type Sort = 'ASC' | 'DESC' | '';
 
 type ChartOptions = {
   series: ApexAxisChartSeries | any;
@@ -34,11 +37,65 @@ type ChartOptions = {
 export class TrackDataComponent {
   public chartOptions: Partial<ChartOptions>;
   dummyFileData = dummyFileData;
-  dataPointLength: number = 0
+  dataPointLength: number = 0;
 
-  segmentedBtnData = [
-    { label: 'View Graph', selected: true },
-    { label: 'View Table' },
+  showGraph: boolean = true;
+  showTable: boolean = false;
+
+  viewTable() {
+    this.showGraph = false;
+    this.showTable = true;
+  }
+
+  viewGraph() {
+    this.showGraph = true;
+    this.showTable = false;
+  }
+
+  filteredData: Files[] = this.dummyFileData;
+  sortDirection: Sort = 'ASC';
+  sortedColumn: string = '';
+  showIcon: boolean = false;
+  showSecondIcon: boolean = false;
+
+  sortColumn(column: string) {
+    if (column === this.sortedColumn) {
+      if (column === 'date') {
+        this.showIcon = !this.showIcon;
+      }
+      if (column === 'size') {
+        this.showSecondIcon = !this.showSecondIcon;
+      }
+      this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
+    } else {
+      this.sortedColumn = column;
+      this.sortDirection = 'ASC';
+    }
+    this.filteredData.sort((a: any, b: any) => {
+      return this.sortDirection === 'ASC'
+        ? a[this.sortedColumn] - b[this.sortedColumn]
+        : b[this.sortedColumn] - a[this.sortedColumn];
+    });
+  }
+
+  slopeData = [
+    [800, 825],
+    [815, 850],
+    [840, 875],
+    [865, 900],
+    [895, 925],
+    [915, 950],
+    [940, 975],
+    [965, 1000],
+    [990, 1050],
+    [1040, 1100],
+    [1090, 1150],
+    [1150, 1200],
+    [1200, 1300],
+    [1300, 1400],
+    [1400, 1550],
+    [1490, 1650],
+    [1590, 1800],
   ];
 
   constructor() {
@@ -46,9 +103,8 @@ export class TrackDataComponent {
       file.date.toLocaleDateString(),
     );
 
-    
     const dummyFileSize = dummyFileData.map((file) => file.size);
-    this.dataPointLength = dummyFileSize.length
+    this.dataPointLength = dummyFileSize.length;
 
     this.chartOptions = {
       series: [
@@ -58,25 +114,7 @@ export class TrackDataComponent {
         },
         {
           name: 'Slope Line',
-          data: [
-            [800, 825],
-            [850, 875],
-            [900, 1000],
-            [1025, 1050],
-            [1075, 1100],
-            [1225, 1250],
-            [1275, 1300],
-            [1325, 1350],
-            [1375, 1400],
-            [1425, 1450],
-            [1470, 1500],
-            [1525, 1550],
-            [1575, 1600],
-            [1600, 1700],
-            [1700, 1800],
-            [1800, 1900],
-            [1900, 2000],
-          ],
+          data: this.slopeData,
           type: 'line',
         },
       ],
@@ -89,6 +127,11 @@ export class TrackDataComponent {
         zoom: {
           enabled: false,
         },
+        events: {
+          dataPointSelection: ({event, chartContext, config}: any) => {
+            console.log(event);
+          }
+        }
       },
       legend: {
         show: false,

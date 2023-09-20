@@ -1,15 +1,12 @@
 <div>
   <div class="button-wrapper">
     <span> Raw Track Files</span>
-    <span>
-      <rux-select label="Filter By" (ruxchange)="onSelect($event)">
-        <rux-option label="All" value="all" />
-        <rux-option label="Last 7 Days" value="seven-days" />
-        <rux-option label="Last 30 Days" value="thirty-days" />
-        <rux-option label="Last 90 Days" value="ninety-days" />
-      </rux-select>
-    </span>
-    <rux-button size="small" iconOnly="true" icon="more-horiz" />
+    <rux-select label="Filter By" (ruxchange)="onSelect($event)">
+      <rux-option label="All" value="all" />
+      <rux-option label="Last 7 Days" value="seven-days" />
+      <rux-option label="Last 30 Days" value="thirty-days" />
+      <rux-option label="Last 90 Days" value="ninety-days" />
+    </rux-select>
   </div>
 
   <div class="content">
