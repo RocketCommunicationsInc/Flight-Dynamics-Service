@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ODS_DATA, SUMMARY_DATA } from './output-data-display.data';
 import { Unit } from 'src/app/shared/units/units.model';
 import { Conversions } from 'src/app/shared/units/unit-conversions';
-import { TableService, ColumnDefs } from 'src/app/shared/table/table.service';
+import { TableService, ColumnDefs } from 'src/app/shared/table.service';
 import {
   DefaultValue,
   OrbitDeterminations,
