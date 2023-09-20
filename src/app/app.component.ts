@@ -42,8 +42,6 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private toasts: ToastService) {}
 
   ngOnInit() {
-    console.log(mockScenarios[0].spaceCraft[0])
-    console.log(mockTrackFiles[0])
     this.toasts
       .getStack()
       .pipe(
@@ -51,7 +49,6 @@ export class AppComponent implements OnInit, OnDestroy {
         filter((val): val is ToastConfig => !!val)
       )
       .subscribe((config: ToastConfig) => this.toastStack?.addToast(config))
-    filter((val): val is ToastConfig => !!val)
   }
 
   ngOnDestroy(): void {
