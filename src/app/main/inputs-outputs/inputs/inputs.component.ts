@@ -1,17 +1,12 @@
 import { Component } from '@angular/core';
-import { CommonModule, NgTemplateOutlet } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'fds-inputs',
   standalone: true,
-  imports: [
-    CommonModule,
-    AstroComponentsModule,
-    ReactiveFormsModule,
-    NgTemplateOutlet,
-  ],
+  imports: [CommonModule, AstroComponentsModule, ReactiveFormsModule],
   templateUrl: './inputs.component.html',
   styleUrls: ['./inputs.component.css'],
 })
@@ -33,6 +28,6 @@ export class InputsComponent {
 
   handleSyncClick(): void {
     console.log('sync data');
-    //TODO This method would handle
+    //TODO This method would handle data syncing
   }
 }
