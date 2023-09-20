@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'fds-inputs',
   standalone: true,
-  imports: [CommonModule, AstroComponentsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    AstroComponentsModule,
+    ReactiveFormsModule,
+    NgTemplateOutlet,
+  ],
   templateUrl: './inputs.component.html',
   styleUrls: ['./inputs.component.css'],
 })
