@@ -1,20 +1,20 @@
-<rux-container>
-  <div slot="header">
+<rux-container class="utility">
+  <header slot="header">
     <rux-icon icon="public" size="small" />Propagator Utility
     <button (click)="navigateBack()">Back</button>
-  </div>
+  </header>
 
-  <rux-tabs id="propagator-tabs">
+  <rux-tabs id="propagator-tabs" slot="tab-bar">
     <rux-tab id="input-source" small selected="true">Input Source</rux-tab>
     <rux-tab id="view-orbit" small>View Orbit</rux-tab>
   </rux-tabs>
 
   <rux-tab-panels aria-labelledby="propagator-tabs">
     <rux-tab-panel aria-labelledby="input-source">
-        Input source content
+      <fds-input-source></fds-input-source>
     </rux-tab-panel>
     <rux-tab-panel aria-labelledby="view-orbit">
-        View orbit content
+      <fds-view-orbit></fds-view-orbit>
     </rux-tab-panel>
-</rux-tab-panels>
+  </rux-tab-panels>
 </rux-container>
