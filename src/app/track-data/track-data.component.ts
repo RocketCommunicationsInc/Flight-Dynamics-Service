@@ -38,6 +38,7 @@ type ChartOptions = {
 })
 export class TrackDataComponent {
   constructor(private cdr: ChangeDetectorRef) {}
+
   dummyFileData = dummyFileData;
 
   showGraph: boolean = true;
@@ -101,28 +102,30 @@ export class TrackDataComponent {
 
   dummyFileSize: number[] = dummyFileData.map((file) => file.size);
   dummyDates = dummyFileData.map((file) => file.date.toLocaleDateString());
+  //this.cdr.detectChanges()
 
   dataPointLength: number = this.dummyFileSize.length;
   dataPointToDelete: number | null = null;
   deletedDataPoints: number[] | null = [];
 
-  // setPoint(event: any, chartContext: any, config: any) {
-  //   console.log(this.dataPointToDelete),
-  //   this.dataPointToDelete = dummyFileData.findIndex(
-  //     (file) => file.index === config?.dataPointIndex,
-  //     )
-  //   }
+  setPoint(event: any, chartContext: any, config: any) {
+    this.dataPointToDelete = dummyFileData.findIndex(
+      (file) => file.index === config?.dataPointIndex,
+    );
+  }
 
-  setPoint(event: any, chartContext: any, config: any): number | null {
-    console.log(config.dataPointIndex);
-    return (this.dataPointToDelete = config.dataPointIndex);
+  getNewestFiles(files: any) {
+    return files;
   }
 
   onDelete() {
-    console.log(this.dataPointToDelete, 'in delete');
-    if (this.dataPointToDelete !== null && this.dataPointToDelete !== -1) {
+    if (this.dataPointToDelete !== null) {
       dummyFileData.splice(this.dataPointToDelete, 1);
+      console.log(dummyFileData.splice(this.dataPointToDelete, 1), 'in delete');
+
       this.dummyFileSize = dummyFileData.map((file) => file.size);
+      this.getNewestFiles(this.dummyFileSize);
+
       this.deletedDataPoints?.push(this.dataPointToDelete);
       this.dataPointToDelete = null;
     }
@@ -133,10 +136,10 @@ export class TrackDataComponent {
     this.dummyFileSize.push(lastValRemoved as number);
   }
 
-  chartOptions: Partial<ChartOptions> = {
+  chartOptions: Partial<ChartOptions> | any = {
     series: [
       {
-        data: this.dummyFileSize,
+        data: this.getNewestFiles(this.dummyFileSize),
         type: 'scatter',
       },
       {
@@ -155,7 +158,11 @@ export class TrackDataComponent {
         enabled: false,
       },
       events: {
-        dataPointSelection: this.setPoint,
+        dataPointSelection: (event: any, chartContext: any, config: any) => {
+          this.dataPointToDelete = dummyFileData.findIndex(
+            (file) => file.index === config?.dataPointIndex,
+          );
+        },
       },
     },
     legend: {
