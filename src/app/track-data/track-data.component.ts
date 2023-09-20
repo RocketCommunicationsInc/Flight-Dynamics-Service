@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, OnInit, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { dummyFileData } from '../track-files/dummy-file-data';
@@ -15,6 +15,7 @@ import {
 } from 'ng-apexcharts';
 import { Files } from '../types/Files';
 import { ChangeDetectorRef } from '@angular/core';
+import * as ApexCharts from 'apexcharts';
 
 type Sort = 'ASC' | 'DESC' | '';
 
@@ -36,8 +37,20 @@ type ChartOptions = {
   templateUrl: './track-data.component.html',
   styleUrls: ['./track-data.component.css'],
 })
-export class TrackDataComponent {
-  constructor(private cdr: ChangeDetectorRef) {}
+export class TrackDataComponent implements AfterViewInit {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private el: ElementRef,
+  ) {}
+  private chart: ApexChart | any;
+
+  ngAfterViewInit(): void {
+    this.initializeChart();
+  }
+
+  // ngOnInit(): void {
+  //   this.initializeChart()
+  // }
 
   dummyFileData = dummyFileData;
 
@@ -102,29 +115,42 @@ export class TrackDataComponent {
 
   dummyFileSize: number[] = dummyFileData.map((file) => file.size);
   dummyDates = dummyFileData.map((file) => file.date.toLocaleDateString());
-  //this.cdr.detectChanges()
 
   dataPointLength: number = this.dummyFileSize.length;
   dataPointToDelete: number | null = null;
   deletedDataPoints: number[] | null = [];
 
-  setPoint(event: any, chartContext: any, config: any) {
-    this.dataPointToDelete = dummyFileData.findIndex(
-      (file) => file.index === config?.dataPointIndex,
-    );
+  initializeChart() {
+    // const chartEl = document.querySelector('#chart');
+    const chartEl = this.el.nativeElement.querySelector('#chart');
+    console.log(chartEl);
+
+    if (chartEl) {
+      this.chart = new ApexCharts(chartEl, this.chartOptions);
+      this.chart.render();
+    }
   }
 
-  getNewestFiles(files: any) {
-    return files;
+  updateChartData(newData: any[]) {
+    if (this.chart) {
+      // newData = this.chartOptions.series[0].data
+
+      this.chartOptions.series[0].data = newData;
+
+      this.chart.updateSeries(this.chartOptions.series);
+      // this.chart.updateSeries([{ data: newData }]);
+      console.log(this.chartOptions.series[0].data, 'new');
+      this.cdr.detectChanges();
+    }
   }
 
   onDelete() {
     if (this.dataPointToDelete !== null) {
       dummyFileData.splice(this.dataPointToDelete, 1);
-      console.log(dummyFileData.splice(this.dataPointToDelete, 1), 'in delete');
 
       this.dummyFileSize = dummyFileData.map((file) => file.size);
-      this.getNewestFiles(this.dummyFileSize);
+      const newData = [...this.dummyFileSize];
+      this.updateChartData(this.dummyFileSize);
 
       this.deletedDataPoints?.push(this.dataPointToDelete);
       this.dataPointToDelete = null;
@@ -134,12 +160,13 @@ export class TrackDataComponent {
   onUndo() {
     const lastValRemoved = this.deletedDataPoints?.slice(-1)[0];
     this.dummyFileSize.push(lastValRemoved as number);
+    this.updateChartData(this.dummyFileSize);
   }
 
   chartOptions: Partial<ChartOptions> | any = {
     series: [
       {
-        data: this.getNewestFiles(this.dummyFileSize),
+        data: this.dummyFileSize,
         type: 'scatter',
       },
       {
@@ -279,17 +306,3 @@ export class TrackDataComponent {
     ],
   };
 }
-
-// onClick(event: any, chartContext: any, config: any) {
-//   const dataPointToDelete = dummyFileData.findIndex(
-//     (file) => file.index === config?.dataPointIndex,
-//   );
-//   if (dataPointToDelete !== -1) {
-//     dummyFileData.splice(config.dataPointIndex, 1);
-//     this.dummyFileSize = dummyFileData.map((file) => file.size);
-//     console.log(this.dummyFileSize);
-
-//     //this.chartOptions.series = [{ data: this.dummyFileSize }];
-//     //this.chartOptions.updateSeries(this.chartOptions)
-//   }
-// }
