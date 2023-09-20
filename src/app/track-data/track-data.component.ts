@@ -11,8 +11,10 @@ import {
   ApexMarkers,
   ApexStroke,
   ApexTooltip,
+  ApexOptions,
 } from 'ng-apexcharts';
 import { Files } from '../types/Files';
+import { ChangeDetectorRef } from '@angular/core';
 
 type Sort = 'ASC' | 'DESC' | '';
 
@@ -23,7 +25,7 @@ type ChartOptions = {
   yaxis: ApexYAxis | any;
   markers: ApexMarkers | any;
   stroke: ApexStroke | any;
-  legend: any;
+  legend: ApexOptions | any;
   tooltip: ApexTooltip | any;
 };
 
@@ -35,9 +37,8 @@ type ChartOptions = {
   styleUrls: ['./track-data.component.css'],
 })
 export class TrackDataComponent {
-  public chartOptions: Partial<ChartOptions>;
+  constructor(private cdr: ChangeDetectorRef) {}
   dummyFileData = dummyFileData;
-  dataPointLength: number = 0;
 
   showGraph: boolean = true;
   showTable: boolean = false;
@@ -98,53 +99,138 @@ export class TrackDataComponent {
     [1590, 1800],
   ];
 
-  constructor() {
-    const dummyDates = dummyFileData.map((file) =>
-      file.date.toLocaleDateString(),
-    );
+  dummyFileSize: number[] = dummyFileData.map((file) => file.size);
+  dummyDates = dummyFileData.map((file) => file.date.toLocaleDateString());
 
-    const dummyFileSize = dummyFileData.map((file) => file.size);
-    this.dataPointLength = dummyFileSize.length;
+  dataPointLength: number = this.dummyFileSize.length;
+  dataPointToDelete: number | null = null;
+  deletedDataPoints: number[] | null = [];
 
-    this.chartOptions = {
-      series: [
-        {
-          data: dummyFileSize,
-          type: 'scatter',
-        },
-        {
-          name: 'Slope Line',
-          data: this.slopeData,
-          type: 'line',
-        },
-      ],
-      chart: {
-        height: 450,
-        type: 'line',
-        toolbar: {
-          show: false,
-        },
-        zoom: {
-          enabled: false,
-        },
-        events: {
-          dataPointSelection: ({event, chartContext, config}: any) => {
-            console.log(event);
-          }
-        }
+  // setPoint(event: any, chartContext: any, config: any) {
+  //   console.log(this.dataPointToDelete),
+  //   this.dataPointToDelete = dummyFileData.findIndex(
+  //     (file) => file.index === config?.dataPointIndex,
+  //     )
+  //   }
+
+  setPoint(event: any, chartContext: any, config: any): number | null {
+    console.log(config.dataPointIndex);
+    return (this.dataPointToDelete = config.dataPointIndex);
+  }
+
+  onDelete() {
+    console.log(this.dataPointToDelete, 'in delete');
+    if (this.dataPointToDelete !== null && this.dataPointToDelete !== -1) {
+      dummyFileData.splice(this.dataPointToDelete, 1);
+      this.dummyFileSize = dummyFileData.map((file) => file.size);
+      this.deletedDataPoints?.push(this.dataPointToDelete);
+      this.dataPointToDelete = null;
+    }
+  }
+
+  onUndo() {
+    const lastValRemoved = this.deletedDataPoints?.slice(-1)[0];
+    this.dummyFileSize.push(lastValRemoved as number);
+  }
+
+  chartOptions: Partial<ChartOptions> = {
+    series: [
+      {
+        data: this.dummyFileSize,
+        type: 'scatter',
       },
-      legend: {
+      {
+        name: 'Slope Line',
+        data: this.slopeData,
+        type: 'line',
+      },
+    ],
+    chart: {
+      height: 450,
+      type: 'line',
+      toolbar: {
         show: false,
       },
-      markers: {
-        size: [5, 0],
+      zoom: {
+        enabled: false,
       },
-      stroke: {
-        width: 2,
-        curve: 'smooth',
+      events: {
+        dataPointSelection: this.setPoint,
       },
-      xaxis: {
-        categories: dummyDates,
+    },
+    legend: {
+      show: false,
+    },
+    markers: {
+      size: [5, 0],
+    },
+    stroke: {
+      width: 2,
+      curve: 'smooth',
+    },
+    xaxis: {
+      categories: this.dummyDates,
+      axisTicks: {
+        show: false,
+      },
+      axisBorder: {
+        show: true,
+        color: 'var(--color-text-primary)',
+      },
+      labels: {
+        enabled: true,
+        show: true,
+        style: {
+          colors: 'var(--color-text-primary)',
+        },
+      },
+      title: 'test',
+    },
+    tooltip: {
+      enabled: true,
+      x: {
+        show: false,
+      },
+      theme: '',
+      custom: function ({ series, seriesIndex, dataPointIndex }: any) {
+        const dummyDates = dummyFileData.map((file) =>
+          file.date.toLocaleDateString(),
+        );
+        return (
+          '<div class="tooltip-box">' +
+          '<span> DGS' +
+          '</span> <br/>' +
+          '<span> ' +
+          dummyDates[dataPointIndex] +
+          '</span> <br/>' +
+          '<span>El: ' +
+          series[seriesIndex][dataPointIndex] +
+          '</span>' +
+          '</div>'
+        );
+      },
+      fillSeriesColor: true,
+      style: {
+        color: 'var(--color-text-primary)',
+        background: 'var(--color-background-base-default)',
+      },
+      shared: false,
+      intersect: false,
+      onDatasetHover: {
+        highlightDataSeries: false,
+      },
+      marker: {
+        show: false,
+      },
+    },
+    yaxis: [
+      {
+        title: {
+          text: 'Az/EI (degrees)',
+          style: {
+            color: 'var(--color-text-primary)',
+          },
+        },
         axisTicks: {
           show: false,
         },
@@ -159,92 +245,44 @@ export class TrackDataComponent {
             colors: 'var(--color-text-primary)',
           },
         },
-        title: 'test',
       },
-      tooltip: {
-        enabled: true,
-        x: {
+      {
+        opposite: true,
+        title: {
+          text: 'Range (km)',
+          style: {
+            color: 'var(--color-text-primary)',
+          },
+        },
+        axisTicks: {
           show: false,
         },
-        theme: '',
-        custom: function ({ series, seriesIndex, dataPointIndex }: any) {
-          return (
-            '<div class="tooltip-box">' +
-            '<span> DGS' +
-            '</span> <br/>' +
-            '<span> ' +
-            dummyDates[dataPointIndex] +
-            '</span> <br/>' +
-            '<span>El: ' +
-            series[seriesIndex][dataPointIndex] +
-            '</span>' +
-            '</div>'
-          );
-        },
-        fillSeriesColor: true,
-        style: {
+        axisBorder: {
+          show: true,
           color: 'var(--color-text-primary)',
-          background: 'var(--color-background-base-default)',
         },
-        shared: false,
-        intersect: false,
-        onDatasetHover: {
-          highlightDataSeries: false,
-        },
-        marker: {
-          show: false,
+        labels: {
+          enabled: true,
+          show: true,
+          style: {
+            colors: 'var(--color-text-primary)',
+          },
         },
       },
-      yaxis: [
-        {
-          title: {
-            text: 'Az/EI (degrees)',
-            style: {
-              color: 'var(--color-text-primary)',
-            },
-          },
-          axisTicks: {
-            show: false,
-          },
-          axisBorder: {
-            show: true,
-            color: 'var(--color-text-primary)',
-          },
-          labels: {
-            // formatter: function (value: number) {
-            //   return value + '%';
-            // },
-            enabled: true,
-            show: true,
-            style: {
-              colors: 'var(--color-text-primary)',
-            },
-          },
-        },
-        {
-          opposite: true,
-          title: {
-            text: 'Range (km)',
-            style: {
-              color: 'var(--color-text-primary)',
-            },
-          },
-          axisTicks: {
-            show: false,
-          },
-          axisBorder: {
-            show: true,
-            color: 'var(--color-text-primary)',
-          },
-          labels: {
-            enabled: true,
-            show: true,
-            style: {
-              colors: 'var(--color-text-primary)',
-            },
-          },
-        },
-      ],
-    };
-  }
+    ],
+  };
 }
+
+// onClick(event: any, chartContext: any, config: any) {
+//   const dataPointToDelete = dummyFileData.findIndex(
+//     (file) => file.index === config?.dataPointIndex,
+//   );
+//   if (dataPointToDelete !== -1) {
+//     dummyFileData.splice(config.dataPointIndex, 1);
+//     this.dummyFileSize = dummyFileData.map((file) => file.size);
+//     console.log(this.dummyFileSize);
+
+//     //this.chartOptions.series = [{ data: this.dummyFileSize }];
+//     //this.chartOptions.updateSeries(this.chartOptions)
+//   }
+// }
