@@ -28,6 +28,6 @@ export class InputsComponent {
 
   handleSyncClick(): void {
     console.log('sync data');
-    //TODO This method would handle
+    //TODO This method would handle data syncing
   }
 }

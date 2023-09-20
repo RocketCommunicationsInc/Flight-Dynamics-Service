@@ -1,18 +1,16 @@
 <fds-tabbed-child-container
   [tabs]="tabs"
+  [hasTabPanels]="true"
   [tabsParentId]="tabsId"
   [notificationData]="notificationData"
   [notificationHideClose]="false"
 >
-  <!--
-    <fds-inputs inputs></fds-inputs>
-    <fds-outputs outputs></fds-outputs> -->
-  <rux-tab-panels [attr.aria-labelledby]="tabsId">
+  <ng-container panels>
     <rux-tab-panel aria-labelledby="inputs-tab">
       <fds-inputs></fds-inputs>
     </rux-tab-panel>
     <rux-tab-panel aria-labelledby="outputs-tab">
       <fds-outputs></fds-outputs>
     </rux-tab-panel>
-  </rux-tab-panels>
+  </ng-container>
 </fds-tabbed-child-container>

@@ -13,13 +13,12 @@ import { Tabs } from 'src/app/types/Tabs';
 export class TabbedChildContainerComponent {
   @Input() tabs?: Tabs[];
   @Input() tabsParentId?: string;
-  @Input() hasTabPanels: boolean = true;
+  @Input() hasTabPanels: boolean = false;
 
   @Input() notificationData?: any[];
   @Input() notificationHideClose?: boolean;
 
   onSelect(e: Event) {
     const event = e as CustomEvent;
-    console.log(event.detail);
   }
 }
