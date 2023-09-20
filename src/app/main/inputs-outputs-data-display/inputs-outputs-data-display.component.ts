@@ -1,4 +1,4 @@
-import { Component, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputsOutputsComponent } from '../inputs-outputs/inputs-outputs.component';
 import { OutputDataDisplayComponent } from '../output-data-display/output-data-display.component';
