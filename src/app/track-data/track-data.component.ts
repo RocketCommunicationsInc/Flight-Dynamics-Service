@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { dummyFileData } from '../track-files/dummy-file-data';
@@ -12,10 +12,9 @@ import {
   ApexStroke,
   ApexTooltip,
   ApexOptions,
+  ChartComponent,
 } from 'ng-apexcharts';
 import { Files } from '../types/Files';
-import { ChangeDetectorRef } from '@angular/core';
-import * as ApexCharts from 'apexcharts';
 
 type Sort = 'ASC' | 'DESC' | '';
 
@@ -37,20 +36,8 @@ type ChartOptions = {
   templateUrl: './track-data.component.html',
   styleUrls: ['./track-data.component.css'],
 })
-export class TrackDataComponent implements AfterViewInit {
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private el: ElementRef,
-  ) {}
-  private chart: ApexChart | any;
-
-  ngAfterViewInit(): void {
-    this.initializeChart();
-  }
-
-  // ngOnInit(): void {
-  //   this.initializeChart()
-  // }
+export class TrackDataComponent {
+  @ViewChild(ChartComponent) chart?: ChartComponent;
 
   dummyFileData = dummyFileData;
 
@@ -120,27 +107,21 @@ export class TrackDataComponent implements AfterViewInit {
   dataPointToDelete: number | null = null;
   deletedDataPoints: any[] | null = [];
 
-  initializeChart() {
-    // const chartEl = document.querySelector('#chart');
-    const chartEl = this.el.nativeElement.querySelector('#chart');
-
-    if (chartEl) {
-      this.chart = new ApexCharts(chartEl, this.chartOptions);
-      this.chart.render();
-    }
-  }
-
   updateChartData(newData: any[]) {
-    if (this.chart) {
-      //newData = this.chartOptions.series[0].data
-
-      //this.chartOptions.series[0].data = newData;
-
-      //this.chart.updateSeries(this.chartOptions.series);
-      this.chart.updateSeries([{ data: newData }]);
-      //console.log(this.chartOptions.series[0].data, 'new');
-      //this.cdr.detectChanges();
-    }
+    const updatedData = [
+      {
+        name: this.chartOptions.series[0].name,
+        data: (this.chartOptions.series[0].data = newData),
+        //data: newData,
+        type: this.chartOptions.series[0].type,
+      },
+      {
+        name: this.chartOptions.series[1].name,
+        data: this.chartOptions.series[1].data,
+        type: this.chartOptions.series[1].type,
+      },
+    ];
+    this.chart?.updateSeries(updatedData);
   }
 
   onDelete() {
@@ -150,7 +131,7 @@ export class TrackDataComponent implements AfterViewInit {
       const removedObj = dummyFileData.splice(this.dataPointToDelete, 1);
       const fileSize = removedObj.map((file) => file.size);
       this.deletedDataPoints?.push(fileSize.pop());
-      console.log(this.deletedDataPoints, 'deleted arr');
+      console.log(removedObj, 'deleted arr');
 
       this.dummyFileSize = dummyFileData.map((file) => file.size);
       this.updateChartData(this.dummyFileSize);
@@ -158,42 +139,30 @@ export class TrackDataComponent implements AfterViewInit {
       this.dataPointToDelete = null;
     }
   }
+
   disableUndo: boolean = true;
+
   onUndo() {
-    // const lastValRemoved = this.deletedDataPoints?.slice(-1)[0];
     const lastValRemoved = this.deletedDataPoints?.pop();
-    console.log(lastValRemoved, 'last item');
-    console.log(this.deletedDataPoints, 'deleted in undo');
-    this.dummyFileSize.push(lastValRemoved as number);
-    //   if(this.deletedDataPoints !== null) {
-    //     if (
-    //       lastValRemoved === 'undefined' ||
-    //       this.deletedDataPoints.length < 0
-    //       ) {
-    //     console.log('hitting')
-    //     this.disableUndo = true;
-    //   } else this.disableUndo = false;
+    if (Number(lastValRemoved)) {
+      this.dummyFileSize.push(Number(lastValRemoved));
+    }
+
+    // if(this.deletedDataPoints !== null && this.deletedDataPoints?.length > 0) {
+    //   this.disableUndo = false
     // }
-    this.deletedDataPoints?.forEach((file) => {
-      if (
-        this.dummyFileSize.includes(lastValRemoved) ??
-        this.dummyFileSize.includes(file)
-      ) {
-        this.disableUndo = false;
-      } else this.disableUndo = true;
-    });
-    console.log(this.dummyFileSize);
     this.updateChartData(this.dummyFileSize);
   }
 
   chartOptions: Partial<ChartOptions> | any = {
     series: [
       {
+        name: 'Main',
         data: this.dummyFileSize,
         type: 'scatter',
       },
       {
-        name: 'Slope Line',
+        name: 'Slope',
         data: this.slopeData,
         type: 'line',
       },
