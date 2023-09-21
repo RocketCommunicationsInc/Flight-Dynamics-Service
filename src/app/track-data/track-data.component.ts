@@ -160,11 +160,13 @@ export class TrackDataComponent {
   labelsShown: any[] = this.dummyDates
   
   handleZoom(event: any) {
+    console.log(this.zoomLevel, "zoom")
     this.labelsShown = this.dummyDates.slice(0, this.zoomLevel);
     this.zoomLevel = event.target.value;
     this.chart?.updateOptions({
       xaxis: {
         categories: this.labelsShown,
+        tickAmount: this.labelsShown.length
       },
     });
   }
