@@ -118,12 +118,11 @@ export class TrackDataComponent implements AfterViewInit {
 
   dataPointLength: number = this.dummyFileSize.length;
   dataPointToDelete: number | null = null;
-  deletedDataPoints: number[] | null = [];
+  deletedDataPoints: any[] | null = [];
 
   initializeChart() {
     // const chartEl = document.querySelector('#chart');
     const chartEl = this.el.nativeElement.querySelector('#chart');
-    console.log(chartEl);
 
     if (chartEl) {
       this.chart = new ApexCharts(chartEl, this.chartOptions);
@@ -133,14 +132,14 @@ export class TrackDataComponent implements AfterViewInit {
 
   updateChartData(newData: any[]) {
     if (this.chart) {
-      // newData = this.chartOptions.series[0].data
+      //newData = this.chartOptions.series[0].data
 
-      this.chartOptions.series[0].data = newData;
+      //this.chartOptions.series[0].data = newData;
 
-      this.chart.updateSeries(this.chartOptions.series);
-      // this.chart.updateSeries([{ data: newData }]);
-      console.log(this.chartOptions.series[0].data, 'new');
-      this.cdr.detectChanges();
+      //this.chart.updateSeries(this.chartOptions.series);
+      this.chart.updateSeries([{ data: newData }]);
+      //console.log(this.chartOptions.series[0].data, 'new');
+      //this.cdr.detectChanges();
     }
   }
 
@@ -148,18 +147,42 @@ export class TrackDataComponent implements AfterViewInit {
     if (this.dataPointToDelete !== null) {
       dummyFileData.splice(this.dataPointToDelete, 1);
 
+      const removedObj = dummyFileData.splice(this.dataPointToDelete, 1);
+      const fileSize = removedObj.map((file) => file.size);
+      this.deletedDataPoints?.push(fileSize.pop());
+      console.log(this.deletedDataPoints, 'deleted arr');
+
       this.dummyFileSize = dummyFileData.map((file) => file.size);
-      const newData = [...this.dummyFileSize];
       this.updateChartData(this.dummyFileSize);
 
-      this.deletedDataPoints?.push(this.dataPointToDelete);
       this.dataPointToDelete = null;
     }
   }
-
+  disableUndo: boolean = true;
   onUndo() {
-    const lastValRemoved = this.deletedDataPoints?.slice(-1)[0];
+    // const lastValRemoved = this.deletedDataPoints?.slice(-1)[0];
+    const lastValRemoved = this.deletedDataPoints?.pop();
+    console.log(lastValRemoved, 'last item');
+    console.log(this.deletedDataPoints, 'deleted in undo');
     this.dummyFileSize.push(lastValRemoved as number);
+    //   if(this.deletedDataPoints !== null) {
+    //     if (
+    //       lastValRemoved === 'undefined' ||
+    //       this.deletedDataPoints.length < 0
+    //       ) {
+    //     console.log('hitting')
+    //     this.disableUndo = true;
+    //   } else this.disableUndo = false;
+    // }
+    this.deletedDataPoints?.forEach((file) => {
+      if (
+        this.dummyFileSize.includes(lastValRemoved) ??
+        this.dummyFileSize.includes(file)
+      ) {
+        this.disableUndo = false;
+      } else this.disableUndo = true;
+    });
+    console.log(this.dummyFileSize);
     this.updateChartData(this.dummyFileSize);
   }
 

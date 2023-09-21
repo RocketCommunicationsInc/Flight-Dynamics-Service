@@ -27,7 +27,7 @@
   <div *ngIf="showGraph">
     <div class="toolbar">
       <div class="toolbar-buttons">
-        <rux-button (click)="onUndo()" iconOnly icon="undo" />
+        <rux-button [disabled]="!disableUndo" (click)="onUndo()" iconOnly icon="undo" />
         <rux-button (click)="onDelete()" iconOnly icon="delete" />
       </div>
 
@@ -38,17 +38,18 @@
       </div>
     </div>
 
-    <apx-chart
-      id="chart"
-      [series]="chartOptions.series"
-      [chart]="chartOptions.chart"
-      [xaxis]="chartOptions.xaxis"
-      [yaxis]="chartOptions.yaxis"
-      [markers]="chartOptions.markers"
-      [stroke]="chartOptions.stroke"
-      [legend]="chartOptions.legend"
-      [tooltip]="chartOptions.tooltip"
-    ></apx-chart>
+    <div id="chart">
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [xaxis]="chartOptions.xaxis"
+        [yaxis]="chartOptions.yaxis"
+        [markers]="chartOptions.markers"
+        [stroke]="chartOptions.stroke"
+        [legend]="chartOptions.legend"
+        [tooltip]="chartOptions.tooltip"
+      ></apx-chart>
+    </div>
 
     <div slot="footer">
       <span>OD Quality Est: 82/100</span>
