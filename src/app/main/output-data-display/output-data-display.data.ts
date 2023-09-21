@@ -51,18 +51,20 @@ export const ODS_DATA: OrbitDeterminations[] = [
   },
 ];
 
-export const SUMMARY_DATA: SummaryData[] = Array.from({ length: 48 }, () => ({
-  id: randomId(),
-  property: 'Orbit Property_' + randomId().toUpperCase(),
-  initial: randomNum(),
-  final: randomNum(),
-  status: StatusOptions[randomNum(0, 2)],
-  difference: randomNum(),
-  deviation: randomNum(100, 500),
-  units: [
-    { ...UnitMenuItems.meters, selected: false },
-    { ...UnitMenuItems.kilometers, selected: true },
-    { ...UnitMenuItems.miles, selected: false },
-  ],
-  selected: false,
-}));
+export const SUMMARY_DATA: SummaryData[] = Array.from(
+  { length: 48 },
+  (): SummaryData => ({
+    id: randomId(),
+    property: 'Orbit Property_' + randomId().toUpperCase(),
+    initial: randomNum(),
+    final: randomNum(),
+    status: StatusOptions[randomNum(0, 2)],
+    difference: randomNum(),
+    deviation: randomNum(100, 500),
+    units: [
+      { ...UnitMenuItems.meters, selected: false },
+      { ...UnitMenuItems.kilometers, selected: true },
+      { ...UnitMenuItems.miles, selected: false },
+    ],
+  })
+);

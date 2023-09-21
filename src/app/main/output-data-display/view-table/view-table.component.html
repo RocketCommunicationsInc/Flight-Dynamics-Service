@@ -6,6 +6,7 @@
           *ngFor="let col of outputDataDisplayService.columns"
           [ngSwitch]="col.field"
           [ngClass]="{ sortable: col.sortable }"
+          [attr.type]="col.type"
         >
           <rux-checkbox
             *ngSwitchCase="'id'"
@@ -32,6 +33,8 @@
         <td
           *ngFor="let col of outputDataDisplayService.columns"
           [ngSwitch]="col.field"
+          [attr.type]="col.type"
+          [ngClass]="{ sortable: col.sortable }"
         >
           <rux-checkbox
             *ngSwitchCase="'id'"

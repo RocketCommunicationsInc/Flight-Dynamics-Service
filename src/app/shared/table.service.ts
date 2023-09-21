@@ -14,6 +14,7 @@ export interface ColumnDefs<TData> {
 interface Column<TData> extends ColumnDefs<TData> {
   sorted: Sorted;
   icon: 'arrow-drop-up' | 'arrow-drop-down';
+  type: string;
 }
 
 type Data<TData> = TData & {
@@ -29,6 +30,7 @@ export class TableService<TData> {
       ...col,
       sorted: null,
       icon: 'arrow-drop-down',
+      type: typeof data[0][col.field],
     }));
     this.data = data.map<Data<TData>>((row) => ({
       ...row,
