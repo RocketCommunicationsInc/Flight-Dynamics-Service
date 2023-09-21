@@ -6,8 +6,12 @@ import { AstroComponentsModule } from '@astrouxds/angular';
   standalone: true,
   imports: [CommonModule, AstroComponentsModule],
   templateUrl: './input-source.component.html',
-  styleUrls: ['./input-source.component.css']
+  styleUrls: ['./input-source.component.css'],
 })
 export class InputSourceComponent {
+  showControlsPanel: boolean = false;
 
+  toggleControls() {
+    this.showControlsPanel = !this.showControlsPanel;
+  }
 }
