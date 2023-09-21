@@ -156,6 +156,19 @@ export class TrackDataComponent {
     this.updateChartData(this.dummyFileSize);
   }
 
+  zoomLevel: number = 6;
+  labelsShown: any[] = this.dummyDates
+  
+  handleZoom(event: any) {
+    this.labelsShown = this.dummyDates.slice(0, this.zoomLevel);
+    this.zoomLevel = event.target.value;
+    this.chart?.updateOptions({
+      xaxis: {
+        categories: this.labelsShown,
+      },
+    });
+  }
+
   chartOptions: Partial<ChartOptions> | any = {
     series: [
       {
@@ -213,7 +226,7 @@ export class TrackDataComponent {
       curve: 'smooth',
     },
     xaxis: {
-      categories: this.dummyDates,
+      categories: this.labelsShown,
       axisTicks: {
         show: false,
       },
