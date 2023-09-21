@@ -146,6 +146,7 @@ rux-container::part(body) {
 
 .table-wrapper th rux-icon {
   visibility: hidden;
+  min-width: 2rem;
 }
 
 .table-wrapper th:hover rux-icon {
