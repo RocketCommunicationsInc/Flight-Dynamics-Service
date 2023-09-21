@@ -6,8 +6,3 @@
   */
   height: calc(100% - 6.5rem);
 }
-
-.h-stack {
-  display: flex;
-  align-items: center;
-}

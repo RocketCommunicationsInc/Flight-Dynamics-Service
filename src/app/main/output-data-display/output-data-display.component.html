@@ -1,24 +1,24 @@
 <fds-tabbed-child-container
   [tabs]="tabs"
   [tabsParentId]="tabsId"
-  [notificationData]="ods"
+  [notificationData]="outputDataDisplayService.ods"
   [notificationHideClose]="true"
 >
   <div class="sub-header">
     <div class="container">
       <div class="data">
         <div class="heading">
-          <h1>{{ diviations.length }}</h1>
+          <h1>{{ outputDataDisplayService.diviations.length }}</h1>
           <p>Deviations</p>
         </div>
         <div class="alerts">
           <div class="h-stack">
             <rux-status status="caution" />
-            <p>Warning ({{ warnings.length }})</p>
+            <p>Warning ({{ outputDataDisplayService.warnings.length }})</p>
           </div>
           <div class="h-stack">
             <rux-status status="critical" />
-            <p>Critical ({{ criticals.length }})</p>
+            <p>Critical ({{ outputDataDisplayService.criticals.length }})</p>
           </div>
         </div>
       </div>
@@ -32,18 +32,9 @@
         [data]="views"
         (ruxchange)="setCurrentView($event)"
       />
-
-      <rux-pop-up>
-        <rux-icon icon="more-horiz" slot="trigger" size="1.75rem" />
-        <rux-menu>
-          <rux-menu-item href="#">Menu Item 1</rux-menu-item>
-          <rux-menu-item href="#">Menu Item 2</rux-menu-item>
-          <rux-menu-item href="#">Menu Item 3</rux-menu-item>
-        </rux-menu>
-      </rux-pop-up>
     </div>
   </div>
 
-  <fds-view-table *ngIf="currentView === 'View Table'"></fds-view-table>
-  <fds-view-graph *ngIf="currentView === 'View Graph'"></fds-view-graph>
+  <fds-view-table *ngIf="currentView === 'View Table'" />
+  <fds-view-graph *ngIf="currentView === 'View Graph'" />
 </fds-tabbed-child-container>

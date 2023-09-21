@@ -2,11 +2,11 @@ import type { Status } from '@astrouxds/astro-web-components/dist/types/componen
 
 import { MenuItem } from 'src/app/shared/units/units.model';
 
-export interface Column {
-  header: string;
-  field: keyof SummaryData;
-  sortable?: boolean;
-}
+export const StatusOptions: Status[] = ['caution', 'critical', 'normal'];
+
+export type CurrentView = 'View Table' | 'View Graph';
+
+export type DefaultValue = boolean | string | number | SelectOption[];
 
 export interface SelectOption extends MenuItem {
   selected: boolean;
@@ -23,9 +23,8 @@ export interface SummaryData {
   units: SelectOption[];
 }
 
-export interface Sorted {
-  field: Column['field'];
-  direction: 'ASC' | 'DESC';
+export interface OrbitDeterminations {
+  message: string;
+  status: Status;
+  timestamp: number;
 }
-
-export const StatusOptions: Status[] = ['caution', 'critical', 'normal'];
