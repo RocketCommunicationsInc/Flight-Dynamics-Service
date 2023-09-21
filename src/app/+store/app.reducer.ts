@@ -1,22 +1,23 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { SatelliteActions } from './app.actions';
+import { SatelliteActions, ScenariosActions, TrackFilesActions } from './app.actions';
 import { AppStore } from './app.model';
-import { mockScenarios, mockTrackFiles } from '../mock-data/generate-data';
 
 export const initialState: AppStore = {
-  scenarios: mockScenarios,
-  trackFiles: mockTrackFiles,
-  satellites: [{ catalogId: 123 }],
+  scenarios: [],
+  trackFiles: [],
+  satellites: [],
   selectedSatId: null,
 };
 
-console.log(initialState.trackFiles)
-
-export const SatellitesReducer = createReducer(
+export const AppReducer = createReducer(
   initialState,
-  on(SatelliteActions.satellitesRetrieved, (state, { satellites }) => ({
+  on(ScenariosActions.scenariosRetrieved, (state, { scenarios }) => ({
     ...state,
-    satellites: [...satellites],
+    scenarios: [...scenarios],
+  })),
+  on(TrackFilesActions.trackFilesRetrieved, (state, { trackFiles }) => ({
+    ...state,
+    trackFiles: [...trackFiles],
   })),
   on(SatelliteActions.satelliteSelected, (state, { satId }) => ({
     ...state,
@@ -24,15 +25,15 @@ export const SatellitesReducer = createReducer(
   })),
 );
 
-export const satellitesFeature = createFeature({
-  name: 'satellites',
-  reducer: SatellitesReducer,
+export const appFeature = createFeature({
+  name: 'app',
+  reducer: AppReducer,
 });
 
 export const {
   name,
   reducer,
-  selectSatellitesState,
+  selectAppState,
   selectSatellites,
   selectSelectedSatId,
-} = satellitesFeature;
+} = appFeature;

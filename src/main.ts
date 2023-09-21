@@ -3,12 +3,15 @@ import { AppComponent } from './app/app.component';
 import { provideRouter } from '@angular/router';
 import { Routes } from './app/app-routing';
 import { provideState, provideStore } from '@ngrx/store';
-import { satellitesFeature } from './app/+store/app.reducer';
+import { AppReducer, appFeature } from './app/+store/app.reducer';
+import { AppEffects } from './app/+store/app.effects';
+import { provideEffects } from '@ngrx/effects';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(Routes),
     provideStore(),
-    provideState(satellitesFeature),
+    provideState(appFeature),
+    provideEffects(AppEffects),
   ],
 });

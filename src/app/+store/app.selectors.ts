@@ -1,9 +1,9 @@
 import { createSelector } from '@ngrx/store';
-import { satellitesFeature } from './app.reducer';
+import { appFeature } from './app.reducer';
 
 export const selectSelectedSatellite = createSelector(
-  satellitesFeature.selectSatellites,
-  satellitesFeature.selectSelectedSatId,
+  appFeature.selectSatellites,
+  appFeature.selectSelectedSatId,
   (satellites, selectedSatId) =>
     satellites.find((sat) => sat.catalogId === selectedSatId),
 );

@@ -9,11 +9,13 @@ import { ScenarioDataDisplayComponent } from './scenario-data-display/scenario-d
 import { ScenarioLibraryComponent } from './scenario-library/scenario-library.component'
 import { GlobalStatusBarComponent } from './global-status-bar/global-status-bar.component'
 import { MainComponent } from './main/main.component'
+import { Store } from '@ngrx/store'
 import { RouterLink, RouterOutlet } from '@angular/router'
 import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular'
 import { ToastConfig, ToastService } from './shared/toast.service'
 import { BehaviorSubject, Subject, filter, takeUntil, tap } from 'rxjs'
 import { mockScenarios, mockTrackFiles } from './mock-data/generate-data'
+import { SatelliteActions, ScenariosActions, TrackFilesActions } from './+store/app.actions'
 
 @Component({
   standalone: true,
@@ -39,7 +41,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.lightTheme = !this.lightTheme
   }
 
-  constructor(private toasts: ToastService) {}
+  constructor(private toasts: ToastService, private store: Store) {
+    this.store.dispatch(ScenariosActions.scenariosRequested())
+    this.store.dispatch(TrackFilesActions.trackFilesRequested())
+  }
 
   ngOnInit() {
     this.toasts
