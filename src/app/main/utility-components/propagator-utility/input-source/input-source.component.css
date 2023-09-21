@@ -1,7 +1,7 @@
 :host {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  height: 100%;
 }
 
 .controls,
@@ -49,6 +49,11 @@ rux-pop-up::part(popup-content) {
 
 rux-pop-up::part(arrow) {
   display: none;
+}
+
+rux-pop-up span {
+  padding-inline-start: var(--spacing-2);
+  font-style: italic;
 }
 
 rux-input[type='number'] {
