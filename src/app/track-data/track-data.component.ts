@@ -126,17 +126,19 @@ export class TrackDataComponent {
 
   onDelete() {
     if (this.dataPointToDelete !== null) {
-      dummyFileData.splice(this.dataPointToDelete, 1);
+      this.dummyFileData.filter((_, index) => index !== this.dataPointToDelete);
 
+      //take the removed obj and put the value in to a deletePointsArray for undo btn
       const removedObj = dummyFileData.splice(this.dataPointToDelete, 1);
       const fileSize = removedObj.map((file) => file.size);
       this.deletedDataPoints?.push(fileSize.pop());
-      console.log(removedObj, 'deleted arr');
 
+      //get the updated files for series data
       this.dummyFileSize = dummyFileData.map((file) => file.size);
       this.updateChartData(this.dummyFileSize);
 
       this.dataPointToDelete = null;
+      this.disableUndo = false;
     }
   }
 
@@ -144,13 +146,13 @@ export class TrackDataComponent {
 
   onUndo() {
     const lastValRemoved = this.deletedDataPoints?.pop();
+    const deletedArr = (this.deletedDataPoints as number[]).length;
     if (Number(lastValRemoved)) {
       this.dummyFileSize.push(Number(lastValRemoved));
+      if (deletedArr < 1) {
+        this.disableUndo = true;
+      }
     }
-
-    // if(this.deletedDataPoints !== null && this.deletedDataPoints?.length > 0) {
-    //   this.disableUndo = false
-    // }
     this.updateChartData(this.dummyFileSize);
   }
 
@@ -165,6 +167,7 @@ export class TrackDataComponent {
         name: 'Slope',
         data: this.slopeData,
         type: 'line',
+        color: 'var(--color-data-visualization-3)',
       },
     ],
     chart: {
@@ -179,9 +182,23 @@ export class TrackDataComponent {
       events: {
         dataPointSelection: (event: any, chartContext: any, config: any) => {
           this.dataPointToDelete = dummyFileData.findIndex(
-            (file) => file.index === config?.dataPointIndex,
+            (file) => file.size === config?.dataPointIndex,
+          );
+          //Change the color of selected data point
+          const dataPoints = document.querySelectorAll('.apexcharts-marker');
+          dataPoints.forEach((el) => {
+            el.classList.remove('selected-data-point');
+            el.classList.add('data-point-hover');
+          });
+          dataPoints[config.dataPointIndex].classList.add(
+            'selected-data-point',
           );
         },
+      },
+    },
+    dataLabels: {
+      style: {
+        cssClass: 'data-points',
       },
     },
     legend: {
@@ -189,6 +206,7 @@ export class TrackDataComponent {
     },
     markers: {
       size: [5, 0],
+      colors: 'var(--color-data-visualization-2)',
     },
     stroke: {
       width: 2,

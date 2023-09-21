@@ -48,6 +48,10 @@ div[slot="footer"] {
   border: none;
 }
 
+:host ::ng-deep .selected-data-point {
+  fill: var(--color-data-visualization-1);
+}
+
 /* TABLE STYLES */
 
 .table-wrapper {

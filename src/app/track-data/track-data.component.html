@@ -27,7 +27,7 @@
   <div *ngIf="showGraph">
     <div class="toolbar">
       <div class="toolbar-buttons">
-        <rux-button [disabled]="!disableUndo" (click)="onUndo()" iconOnly icon="undo" />
+        <rux-button [disabled]="disableUndo" (click)="onUndo()" iconOnly icon="undo" />
         <rux-button (click)="onDelete()" iconOnly icon="delete" />
       </div>
 
