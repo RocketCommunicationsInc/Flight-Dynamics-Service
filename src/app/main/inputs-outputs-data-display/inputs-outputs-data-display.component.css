@@ -3,4 +3,5 @@
   gap: var(--spacing-4);
   flex-grow: 1;
   height: 100%;
+  padding-inline: var(--spacing-4);
 }

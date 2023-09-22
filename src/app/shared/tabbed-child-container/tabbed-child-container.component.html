@@ -20,16 +20,13 @@
     </rux-notification>
   </ng-container>
 </header>
-<div>
+<div *ngIf="!hasTabPanels else panels">
   <ng-content></ng-content>
 </div>
-<!-- <div *ngIf="hasTabPanels else panels">
-  <ng-content></ng-content>
-</div>
+
 <ng-template #panels>
-<rux-tab-panels [attr.aria-labelledby]="tabsParentId">
-  <rux-tab-panel *ngFor="let tab of tabs" [attr.aria-labelledby]="tab.id">
-    <ng-content select="[tab][label]"></ng-content>
-  </rux-tab-panel>
-</rux-tab-panels>
-</ng-template> -->
+  <rux-tab-panels [attr.aria-labelledby]="tabsParentId">
+    <ng-content select="[panels]"></ng-content>
+  </rux-tab-panels>
+</ng-template>
+

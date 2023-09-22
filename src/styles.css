@@ -1,4 +1,4 @@
-@import "@astrouxds/astro-web-components/dist/astro-web-components/astro-web-components.css";
+@import '@astrouxds/astro-web-components/dist/astro-web-components/astro-web-components.css';
 
 /* resets */
 ul {
@@ -94,6 +94,10 @@ rux-container::part(body) {
   letter-spacing: var(--font-heading-5-letter-spacing);
 }
 
+.table-wrapper th[type='number'] .h-stack {
+  justify-content: flex-end;
+}
+
 .table-wrapper tbody {
   background-color: var(--color-background-surface-default);
 }
@@ -114,13 +118,21 @@ rux-container::part(body) {
   background-color: var(--color-background-surface-hover);
 }
 
-.table-wrapper tbody tr[selected="true"] {
+.table-wrapper tbody tr[selected='true'] {
   background-color: var(--color-background-surface-selected);
 }
 
 .table-wrapper td {
   padding-inline: var(--table-body-cell-padding-x);
   padding-block: var(--table-body-cell-padding-y);
+}
+
+.table-wrapper td[type='number'] {
+  text-align: right;
+}
+
+.table-wrapper td[type='number'].sortable {
+  padding-right: 2.5rem;
 }
 
 .table-wrapper table rux-checkbox {
@@ -134,6 +146,7 @@ rux-container::part(body) {
 
 .table-wrapper th rux-icon {
   visibility: hidden;
+  min-width: 2rem;
 }
 
 .table-wrapper th:hover rux-icon {
@@ -142,5 +155,10 @@ rux-container::part(body) {
 
 .table-wrapper th .active rux-icon {
   visibility: visible;
+}
+
+.table-wrapper .h-stack {
+  display: flex;
+  align-items: center;
 }
 /*** table styles - end ***/
