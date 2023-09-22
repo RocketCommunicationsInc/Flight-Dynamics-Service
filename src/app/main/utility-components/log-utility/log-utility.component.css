@@ -10,3 +10,7 @@ div[slot="header"] {
 rux-icon {
   color: white;
 }
+
+.log-utility {
+  padding: var(--spacing-2);
+}
