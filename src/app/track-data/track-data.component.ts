@@ -101,7 +101,10 @@ export class TrackDataComponent {
   ];
 
   dummyFileSize: number[] = dummyFileData.map((file) => file.size);
+
+  zoomLevel: number = 20;
   dummyDates = dummyFileData.map((file) => file.date.toLocaleDateString());
+  labelsShown: any[] = this.dummyDates;
 
   dataPointLength: number = this.dummyFileSize.length;
   dataPointToDelete: number | null = null;
@@ -151,6 +154,7 @@ export class TrackDataComponent {
       //get the updated files for series data
       this.dummyFileSize = dummyFileData.map((file) => file.size);
       this.updateChartData(this.dummyFileSize);
+      this.dataPointLength = this.dummyFileSize.length;
 
       this.dataPointToDelete = null;
       this.disableUndo = false;
@@ -169,10 +173,8 @@ export class TrackDataComponent {
       }
     }
     this.updateChartData(this.dummyFileSize);
+    this.dataPointLength = this.dummyFileSize.length;
   }
-
-  zoomLevel: number = 15;
-  labelsShown: any[] = this.dummyDates.slice(5, 20);
 
   updateSeriesOne(zoomLevel: number) {
     return this.dummyFileSize.slice(0, zoomLevel);
