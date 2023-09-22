@@ -16,11 +16,11 @@
       [status]="notificationData[0].status"
     >
       {{ notificationData[0].message }}
-      {{ notificationData[0].timestamp | date: "short" }}
+      {{ notificationData[0].timestamp | date: 'short' }}
     </rux-notification>
   </ng-container>
 </header>
-<div *ngIf="!hasTabPanels else panels">
+<div *ngIf="!hasTabPanels; else panels">
   <ng-content></ng-content>
 </div>
 
@@ -29,4 +29,3 @@
     <ng-content select="[panels]"></ng-content>
   </rux-tab-panels>
 </ng-template>
-
