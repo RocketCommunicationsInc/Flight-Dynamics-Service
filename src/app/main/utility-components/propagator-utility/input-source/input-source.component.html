@@ -1,7 +1,9 @@
 <div class="controls">
   <rux-button (click)="toggleControls()">Controls</rux-button>
 </div>
-<aside *ngIf="showControlsPanel" class="controls-panel">Controls</aside>
+<aside *ngIf="showControlsPanel" class="controls-panel">
+  <fds-propagator-controls />
+</aside>
 <form>
   <h3>Source Settings</h3>
   <section class="form-section">

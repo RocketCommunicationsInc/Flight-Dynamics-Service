@@ -10,7 +10,8 @@ footer {
   justify-content: flex-end;
   gap: var(--spacing-2);
   background-color: var(--color-background-base-default);
-  padding: var(--spacing-4);
+  padding-block: var(--spacing-3);
+  padding-inline: var(--spacing-4);
 }
 
 form {
@@ -70,6 +71,4 @@ rux-input[type='number'] {
 
 .controls-panel {
   position: relative;
-  background-color: red;
-  width: 30%;
 }

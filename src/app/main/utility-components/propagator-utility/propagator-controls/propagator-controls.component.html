@@ -1,0 +1,57 @@
+<rux-container>
+  <span slot="header">Controls</span>
+  <div slot="toolbar">
+    <rux-select label="Propagator">
+      <rux-option label="Bulirsch-Stoer Cowell" />
+    </rux-select>
+  </div>
+
+  <form>
+    <section>
+      <h3>Force Model Controls</h3>
+      <div class="row">
+        <rux-input label="F10.7 Flux:" placeholder="000"></rux-input>
+        <rux-select>
+          <rux-option label="flux-units" />
+        </rux-select>
+      </div>
+    </section>
+
+    <section>
+      <h3>Gravitational Model</h3>
+      <div class="column">
+        <span
+          ><rux-checkbox>Lunar Gravity</rux-checkbox
+          ><rux-icon size="small" icon="keyboard-arrow-right"
+        /></span>
+        <span
+          ><rux-checkbox>Planetary Gravity</rux-checkbox
+          ><rux-icon size="small" icon="keyboard-arrow-right"
+        /></span>
+        <span
+          ><rux-checkbox>Solar Gravity</rux-checkbox
+          ><rux-icon size="small" icon="keyboard-arrow-right"
+        /></span>
+      </div>
+
+      <h4>Earth Gravity</h4>
+      <div class="row">
+        <rux-input label="Degree" placeholder="10"></rux-input>
+        <rux-input label="Order" placeholder="10"></rux-input>
+      </div>
+    </section>
+
+    <section>
+      <h3>Perturbations</h3>
+      <span>
+        <rux-checkbox>Atmospheric Drag</rux-checkbox>
+        <rux-icon size="small" icon="keyboard-arrow-down" />
+      </span>
+    </section>
+  </form>
+
+  <div slot="footer">
+    <rux-button secondary>Cancel</rux-button>
+    <rux-button>Save</rux-button>
+  </div>
+</rux-container>
