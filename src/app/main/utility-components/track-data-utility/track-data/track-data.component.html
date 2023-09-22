@@ -1,5 +1,5 @@
 <div>
-  <div slot="header">
+  <header>
     <div>
       <rux-button
         (click)="viewGraph()"
@@ -23,36 +23,46 @@
       <rux-button size="small" secondary>Sites</rux-button>
       <rux-button size="small" secondary>Settings</rux-button>
     </div>
-  </div>
+  </header>
   <div *ngIf="showGraph">
     <div class="toolbar">
       <div class="toolbar-buttons">
-        <rux-button [disabled]="disableUndo" (click)="onUndo()" iconOnly icon="undo" />
+        <rux-button
+          [disabled]="disableUndo"
+          (click)="onUndo()"
+          iconOnly
+          icon="undo"
+        />
         <rux-button (click)="onDelete()" iconOnly icon="delete" />
       </div>
 
       <div class="zoom-wrapper">
         <rux-icon icon="search" size="extra-small" />
-        <rux-slider [value]="zoomLevel" (ruxchange)="handleZoom($event)" min="5" max="20"/>
+        <rux-slider
+          [value]="zoomLevel"
+          (ruxchange)="handleZoom($event)"
+          min="5"
+          max="20"
+        />
         <rux-icon icon="search" size="1.5rem" />
       </div>
     </div>
 
-      <apx-chart
-        [series]="chartOptions.series"
-        [chart]="chartOptions.chart"
-        [xaxis]="chartOptions.xaxis"
-        [yaxis]="chartOptions.yaxis"
-        [markers]="chartOptions.markers"
-        [stroke]="chartOptions.stroke"
-        [legend]="chartOptions.legend"
-        [tooltip]="chartOptions.tooltip"
-      ></apx-chart>
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [yaxis]="chartOptions.yaxis"
+      [markers]="chartOptions.markers"
+      [stroke]="chartOptions.stroke"
+      [legend]="chartOptions.legend"
+      [tooltip]="chartOptions.tooltip"
+    ></apx-chart>
 
-    <div slot="footer">
+    <footer>
       <span>OD Quality Est: 82/100</span>
       <span>Data Points: {{ dataPointLength }}</span>
-    </div>
+    </footer>
   </div>
 
   <div *ngIf="showTable">
@@ -104,7 +114,7 @@
         <tbody>
           <tr *ngFor="let file of filteredData">
             <td>{{ file.fileName }}</td>
-            <td>{{ file.date | date: "MM/dd/YYYY" }}</td>
+            <td>{{ file.date | date: 'MM/dd/YYYY' }}</td>
             <td>{{ file.size }} kb</td>
           </tr>
         </tbody>
@@ -112,5 +122,3 @@
     </div>
   </div>
 </div>
-
-<!-- (click)="handleDataPoint($event)" -->

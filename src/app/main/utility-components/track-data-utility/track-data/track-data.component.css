@@ -1,4 +1,4 @@
-div[slot='header'] {
+header {
   display: flex;
   padding-block: var(--spacing-4);
   gap: var(--spacing-2);
@@ -37,7 +37,7 @@ rux-slider {
   display: flex;
 }
 
-div[slot='footer'] {
+footer {
   display: flex;
   justify-content: center;
   gap: var(--spacing-8);
