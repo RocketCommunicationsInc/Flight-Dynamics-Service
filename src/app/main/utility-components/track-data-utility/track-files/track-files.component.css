@@ -79,7 +79,7 @@ th.show-icon {
   font-weight: var(--font-weights-bold);
 }
 
-.file-wrapper div[slot="header"] {
+header {
   display: flex;
   background-color: var(--color-background-surface-header);
   align-items: center;

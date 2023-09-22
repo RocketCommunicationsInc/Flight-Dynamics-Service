@@ -2,7 +2,7 @@
   padding: var(--spacing-2);
 }
 
-div[slot='header'] {
+header {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
