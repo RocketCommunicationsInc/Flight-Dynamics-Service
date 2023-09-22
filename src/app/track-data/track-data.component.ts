@@ -112,12 +112,27 @@ export class TrackDataComponent {
       {
         name: this.chartOptions.series[0].name,
         data: (this.chartOptions.series[0].data = newData),
-        //data: newData,
         type: this.chartOptions.series[0].type,
       },
       {
         name: this.chartOptions.series[1].name,
         data: this.chartOptions.series[1].data,
+        type: this.chartOptions.series[1].type,
+      },
+    ];
+    this.chart?.updateSeries(updatedData);
+  }
+
+  updateSlopeData(newData: any[]) {
+    const updatedData = [
+      {
+        name: this.chartOptions.series[0].name,
+        data: this.chartOptions.series[0].data,
+        type: this.chartOptions.series[0].type,
+      },
+      {
+        name: this.chartOptions.series[1].name,
+        data: (this.chartOptions.series[1].data = newData),
         type: this.chartOptions.series[1].type,
       },
     ];
@@ -156,17 +171,28 @@ export class TrackDataComponent {
     this.updateChartData(this.dummyFileSize);
   }
 
-  zoomLevel: number = 6;
-  labelsShown: any[] = this.dummyDates
-  
+  zoomLevel: number = 15;
+  labelsShown: any[] = this.dummyDates.slice(5, 20);
+
+  updateSeriesOne(zoomLevel: number) {
+    return this.dummyFileSize.slice(0, zoomLevel);
+  }
+
+  updateSeriesTwo(zoomLevel: number) {
+    return this.slopeData.slice(0, zoomLevel);
+  }
+
   handleZoom(event: any) {
-    console.log(this.zoomLevel, "zoom")
-    this.labelsShown = this.dummyDates.slice(0, this.zoomLevel);
     this.zoomLevel = event.target.value;
+    this.labelsShown = this.dummyDates.slice(0, this.zoomLevel);
+
+    //Update both series, categories, and labels on zoom
+    this.updateChartData(this.updateSeriesOne(this.zoomLevel));
+    this.updateSlopeData(this.updateSeriesTwo(this.zoomLevel));
     this.chart?.updateOptions({
       xaxis: {
         categories: this.labelsShown,
-        tickAmount: this.labelsShown.length
+        tickAmount: this.labelsShown.length,
       },
     });
   }
@@ -220,7 +246,7 @@ export class TrackDataComponent {
       show: false,
     },
     markers: {
-      size: [5, 0],
+      size: [6, 0],
       colors: 'var(--color-data-visualization-2)',
     },
     stroke: {

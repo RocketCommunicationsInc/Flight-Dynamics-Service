@@ -41,6 +41,7 @@ div[slot="footer"] {
   gap: var(--spacing-8);
 }
 
+/* NG-DEEP is eventually going to be deprecated, but there is no alternative yet */
 :host ::ng-deep .tooltip-box {
   background-color: var(--color-background-base-selected);
   padding-inline: var(--spacing-3);
