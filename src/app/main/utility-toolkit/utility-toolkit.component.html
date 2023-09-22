@@ -5,7 +5,7 @@
     secondary
     [icon]="util.icon"
     *ngFor="let util of utilities; index as i"
-    (click)="util.onClick()"
+    (click)="onClick(util)"
   >
     {{ util.label }}
   </rux-button>

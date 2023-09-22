@@ -5,6 +5,12 @@
 <div class="orbit-determination-body">
   <fds-scenario-library class="scenarios-library" />
   <fds-scenario-data-display class="scenario-data" />
-  <fds-main class="main" />
-</div>
+  <rux-container class="main">
+    <header slot="header">
+      <fds-utility-toolkit></fds-utility-toolkit>
+    </header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </rux-container>  
 <rux-toast-stack />

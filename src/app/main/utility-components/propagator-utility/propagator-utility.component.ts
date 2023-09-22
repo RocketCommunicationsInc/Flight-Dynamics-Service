@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { InputSourceComponent } from "./input-source/input-source.component"
 import { ViewOrbitComponent } from './view-orbit/view-orbit.component';
 
@@ -13,10 +13,4 @@ import { ViewOrbitComponent } from './view-orbit/view-orbit.component';
   styleUrls: ['./propagator-utility.component.css'],
 })
 export class PropagatorUtilityComponent {
-  constructor(private router: Router) { }
-  
-  navigateBack() {
-    this.router.navigateByUrl('/')
-  }
-
 }
