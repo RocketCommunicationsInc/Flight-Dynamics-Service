@@ -3,6 +3,7 @@ div[slot="header"] {
   padding-block: var(--spacing-4);
   gap: var(--spacing-2);
   justify-content: space-between;
+  padding-inline: var(--spacing-4);
 }
 
 /* CHART STYLES */
@@ -16,7 +17,8 @@ div[slot="header"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-2);
+  padding-block: var(--spacing-2);
+  padding-inline: var(--spacing-4);
   background-color: var(--color-background-surface-header);
 }
 

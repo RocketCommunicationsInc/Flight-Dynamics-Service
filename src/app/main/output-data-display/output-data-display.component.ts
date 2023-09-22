@@ -1,24 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import {
-  SegmentedButton,
-  Status,
-} from '@astrouxds/astro-web-components/dist/types/components';
+import { SegmentedButton } from '@astrouxds/astro-web-components/dist/types/components';
 
 import type { Tabs } from 'src/app/types/Tabs';
-import { TabbedChildContainerComponent } from 'src/app/shared/tabbed-child-container/tabbed-child-container.component';
+import { TabbedChildContainerComponent } from 'src/app/shared';
 import { ViewGraphComponent } from './view-graph/view-graph.component';
 import { ViewTableComponent } from './view-table/view-table.component';
-import { randomNum } from './random';
-
-type CurrentView = 'View Table' | 'View Graph';
-
-interface OrbitDeterminations {
-  message: string;
-  status: Status;
-  timestamp: number;
-}
+import { OutputDataDisplayService } from './output-data-display.service';
+import { CurrentView } from './output-data-display.model';
 
 @Component({
   selector: 'fds-output-data-display',
@@ -34,60 +24,12 @@ interface OrbitDeterminations {
   styleUrls: ['./output-data-display.component.css'],
 })
 export class OutputDataDisplayComponent {
-  now = new Date().getTime();
-  criticals: OrbitDeterminations[] = [];
-  diviations: OrbitDeterminations[] = [];
-  warnings: OrbitDeterminations[] = [];
+  tabsId = 'ods-display';
   currentView: CurrentView = 'View Table';
 
   tabs: Tabs[] = [
     { label: 'OD Solution', id: 'od-solution', selected: true },
     { label: 'OD Performance', id: 'od-performance', disabled: true },
-  ];
-
-  tabsId = 'ods-display';
-
-  ods: OrbitDeterminations[] = [
-    {
-      message: 'OD warning message on',
-      status: 'caution',
-      timestamp: this.now - randomNum(),
-    },
-    {
-      message: 'OD critical message on',
-      status: 'critical',
-      timestamp: this.now - randomNum(),
-    },
-    {
-      message: 'OD success message on',
-      status: 'normal',
-      timestamp: this.now,
-    },
-    {
-      message: 'OD success message on',
-      status: 'normal',
-      timestamp: this.now - randomNum(),
-    },
-    {
-      message: 'OD warning message on',
-      status: 'caution',
-      timestamp: this.now - randomNum(),
-    },
-    {
-      message: 'OD warning message on',
-      status: 'caution',
-      timestamp: this.now - randomNum(),
-    },
-    {
-      message: 'OD warning message on',
-      status: 'caution',
-      timestamp: this.now - randomNum(),
-    },
-    {
-      message: 'OD success message on',
-      status: 'normal',
-      timestamp: this.now - randomNum(),
-    },
   ];
 
   actions: SegmentedButton[] = [
@@ -100,17 +42,7 @@ export class OutputDataDisplayComponent {
     { label: 'View Graph', selected: this.currentView === 'View Graph' },
   ];
 
-  constructor() {
-    this.criticals = this.ods.filter((od) => od.status === 'critical');
-    this.diviations = this.ods.filter((od) => od.status !== 'normal');
-    this.warnings = this.ods.filter((od) => od.status === 'caution');
-    this.ods.sort((a, b) => b.timestamp - a.timestamp);
-  }
-
-  onSelect(e: Event) {
-    const event = e as CustomEvent;
-    console.log(event.detail);
-  }
+  constructor(public outputDataDisplayService: OutputDataDisplayService) {}
 
   setCurrentView(e: Event) {
     const event = e as CustomEvent;

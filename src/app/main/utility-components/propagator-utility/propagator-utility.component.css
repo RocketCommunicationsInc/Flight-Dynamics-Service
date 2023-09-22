@@ -1,0 +1,12 @@
+rux-container::part(container) {
+  border: none;
+}
+
+header {
+  display: flex;
+  gap: 0.5rem;
+}
+
+header button {
+  margin-inline-start: auto;
+}

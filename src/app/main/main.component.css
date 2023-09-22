@@ -5,4 +5,5 @@ main {
 
 rux-container::part(body) {
   padding-block-start: var(--spacing-0);
+  padding-inline: 0px;
 }
