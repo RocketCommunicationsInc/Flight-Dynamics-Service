@@ -14,7 +14,7 @@ import {
   ApexOptions,
   ChartComponent,
 } from 'ng-apexcharts';
-import { Files } from '../types/Files';
+import { Files } from '../../../../types/Files';
 
 type Sort = 'ASC' | 'DESC' | '';
 
