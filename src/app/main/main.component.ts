@@ -26,16 +26,16 @@ import { AppStore } from '../+store/app.model'
 })
 export class MainComponent {
   // Uncomment code to test store values
-  satellites$ = this.store.select(selectSpacecrafts)
-  selectedSatelliteId$ = this.store.select(selectSelectedSpacecraftId)
+  spacecrafts$ = this.store.select(selectSpacecrafts)
+  selectedSpacecraftId$ = this.store.select(selectSelectedSpacecraftId)
   // selectSelectedSatellite$ = this.store.select(selectSelectedSpacecraft)
   constructor(
     private store: Store,
     private state: State<AppStore>
   ) {
     console.log('state', this.state)
-    this.satellites$.subscribe((res) => console.log(res))
-    this.selectedSatelliteId$.subscribe((res) => console.log(res))
+    this.spacecrafts$.subscribe((res) => console.log('spacecrafts', res))
+    this.selectedSpacecraftId$.subscribe((res) => console.log(res))
     // this.selectSelectedSatellite$.subscribe((res) => console.log(res))
   }
 }
