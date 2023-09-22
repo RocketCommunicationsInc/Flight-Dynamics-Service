@@ -15,7 +15,11 @@ import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular'
 import { ToastConfig, ToastService } from './shared/toast.service'
 import { BehaviorSubject, Subject, filter, takeUntil, tap } from 'rxjs'
 import { mockScenarios, mockTrackFiles } from './mock-data/generate-data'
-import { SatelliteActions, ScenariosActions, TrackFilesActions } from './+store/app.actions'
+import {
+  SpacecraftActions,
+  ScenariosActions,
+  TrackFilesActions,
+} from './+store/app.actions'
 
 @Component({
   standalone: true,
@@ -41,9 +45,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.lightTheme = !this.lightTheme
   }
 
-  constructor(private toasts: ToastService, private store: Store) {
+  constructor(
+    private toasts: ToastService,
+    private store: Store
+  ) {
     this.store.dispatch(ScenariosActions.scenariosRequested())
     this.store.dispatch(TrackFilesActions.trackFilesRequested())
+    this.store.dispatch(SpacecraftActions.spacecraftsRequested())
   }
 
   ngOnInit() {

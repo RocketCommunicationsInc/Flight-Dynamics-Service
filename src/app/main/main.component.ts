@@ -1,7 +1,9 @@
 import { Component } from '@angular/core'
 import { Store, State } from '@ngrx/store'
-import { selectSatellites, selectSelectedSatId } from '../+store/app.reducer'
-import { selectSelectedSatellite } from '../+store/app.selectors'
+import {
+  selectSpacecrafts,
+  selectSelectedSpacecraftId,
+} from '../+store/app.reducer'
 import { AstroComponentsModule } from '@astrouxds/angular'
 import { UtilityToolkitComponent } from './utility-toolkit/utility-toolkit.component'
 import { CommonModule } from '@angular/common'
@@ -24,13 +26,16 @@ import { AppStore } from '../+store/app.model'
 })
 export class MainComponent {
   // Uncomment code to test store values
-  satellites$ = this.store.select(selectSatellites);
-  selectedSatelliteId$ = this.store.select(selectSelectedSatId);
-  selectSelectedSatellite$ = this.store.select(selectSelectedSatellite);
-  constructor(private store: Store, private state: State<AppStore>) {
+  satellites$ = this.store.select(selectSpacecrafts)
+  selectedSatelliteId$ = this.store.select(selectSelectedSpacecraftId)
+  // selectSelectedSatellite$ = this.store.select(selectSelectedSpacecraft)
+  constructor(
+    private store: Store,
+    private state: State<AppStore>
+  ) {
     console.log('state', this.state)
-    this.satellites$.subscribe((res) => console.log(res));
-    this.selectedSatelliteId$.subscribe((res) => console.log(res));
-    this.selectSelectedSatellite$.subscribe((res) => console.log(res));
+    this.satellites$.subscribe((res) => console.log(res))
+    this.selectedSatelliteId$.subscribe((res) => console.log(res))
+    // this.selectSelectedSatellite$.subscribe((res) => console.log(res))
   }
 }

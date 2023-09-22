@@ -230,7 +230,9 @@ const scenarioLetters = ['A', 'B', 'C', 'D']
 export const mockScenarios = scenarioLetters.map((letter) =>
   generateScenario(letter)
 )
-const spaceCraft = mockScenarios.flatMap((scenario) => scenario.spaceCraft)
+export const spaceCraft = mockScenarios.flatMap(
+  (scenario) => scenario.spaceCraft
+)
 const trackFileIdsBySpaceCraftId: { [key: string]: string[] } = {}
 spaceCraft.forEach((spacecraft) => {
   trackFileIdsBySpaceCraftId[spacecraft.id] = spacecraft.trackFileIds

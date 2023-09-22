@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { Component, signal, ViewChild } from '@angular/core';
-import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
-import { Store } from '@ngrx/store';
-import { SatelliteActions } from '../+store/app.actions';
-import { ToastService } from '../shared/toast.service';
+import { CommonModule } from '@angular/common'
+import { Component, signal, ViewChild } from '@angular/core'
+import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular'
+import { Store } from '@ngrx/store'
+import { SpacecraftActions } from '../+store/app.actions'
+import { ToastService } from '../shared/toast.service'
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -12,7 +12,7 @@ import { ToastService } from '../shared/toast.service';
   imports: [AstroComponentsModule, CommonModule],
 })
 export class ScenarioLibraryComponent {
-  selectedCraft = signal<string | null>('');
+  selectedCraft = signal<string | null>('')
 
   dummyScenariosData = [
     {
@@ -50,11 +50,11 @@ export class ScenarioLibraryComponent {
       parent: 'Scenario F',
       children: ['Spacecraft #', 'Spacecraft #', 'Spacecraft #'],
     },
-  ];
+  ]
 
   constructor(
     private toasts: ToastService,
-    private store: Store,
+    private store: Store
   ) {}
 
   /**
@@ -62,13 +62,13 @@ export class ScenarioLibraryComponent {
    * @param el the rux-tree-node element
    */
   onTreeNodeSelected(e: Event) {
-    const el = e.target as HTMLRuxTreeNodeElement;
+    const el = e.target as HTMLRuxTreeNodeElement
     //We don't want to select the parent nodes, just the nodes being used as slots
-    if (el.slot === 'node') this.selectedCraft.set(el.textContent);
+    if (el.slot === 'node') this.selectedCraft.set(el.textContent)
   }
 
   onIconClick() {
-    this.showToast();
+    this.showToast()
   }
 
   /**
@@ -79,10 +79,12 @@ export class ScenarioLibraryComponent {
       message: 'This feature has not been implemented.',
       hideClose: false,
       closeAfter: 3000,
-    });
+    })
   }
 
   ngOnInit() {
-    this.store.dispatch(SatelliteActions.satelliteSelected({ satId: 123 }));
+    this.store.dispatch(
+      SpacecraftActions.spacecraftSelected({ spacecraftId: '123' })
+    )
   }
 }

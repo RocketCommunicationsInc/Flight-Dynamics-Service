@@ -1,14 +1,14 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Satellite } from './app.model';
-import { Scenario, TrackFile } from '../types/data.types';
+import { createActionGroup, emptyProps, props } from '@ngrx/store'
+import { Scenario, Spacecraft, TrackFile } from '../types/data.types'
 
-export const SatelliteActions = createActionGroup({
-  source: 'Satellite',
+export const SpacecraftActions = createActionGroup({
+  source: 'Spacecraft',
   events: {
-    'Satellites Retrieved': props<{ satellites: Satellite[] }>(),
-    'Satellite Selected': props<{ satId: number }>(),
+    'Spacecrafts Requested': emptyProps(),
+    'Spacecrafts Retrieved': props<{ spacecrafts: Spacecraft[] }>(),
+    'Spacecraft Selected': props<{ spacecraftId: string }>(),
   },
-});
+})
 
 export const ScenariosActions = createActionGroup({
   source: 'Scenarios',
@@ -16,7 +16,7 @@ export const ScenariosActions = createActionGroup({
     'Scenarios Requested': emptyProps(),
     'Scenarios Retrieved': props<{ scenarios: Scenario[] }>(),
   },
-});
+})
 
 export const TrackFilesActions = createActionGroup({
   source: 'Track Files',
@@ -24,4 +24,4 @@ export const TrackFilesActions = createActionGroup({
     'Track Files Requested': emptyProps(),
     'Track Files Retrieved': props<{ trackFiles: TrackFile[] }>(),
   },
-});
+})

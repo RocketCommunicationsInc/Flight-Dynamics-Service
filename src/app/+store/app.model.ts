@@ -1,12 +1,12 @@
-import { Scenario, TrackFile } from "../types/data.types";
+import { Scenario, Spacecraft, TrackFile } from '../types/data.types'
 
 export interface AppStore {
-  scenarios: Scenario[],
+  scenarios: Scenario[]
   trackFiles: TrackFile[]
-  satellites: Satellite[];
-  selectedSatId: number | null;
+  spacecrafts: Spacecraft[]
+  selectedSpacecraftId: string | null
 }
 
 export interface Satellite {
-  catalogId: number;
+  catalogId: number
 }

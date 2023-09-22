@@ -1,13 +1,17 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { SatelliteActions, ScenariosActions, TrackFilesActions } from './app.actions';
-import { AppStore } from './app.model';
+import { createFeature, createReducer, on } from '@ngrx/store'
+import {
+  SpacecraftActions,
+  ScenariosActions,
+  TrackFilesActions,
+} from './app.actions'
+import { AppStore } from './app.model'
 
 export const initialState: AppStore = {
   scenarios: [],
   trackFiles: [],
-  satellites: [],
-  selectedSatId: null,
-};
+  spacecrafts: [],
+  selectedSpacecraftId: null,
+}
 
 export const AppReducer = createReducer(
   initialState,
@@ -19,21 +23,27 @@ export const AppReducer = createReducer(
     ...state,
     trackFiles: [...trackFiles],
   })),
-  on(SatelliteActions.satelliteSelected, (state, { satId }) => ({
+  on(SpacecraftActions.spacecraftsRetrieved, (state, { spacecrafts }) => ({
     ...state,
-    selectedSatId: satId,
+    spacecrafts: [...spacecrafts],
   })),
-);
+  on(SpacecraftActions.spacecraftSelected, (state, { spacecraftId }) => ({
+    ...state,
+    selectedSatId: spacecraftId,
+  }))
+)
 
 export const appFeature = createFeature({
   name: 'app',
   reducer: AppReducer,
-});
+})
 
 export const {
   name,
   reducer,
   selectAppState,
-  selectSatellites,
-  selectSelectedSatId,
-} = appFeature;
+  selectScenarios,
+  selectTrackFiles,
+  selectSpacecrafts,
+  selectSelectedSpacecraftId,
+} = appFeature
