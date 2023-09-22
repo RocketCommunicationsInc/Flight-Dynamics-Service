@@ -214,7 +214,7 @@ export class TrackDataComponent {
       },
     ],
     chart: {
-      height: 450,
+      height: 425,
       type: 'line',
       toolbar: {
         show: false,
@@ -225,7 +225,7 @@ export class TrackDataComponent {
       events: {
         dataPointSelection: (event: any, chartContext: any, config: any) => {
           this.dataPointToDelete = dummyFileData.findIndex(
-            (file) => file.size === config?.dataPointIndex,
+            (file) => file.size === config?.dataPointIndex
           );
           //Change the color of selected data point
           const dataPoints = document.querySelectorAll('.apexcharts-marker');
@@ -234,7 +234,7 @@ export class TrackDataComponent {
             el.classList.add('data-point-hover');
           });
           dataPoints[config.dataPointIndex].classList.add(
-            'selected-data-point',
+            'selected-data-point'
           );
         },
       },
@@ -281,7 +281,7 @@ export class TrackDataComponent {
       theme: '',
       custom: function ({ series, seriesIndex, dataPointIndex }: any) {
         const dummyDates = dummyFileData.map((file) =>
-          file.date.toLocaleDateString(),
+          file.date.toLocaleDateString()
         );
         return (
           '<div class="tooltip-box">' +
