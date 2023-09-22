@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { dummyFileData } from '../track-files/dummy-file-data';
+import { dummyFileData } from '../dummy-file-data';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -14,7 +14,7 @@ import {
   ApexOptions,
   ChartComponent,
 } from 'ng-apexcharts';
-import { Files } from '../types/Files';
+import { Files } from 'src/app/types/Files';
 
 type Sort = 'ASC' | 'DESC' | '';
 

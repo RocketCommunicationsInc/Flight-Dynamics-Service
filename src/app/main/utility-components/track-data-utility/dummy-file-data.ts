@@ -1,4 +1,4 @@
-import { Files } from '../types/Files';
+import { Files } from '../../../types/Files';
 
 const randomDate = (start: Date, end: Date) => {
   return new Date(
