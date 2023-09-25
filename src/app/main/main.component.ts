@@ -1,15 +1,15 @@
-import { Component } from '@angular/core'
-import { Store, State } from '@ngrx/store'
+import { Component } from '@angular/core';
+import { Store, State } from '@ngrx/store';
+import { AstroComponentsModule } from '@astrouxds/angular';
+import { UtilityToolkitComponent } from './utility-toolkit/utility-toolkit.component';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { InputsOutputsDataDisplayComponent } from './inputs-outputs-data-display/inputs-outputs-data-display.component';
+import { AppStore } from '../+state/app.model';
 import {
   selectSelectedSpacecraftId,
   selectTrackFiles,
-} from '../+store/app.reducer'
-import { AstroComponentsModule } from '@astrouxds/angular'
-import { UtilityToolkitComponent } from './utility-toolkit/utility-toolkit.component'
-import { CommonModule } from '@angular/common'
-import { RouterOutlet } from '@angular/router'
-import { InputsOutputsDataDisplayComponent } from './inputs-outputs-data-display/inputs-outputs-data-display.component'
-import { AppStore } from '../+store/app.model'
+} from '../+state/app.reducer';
 
 @Component({
   selector: 'fds-main',
@@ -25,20 +25,14 @@ import { AppStore } from '../+store/app.model'
   ],
 })
 export class MainComponent {
-  // Uncomment code to test store values
-  // spacecrafts$ = this.store.select(selectSpacecrafts)
-  selectedSpacecraftId$ = this.store.select(selectSelectedSpacecraftId)
-  trackfiles$ = this.store.select(selectTrackFiles)
+  selectedSpacecraftId$ = this.store.select(selectSelectedSpacecraftId);
+  trackfiles$ = this.store.select(selectTrackFiles);
   constructor(
     private store: Store,
     private state: State<AppStore>
   ) {
-    console.log('state', this.state)
-    // this.spacecrafts$.subscribe((res) => console.log('spacecrafts', res))
-    this.selectedSpacecraftId$.subscribe((res) => console.log(res))
-    this.trackfiles$.subscribe((res) => {
-
-
-    })
+    console.log('state', this.state);
+    this.selectedSpacecraftId$.subscribe((res) => console.log(res));
+    this.trackfiles$.subscribe((res) => {});
   }
 }

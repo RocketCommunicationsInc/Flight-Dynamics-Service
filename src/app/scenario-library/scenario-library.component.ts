@@ -1,12 +1,11 @@
-import { CommonModule } from '@angular/common'
-import { Component, signal, ViewChild } from '@angular/core'
-import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular'
-import { Store } from '@ngrx/store'
-import { SpacecraftActions } from '../+store/app.actions'
-import { ToastService } from '../shared/toast.service'
-import { selectScenarios } from '../+store/app.reducer'
-import { Scenario } from '../types/data.types'
-import { selectAllScenarios } from '../+store/app.adapters'
+import { CommonModule } from '@angular/common';
+import { Component, signal } from '@angular/core';
+import { AstroComponentsModule } from '@astrouxds/angular';
+import { Store } from '@ngrx/store';
+import { SpacecraftActions } from '../+state/app.actions';
+import { selectScenarios } from '../+state/app.reducer';
+import { ToastService } from '../shared/toast.service';
+import { Scenario } from '../types/data.types';
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -15,9 +14,9 @@ import { selectAllScenarios } from '../+store/app.adapters'
   imports: [AstroComponentsModule, CommonModule],
 })
 export class ScenarioLibraryComponent {
-  selectedCraft = signal<string | null>('')
-  scenarios$ = this.store.select(selectScenarios)
-  data: (Scenario|undefined)[] = []
+  selectedCraft = signal<string | null>('');
+  scenarios$ = this.store.select(selectScenarios);
+  data: (Scenario | undefined)[] = [];
 
   dummyScenariosData = [
     {
@@ -55,7 +54,7 @@ export class ScenarioLibraryComponent {
       parent: 'Scenario F',
       children: ['Spacecraft #', 'Spacecraft #', 'Spacecraft #'],
     },
-  ]
+  ];
 
   constructor(
     private toasts: ToastService,
@@ -67,13 +66,13 @@ export class ScenarioLibraryComponent {
    * @param el the rux-tree-node element
    */
   onTreeNodeSelected(e: Event) {
-    const el = e.target as HTMLRuxTreeNodeElement
+    const el = e.target as HTMLRuxTreeNodeElement;
     //We don't want to select the parent nodes, just the nodes being used as slots
-    if (el.slot === 'node') this.selectedCraft.set(el.textContent)
+    if (el.slot === 'node') this.selectedCraft.set(el.textContent);
   }
 
   onIconClick() {
-    this.showToast()
+    this.showToast();
   }
 
   /**
@@ -84,17 +83,17 @@ export class ScenarioLibraryComponent {
       message: 'This feature has not been implemented.',
       hideClose: false,
       closeAfter: 3000,
-    })
+    });
   }
 
   ngOnInit() {
-    this.scenarios$.subscribe((res) => {
-      this.data = res.ids.map((id)=>{
-        return res.entities[id]
-      })
-    })
+    this.scenarios$.subscribe((res: any) => {
+      this.data = res.ids.map((id: string) => {
+        return res.entities[id];
+      });
+    });
     this.store.dispatch(
       SpacecraftActions.spacecraftSelected({ spacecraftId: '123' })
-    )
+    );
   }
 }
