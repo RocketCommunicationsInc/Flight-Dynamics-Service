@@ -47,8 +47,13 @@ type ChartOptions = {
 export class TrackDataComponent {
   @ViewChild(ChartComponent) chart?: ChartComponent;
 
+  dummyFileData = dummyFileData;
+
   isSitesDrawerOpen: boolean = false;
   isSettingsDrawerOpen: boolean = false;
+  showGraph: boolean = true;
+  showTable: boolean = false;
+
 
   shrinkChart() {
     this.chart?.updateOptions({
@@ -82,14 +87,11 @@ export class TrackDataComponent {
     }
   }
 
-  dummyFileData = dummyFileData;
-
-  showGraph: boolean = true;
-  showTable: boolean = false;
-
   viewTable() {
     this.showGraph = false;
     this.showTable = true;
+    this.isSitesDrawerOpen = false
+    this.isSettingsDrawerOpen = false
   }
 
   viewGraph() {
