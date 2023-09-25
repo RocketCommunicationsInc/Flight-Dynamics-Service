@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { Tabs } from 'src/app/types/Tabs';
@@ -17,6 +17,12 @@ export class TabbedChildContainerComponent {
 
   @Input() notificationData?: any[];
   @Input() notificationHideClose?: boolean;
+
+  @Input() isUtilityContainer?: boolean = false;
+
+  @HostBinding('class.utility-container') get isUtility() {
+    return this.isUtilityContainer;
+  }
 
   onSelect(e: Event) {
     const event = e as CustomEvent;

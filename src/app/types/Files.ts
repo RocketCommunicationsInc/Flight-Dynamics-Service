@@ -4,4 +4,5 @@ export interface Files {
   size: number;
   selected: boolean;
   content: string;
+  index: number;
 }

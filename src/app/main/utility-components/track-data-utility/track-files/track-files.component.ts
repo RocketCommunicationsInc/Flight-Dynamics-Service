@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { dummyFileData } from './dummy-file-data';
+import { dummyFileData } from '../dummy-file-data';
 import { FormsModule } from '@angular/forms';
-import { Files } from '../types/Files';
+import { Files } from 'src/app/types/Files';
 
 type Sort = 'ASC' | 'DESC' | '';
 @Component({
