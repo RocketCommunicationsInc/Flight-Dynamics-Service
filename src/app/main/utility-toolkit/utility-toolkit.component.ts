@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 
 interface Utility {
   icon: string;
   label: string;
-  onClick: () => void;
+  link: string;
 }
 
 @Component({
@@ -17,51 +17,38 @@ interface Utility {
   styleUrls: ['./utility-toolkit.component.css'],
 })
 export class UtilityToolkitComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
   id = '000';
+
+  onClick(util: Utility) {
+    this.router.navigate([`./${util.link}`], {relativeTo: this.route.firstChild});
+  }
 
   utilities: Utility[] = [
     {
       icon: 'tune',
       label: 'Compare',
-      onClick: () =>
-        this.router.navigateByUrl('/').then(() => {
-          this.router.navigate([{ outlets: { compare: ['compare-util'] } }]);
-        }),
+      link: 'compare',
     },
     {
       icon: 'add-circle',
       label: 'Create Report',
-      onClick: () =>
-        this.router.navigateByUrl('/').then(() => {
-          this.router.navigate([{ outlets: { report: ['report-util'] } }]);
-        }),
+      link: 'report',
     },
     {
       icon: 'list',
       label: 'Log',
-      onClick: () =>
-        this.router.navigateByUrl('/').then(() => {
-          this.router.navigate([{ outlets: { log: ['log-util'] } }]);
-        }),
+      link: 'log',
     },
     {
       icon: 'antenna',
       label: 'Track Data',
-      onClick: () =>
-        this.router.navigateByUrl('/').then(() => {
-          this.router.navigate([{ outlets: { track: ['track-util'] } }]);
-        }),
+      link: 'track',
     },
     {
       icon: 'public',
       label: 'Propagator',
-      onClick: () =>
-        this.router.navigateByUrl('/').then(() => {
-          this.router.navigate([
-            { outlets: { propagator: ['propagator-util'] } },
-          ]);
-        }),
+      link: 'propagator',
     },
   ];
 }

@@ -58,7 +58,7 @@ export class TrackDataComponent {
   shrinkChart() {
     this.chart?.updateOptions({
       chart: {
-        width: '75%',
+        width: '76%',
       },
     });
   }

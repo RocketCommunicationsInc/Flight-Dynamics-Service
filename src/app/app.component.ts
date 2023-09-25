@@ -5,14 +5,16 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ScenarioDataDisplayComponent } from './scenario-data-display/scenario-data-display.component';
-import { ScenarioLibraryComponent } from './scenario-library/scenario-library.component';
-import { GlobalStatusBarComponent } from './global-status-bar/global-status-bar.component';
-import { MainComponent } from './main/main.component';
+import { ScenarioDataDisplayComponent } from './core/scenario-data-display/scenario-data-display.component';
+import { ScenarioLibraryComponent } from './core/scenario-library/scenario-library.component';
+import { GlobalStatusBarComponent } from './core/global-status-bar/global-status-bar.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
 import { ToastConfig, ToastService } from './shared/toast.service';
-import { BehaviorSubject, Subject, filter, takeUntil, tap } from 'rxjs';
+import { Subject, filter, takeUntil } from 'rxjs';
+import { UtilityToolkitComponent } from './main/utility-toolkit/utility-toolkit.component';
+import { Store } from '@ngrx/store';
+import { ScenariosActions, TrackFilesActions } from './+state/app.actions';
 
 @Component({
   standalone: true,
@@ -23,10 +25,10 @@ import { BehaviorSubject, Subject, filter, takeUntil, tap } from 'rxjs';
     ScenarioDataDisplayComponent,
     ScenarioLibraryComponent,
     GlobalStatusBarComponent,
-    MainComponent,
     RouterLink,
     RouterOutlet,
     AstroComponentsModule,
+    UtilityToolkitComponent,
   ],
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -38,14 +40,20 @@ export class AppComponent implements OnInit, OnDestroy {
     this.lightTheme = !this.lightTheme;
   }
 
-  constructor(private toasts: ToastService) {}
+  constructor(
+    private toasts: ToastService,
+    private store: Store
+  ) {
+    this.store.dispatch(ScenariosActions.scenariosRequested());
+    this.store.dispatch(TrackFilesActions.trackFilesRequested());
+  }
 
   ngOnInit() {
     this.toasts
       .getStack()
       .pipe(
         takeUntil(this.destroyed),
-        filter((val): val is ToastConfig => !!val),
+        filter((val): val is ToastConfig => !!val)
       )
       .subscribe((config: ToastConfig) => this.toastStack?.addToast(config));
   }
