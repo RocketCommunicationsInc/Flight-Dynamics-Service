@@ -4,29 +4,53 @@ import {
   ScenariosActions,
   TrackFilesActions,
 } from './app.actions'
-import { AppStore } from './app.model'
+import { AppStore, ScenariosState, TrackFilesState, SpacecraftState } from './app.model'
+import { scenarioAdapter, trackFileAdapter, spacecraftAdapter } from './app.adapters'
+
+const initialScenarios: ScenariosState = scenarioAdapter.getInitialState({
+  selectedScenarioId: ''
+})
+
+const initialTrackFiles: TrackFilesState = trackFileAdapter.getInitialState({
+  selectedTrackFileId: ''
+})
+
+const initialSpacecrafts: SpacecraftState = spacecraftAdapter.getInitialState({
+  selectedSpacecraftId: ''
+})
 
 export const initialState: AppStore = {
-  scenarios: [],
-  trackFiles: [],
-  spacecrafts: [],
+  scenarios: initialScenarios,
+  trackFiles: initialTrackFiles,
+  spacecrafts: initialSpacecrafts,
   selectedSpacecraftId: null,
 }
 
 export const AppReducer = createReducer(
   initialState,
-  on(ScenariosActions.scenariosRetrieved, (state, { scenarios }) => ({
+  on(ScenariosActions.scenariosRetrieved, (state, { scenarios }) => {
+    return ({
     ...state,
-    scenarios: [...scenarios],
-  })),
-  on(TrackFilesActions.trackFilesRetrieved, (state, { trackFiles }) => ({
+    scenarios: scenarioAdapter.addMany(scenarios, initialScenarios),
+  })}),
+  on(TrackFilesActions.trackFilesRetrieved, (state, { trackFiles }) => {
+    return ({
     ...state,
-    trackFiles: [...trackFiles],
-  })),
-  on(SpacecraftActions.spacecraftsRetrieved, (state, { spacecrafts }) => ({
+    trackFiles: trackFileAdapter.addMany(trackFiles, initialTrackFiles),
+  })}),
+  on(TrackFilesActions.addTrackFile, (state, { trackFile }) =>  ({
     ...state,
-    spacecrafts: [...spacecrafts],
+    trackFiles: trackFileAdapter.addOne(trackFile, state.trackFiles),
   })),
+  on(TrackFilesActions.removeTrackFile, (state, { trackFileId }) =>  ({
+    ...state,
+    trackFiles: trackFileAdapter.removeOne(trackFileId, state.trackFiles),
+  })),
+  on(SpacecraftActions.spacecraftsRetrieved, (state, { spacecrafts }) => {
+    return ({
+    ...state,
+    spacecrafts: spacecraftAdapter.addMany(spacecrafts, initialSpacecrafts),
+  })}),
   on(SpacecraftActions.spacecraftSelected, (state, { spacecraftId }) => ({
     ...state,
     selectedSatId: spacecraftId,

@@ -9,7 +9,7 @@ import { ScenarioDataDisplayComponent } from './scenario-data-display/scenario-d
 import { ScenarioLibraryComponent } from './scenario-library/scenario-library.component'
 import { GlobalStatusBarComponent } from './global-status-bar/global-status-bar.component'
 import { MainComponent } from './main/main.component'
-import { Store } from '@ngrx/store'
+import { State, Store } from '@ngrx/store'
 import { RouterLink, RouterOutlet } from '@angular/router'
 import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular'
 import { ToastConfig, ToastService } from './shared/toast.service'
@@ -47,7 +47,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private toasts: ToastService,
-    private store: Store
+    private store: Store,
+    private state: State<any>,
   ) {
     this.store.dispatch(ScenariosActions.scenariosRequested())
     this.store.dispatch(TrackFilesActions.trackFilesRequested())
