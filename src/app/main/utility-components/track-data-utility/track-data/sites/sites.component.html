@@ -4,7 +4,7 @@
 >
   <header slot="header">Tracking Sites</header>
 
-  <rux-checkbox label="Display All" />
+  <rux-checkbox (ruxchange)="handleFilter($event)" label="Display All" />
   <rux-checkbox label="CPCA" />
   <rux-checkbox label="OAFB" />
   <rux-checkbox label="HTS" />

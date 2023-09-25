@@ -1,4 +1,4 @@
-<div class="track-data-tab">
+<div class="track-data">
   <header>
     <div>
       <rux-button
@@ -23,11 +23,37 @@
     <fds-settings [isSettingsDrawerOpen]="isSettingsDrawerOpen" />
 
     <div *ngIf="showGraph" class="button-wrapper">
-      <rux-button size="small" secondary (click)="openSitesDrawer()"
+      <rux-button
+        *ngIf="!isSitesDrawerOpen"
+        size="small"
+        secondary
+        [disabled]="isSettingsDrawerOpen"
+        (click)="openSitesDrawer()"
         >Sites</rux-button
       >
-      <rux-button size="small" secondary (click)="openSettingsDrawer()"
+      <rux-button
+        *ngIf="isSitesDrawerOpen"
+        size="small"
+        secondary
+        (click)="openSitesDrawer()"
+        icon="keyboard-backspace"
+        >Close</rux-button
+      >
+      <rux-button
+        *ngIf="!isSettingsDrawerOpen"
+        size="small"
+        secondary
+        [disabled]="isSitesDrawerOpen"
+        (click)="openSettingsDrawer()"
         >Settings</rux-button
+      >
+      <rux-button
+        *ngIf="isSettingsDrawerOpen"
+        size="small"
+        secondary
+        (click)="openSettingsDrawer()"
+        icon="keyboard-backspace"
+        >Close</rux-button
       >
     </div>
   </header>
@@ -54,11 +80,6 @@
         <rux-icon icon="search" size="1.5rem" />
       </div>
     </div>
-    <div
-      [ngClass]="{
-        'push-track-data': isSitesDrawerOpen
-      }"
-    >
       <apx-chart
         [series]="chartOptions.series"
         [chart]="chartOptions.chart"
@@ -75,7 +96,6 @@
         <span>Data Points: {{ dataPointLength }}</span>
       </footer>
     </div>
-  </div>
 
   <div *ngIf="showTable">
     <div class="table-wrapper">

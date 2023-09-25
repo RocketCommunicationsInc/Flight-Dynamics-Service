@@ -1,17 +1,4 @@
-/* .track-data {
-  flex: 1;
-  transition: margin-right 0.3s;
-  width: 72%;
-} */
-
-.push-track-data {
-  flex: 1;
-  transition: margin-right 0.3s;
-  width: 72%;
-
-}
-
-.track-data-tab {
+.track-data {
   position: relative;
   overflow: hidden;
 }
@@ -29,6 +16,10 @@ header {
 .button-wrapper {
   display: flex;
   gap: var(--spacing-2);
+}
+
+.button-wrapper rux-button {
+  width: var(--spacing-24);
 }
 
 .toolbar {

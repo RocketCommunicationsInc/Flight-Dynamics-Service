@@ -50,12 +50,36 @@ export class TrackDataComponent {
   isSitesDrawerOpen: boolean = false;
   isSettingsDrawerOpen: boolean = false;
 
+  shrinkChart() {
+    this.chart?.updateOptions({
+      chart: {
+        width: '75%',
+      },
+    });
+  }
+
+  expandChart() {
+    this.chart?.updateOptions({
+      chart: {
+        width: '100%',
+      },
+    });
+  }
+
   openSitesDrawer() {
+    this.shrinkChart();
     this.isSitesDrawerOpen = !this.isSitesDrawerOpen;
+    if (!this.isSitesDrawerOpen) {
+      this.expandChart();
+    }
   }
 
   openSettingsDrawer() {
+    this.shrinkChart();
     this.isSettingsDrawerOpen = !this.isSettingsDrawerOpen;
+    if (!this.isSettingsDrawerOpen) {
+      this.expandChart();
+    }
   }
 
   dummyFileData = dummyFileData;
@@ -234,7 +258,6 @@ export class TrackDataComponent {
     ],
     chart: {
       height: 425,
-      //width: 1000,
       type: 'line',
       toolbar: {
         show: false,
