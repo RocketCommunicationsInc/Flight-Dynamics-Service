@@ -6,7 +6,7 @@
       icon="public"
       size="small"
       secondary
-      >View model</rux-button
+      >View Model</rux-button
     >
     <rux-button
       (click)="viewTable()"
@@ -30,9 +30,7 @@
   <fds-propagator-controls />
 </aside>
 
-<div *ngIf="showModel; else showTable">
-  <fds-view-model />
-</div>
+<fds-view-model *ngIf="showModel; else showTable" />
 
 <ng-template #showTable>
   <fds-view-table />
