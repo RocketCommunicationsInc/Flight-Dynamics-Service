@@ -12,22 +12,24 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
 import { ToastConfig, ToastService } from './shared/toast.service';
 import { Subject, filter, takeUntil } from 'rxjs';
-import { UtilityToolkitComponent } from "./main/utility-toolkit/utility-toolkit.component";
+import { UtilityToolkitComponent } from './main/utility-toolkit/utility-toolkit.component';
+import { Store } from '@ngrx/store';
+import { ScenariosActions, TrackFilesActions } from './+state/app.actions';
 
 @Component({
-    standalone: true,
-    selector: 'body',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-    imports: [
-        ScenarioDataDisplayComponent,
-        ScenarioLibraryComponent,
-        GlobalStatusBarComponent,
-        RouterLink,
-        RouterOutlet,
-        AstroComponentsModule,
-        UtilityToolkitComponent
-    ]
+  standalone: true,
+  selector: 'body',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+  imports: [
+    ScenarioDataDisplayComponent,
+    ScenarioLibraryComponent,
+    GlobalStatusBarComponent,
+    RouterLink,
+    RouterOutlet,
+    AstroComponentsModule,
+    UtilityToolkitComponent,
+  ],
 })
 export class AppComponent implements OnInit, OnDestroy {
   @HostBinding('class.light-theme') lightTheme: boolean = false;
@@ -38,14 +40,20 @@ export class AppComponent implements OnInit, OnDestroy {
     this.lightTheme = !this.lightTheme;
   }
 
-  constructor(private toasts: ToastService) {}
+  constructor(
+    private toasts: ToastService,
+    private store: Store
+  ) {
+    this.store.dispatch(ScenariosActions.scenariosRequested());
+    this.store.dispatch(TrackFilesActions.trackFilesRequested());
+  }
 
   ngOnInit() {
     this.toasts
       .getStack()
       .pipe(
         takeUntil(this.destroyed),
-        filter((val): val is ToastConfig => !!val),
+        filter((val): val is ToastConfig => !!val)
       )
       .subscribe((config: ToastConfig) => this.toastStack?.addToast(config));
   }

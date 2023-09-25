@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, ViewChild } from '@angular/core';
-import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
+import { Component, signal } from '@angular/core';
+import { AstroComponentsModule } from '@astrouxds/angular';
 import { Store } from '@ngrx/store';
-import { SatelliteActions } from '../../+state/app.actions';
+import { SpacecraftActions } from '../../+state/app.actions';
+import { selectScenarios } from '../../+state/app.reducer';
 import { ToastService } from '../../shared/toast.service';
+import { Scenario } from '../../types/data.types';
 import { Router } from '@angular/router';
 @Component({
   standalone: true,
@@ -14,49 +16,13 @@ import { Router } from '@angular/router';
 })
 export class ScenarioLibraryComponent {
   selectedCraft = signal<string | null>('');
-
-  dummyScenariosData = [
-    {
-      parent: 'Scenario A',
-      children: ['Spacecraft #', 'Spacecraft #', 'Spacecraft #'],
-    },
-    {
-      parent: 'Scenario B',
-      children: [
-        'Spacecraft #',
-        'Spacecraft #',
-        'Spacecraft #',
-        'Spacecraft #',
-      ],
-    },
-    {
-      parent: 'Scenario C',
-      children: ['Spacecraft #', 'Spacecraft #', 'Spacecraft #'],
-    },
-    {
-      parent: 'Scenario D',
-      children: [
-        'Spacecraft #',
-        'Spacecraft #',
-        'Spacecraft #',
-        'Spacecraft #',
-        'Spacecraft #',
-      ],
-    },
-    {
-      parent: 'Scenario E',
-      children: ['Spacecraft #', 'Spacecraft #', 'Spacecraft #'],
-    },
-    {
-      parent: 'Scenario F',
-      children: ['Spacecraft #', 'Spacecraft #', 'Spacecraft #'],
-    },
-  ];
+  scenarios$ = this.store.select(selectScenarios);
+  data: (Scenario | undefined)[] = [];
 
   constructor(
     private toasts: ToastService,
     private store: Store,
-    private router: Router,
+    private router: Router
   ) {}
 
   /**
@@ -68,7 +34,7 @@ export class ScenarioLibraryComponent {
     //We don't want to select the parent nodes, just the nodes being used as slots
     if (el.slot === 'node') {
       this.selectedCraft.set(el.textContent);
-      this.router.navigateByUrl(el.textContent || '');
+      this.router.navigateByUrl(el.textContent?.trim() || '');
     }
   }
 
@@ -88,6 +54,13 @@ export class ScenarioLibraryComponent {
   }
 
   ngOnInit() {
-    this.store.dispatch(SatelliteActions.satelliteSelected({ satId: 123 }));
+    this.scenarios$.subscribe((res: any) => {
+      this.data = res.ids.map((id: string) => {
+        return res.entities[id];
+      });
+    });
+    this.store.dispatch(
+      SpacecraftActions.spacecraftSelected({ spacecraftId: '123' })
+    );
   }
 }

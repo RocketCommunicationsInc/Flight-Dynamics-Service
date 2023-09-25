@@ -1,31 +1,78 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { SatelliteActions } from './app.actions';
-import { AppStore } from './app.model';
+import {
+  SpacecraftActions,
+  ScenariosActions,
+  TrackFilesActions,
+} from './app.actions';
+import { AppStore, ScenariosState, TrackFilesState } from './app.model';
+import { scenarioAdapter, trackFileAdapter } from './app.adapters';
+
+const initialScenarios: ScenariosState = scenarioAdapter.getInitialState({});
+
+const initialTrackFiles: TrackFilesState = trackFileAdapter.getInitialState({});
 
 export const initialState: AppStore = {
-  satellites: [{ catalogId: 123 }],
+  scenarios: initialScenarios,
+  trackFiles: initialTrackFiles,
+  selectedSpacecraftId: null,
+  selectedScenarioId: null,
+  selectedTrackFileId: null,
 };
 
-export const SatellitesReducer = createReducer(
+export const AppReducer = createReducer(
   initialState,
-  on(SatelliteActions.satellitesRetrieved, (state, { satellites }) => ({
+
+  //Scenario Actions
+  on(ScenariosActions.scenariosRetrieved, (state, { scenarios }) => {
+    return {
+      ...state,
+      scenarios: scenarioAdapter.addMany(scenarios, initialScenarios),
+    };
+  }),
+  on(ScenariosActions.scenarioSelected, (state, { scenarioId }) => ({
     ...state,
-    satellites: [...satellites],
+    selectedScenarioId: scenarioId,
   })),
-  on(SatelliteActions.satelliteSelected, (state, { satId }) => ({
+
+  //Track File Actions
+  on(TrackFilesActions.trackFilesRetrieved, (state, { trackFiles }) => {
+    return {
+      ...state,
+      trackFiles: trackFileAdapter.addMany(trackFiles, initialTrackFiles),
+    };
+  }),
+  on(TrackFilesActions.addTrackFile, (state, { trackFile }) => ({
     ...state,
-    selectedSatId: satId,
+    trackFiles: trackFileAdapter.addOne(trackFile, state.trackFiles),
   })),
+  on(TrackFilesActions.removeTrackFile, (state, { trackFileId }) => ({
+    ...state,
+    trackFiles: trackFileAdapter.removeOne(trackFileId, state.trackFiles),
+  })),
+  on(TrackFilesActions.trackFileSelected, (state, { trackFileId }) => ({
+    ...state,
+    selectedTrackFileId: trackFileId,
+  })),
+
+  //Spacecraft actions
+  on(SpacecraftActions.spacecraftSelected, (state, { spacecraftId }) => ({
+    ...state,
+    selectedSpacecraftId: spacecraftId,
+  }))
 );
 
-export const satellitesFeature = createFeature({
-  name: 'satellites',
-  reducer: SatellitesReducer,
+export const appFeature = createFeature({
+  name: 'app',
+  reducer: AppReducer,
 });
 
 export const {
   name,
   reducer,
-  selectSatellitesState,
-  selectSatellites,
-} = satellitesFeature;
+  selectAppState,
+  selectScenarios,
+  selectTrackFiles,
+  selectSelectedSpacecraftId,
+  selectSelectedScenarioId,
+  selectSelectedTrackFileId,
+} = appFeature;
