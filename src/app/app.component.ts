@@ -5,29 +5,29 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ScenarioDataDisplayComponent } from './scenario-data-display/scenario-data-display.component';
-import { ScenarioLibraryComponent } from './scenario-library/scenario-library.component';
-import { GlobalStatusBarComponent } from './global-status-bar/global-status-bar.component';
-import { MainComponent } from './main/main.component';
+import { ScenarioDataDisplayComponent } from './core/scenario-data-display/scenario-data-display.component';
+import { ScenarioLibraryComponent } from './core/scenario-library/scenario-library.component';
+import { GlobalStatusBarComponent } from './core/global-status-bar/global-status-bar.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
 import { ToastConfig, ToastService } from './shared/toast.service';
-import { BehaviorSubject, Subject, filter, takeUntil, tap } from 'rxjs';
+import { Subject, filter, takeUntil } from 'rxjs';
+import { UtilityToolkitComponent } from "./main/utility-toolkit/utility-toolkit.component";
 
 @Component({
-  standalone: true,
-  selector: 'body',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  imports: [
-    ScenarioDataDisplayComponent,
-    ScenarioLibraryComponent,
-    GlobalStatusBarComponent,
-    MainComponent,
-    RouterLink,
-    RouterOutlet,
-    AstroComponentsModule,
-  ],
+    standalone: true,
+    selector: 'body',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    imports: [
+        ScenarioDataDisplayComponent,
+        ScenarioLibraryComponent,
+        GlobalStatusBarComponent,
+        RouterLink,
+        RouterOutlet,
+        AstroComponentsModule,
+        UtilityToolkitComponent
+    ]
 })
 export class AppComponent implements OnInit, OnDestroy {
   @HostBinding('class.light-theme') lightTheme: boolean = false;

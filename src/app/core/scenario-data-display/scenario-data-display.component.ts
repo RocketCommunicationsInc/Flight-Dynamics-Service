@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { UnitSelectorComponent } from '../shared';
-import { UnitMenuItems, selectUnit } from '../shared/units/units.model';
+import { UnitSelectorComponent } from '../../shared';
+import { UnitMenuItems, selectUnit } from '../../shared/units/units.model';
 
 @Component({
   standalone: true,

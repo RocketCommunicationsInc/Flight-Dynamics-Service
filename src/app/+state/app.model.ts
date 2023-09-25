@@ -1,6 +1,6 @@
 export interface AppStore {
+  //Selected sat ID should come from URL
   satellites: Satellite[];
-  selectedSatId: number | null;
 }
 
 export interface Satellite {

@@ -8,7 +8,6 @@ header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: var(--spacing-4);
 }
 
 header button {
@@ -17,4 +16,7 @@ header button {
 
 rux-tab-panel {
   height: 100%;
+}
+rux-container::part(body) {
+  padding: var(--spacing-0);
 }

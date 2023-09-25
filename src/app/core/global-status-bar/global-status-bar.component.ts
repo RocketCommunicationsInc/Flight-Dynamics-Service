@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
-import { ToastService } from '../shared/toast.service';
+import { ToastService } from '../../shared/toast.service';
 
 @Component({
   standalone: true,

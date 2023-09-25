@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, signal, ViewChild } from '@angular/core';
 import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
 import { Store } from '@ngrx/store';
-import { SatelliteActions } from '../store/app.actions';
-import { ToastService } from '../shared/toast.service';
+import { SatelliteActions } from '../../+state/app.actions';
+import { ToastService } from '../../shared/toast.service';
+import { Router } from '@angular/router';
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -55,6 +56,7 @@ export class ScenarioLibraryComponent {
   constructor(
     private toasts: ToastService,
     private store: Store,
+    private router: Router,
   ) {}
 
   /**
@@ -64,7 +66,10 @@ export class ScenarioLibraryComponent {
   onTreeNodeSelected(e: Event) {
     const el = e.target as HTMLRuxTreeNodeElement;
     //We don't want to select the parent nodes, just the nodes being used as slots
-    if (el.slot === 'node') this.selectedCraft.set(el.textContent);
+    if (el.slot === 'node') {
+      this.selectedCraft.set(el.textContent);
+      this.router.navigateByUrl(el.textContent || '');
+    }
   }
 
   onIconClick() {

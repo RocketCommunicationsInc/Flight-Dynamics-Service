@@ -4,7 +4,6 @@ import { AppStore } from './app.model';
 
 export const initialState: AppStore = {
   satellites: [{ catalogId: 123 }],
-  selectedSatId: null,
 };
 
 export const SatellitesReducer = createReducer(
@@ -29,5 +28,4 @@ export const {
   reducer,
   selectSatellitesState,
   selectSatellites,
-  selectSelectedSatId,
 } = satellitesFeature;
