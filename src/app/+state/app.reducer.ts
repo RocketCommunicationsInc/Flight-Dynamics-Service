@@ -1,15 +1,15 @@
-import { createFeature, createReducer, on } from '@ngrx/store'
+import { createFeature, createReducer, on } from '@ngrx/store';
 import {
   SpacecraftActions,
   ScenariosActions,
   TrackFilesActions,
-} from './app.actions'
-import { AppStore, ScenariosState, TrackFilesState } from './app.model'
-import { scenarioAdapter, trackFileAdapter } from './app.adapters'
+} from './app.actions';
+import { AppStore, ScenariosState, TrackFilesState } from './app.model';
+import { scenarioAdapter, trackFileAdapter } from './app.adapters';
 
-const initialScenarios: ScenariosState = scenarioAdapter.getInitialState({})
+const initialScenarios: ScenariosState = scenarioAdapter.getInitialState({});
 
-const initialTrackFiles: TrackFilesState = trackFileAdapter.getInitialState({})
+const initialTrackFiles: TrackFilesState = trackFileAdapter.getInitialState({});
 
 export const initialState: AppStore = {
   scenarios: initialScenarios,
@@ -17,17 +17,18 @@ export const initialState: AppStore = {
   selectedSpacecraftId: null,
   selectedScenarioId: null,
   selectedTrackFileId: null,
-}
+};
 
 export const AppReducer = createReducer(
   initialState,
 
   //Scenario Actions
   on(ScenariosActions.scenariosRetrieved, (state, { scenarios }) => {
-    return ({
-    ...state,
-    scenarios: scenarioAdapter.addMany(scenarios, initialScenarios),
-  })}),
+    return {
+      ...state,
+      scenarios: scenarioAdapter.addMany(scenarios, initialScenarios),
+    };
+  }),
   on(ScenariosActions.scenarioSelected, (state, { scenarioId }) => ({
     ...state,
     selectedScenarioId: scenarioId,
@@ -35,15 +36,16 @@ export const AppReducer = createReducer(
 
   //Track File Actions
   on(TrackFilesActions.trackFilesRetrieved, (state, { trackFiles }) => {
-    return ({
-    ...state,
-    trackFiles: trackFileAdapter.addMany(trackFiles, initialTrackFiles),
-  })}),
-  on(TrackFilesActions.addTrackFile, (state, { trackFile }) =>  ({
+    return {
+      ...state,
+      trackFiles: trackFileAdapter.addMany(trackFiles, initialTrackFiles),
+    };
+  }),
+  on(TrackFilesActions.addTrackFile, (state, { trackFile }) => ({
     ...state,
     trackFiles: trackFileAdapter.addOne(trackFile, state.trackFiles),
   })),
-  on(TrackFilesActions.removeTrackFile, (state, { trackFileId }) =>  ({
+  on(TrackFilesActions.removeTrackFile, (state, { trackFileId }) => ({
     ...state,
     trackFiles: trackFileAdapter.removeOne(trackFileId, state.trackFiles),
   })),
@@ -57,12 +59,12 @@ export const AppReducer = createReducer(
     ...state,
     selectedSpacecraftId: spacecraftId,
   }))
-)
+);
 
 export const appFeature = createFeature({
   name: 'app',
   reducer: AppReducer,
-})
+});
 
 export const {
   name,
@@ -73,4 +75,4 @@ export const {
   selectSelectedSpacecraftId,
   selectSelectedScenarioId,
   selectSelectedTrackFileId,
-} = appFeature
+} = appFeature;

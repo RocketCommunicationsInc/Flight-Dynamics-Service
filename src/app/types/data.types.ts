@@ -1,76 +1,76 @@
 export type Scenario = {
-  id: string
-  name: string
-  spaceCraft: Spacecraft[]
-}
+  id: string;
+  name: string;
+  spaceCraft: Spacecraft[];
+};
 
 export type Spacecraft = {
-  id: string
-  catalogId: string
-  trackFileIds: string[]
-}
+  id: string;
+  catalogId: string;
+  trackFileIds: string[];
+};
 
 export type OrbitProperty = {
-  value: number
-  unit: string
-}
+  value: number;
+  unit: string;
+};
 
 export type OrbitProperties = {
-  argOfPerigee: OrbitProperty
-  apogee: OrbitProperty
-  meanMotionDDot: OrbitProperty
-  perigee: OrbitProperty
-  semiMajorAxis: OrbitProperty
-  bStar: OrbitProperty
-  inclination: OrbitProperty
-  period: OrbitProperty
-  meanMotion: OrbitProperty
-  eccentricity: OrbitProperty
-  raan: OrbitProperty
-  revNo: OrbitProperty
-  meanMotionDot: OrbitProperty
-  meanAnomaly: OrbitProperty
-  mass: OrbitProperty
-}
+  argOfPerigee: OrbitProperty;
+  apogee: OrbitProperty;
+  meanMotionDDot: OrbitProperty;
+  perigee: OrbitProperty;
+  semiMajorAxis: OrbitProperty;
+  bStar: OrbitProperty;
+  inclination: OrbitProperty;
+  period: OrbitProperty;
+  meanMotion: OrbitProperty;
+  eccentricity: OrbitProperty;
+  raan: OrbitProperty;
+  revNo: OrbitProperty;
+  meanMotionDot: OrbitProperty;
+  meanAnomaly: OrbitProperty;
+  mass: OrbitProperty;
+};
 
 export type TrackFile = {
-  id: string
-  spaceCraftRefId: string
-  name: string
-  creationDate: Date
-  fileSize: number
-  ephemerisSourceFile: EphemerisFile
-  tleSourceFile: TLEFile
-  epochRangeStart: Date
-  epochRangeEnd: Date
-  thrustProfileFileName: string
-  processedTrackFile: ProcessedTrackFile | null
-  initialOrbitProperties: OrbitProperties
-}
+  id: string;
+  spaceCraftRefId: string;
+  name: string;
+  creationDate: Date;
+  fileSize: number;
+  ephemerisSourceFile: EphemerisFile;
+  tleSourceFile: TLEFile;
+  epochRangeStart: Date;
+  epochRangeEnd: Date;
+  thrustProfileFileName: string;
+  processedTrackFile: ProcessedTrackFile | null;
+  initialOrbitProperties: OrbitProperties;
+};
 
 export type ProcessedTrackFile = {
-  trackFileRefId: string
-  name: string
-  creationDate: Date
-  finalOrbitProperties: OrbitProperties
-}
+  trackFileRefId: string;
+  name: string;
+  creationDate: Date;
+  finalOrbitProperties: OrbitProperties;
+};
 
 export type EphemerisFile = {
-  trackFileRefId: string
-  name: string
+  trackFileRefId: string;
+  name: string;
   data: {
-    [key: string]: Ephemeride
-  }
-}
+    [key: string]: Ephemeride;
+  };
+};
 
 export type TLEFile = {
-  trackFileRefId: string
-  name: string
-  line1: string
-  line2: string
-}
+  trackFileRefId: string;
+  name: string;
+  line1: string;
+  line2: string;
+};
 
-type Ephemeride = { p: [number, number, number]; v: [number, number, number] }
+type Ephemeride = { p: [number, number, number]; v: [number, number, number] };
 
 //TODO: work out performance table properties with design.
 // const PERFORMANCE_TABLE_COLUMNS = {
