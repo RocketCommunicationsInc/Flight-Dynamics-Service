@@ -6,6 +6,7 @@ import { SpacecraftActions } from '../+store/app.actions'
 import { ToastService } from '../shared/toast.service'
 import { selectScenarios } from '../+store/app.reducer'
 import { Scenario } from '../types/data.types'
+import { selectAllScenarios } from '../+store/app.adapters'
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
