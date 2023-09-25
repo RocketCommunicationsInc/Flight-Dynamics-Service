@@ -16,7 +16,7 @@ const generateScenario = (scenarioLetter: string): Scenario => {
   return {
     id: crypto.randomUUID(),
     name: 'Scenario' + scenarioLetter,
-    spaceCraft: Array(numOfSpaceCraft).fill(generateSpacecraft()),
+    spaceCraft: Array(numOfSpaceCraft).fill(null).map(()=>generateSpacecraft()),
   }
 }
 
