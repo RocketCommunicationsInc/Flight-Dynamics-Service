@@ -1,0 +1,29 @@
+<div class="toolbar">
+  <!-- may be needed if checkboxes added back into design -->
+  <!-- <div class="toolbar-buttons">
+        <rux-button [disabled]="disableUndo" (click)="onUndo()" iconOnly icon="undo" />
+        <rux-button (click)="onDelete()" iconOnly icon="delete" />
+      </div> -->
+
+  <div class="zoom-wrapper">
+    <rux-icon icon="search" size="extra-small" />
+    <rux-slider
+      [value]="zoomLevel"
+      (ruxchange)="handleZoom($event)"
+      min="5"
+      max="20"
+    />
+    <rux-icon icon="search" size="1.5rem" />
+  </div>
+</div>
+
+<span class="map-wrapper">MAP AREA</span>
+
+<footer>
+  <rux-icon icon="play" size="normal" />
+  <!-- TODO: meter element -->
+  <div class="playback-date-wrapper">
+    <span>MM/DD/YYYY</span>
+    <span>00:00:00.000</span>
+  </div>
+</footer>
