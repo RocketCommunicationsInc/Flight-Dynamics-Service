@@ -1,0 +1,124 @@
+<div>
+  <header>
+    <div>
+      <rux-button
+        (click)="viewGraph()"
+        id="graph"
+        icon="show-chart"
+        size="small"
+        secondary
+        >View Graph</rux-button
+      >
+      <rux-button
+        (click)="viewTable()"
+        id="table"
+        icon="notes"
+        size="small"
+        secondary
+        >View Table</rux-button
+      >
+    </div>
+    <div *ngIf="showGraph" class="button-wrapper">
+      <rux-button size="small" secondary>Filters</rux-button>
+      <rux-button size="small" secondary>Sites</rux-button>
+      <rux-button size="small" secondary>Settings</rux-button>
+    </div>
+  </header>
+  <div *ngIf="showGraph">
+    <div class="toolbar">
+      <div class="toolbar-buttons">
+        <rux-button
+          [disabled]="disableUndo"
+          (click)="onUndo()"
+          iconOnly
+          icon="undo"
+        />
+        <rux-button (click)="onDelete()" iconOnly icon="delete" />
+      </div>
+
+      <div class="zoom-wrapper">
+        <rux-icon icon="search" size="extra-small" />
+        <rux-slider
+          [value]="zoomLevel"
+          (ruxchange)="handleZoom($event)"
+          min="5"
+          max="20"
+        />
+        <rux-icon icon="search" size="1.5rem" />
+      </div>
+    </div>
+
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [yaxis]="chartOptions.yaxis"
+      [markers]="chartOptions.markers"
+      [stroke]="chartOptions.stroke"
+      [legend]="chartOptions.legend"
+      [tooltip]="chartOptions.tooltip"
+    ></apx-chart>
+
+    <footer>
+      <span>OD Quality Est: 82/100</span>
+      <span>Data Points: {{ dataPointLength }}</span>
+    </footer>
+  </div>
+
+  <div *ngIf="showTable">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>File Name</th>
+            <th
+              (click)="sortColumn('date')"
+              (mouseenter)="showIcon = true"
+              (mouseleave)="showIcon = false"
+            >
+              Date
+              <span class="icon-span" [ngClass]="{ 'show-icon': showIcon }">
+                <rux-icon
+                  size="small"
+                  *ngIf="showIcon"
+                  [icon]="
+                    sortDirection === 'ASC'
+                      ? 'arrow-drop-down'
+                      : 'arrow-drop-up'
+                  "
+                />
+              </span>
+            </th>
+            <th
+              (click)="sortColumn('size')"
+              (mouseenter)="showSecondIcon = true"
+              (mouseleave)="showSecondIcon = false"
+            >
+              File Size
+              <span
+                class="icon-span"
+                [ngClass]="{ 'show-icon': showSecondIcon }"
+              >
+                <rux-icon
+                  size="small"
+                  *ngIf="showSecondIcon"
+                  [icon]="
+                    sortDirection === 'ASC'
+                      ? 'arrow-drop-down'
+                      : 'arrow-drop-up'
+                  "
+              /></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of filteredData">
+            <td>{{ file.fileName }}</td>
+            <td>{{ file.date | date: 'MM/dd/YYYY' }}</td>
+            <td>{{ file.size }} kb</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

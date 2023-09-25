@@ -3,12 +3,10 @@ import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 
 @Component({
-  selector: 'fds-track-data',
+  selector: 'fds-propagator-controls',
   standalone: true,
   imports: [CommonModule, AstroComponentsModule],
-  templateUrl: './track-data.component.html',
-  styleUrls: ['./track-data.component.css']
+  templateUrl: './propagator-controls.component.html',
+  styleUrls: ['./propagator-controls.component.css'],
 })
-export class TrackDataComponent {
-
-}
+export class PropagatorControlsComponent {}

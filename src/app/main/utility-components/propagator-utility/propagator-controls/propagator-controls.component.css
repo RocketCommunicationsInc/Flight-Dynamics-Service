@@ -1,0 +1,62 @@
+:host {
+  position: absolute;
+  right: 0px;
+  height: 510px;
+  width: 400px;
+  z-index: 2;
+}
+
+rux-container::part(body) {
+  padding-block: var(--spacing-0);
+  overflow: auto;
+}
+
+div[slot='footer'] {
+  display: flex;
+  justify-content: space-around;
+  gap: var(--spacing-2);
+
+  & rux-button::part(container) {
+    width: 150px;
+  }
+}
+
+section {
+  border-bottom: 1px solid var(--color-border-interactive-muted);
+  padding-block: var(--spacing-4);
+}
+
+h3 {
+  padding-block-end: var(--spacing-2);
+}
+
+h4 {
+  padding-block: var(--spacing-2);
+}
+
+section rux-input,
+section rux-select {
+  width: 45%;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+section span {
+  display: flex;
+  align-items: flex-end;
+  padding-block: var(--spacing-2);
+  border-bottom: 1px solid var(--color-border-interactive-muted);
+}
+
+section span rux-icon {
+  margin-left: auto;
+}
