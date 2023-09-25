@@ -1,17 +1,13 @@
 .button-wrapper {
   display: flex;
-  justify-content: space-between;
   padding: var(--spacing-3);
   align-items: center;
   box-shadow: 0 2px 1px -1px black;
 }
 
-span:nth-of-type(1) {
+.button-wrapper span:nth-of-type(1) {
   font-weight: var(--font-weights-bold);
-}
-
-span:nth-of-type(2) {
-  margin-right: 55%;
+  margin-right: 8rem;
 }
 
 rux-select {
@@ -29,7 +25,7 @@ rux-select::part(label) {
 .content {
   display: flex;
   margin-top: var(--spacing-2);
-  height: 36.5rem;
+  height: 37.5rem;
 }
 
 /* TABLE STYLES */
@@ -79,7 +75,11 @@ th.show-icon {
   width: 100%;
 }
 
-.file-wrapper div[slot="header"] {
+.file-wrapper span {
+  font-weight: var(--font-weights-bold);
+}
+
+header {
   display: flex;
   background-color: var(--color-background-surface-header);
   align-items: center;

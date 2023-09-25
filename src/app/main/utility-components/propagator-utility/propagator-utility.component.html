@@ -1,21 +1,22 @@
-<header slot="header">
-  <rux-icon icon="public" size="small" />
-  <h2>Propagator Utility</h2>
-  <button (click)="navigateBack()">Back</button>
-</header>
+<rux-container>
+  <header slot="header">
+    <rux-icon icon="public" size="small" />Propagator Utility
+    <button routerLink="..">Back</button>
+  </header>
 
-<fds-tabbed-child-container
-  [tabs]="tabs"
-  [hasTabPanels]="true"
-  tabsParentId="propagator-tabs"
-  [isUtilityContainer]="true"
->
-  <ng-container panels>
-    <rux-tab-panel aria-labelledby="input-source">
-      <fds-input-source />
-    </rux-tab-panel>
-    <rux-tab-panel aria-labelledby="view-orbit">
-      <fds-view-orbit />
-    </rux-tab-panel>
-  </ng-container>
-</fds-tabbed-child-container>
+  <fds-tabbed-child-container
+    [tabs]="tabs"
+    [hasTabPanels]="true"
+    tabsParentId="propagator-tabs"
+    [isUtilityContainer]="true"
+  >
+    <ng-container panels>
+      <rux-tab-panel aria-labelledby="input-source">
+        <fds-input-source />
+      </rux-tab-panel>
+      <rux-tab-panel aria-labelledby="view-orbit">
+        <fds-view-orbit />
+      </rux-tab-panel>
+    </ng-container>
+  </fds-tabbed-child-container>
+</rux-container>

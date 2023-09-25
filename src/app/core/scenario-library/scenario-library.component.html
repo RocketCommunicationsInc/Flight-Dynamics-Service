@@ -9,10 +9,13 @@
     ></rux-button>
   </div>
   <rux-tree (ruxtreenodeselected)="onTreeNodeSelected($event)">
-    <rux-tree-node *ngFor="let parentNode of dummyScenariosData">
-      {{ parentNode.parent }}
-      <rux-tree-node slot="node" *ngFor="let childNode of parentNode.children">
-        {{ childNode }}
+    <rux-tree-node *ngFor="let parentNode of data">
+      {{ parentNode?.name }}
+      <rux-tree-node
+        slot="node"
+        *ngFor="let childNode of parentNode?.spaceCraft"
+      >
+        {{ childNode.catalogId }}
       </rux-tree-node>
     </rux-tree-node>
   </rux-tree>

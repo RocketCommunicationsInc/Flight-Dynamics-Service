@@ -9,8 +9,8 @@
   grid-template-columns: 1.5fr 8.5fr;
   grid-template-rows: 4.5fr 5.5fr;
   grid-template-areas:
-    "scenarios-library main"
-    "scenario-data main";
+    'scenarios-library main'
+    'scenario-data main';
 }
 
 .scenarios-library {
@@ -24,4 +24,13 @@
 
 .main {
   grid-area: main;
+}
+
+main {
+  display: block;
+  height: 100%;
+}
+
+rux-container::part(body) {
+  padding: var(--spacing-0);
 }
