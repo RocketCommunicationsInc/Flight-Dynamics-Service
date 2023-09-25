@@ -4,35 +4,36 @@ import {
   ScenariosActions,
   TrackFilesActions,
 } from './app.actions'
-import { AppStore, ScenariosState, TrackFilesState, SpacecraftState } from './app.model'
-import { scenarioAdapter, trackFileAdapter, spacecraftAdapter } from './app.adapters'
+import { AppStore, ScenariosState, TrackFilesState } from './app.model'
+import { scenarioAdapter, trackFileAdapter } from './app.adapters'
 
-const initialScenarios: ScenariosState = scenarioAdapter.getInitialState({
-  selectedScenarioId: ''
-})
+const initialScenarios: ScenariosState = scenarioAdapter.getInitialState({})
 
-const initialTrackFiles: TrackFilesState = trackFileAdapter.getInitialState({
-  selectedTrackFileId: ''
-})
-
-const initialSpacecrafts: SpacecraftState = spacecraftAdapter.getInitialState({
-  selectedSpacecraftId: ''
-})
+const initialTrackFiles: TrackFilesState = trackFileAdapter.getInitialState({})
 
 export const initialState: AppStore = {
   scenarios: initialScenarios,
   trackFiles: initialTrackFiles,
-  spacecrafts: initialSpacecrafts,
   selectedSpacecraftId: null,
+  selectedScenarioId: null,
+  selectedTrackFileId: null,
 }
 
 export const AppReducer = createReducer(
   initialState,
+
+  //Scenario Actions
   on(ScenariosActions.scenariosRetrieved, (state, { scenarios }) => {
     return ({
     ...state,
     scenarios: scenarioAdapter.addMany(scenarios, initialScenarios),
   })}),
+  on(ScenariosActions.scenarioSelected, (state, { scenarioId }) => ({
+    ...state,
+    selectedScenarioId: scenarioId,
+  })),
+
+  //Track File Actions
   on(TrackFilesActions.trackFilesRetrieved, (state, { trackFiles }) => {
     return ({
     ...state,
@@ -46,14 +47,15 @@ export const AppReducer = createReducer(
     ...state,
     trackFiles: trackFileAdapter.removeOne(trackFileId, state.trackFiles),
   })),
-  on(SpacecraftActions.spacecraftsRetrieved, (state, { spacecrafts }) => {
-    return ({
+  on(TrackFilesActions.trackFileSelected, (state, { trackFileId }) => ({
     ...state,
-    spacecrafts: spacecraftAdapter.addMany(spacecrafts, initialSpacecrafts),
-  })}),
+    selectedTrackFileId: trackFileId,
+  })),
+
+  //Spacecraft actions
   on(SpacecraftActions.spacecraftSelected, (state, { spacecraftId }) => ({
     ...state,
-    selectedSatId: spacecraftId,
+    selectedSpacecraftId: spacecraftId,
   }))
 )
 
@@ -68,6 +70,7 @@ export const {
   selectAppState,
   selectScenarios,
   selectTrackFiles,
-  selectSpacecrafts,
   selectSelectedSpacecraftId,
+  selectSelectedScenarioId,
+  selectSelectedTrackFileId,
 } = appFeature

@@ -4,6 +4,8 @@ import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular'
 import { Store } from '@ngrx/store'
 import { SpacecraftActions } from '../+store/app.actions'
 import { ToastService } from '../shared/toast.service'
+import { selectScenarios } from '../+store/app.reducer'
+import { Scenario } from '../types/data.types'
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -13,6 +15,8 @@ import { ToastService } from '../shared/toast.service'
 })
 export class ScenarioLibraryComponent {
   selectedCraft = signal<string | null>('')
+  scenarios$ = this.store.select(selectScenarios)
+  data: (Scenario|undefined)[] = []
 
   dummyScenariosData = [
     {
@@ -83,6 +87,11 @@ export class ScenarioLibraryComponent {
   }
 
   ngOnInit() {
+    this.scenarios$.subscribe((res) => {
+      this.data = res.ids.map((id)=>{
+        return res.entities[id]
+      })
+    })
     this.store.dispatch(
       SpacecraftActions.spacecraftSelected({ spacecraftId: '123' })
     )

@@ -16,7 +16,3 @@ export const scenarioAdapter: EntityAdapter<Scenario> = createEntityAdapter<Scen
 export const trackFileAdapter: EntityAdapter<TrackFile> = createEntityAdapter<TrackFile>({
   sortComparer: sortByName
 });
-
-export const spacecraftAdapter: EntityAdapter<Spacecraft> = createEntityAdapter<Spacecraft>({
-  sortComparer: sortById
-});

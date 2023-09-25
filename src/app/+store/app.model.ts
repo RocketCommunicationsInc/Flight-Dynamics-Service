@@ -4,22 +4,11 @@ import { EntityState } from '@ngrx/entity'
 export interface AppStore {
   scenarios: ScenariosState
   trackFiles: TrackFilesState
-  spacecrafts: SpacecraftState
   selectedSpacecraftId: string | null
+  selectedTrackFileId: string | null
+  selectedScenarioId: string | null
 }
 
-export interface ScenariosState extends EntityState<Scenario>{
-  selectedScenarioId: string
-}
+export interface ScenariosState extends EntityState<Scenario>{}
 
-export interface TrackFilesState extends EntityState<TrackFile>{
-  selectedTrackFileId: string
-}
-
-export interface SpacecraftState extends EntityState<Spacecraft>{
-  selectedSpacecraftId: string
-}
-
-export interface Satellite {
-  catalogId: number
-}
+export interface TrackFilesState extends EntityState<TrackFile>{}

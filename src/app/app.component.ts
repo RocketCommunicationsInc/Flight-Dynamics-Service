@@ -48,11 +48,9 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private toasts: ToastService,
     private store: Store,
-    private state: State<any>,
   ) {
     this.store.dispatch(ScenariosActions.scenariosRequested())
     this.store.dispatch(TrackFilesActions.trackFilesRequested())
-    this.store.dispatch(SpacecraftActions.spacecraftsRequested())
   }
 
   ngOnInit() {

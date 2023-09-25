@@ -1,8 +1,8 @@
 import { Component } from '@angular/core'
 import { Store, State } from '@ngrx/store'
 import {
-  selectSpacecrafts,
   selectSelectedSpacecraftId,
+  selectTrackFiles,
 } from '../+store/app.reducer'
 import { AstroComponentsModule } from '@astrouxds/angular'
 import { UtilityToolkitComponent } from './utility-toolkit/utility-toolkit.component'
@@ -26,16 +26,19 @@ import { AppStore } from '../+store/app.model'
 })
 export class MainComponent {
   // Uncomment code to test store values
-  spacecrafts$ = this.store.select(selectSpacecrafts)
+  // spacecrafts$ = this.store.select(selectSpacecrafts)
   selectedSpacecraftId$ = this.store.select(selectSelectedSpacecraftId)
-  // selectSelectedSatellite$ = this.store.select(selectSelectedSpacecraft)
+  trackfiles$ = this.store.select(selectTrackFiles)
   constructor(
     private store: Store,
     private state: State<AppStore>
   ) {
     console.log('state', this.state)
-    this.spacecrafts$.subscribe((res) => console.log('spacecrafts', res))
+    // this.spacecrafts$.subscribe((res) => console.log('spacecrafts', res))
     this.selectedSpacecraftId$.subscribe((res) => console.log(res))
-    // this.selectSelectedSatellite$.subscribe((res) => console.log(res))
+    this.trackfiles$.subscribe((res) => {
+
+
+    })
   }
 }
