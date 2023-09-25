@@ -1,4 +1,4 @@
-<div>
+<div class="track-data-tab">
   <header>
     <div>
       <rux-button
@@ -18,10 +18,17 @@
         >View Table</rux-button
       >
     </div>
+
+    <fds-sites [isSitesDrawerOpen]="isSitesDrawerOpen" />
+    <fds-settings [isSettingsDrawerOpen]="isSettingsDrawerOpen" />
+
     <div *ngIf="showGraph" class="button-wrapper">
-      <rux-button size="small" secondary>Filters</rux-button>
-      <rux-button size="small" secondary>Sites</rux-button>
-      <rux-button size="small" secondary>Settings</rux-button>
+      <rux-button size="small" secondary (click)="openSitesDrawer()"
+        >Sites</rux-button
+      >
+      <rux-button size="small" secondary (click)="openSettingsDrawer()"
+        >Settings</rux-button
+      >
     </div>
   </header>
   <div *ngIf="showGraph">
@@ -47,22 +54,27 @@
         <rux-icon icon="search" size="1.5rem" />
       </div>
     </div>
+    <div
+      [ngClass]="{
+        'push-track-data': isSitesDrawerOpen
+      }"
+    >
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [xaxis]="chartOptions.xaxis"
+        [yaxis]="chartOptions.yaxis"
+        [markers]="chartOptions.markers"
+        [stroke]="chartOptions.stroke"
+        [legend]="chartOptions.legend"
+        [tooltip]="chartOptions.tooltip"
+      ></apx-chart>
 
-    <apx-chart
-      [series]="chartOptions.series"
-      [chart]="chartOptions.chart"
-      [xaxis]="chartOptions.xaxis"
-      [yaxis]="chartOptions.yaxis"
-      [markers]="chartOptions.markers"
-      [stroke]="chartOptions.stroke"
-      [legend]="chartOptions.legend"
-      [tooltip]="chartOptions.tooltip"
-    ></apx-chart>
-
-    <footer>
-      <span>OD Quality Est: 82/100</span>
-      <span>Data Points: {{ dataPointLength }}</span>
-    </footer>
+      <footer>
+        <span>OD Quality Est: 82/100</span>
+        <span>Data Points: {{ dataPointLength }}</span>
+      </footer>
+    </div>
   </div>
 
   <div *ngIf="showTable">

@@ -15,6 +15,8 @@ import {
   ChartComponent,
 } from 'ng-apexcharts';
 import { Files } from 'src/app/types/Files';
+import { SitesComponent } from './sites/sites.component';
+import { SettingsComponent } from './settings/settings.component';
 
 type Sort = 'ASC' | 'DESC' | '';
 
@@ -32,12 +34,29 @@ type ChartOptions = {
 @Component({
   selector: 'fds-track-data',
   standalone: true,
-  imports: [CommonModule, AstroComponentsModule, NgApexchartsModule],
+  imports: [
+    CommonModule,
+    AstroComponentsModule,
+    NgApexchartsModule,
+    SitesComponent,
+    SettingsComponent,
+  ],
   templateUrl: './track-data.component.html',
   styleUrls: ['./track-data.component.css'],
 })
 export class TrackDataComponent {
   @ViewChild(ChartComponent) chart?: ChartComponent;
+
+  isSitesDrawerOpen: boolean = false;
+  isSettingsDrawerOpen: boolean = false;
+
+  openSitesDrawer() {
+    this.isSitesDrawerOpen = !this.isSitesDrawerOpen;
+  }
+
+  openSettingsDrawer() {
+    this.isSettingsDrawerOpen = !this.isSettingsDrawerOpen;
+  }
 
   dummyFileData = dummyFileData;
 
@@ -215,6 +234,7 @@ export class TrackDataComponent {
     ],
     chart: {
       height: 425,
+      //width: 1000,
       type: 'line',
       toolbar: {
         show: false,

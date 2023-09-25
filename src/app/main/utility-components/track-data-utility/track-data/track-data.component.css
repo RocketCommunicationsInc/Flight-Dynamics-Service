@@ -1,3 +1,21 @@
+/* .track-data {
+  flex: 1;
+  transition: margin-right 0.3s;
+  width: 72%;
+} */
+
+.push-track-data {
+  flex: 1;
+  transition: margin-right 0.3s;
+  width: 72%;
+
+}
+
+.track-data-tab {
+  position: relative;
+  overflow: hidden;
+}
+
 header {
   display: flex;
   padding-block: var(--spacing-4);
