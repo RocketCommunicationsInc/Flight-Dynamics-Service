@@ -2,11 +2,17 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { PropagatorControlsComponent } from '../../propagator-controls/propagator-controls.component';
+import { CesiumMapDirective } from './cesium-map.directive';
 
 @Component({
   selector: 'fds-view-model',
   standalone: true,
-  imports: [CommonModule, AstroComponentsModule, PropagatorControlsComponent],
+  imports: [
+    CommonModule,
+    AstroComponentsModule,
+    PropagatorControlsComponent,
+    CesiumMapDirective,
+  ],
   templateUrl: './view-model.component.html',
   styleUrls: ['./view-model.component.css'],
 })

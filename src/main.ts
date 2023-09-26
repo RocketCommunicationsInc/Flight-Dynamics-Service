@@ -7,6 +7,9 @@ import { AppEffects } from './app/+state/app.effects';
 import { provideEffects } from '@ngrx/effects';
 import { appFeature } from './app/+state/app.reducer';
 
+//@ts-ignore
+window['CESIUM_BASE_URL'] = '/assets/cesium/';
+
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(Routes),
