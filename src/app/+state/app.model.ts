@@ -1,11 +1,10 @@
-import { Scenario, TrackFile } from '../types/data.types';
+import { Scenario, Spacecraft, TrackFile } from '../types/data.types';
 import { EntityState } from '@ngrx/entity';
 
 export interface AppStore {
   scenarios: ScenariosState;
   trackFiles: TrackFilesState;
-  // spacecraftIds: number[];
-  selectedSpacecraftId: string | null;
+  selectedSpacecraft: Spacecraft | null;
   selectedTrackFileId: string | null;
   selectedScenarioId: string | null;
 }

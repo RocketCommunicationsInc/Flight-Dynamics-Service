@@ -1,10 +1,10 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Scenario, TrackFile } from '../types/data.types';
+import { Scenario, Spacecraft, TrackFile } from '../types/data.types';
 
 export const SpacecraftActions = createActionGroup({
   source: 'Spacecraft',
   events: {
-    'Spacecraft Selected': props<{ spacecraftId: string }>(),
+    'Spacecraft Selected': props<{ spacecraft: Spacecraft }>(),
   },
 });
 

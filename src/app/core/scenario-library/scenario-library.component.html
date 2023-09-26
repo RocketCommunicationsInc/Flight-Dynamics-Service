@@ -11,12 +11,14 @@
   <rux-tree (ruxtreenodeselected)="onTreeNodeSelected($event)">
     <rux-tree-node *ngFor="let parentNode of data">
       {{ parentNode?.name }}
-      <rux-tree-node
+      <ng-container *ngFor="let childNode of parentNode?.spaceCraft">
+        <rux-tree-node
         slot="node"
-        *ngFor="let childNode of parentNode?.spaceCraft"
+        [attr.data-spacecraft]="childNode.id"
       >
         {{ childNode.catalogId }}
       </rux-tree-node>
+      </ng-container>
     </rux-tree-node>
   </rux-tree>
 </rux-container>

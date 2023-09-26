@@ -1,8 +1,15 @@
 import { createSelector } from '@ngrx/store';
-import { AppStore, ScenariosState } from './app.model';
-import { appFeature } from './app.reducer';
+import { Spacecraft } from '../types/data.types';
+import { ScenariosState } from './app.model';
+import { selectScenarios } from './app.reducer';
 
-export const scenariosSelector = createSelector(
-  (state: AppStore) => state.scenarios,
-  (scenarios: ScenariosState) => scenarios
+export const spacecraftSelector = createSelector(
+  selectScenarios,
+  (state: ScenariosState) => {
+    let spacecrafts: Spacecraft[] = [];
+    state.ids.map((id) => {
+      state.entities[id]?.spaceCraft.map((craft) => spacecrafts.push(craft));
+    });
+    return spacecrafts;
+  }
 );
