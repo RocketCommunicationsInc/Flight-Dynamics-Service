@@ -1,3 +1,8 @@
+.track-data {
+  position: relative;
+  overflow: hidden;
+}
+
 header {
   display: flex;
   padding-block: var(--spacing-4);
@@ -11,6 +16,10 @@ header {
 .button-wrapper {
   display: flex;
   gap: var(--spacing-2);
+}
+
+.button-wrapper rux-button {
+  width: var(--spacing-24);
 }
 
 .toolbar {

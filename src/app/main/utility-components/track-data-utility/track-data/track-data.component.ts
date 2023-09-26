@@ -15,6 +15,8 @@ import {
   ChartComponent,
 } from 'ng-apexcharts';
 import { Files } from 'src/app/types/Files';
+import { SitesComponent } from './sites/sites.component';
+import { SettingsComponent } from './settings/settings.component';
 
 type Sort = 'ASC' | 'DESC' | '';
 
@@ -32,7 +34,13 @@ type ChartOptions = {
 @Component({
   selector: 'fds-track-data',
   standalone: true,
-  imports: [CommonModule, AstroComponentsModule, NgApexchartsModule],
+  imports: [
+    CommonModule,
+    AstroComponentsModule,
+    NgApexchartsModule,
+    SitesComponent,
+    SettingsComponent,
+  ],
   templateUrl: './track-data.component.html',
   styleUrls: ['./track-data.component.css'],
 })
@@ -41,12 +49,49 @@ export class TrackDataComponent {
 
   dummyFileData = dummyFileData;
 
+  isSitesDrawerOpen: boolean = false;
+  isSettingsDrawerOpen: boolean = false;
   showGraph: boolean = true;
   showTable: boolean = false;
+
+
+  shrinkChart() {
+    this.chart?.updateOptions({
+      chart: {
+        width: '76%',
+      },
+    });
+  }
+
+  expandChart() {
+    this.chart?.updateOptions({
+      chart: {
+        width: '100%',
+      },
+    });
+  }
+
+  openSitesDrawer() {
+    this.shrinkChart();
+    this.isSitesDrawerOpen = !this.isSitesDrawerOpen;
+    if (!this.isSitesDrawerOpen) {
+      this.expandChart();
+    }
+  }
+
+  openSettingsDrawer() {
+    this.shrinkChart();
+    this.isSettingsDrawerOpen = !this.isSettingsDrawerOpen;
+    if (!this.isSettingsDrawerOpen) {
+      this.expandChart();
+    }
+  }
 
   viewTable() {
     this.showGraph = false;
     this.showTable = true;
+    this.isSitesDrawerOpen = false
+    this.isSettingsDrawerOpen = false
   }
 
   viewGraph() {
