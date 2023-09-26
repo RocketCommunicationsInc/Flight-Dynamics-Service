@@ -14,6 +14,7 @@ const initialTrackFiles: TrackFilesState = trackFileAdapter.getInitialState({});
 export const initialState: AppStore = {
   scenarios: initialScenarios,
   trackFiles: initialTrackFiles,
+  spacecraftIds: [],
   selectedSpacecraftId: null,
   selectedScenarioId: null,
   selectedTrackFileId: null,
@@ -55,6 +56,10 @@ export const AppReducer = createReducer(
   })),
 
   //Spacecraft actions
+  on(SpacecraftActions.getSpacecraftIds), ( state )=>{
+
+    return { ...state, spacecraftIds}
+  }
   on(SpacecraftActions.spacecraftSelected, (state, { spacecraftId }) => ({
     ...state,
     selectedSpacecraftId: spacecraftId,
@@ -72,6 +77,7 @@ export const {
   selectAppState,
   selectScenarios,
   selectTrackFiles,
+  selectSpacecraftIds,
   selectSelectedSpacecraftId,
   selectSelectedScenarioId,
   selectSelectedTrackFileId,
