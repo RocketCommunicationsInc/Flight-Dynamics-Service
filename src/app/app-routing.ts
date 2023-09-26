@@ -5,17 +5,17 @@ import { CompareUtilityComponent } from './main/utility-components/compare-utili
 import { CreateReportUtilityComponent } from './main/utility-components/create-report-utility/create-report-utility.component';
 import { TrackDataUtilityComponent } from './main/utility-components/track-data-utility/track-data-utility.component';
 import { PropagatorUtilityComponent } from './main/utility-components/propagator-utility/propagator-utility.component';
-// import { validSatelliteGuard } from './guards/valid-satellite.guard';
+// import { validSpacecraftGuard } from './guards/valid-satellite.guard';
 
 export const Routes: Route[] = [
   {
     path: '',
-    // canActivate: [validSatelliteGuard],
+    // canActivate: [validSpacecraftGuard],
     component: InputsOutputsDataDisplayComponent,
   },
   {
     path: ':id',
-    // canActivate: [validSatelliteGuard],
+    // canActivate: [validSpacecraftGuard],
     children: [
       {
         path: '',

@@ -7,6 +7,7 @@ import { selectScenarios } from '../../+state/app.reducer';
 import { ToastService } from '../../shared/toast.service';
 import { Scenario } from '../../types/data.types';
 import { Router } from '@angular/router';
+import { TrackFilesComponent } from 'src/app/main/utility-components/track-data-utility/track-files/track-files.component';
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -31,10 +32,13 @@ export class ScenarioLibraryComponent {
    */
   onTreeNodeSelected(e: Event) {
     const el = e.target as HTMLRuxTreeNodeElement;
+    const parentText = el.parentNode?.firstChild!.textContent?.trim();
     //We don't want to select the parent nodes, just the nodes being used as slots
     if (el.slot === 'node') {
       this.selectedCraft.set(el.textContent);
-      this.router.navigateByUrl(el.textContent?.trim() || '');
+      this.router.navigateByUrl(
+        `${parentText}-${el.textContent?.trim()}` || ''
+      );
     }
   }
 
