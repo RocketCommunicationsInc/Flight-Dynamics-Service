@@ -1,4 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  EventEmitter,
+  Output,
+  Input,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { dummyFileData } from '../dummy-file-data';
@@ -40,6 +46,10 @@ export class TrackDataComponent {
   @ViewChild(ChartComponent) chart?: ChartComponent;
 
   dummyFileData = dummyFileData;
+  // @Input() filterLegendData: Files[] = this.dummyFileData;
+  @Output() legendData = new EventEmitter();
+
+  filterSelected: boolean = false;
 
   showGraph: boolean = true;
   showTable: boolean = false;
@@ -100,13 +110,17 @@ export class TrackDataComponent {
     [1590, 1800],
   ];
 
-  dummyFileSize: number[] = dummyFileData.map((file) => file.size);
+  dummyFileSize: number[] = this.dummyFileData.map((file) => file.size);
+  filteredLegendData: number[] = this.dummyFileSize
+
 
   zoomLevel: number = 20;
-  dummyDates = dummyFileData.map((file) => file.date.toLocaleDateString());
+  dummyDates = this.dummyFileData.map((file) =>
+    file.date.toLocaleDateString()
+  );
   labelsShown: any[] = this.dummyDates;
 
-  dataPointLength: number = this.dummyFileSize.length;
+  dataPointLength: number = this.filteredLegendData.length;
   dataPointToDelete: number | null = null;
   deletedDataPoints: any[] | null = [];
 
@@ -140,6 +154,36 @@ export class TrackDataComponent {
       },
     ];
     this.chart?.updateSeries(updatedData);
+  }
+
+  filterCheckboxes(event: any) {
+    //     console.log(event.target)
+    // const selectedCB100 = this.filterLegendData.filter((cb) => cb.size < 100)
+    // const selectedCB500 = this.filterLegendData.filter((cb) => cb.size < 500 && cb.size >= 100)
+    // const selectedCBOver500 = this.filterLegendData.filter((cb) => cb.size > 500)
+    if(!event.target.label) {
+      this.filteredLegendData = this.dummyFileSize
+    }
+    if (event.target.label === 'Az') {
+      this.filteredLegendData = this.dummyFileSize.filter((size) => {
+        console.log(size < 100)
+        return size < 100;
+      });
+    }
+    if (event.target.label === 'El') {
+      this.filteredLegendData = this.dummyFileSize.filter((size) => {
+        console.log('hit 500')
+        return size < 500 && size >= 100;
+      });
+    }
+    if (event.target.label === 'Range') {
+      this.filteredLegendData = this.dummyFileSize.filter((size) => {
+        console.log('hit last')
+        return size > 500;
+      });
+    } else return this.filteredLegendData = this.dummyFileSize
+
+    return this.updateChartData(this.filteredLegendData);
   }
 
   onDelete() {
@@ -203,7 +247,7 @@ export class TrackDataComponent {
     series: [
       {
         name: 'Main',
-        data: this.dummyFileSize,
+        data: this.filteredLegendData,
         type: 'scatter',
       },
       {
@@ -244,8 +288,58 @@ export class TrackDataComponent {
         cssClass: 'data-points',
       },
     },
+    //!--------------------------
     legend: {
-      show: false,
+      show: true,
+      position: 'bottom',
+      horizontalAlign: 'right',
+      offsetY: 40,
+      markers: {
+        width: 10,
+        height: 10,
+      },
+      onItemClick: {
+        toggleDataSeries: true,
+      },
+    },
+    annotations: {
+      position: 'front',
+      yaxis: [
+        {
+          y: 0,
+          borderColor: 'transparent',
+          label: {
+            text: 'Az',
+            style: {
+              background: '',
+              color: 'var(--color-text-primary)',
+            },
+          },
+        },
+        {
+          y: 5,
+          borderColor: 'transparent',
+          label: {
+            text: 'El',
+            style: {
+              background: '',
+              color: 'var(--color-text-primary)',
+            },
+          },
+        },
+        {
+          y: 10,
+          borderColor: 'transparent',
+          label: {
+            text: 'Range',
+            style: {
+              background: '',
+              color: 'var(--color-text-primary)',
+            },
+          },
+        },
+      ],
+      //!--------------------------
     },
     markers: {
       size: [6, 0],

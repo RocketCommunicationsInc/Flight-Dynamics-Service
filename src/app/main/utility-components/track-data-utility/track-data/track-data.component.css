@@ -8,6 +8,25 @@ header {
 
 /* CHART STYLES */
 
+.chart-wrapper {
+  position: relative;
+}
+
+.legend {
+  position: absolute;
+  bottom: 125px;
+  right: 100px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-background-base-default)  ;
+  padding: var(--spacing-2);
+}
+
+.legend rux-checkbox {
+  padding: var(--spacing-1);
+}
+
+
 .button-wrapper {
   display: flex;
   gap: var(--spacing-2);

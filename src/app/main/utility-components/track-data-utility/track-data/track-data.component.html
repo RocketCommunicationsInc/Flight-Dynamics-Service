@@ -47,18 +47,35 @@
         <rux-icon icon="search" size="1.5rem" />
       </div>
     </div>
-
-    <apx-chart
-      [series]="chartOptions.series"
-      [chart]="chartOptions.chart"
-      [xaxis]="chartOptions.xaxis"
-      [yaxis]="chartOptions.yaxis"
-      [markers]="chartOptions.markers"
-      [stroke]="chartOptions.stroke"
-      [legend]="chartOptions.legend"
-      [tooltip]="chartOptions.tooltip"
-    ></apx-chart>
-
+    <div class="chart-wrapper">
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [xaxis]="chartOptions.xaxis"
+        [yaxis]="chartOptions.yaxis"
+        [markers]="chartOptions.markers"
+        [stroke]="chartOptions.stroke"
+        [legend]="chartOptions.legend"
+        [tooltip]="chartOptions.tooltip"
+      ></apx-chart>
+      <div class="legend">
+        <rux-checkbox
+          label="Az"
+          [checked]
+          (ruxchange)="filterCheckboxes($event)"
+        />
+        <rux-checkbox
+          label="El"
+          [checked]
+          (ruxchange)="filterCheckboxes($event)"
+        />
+        <rux-checkbox
+          label="Range"
+          [checked]
+          (ruxchange)="filterCheckboxes($event)"
+        />
+      </div>
+    </div>
     <footer>
       <span>OD Quality Est: 82/100</span>
       <span>Data Points: {{ dataPointLength }}</span>
