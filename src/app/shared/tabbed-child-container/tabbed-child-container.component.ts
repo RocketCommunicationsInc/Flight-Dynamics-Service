@@ -23,8 +23,4 @@ export class TabbedChildContainerComponent {
   @HostBinding('class.utility-container') get isUtility() {
     return this.isUtilityContainer;
   }
-
-  onSelect(e: Event) {
-    const event = e as CustomEvent;
-  }
 }

@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { ODS_DATA, SUMMARY_DATA } from './output-data-display.data';
+import {
+  ODS_DATA,
+  PERFORMANCE_DATA,
+  SUMMARY_DATA,
+} from './output-data-display.data';
 import { Unit } from 'src/app/shared/units/units.model';
 import { Conversions } from 'src/app/shared/units/unit-conversions';
-import { TableService, ColumnDefs } from 'src/app/shared/table.service';
+import { ColumnDefs } from 'src/app/shared/table.service';
+import { PerformanceData } from './performance-table/performance.model';
 import {
   DefaultValue,
   OrbitDeterminations,
@@ -13,25 +18,25 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class OutputDataDisplayService extends TableService<SummaryData> {
+export class OutputDataDisplayService {
   criticals: OrbitDeterminations[] = [];
   diviations: OrbitDeterminations[] = [];
   warnings: OrbitDeterminations[] = [];
+  performanceData: PerformanceData[] = PERFORMANCE_DATA;
   ods: OrbitDeterminations[] = ODS_DATA;
+  summaryData: SummaryData[] = SUMMARY_DATA;
+  columnDefs: ColumnDefs<SummaryData>[] = [
+    { header: '', field: 'id' },
+    { header: 'Solve For', field: 'property', sortable: true },
+    { header: 'Initial State', field: 'initial' },
+    { header: 'Final State', field: 'final' },
+    { header: '', field: 'status' },
+    { header: 'Difference', field: 'difference', sortable: true },
+    { header: 'Std Dev', field: 'deviation' },
+    { header: 'Units', field: 'units' },
+  ];
 
   constructor() {
-    const columnDefs: ColumnDefs<SummaryData>[] = [
-      { header: '', field: 'id' },
-      { header: 'Solve For', field: 'property', sortable: true },
-      { header: 'Initial State', field: 'initial' },
-      { header: 'Final State', field: 'final' },
-      { header: '', field: 'status' },
-      { header: 'Difference', field: 'difference', sortable: true },
-      { header: 'Std Dev', field: 'deviation' },
-      { header: 'Units', field: 'units' },
-    ];
-
-    super({ columnDefs, data: SUMMARY_DATA });
     // ensures most recent ods in notification
     this.ods.sort((a, b) => b.timestamp - a.timestamp);
     this.criticals = this.ods.filter((od) => od.status === 'critical');
