@@ -1,4 +1,4 @@
-<div>
+<div class="track-data">
   <header>
     <div>
       <rux-button
@@ -18,10 +18,43 @@
         >View Table</rux-button
       >
     </div>
+
+    <fds-sites [isSitesDrawerOpen]="isSitesDrawerOpen" />
+    <fds-settings [isSettingsDrawerOpen]="isSettingsDrawerOpen" />
+
     <div *ngIf="showGraph" class="button-wrapper">
-      <rux-button size="small" secondary>Filters</rux-button>
-      <rux-button size="small" secondary>Sites</rux-button>
-      <rux-button size="small" secondary>Settings</rux-button>
+      <rux-button
+        *ngIf="!isSitesDrawerOpen"
+        size="small"
+        secondary
+        [disabled]="isSettingsDrawerOpen"
+        (click)="openSitesDrawer()"
+        >Sites</rux-button
+      >
+      <rux-button
+        *ngIf="isSitesDrawerOpen"
+        size="small"
+        secondary
+        (click)="openSitesDrawer()"
+        icon="keyboard-backspace"
+        >Close</rux-button
+      >
+      <rux-button
+        *ngIf="!isSettingsDrawerOpen"
+        size="small"
+        secondary
+        [disabled]="isSitesDrawerOpen"
+        (click)="openSettingsDrawer()"
+        >Settings</rux-button
+      >
+      <rux-button
+        *ngIf="isSettingsDrawerOpen"
+        size="small"
+        secondary
+        (click)="openSettingsDrawer()"
+        icon="keyboard-backspace"
+        >Close</rux-button
+      >
     </div>
   </header>
   <div *ngIf="showGraph">
@@ -47,6 +80,7 @@
         <rux-icon icon="search" size="1.5rem" />
       </div>
     </div>
+
     <div class="chart-wrapper">
       <apx-chart
         [series]="chartOptions.series"
@@ -58,21 +92,13 @@
         [legend]="chartOptions.legend"
         [tooltip]="chartOptions.tooltip"
       ></apx-chart>
-      <div class="legend">
-        <rux-checkbox
-          label="Az"
-          [checked]
-          (ruxchange)="filterCheckboxes($event)"
-        />
-        <rux-checkbox
-          label="El"
-          [checked]
-          (ruxchange)="filterCheckboxes($event)"
-        />
+
+      <div class="legend" id="legend" #legend>
+        <rux-checkbox label="Az" (ruxchange)="filterCheckboxes($event, 'Az')" />
+        <rux-checkbox label="El" (ruxchange)="filterCheckboxes($event, 'El')" />
         <rux-checkbox
           label="Range"
-          [checked]
-          (ruxchange)="filterCheckboxes($event)"
+          (ruxchange)="filterCheckboxes($event, 'Range')"
         />
       </div>
     </div>

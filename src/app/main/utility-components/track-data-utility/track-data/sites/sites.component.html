@@ -1,0 +1,22 @@
+<rux-container
+  class="sites-drawer"
+  [ngClass]="{ 'open-drawer': isSitesDrawerOpen }"
+>
+  <header slot="header">Tracking Sites</header>
+
+  <rux-checkbox (ruxchange)="handleFilter($event)" label="Display All" />
+  <rux-checkbox label="CPCA" />
+  <rux-checkbox label="OAFB" />
+  <rux-checkbox label="HTS" />
+  <rux-checkbox label="VTS" />
+  <rux-checkbox label="SAFB" />
+  <rux-checkbox label="CTS" />
+  <rux-checkbox label="TVCF-E" />
+  <rux-checkbox label="DGS" />
+  <rux-checkbox label="TTS" />
+  <rux-checkbox label="GTS" />
+  <rux-checkbox label="NHS" />
+  <rux-checkbox label="BAFB" />
+  <rux-checkbox label="CDS" />
+
+</rux-container>

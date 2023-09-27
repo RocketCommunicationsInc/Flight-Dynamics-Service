@@ -1,3 +1,8 @@
+.track-data {
+  position: relative;
+  overflow: hidden;
+}
+
 header {
   display: flex;
   padding-block: var(--spacing-4);
@@ -22,6 +27,12 @@ header {
   padding: var(--spacing-2);
 }
 
+.legend-pushed {
+  right: 500px;
+  bottom: 175px;
+  background-color: rebeccapurple;
+}
+
 .legend rux-checkbox {
   padding: var(--spacing-1);
 }
@@ -30,6 +41,10 @@ header {
 .button-wrapper {
   display: flex;
   gap: var(--spacing-2);
+}
+
+.button-wrapper rux-button {
+  width: var(--spacing-24);
 }
 
 .toolbar {

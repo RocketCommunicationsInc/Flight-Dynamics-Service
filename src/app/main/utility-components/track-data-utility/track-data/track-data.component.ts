@@ -3,7 +3,7 @@ import {
   ViewChild,
   EventEmitter,
   Output,
-  Input,
+  ElementRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
@@ -21,6 +21,8 @@ import {
   ChartComponent,
 } from 'ng-apexcharts';
 import { Files } from 'src/app/types/Files';
+import { SitesComponent } from './sites/sites.component';
+import { SettingsComponent } from './settings/settings.component';
 
 type Sort = 'ASC' | 'DESC' | '';
 
@@ -38,7 +40,13 @@ type ChartOptions = {
 @Component({
   selector: 'fds-track-data',
   standalone: true,
-  imports: [CommonModule, AstroComponentsModule, NgApexchartsModule],
+  imports: [
+    CommonModule,
+    AstroComponentsModule,
+    NgApexchartsModule,
+    SitesComponent,
+    SettingsComponent,
+  ],
   templateUrl: './track-data.component.html',
   styleUrls: ['./track-data.component.css'],
 })
@@ -51,12 +59,53 @@ export class TrackDataComponent {
 
   filterSelected: boolean = false;
 
+  isSitesDrawerOpen: boolean = false;
+  isSettingsDrawerOpen: boolean = false;
   showGraph: boolean = true;
   showTable: boolean = false;
+
+  shrinkChart() {
+    this.chart?.updateOptions({
+      chart: {
+        width: '76%',
+      },
+    });
+  }
+
+  expandChart() {
+    this.chart?.updateOptions({
+      chart: {
+        width: '100%',
+      },
+    });
+  }
+
+  legend = document.getElementById('legend');
+  @ViewChild('legend') div?: ElementRef;
+
+  openSitesDrawer() {
+    console.log(this.legend);
+    this.shrinkChart();
+    this.isSitesDrawerOpen = !this.isSitesDrawerOpen;
+    (this.legend as any).classList.add('legend-pushed');
+    if (!this.isSitesDrawerOpen) {
+      this.expandChart();
+    }
+  }
+
+  openSettingsDrawer() {
+    this.shrinkChart();
+    this.isSettingsDrawerOpen = !this.isSettingsDrawerOpen;
+    if (!this.isSettingsDrawerOpen) {
+      this.expandChart();
+    }
+  }
 
   viewTable() {
     this.showGraph = false;
     this.showTable = true;
+    this.isSitesDrawerOpen = false;
+    this.isSettingsDrawerOpen = false;
   }
 
   viewGraph() {
@@ -111,13 +160,10 @@ export class TrackDataComponent {
   ];
 
   dummyFileSize: number[] = this.dummyFileData.map((file) => file.size);
-  filteredLegendData: number[] = this.dummyFileSize
-
+  filteredLegendData: number[] = this.dummyFileSize;
 
   zoomLevel: number = 20;
-  dummyDates = this.dummyFileData.map((file) =>
-    file.date.toLocaleDateString()
-  );
+  dummyDates = this.dummyFileData.map((file) => file.date.toLocaleDateString());
   labelsShown: any[] = this.dummyDates;
 
   dataPointLength: number = this.filteredLegendData.length;
@@ -156,34 +202,41 @@ export class TrackDataComponent {
     this.chart?.updateSeries(updatedData);
   }
 
-  filterCheckboxes(event: any) {
-    //     console.log(event.target)
-    // const selectedCB100 = this.filterLegendData.filter((cb) => cb.size < 100)
-    // const selectedCB500 = this.filterLegendData.filter((cb) => cb.size < 500 && cb.size >= 100)
-    // const selectedCBOver500 = this.filterLegendData.filter((cb) => cb.size > 500)
-    if(!event.target.label) {
-      this.filteredLegendData = this.dummyFileSize
-    }
-    if (event.target.label === 'Az') {
-      this.filteredLegendData = this.dummyFileSize.filter((size) => {
-        console.log(size < 100)
-        return size < 100;
-      });
-    }
-    if (event.target.label === 'El') {
-      this.filteredLegendData = this.dummyFileSize.filter((size) => {
-        console.log('hit 500')
-        return size < 500 && size >= 100;
-      });
-    }
-    if (event.target.label === 'Range') {
-      this.filteredLegendData = this.dummyFileSize.filter((size) => {
-        console.log('hit last')
-        return size > 500;
-      });
-    } else return this.filteredLegendData = this.dummyFileSize
+  selectedFilters: any[] = [];
 
-    return this.updateChartData(this.filteredLegendData);
+  filterCheckboxes(event: any, filter: string) {
+    const checkbox = event.target as HTMLRuxCheckboxElement;
+
+    if (checkbox.checked) {
+      this.selectedFilters.push(filter);
+    } else {
+      const index = this.selectedFilters.indexOf(filter);
+      if (index !== -1) {
+        this.selectedFilters.splice(index, 1);
+      }
+    }
+    this.filteredLegendData = this.dummyFileSize.filter((size) => {
+      return (
+        this.selectedFilters.length === 0 ||
+        this.selectedFilters.some((filter) => {
+          if (filter === 'Az') {
+            return size < 500;
+          }
+          if (filter === 'El') {
+            return size < 1000 && size >= 500;
+          }
+          if (filter === 'Range') {
+            return size > 1000;
+          }
+          if (filter === '' || (!filter && !checkbox.checked)) {
+            return (this.filteredLegendData = this.dummyFileSize);
+          }
+          return true;
+        })
+      );
+    });
+    this.dataPointLength = this.filteredLegendData.length;
+    this.updateChartData(this.filteredLegendData);
   }
 
   onDelete() {
