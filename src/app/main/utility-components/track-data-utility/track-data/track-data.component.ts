@@ -1,4 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { dummyFileData } from '../dummy-file-data';
@@ -46,14 +50,13 @@ type ChartOptions = {
 })
 export class TrackDataComponent {
   @ViewChild(ChartComponent) chart?: ChartComponent;
+  @ViewChild('legend') legend?: ElementRef;
 
   dummyFileData = dummyFileData;
-
   isSitesDrawerOpen: boolean = false;
   isSettingsDrawerOpen: boolean = false;
   showGraph: boolean = true;
   showTable: boolean = false;
-
 
   shrinkChart() {
     this.chart?.updateOptions({
@@ -72,26 +75,34 @@ export class TrackDataComponent {
   }
 
   openSitesDrawer() {
+    const legendEl = this.legend?.nativeElement;
     this.shrinkChart();
     this.isSitesDrawerOpen = !this.isSitesDrawerOpen;
+    legendEl.classList.add('legend-pushed');
+
     if (!this.isSitesDrawerOpen) {
       this.expandChart();
+      legendEl.classList.remove('legend-pushed');
     }
   }
 
   openSettingsDrawer() {
+    const legendEl = this.legend?.nativeElement;
     this.shrinkChart();
     this.isSettingsDrawerOpen = !this.isSettingsDrawerOpen;
+    legendEl.classList.add('legend-pushed');
+
     if (!this.isSettingsDrawerOpen) {
       this.expandChart();
+      legendEl.classList.remove('legend-pushed');
     }
   }
 
   viewTable() {
     this.showGraph = false;
     this.showTable = true;
-    this.isSitesDrawerOpen = false
-    this.isSettingsDrawerOpen = false
+    this.isSitesDrawerOpen = false;
+    this.isSettingsDrawerOpen = false;
   }
 
   viewGraph() {
@@ -145,13 +156,14 @@ export class TrackDataComponent {
     [1590, 1800],
   ];
 
-  dummyFileSize: number[] = dummyFileData.map((file) => file.size);
+  dummyFileSize: number[] = this.dummyFileData.map((file) => file.size);
+  filteredLegendData: number[] = this.dummyFileSize;
 
   zoomLevel: number = 20;
-  dummyDates = dummyFileData.map((file) => file.date.toLocaleDateString());
+  dummyDates = this.dummyFileData.map((file) => file.date.toLocaleDateString());
   labelsShown: any[] = this.dummyDates;
 
-  dataPointLength: number = this.dummyFileSize.length;
+  dataPointLength: number = this.filteredLegendData.length;
   dataPointToDelete: number | null = null;
   deletedDataPoints: any[] | null = [];
 
@@ -185,6 +197,40 @@ export class TrackDataComponent {
       },
     ];
     this.chart?.updateSeries(updatedData);
+  }
+
+  selectedFilters: any[] = [];
+
+  filterCheckboxes(event: any, filter: string) {
+    const checkbox = event.target as HTMLRuxCheckboxElement;
+
+    if (checkbox.checked) {
+      this.selectedFilters.push(filter);
+    } else {
+      const index = this.selectedFilters.indexOf(filter);
+      if (index !== -1) {
+        this.selectedFilters.splice(index, 1);
+      }
+    }
+    this.filteredLegendData = this.dummyFileSize.filter((size) => {
+      return (
+        this.selectedFilters.length === 0 ||
+        this.selectedFilters.some((filter) => {
+          if (filter === 'Az') {
+            return size < 500;
+          }
+          if (filter === 'El') {
+            return size < 1000 && size >= 500;
+          }
+          if (filter === 'Range') {
+            return size > 1000;
+          }
+          return true;
+        })
+      );
+    });
+    this.dataPointLength = this.filteredLegendData.length;
+    this.updateChartData(this.filteredLegendData);
   }
 
   onDelete() {
@@ -248,7 +294,7 @@ export class TrackDataComponent {
     series: [
       {
         name: 'Main',
-        data: this.dummyFileSize,
+        data: this.filteredLegendData,
         type: 'scatter',
       },
       {
