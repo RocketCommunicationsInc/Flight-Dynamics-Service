@@ -26,9 +26,16 @@ import { PerformanceTableComponent } from './performance-table/performance-table
   styleUrls: ['./output-data-display.component.css'],
 })
 export class OutputDataDisplayComponent {
-  // currentTab = 'od-solution';
+  constructor(public outputDataDisplayService: OutputDataDisplayService) {}
+
   currentView: CurrentView = 'View Table';
   hasNotification = true;
+  notificationData = [
+    {
+      message: 'OD success message on 9/25/23, 10:20 AM',
+      status: 'normal',
+    },
+  ];
   tabs: Tabs[] = [
     { label: 'OD Solution', id: 'od-solution', selected: true },
     { label: 'OD Performance', id: 'od-performance' },
@@ -44,35 +51,13 @@ export class OutputDataDisplayComponent {
     { label: 'View Graph' },
   ];
 
-  constructor(public outputDataDisplayService: OutputDataDisplayService) {}
-
-  // get isSolutionTab() {
-  //   return this.currentTab === 'od-solution';
-  // }
-
-  // get isPerformanceTab() {
-  //   return this.currentTab === 'od-performance';
-  // }
-
   setCurrentView(e: Event) {
     const event = e as CustomEvent;
     this.currentView = event.detail;
   }
 
-  // setCurrentTab(id: string) {
-  //   this.currentTab = id;
-  // }
-
-  notificationData = [
-    {
-      message: 'OD success message on 9/25/23, 10:20 AM',
-      status: 'normal',
-    },
-  ];
-
   @HostListener('ruxselected', ['$event'])
   onRuxSelected(e: any) {
-    console.log(e.detail.id);
     if (e.detail.id === 'od-performance') {
       this.hasNotification = false;
     } else {
