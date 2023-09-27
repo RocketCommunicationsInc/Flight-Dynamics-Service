@@ -6,7 +6,7 @@
   color: var(--color-text-primary);
   display: grid;
   gap: var(--spacing-2);
-  grid-template-columns: minmax(16.25rem, 1.5fr) 8.5fr;
+  grid-template-columns: minmax(17rem, 1.5fr) 8.5fr;
   grid-template-rows: 4.5fr 5.5fr;
   grid-template-areas:
     'scenarios-library main'
