@@ -1,4 +1,13 @@
-export type Unit = 'm' | 'km' | 'mi' | 'deg' | 'rad' | 'rev';
+export type Unit =
+  | 'm'
+  | 'km'
+  | 'mi'
+  | 'deg'
+  | 'rad'
+  | 'rev'
+  | 'm/sec'
+  | 'km/sec'
+  | 'mph';
 
 export interface MenuItem {
   val: Unit;
