@@ -49,6 +49,10 @@ rux-tab-panel {
 }
 
 .antenna-tables-wrapper {
-  height: 100%;
+  /*
+  * need to deducted for the header for all table rows to be
+  * displayed when scrolling to the bottom
+  */
+  height: calc(100% - 6.25rem);
   overflow-y: auto;
 }
