@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 import { ODS_DATA, SUMMARY_DATA } from './output-data-display.data';
 import { Unit } from 'src/app/shared/units/units.model';
@@ -9,17 +10,22 @@ import {
   OrbitDeterminations,
   SummaryData,
 } from './output-data-display.model';
+import { selectScenarios, selectTrackFiles } from 'src/app/+state/app.reducer';
+import { TrackFile } from 'src/app/types/data.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OutputDataDisplayService extends TableService<SummaryData> {
+  scenarios$ = this.store.select(selectScenarios);
+  trackFiles$ = this.store.select(selectTrackFiles);
   criticals: OrbitDeterminations[] = [];
   diviations: OrbitDeterminations[] = [];
   warnings: OrbitDeterminations[] = [];
   ods: OrbitDeterminations[] = ODS_DATA;
+  trackfiles: TrackFile[] = [];
 
-  constructor() {
+  constructor(private store: Store) {
     const columnDefs: ColumnDefs<SummaryData>[] = [
       { header: '', field: 'id' },
       { header: 'Solve For', field: 'property', sortable: true },
@@ -37,6 +43,20 @@ export class OutputDataDisplayService extends TableService<SummaryData> {
     this.criticals = this.ods.filter((od) => od.status === 'critical');
     this.diviations = this.ods.filter((od) => od.status !== 'normal');
     this.warnings = this.ods.filter((od) => od.status === 'caution');
+
+    this.scenarios$.subscribe((val) => {
+      const spaceCraft = val.entities[val.ids[0]]?.spaceCraft[0];
+      if (!spaceCraft) return;
+      this.trackFiles$.subscribe((val) => {
+        for (let id of spaceCraft.trackFileIds) {
+          const trackfile = val.entities[id];
+          if (!trackfile) return;
+          this.trackfiles.push(trackfile);
+        }
+      });
+    });
+
+    console.log(this.trackfiles);
   }
 
   setDefaultCase(value: DefaultValue, unit: Unit) {
