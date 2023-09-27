@@ -72,6 +72,7 @@ rux-container::part(body) {
   height: 100%;
   /* This goes along with the fix for pushing the scrollbar down past the sticky header */
   background-color: var(--color-background-base-header);
+  border-top: 1px solid var(--container-color-border);
 }
 
 .table-wrapper::-webkit-scrollbar-track {
@@ -79,8 +80,8 @@ rux-container::part(body) {
 }
 
 .table-wrapper table {
-  width: 100%;
   border-collapse: collapse;
+  white-space: nowrap;
 }
 
 .table-wrapper thead {
