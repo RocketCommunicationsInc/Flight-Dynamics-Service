@@ -44,7 +44,11 @@
   gap: var(--spacing-2);
 }
 
-.performance-table-wrapper {
-  overflow: auto;
-  height: calc(100% - 6.25rem);
+rux-tab-panel {
+  height: 100%;
+}
+
+.antenna-tables-wrapper {
+  height: 100%;
+  overflow-y: auto;
 }

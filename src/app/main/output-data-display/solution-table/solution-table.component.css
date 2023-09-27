@@ -1,12 +1,9 @@
-.table-wrapper {
+:host {
   /*
   * overriding the default 100% height because this container has a header
   * which needs to be deducted for all table rows to be displayed when
   * scrolling to the bottom
   */
-  height: calc(100% - 9.875rem);
-}
-
-.table-wrapper rux-select {
-  width: 12rem;
+  display: block;
+  height: calc(100% - 7rem);
 }
