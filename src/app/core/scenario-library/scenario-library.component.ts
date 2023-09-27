@@ -26,6 +26,7 @@ export class ScenarioLibraryComponent {
   spacecraftData: any;
   selectedSpacecraftId: string|null = null
   selectedScenarioId: string|null = null
+  currentScenario: string| null = null
 
   constructor(
     private toasts: ToastService,
@@ -58,6 +59,12 @@ export class ScenarioLibraryComponent {
     this.store.dispatch(
       SpacecraftActions.spacecraftIdSelected({
         spacecraftId: this.spacecraftData[0].id,
+      })
+    );
+
+    this.store.dispatch(
+      ScenariosActions.scenarioSelected({
+        scenarioId: this.scenarios[0]!.id,
       })
     );
   }

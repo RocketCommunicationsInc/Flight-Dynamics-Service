@@ -12,18 +12,20 @@
     <rux-tree-node
       (click)="onScenarioClick($event)"
       *ngFor="let scenario of scenarios"
-      [expanded]="scenarios[0] === scenario"
+      [attr.expanded]="currentScenario === scenario!.id"
     >
       {{ scenario?.name }}
       <ng-container *ngFor="let spacecraft of scenario?.spaceCraft">
         <rux-tree-node
           slot="node"
           (ruxtreenodeselected)="onSpacecraftSelected(spacecraft, scenario!)"
-          [selected]="scenarios[0]!.spaceCraft[0] === spacecraft"
+          [selected]="selectedSpacecraftId === spacecraft.id"
         >
           {{ spacecraft.catalogId }}
         </rux-tree-node>
       </ng-container>
     </rux-tree-node>
   </rux-tree>
+  <p>{{ selectedSpacecraftId }}</p>
+  <p>{{ selectedScenarioId }}</p>
 </rux-container>
