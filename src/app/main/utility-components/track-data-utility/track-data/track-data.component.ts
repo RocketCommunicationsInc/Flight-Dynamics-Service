@@ -1,8 +1,6 @@
 import {
   Component,
   ViewChild,
-  EventEmitter,
-  Output,
   ElementRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -52,13 +50,9 @@ type ChartOptions = {
 })
 export class TrackDataComponent {
   @ViewChild(ChartComponent) chart?: ChartComponent;
+  @ViewChild('legend') legend?: ElementRef;
 
   dummyFileData = dummyFileData;
-  // @Input() filterLegendData: Files[] = this.dummyFileData;
-  @Output() legendData = new EventEmitter();
-
-  filterSelected: boolean = false;
-
   isSitesDrawerOpen: boolean = false;
   isSettingsDrawerOpen: boolean = false;
   showGraph: boolean = true;
@@ -79,8 +73,6 @@ export class TrackDataComponent {
       },
     });
   }
-
-  @ViewChild('legend') legend?: ElementRef;
 
   openSitesDrawer() {
     const legendEl = this.legend?.nativeElement;
@@ -347,7 +339,7 @@ export class TrackDataComponent {
       },
     },
     legend: {
-      show: false
+      show: false,
     },
     markers: {
       size: [6, 0],
