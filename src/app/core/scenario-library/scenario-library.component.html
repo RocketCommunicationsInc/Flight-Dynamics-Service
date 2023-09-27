@@ -9,7 +9,7 @@
     ></rux-button>
   </div>
   <rux-tree (ruxtreenodeselected)="onTreeNodeSelected($event)">
-    <rux-tree-node *ngFor="let parentNode of data">
+    <rux-tree-node *ngFor="let parentNode of scenarios">
       {{ parentNode?.name }}
       <ng-container *ngFor="let childNode of parentNode?.spaceCraft">
         <rux-tree-node

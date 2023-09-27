@@ -4,7 +4,7 @@ import { Scenario, Spacecraft, TrackFile } from '../types/data.types';
 export const SpacecraftActions = createActionGroup({
   source: 'Spacecraft',
   events: {
-    'Spacecraft Selected': props<{ spacecraft: Spacecraft }>(),
+    'Spacecraft Id Selected': props<{ spacecraftId: string }>(),
   },
 });
 
