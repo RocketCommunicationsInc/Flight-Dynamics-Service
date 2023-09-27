@@ -64,7 +64,8 @@
           </div>
         </div>
       </div>
-      <div class="performance-table-wrapper">
+
+      <div class="antenna-tables-wrapper">
         <div class="sub-header">
           <div class="container">
             <h3>Cumulative</h3>
@@ -106,112 +107,3 @@
     </rux-tab-panel>
   </ng-container>
 </fds-tabbed-child-container>
-
-<!-- <fds-child-container [tabs]="tabs" (onTabSelect)="setCurrentTab($event)"> -->
-<!-- <ng-container *ngIf="isSolutionTab">
-    <rux-notification
-      open
-      small
-      hideClose
-      [status]="outputDataDisplayService.ods[0].status"
-    >
-      {{ outputDataDisplayService.ods[0].message }}
-      {{ outputDataDisplayService.ods[0].timestamp | date: 'short' }}
-    </rux-notification>
-
-    <div class="sub-header">
-      <div class="container">
-        <div class="data">
-          <div class="heading">
-            <h1>{{ outputDataDisplayService.diviations.length }}</h1>
-            <p>Deviations</p>
-          </div>
-          <div class="alerts">
-            <div class="h-stack">
-              <rux-status status="caution" />
-              <p>Warning ({{ outputDataDisplayService.warnings.length }})</p>
-            </div>
-            <div class="h-stack">
-              <rux-status status="critical" />
-              <p>Critical ({{ outputDataDisplayService.criticals.length }})</p>
-            </div>
-          </div>
-        </div>
-
-        <rux-segmented-button size="small" [data]="actions" />
-      </div>
-
-      <div class="container">
-        <rux-segmented-button
-          size="small"
-          [data]="views"
-          (ruxchange)="setCurrentView($event)"
-        />
-      </div>
-    </div>
-
-    <fds-solution-table *ngIf="currentView === 'View Table'" />
-    <fds-solution-graph *ngIf="currentView === 'View Graph'" />
-  </ng-container> -->
-
-<!-- <ng-container *ngIf="isPerformanceTab">
-    <div class="sub-header">
-      <div class="container">
-        <div class="data">
-          <rux-select label="Antenna">
-            <rux-option value="cumulative" label="Cumulative" />
-            <rux-option value="pass1" label="Pass 1" />
-            <rux-option value="pass2" label="Pass 2" />
-            <rux-option value="pass3" label="Pass 3" />
-          </rux-select>
-          <rux-select label="Data Type">
-            <rux-option value="range" label="Range" />
-          </rux-select>
-        </div>
-        <div class="heading">
-          <h1>2</h1>
-          <p>Discrepancies</p>
-        </div>
-      </div>
-    </div>
-    <div class="performance-table-wrapper">
-      <div class="sub-header">
-        <div class="container">
-          <h3>Cumulative</h3>
-          <div class="h-stack">
-            <p>Reference Frame: Cartesian ECI</p>
-            <p>|</p>
-            <p>Equinox: J2000</p>
-          </div>
-        </div>
-      </div>
-      <fds-performance-table
-        [data]="outputDataDisplayService.performanceData"
-      />
-      <div class="sub-header">
-        <div class="container">
-          <h3>Pass 1</h3>
-        </div>
-      </div>
-      <fds-performance-table
-        [data]="outputDataDisplayService.performanceData"
-      />
-      <div class="sub-header">
-        <div class="container">
-          <h3>Pass 2</h3>
-        </div>
-      </div>
-      <fds-performance-table
-        [data]="outputDataDisplayService.performanceData"
-      />
-      <div class="sub-header">
-        <div class="container">
-          <h3>Pass 3</h3>
-        </div>
-      </div>
-      <fds-performance-table
-        [data]="outputDataDisplayService.performanceData"
-      />
-    </div>
-  </ng-container> -->
-<!-- </fds-child-container> -->
