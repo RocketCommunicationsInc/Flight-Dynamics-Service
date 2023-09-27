@@ -4,5 +4,5 @@
   * which needs to be deducted for all table rows to be displayed when
   * scrolling to the bottom
   */
-  height: calc(100% - 6.5rem);
+  height: calc(100% - 9.875rem);
 }

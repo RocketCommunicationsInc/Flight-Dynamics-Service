@@ -1,7 +1,6 @@
 :host {
   display: flex;
-  gap: var(--spacing-4);
-  height: calc(100% - var(--spacing-4));
-  padding-inline: var(--spacing-4);
-  padding-block-end: var(--spacing-4);
+  gap: var(--spacing-2);
+  height: 100%;
+  padding-inline-start: var(--spacing-4);
 }

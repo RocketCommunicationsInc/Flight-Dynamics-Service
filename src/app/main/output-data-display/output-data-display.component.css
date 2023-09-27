@@ -3,16 +3,11 @@
   flex: 3;
 }
 
-/* this sets the height of the pop up to the height of the trigger */
-rux-pop-up::part(container) {
-  display: flex;
-}
-
 .sub-header {
   display: flex;
   flex-direction: column;
   background-color: var(--color-background-surface-header);
-  padding: var(--spacing-2) var(--spacing-4) var(--spacing-4);
+  padding: var(--spacing-4);
   gap: var(--spacing-3);
 }
 
@@ -26,6 +21,10 @@ rux-pop-up::part(container) {
   display: flex;
   align-items: baseline;
   gap: var(--spacing-10);
+}
+
+.data rux-select {
+  width: 12rem;
 }
 
 .heading {
@@ -43,4 +42,9 @@ rux-pop-up::part(container) {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
+}
+
+.performance-table-wrapper {
+  overflow: auto;
+  height: calc(100% - 6.25rem);
 }

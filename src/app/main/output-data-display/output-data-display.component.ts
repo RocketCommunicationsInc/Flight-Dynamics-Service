@@ -4,48 +4,62 @@ import { AstroComponentsModule } from '@astrouxds/angular';
 import { SegmentedButton } from '@astrouxds/astro-web-components/dist/types/components';
 
 import type { Tabs } from 'src/app/types/Tabs';
-import { TabbedChildContainerComponent } from 'src/app/shared';
-import { ViewGraphComponent } from './view-graph/view-graph.component';
-import { ViewTableComponent } from './view-table/view-table.component';
+import { ChildContainerComponent } from 'src/app/shared';
+import { SolutionGraphComponent } from './solution-graph/solution-graph.component';
+import { SolutionTableComponent } from './solution-table/solution-table.component';
 import { OutputDataDisplayService } from './output-data-display.service';
 import { CurrentView } from './output-data-display.model';
+import { PerformanceTableComponent } from './performance-table/performance-table.component';
 
 @Component({
   selector: 'fds-output-data-display',
   standalone: true,
   imports: [
     CommonModule,
-    TabbedChildContainerComponent,
+    ChildContainerComponent,
     AstroComponentsModule,
-    ViewGraphComponent,
-    ViewTableComponent,
+    SolutionGraphComponent,
+    SolutionTableComponent,
+    PerformanceTableComponent,
   ],
   templateUrl: './output-data-display.component.html',
   styleUrls: ['./output-data-display.component.css'],
 })
 export class OutputDataDisplayComponent {
-  tabsId = 'ods-display';
+  currentTab = 'od-solution';
   currentView: CurrentView = 'View Table';
 
   tabs: Tabs[] = [
     { label: 'OD Solution', id: 'od-solution', selected: true },
-    { label: 'OD Performance', id: 'od-performance', disabled: true },
+    { label: 'OD Performance', id: 'od-performance' },
   ];
 
   actions: SegmentedButton[] = [
-    { label: 'Secondary Action', selected: false },
+    { label: 'Secondary Action' },
     { label: 'Primary Action', selected: true },
   ];
 
   views: SegmentedButton[] = [
-    { label: 'View Table', selected: this.currentView === 'View Table' },
-    { label: 'View Graph', selected: this.currentView === 'View Graph' },
+    { label: 'View Table', selected: true },
+    { label: 'View Graph' },
   ];
 
   constructor(public outputDataDisplayService: OutputDataDisplayService) {}
 
+  get isSolutionTab() {
+    return this.currentTab === 'od-solution';
+  }
+
+  get isPerformanceTab() {
+    return this.currentTab === 'od-performance';
+  }
+
   setCurrentView(e: Event) {
     const event = e as CustomEvent;
     this.currentView = event.detail;
+  }
+
+  setCurrentTab(id: string) {
+    this.currentTab = id;
   }
 }

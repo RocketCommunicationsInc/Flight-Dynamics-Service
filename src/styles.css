@@ -25,6 +25,14 @@ h1 {
   line-height: var(--font-heading-1-line-height);
 }
 
+h3 {
+  font-family: var(--font-heading-3-font-family);
+  font-size: var(--font-heading-3-font-size);
+  font-weight: var(--font-heading-3-font-weight);
+  letter-spacing: var(--font-heading-3-letter-spacing);
+  line-height: var(--font-heading-3-line-height);
+}
+
 p {
   font-family: var(--font-body-1-font-family);
   font-size: var(--font-body-1-font-size);

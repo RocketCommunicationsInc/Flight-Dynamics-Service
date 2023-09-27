@@ -1,3 +1,5 @@
+import { Injectable } from '@angular/core';
+
 export interface Table<TData> {
   data: TData[];
   columnDefs: ColumnDefs<TData>[];
@@ -21,11 +23,13 @@ type Data<TData> = TData & {
   selected: boolean;
 };
 
+@Injectable()
 export class TableService<TData> {
-  data: Data<TData>[];
-  columns: Column<TData>[];
+  data: Data<TData>[] = [];
+  columns: Column<TData>[] = [];
 
-  constructor({ columnDefs, data }: Table<TData>) {
+  init({ columnDefs, data }: Table<TData>) {
+    if (data.length < 1) return;
     this.columns = columnDefs.map((col) => ({
       ...col,
       sorted: null,
