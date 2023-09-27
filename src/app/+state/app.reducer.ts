@@ -54,8 +54,8 @@ export const AppReducer = createReducer(
     selectedTrackFileId: trackFileId,
   })),
 
-  //Spacecraft actions
-  on(SpacecraftActions.spacecraftSelected, (state, { spacecraftId }) => ({
+  // Spacecraft actions
+  on(SpacecraftActions.spacecraftIdSelected, (state, { spacecraftId }) => ({
     ...state,
     selectedSpacecraftId: spacecraftId,
   }))

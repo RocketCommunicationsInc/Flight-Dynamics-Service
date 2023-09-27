@@ -16,17 +16,3 @@ export const scenarioAdapter: EntityAdapter<Scenario> = createEntityAdapter<Scen
 export const trackFileAdapter: EntityAdapter<TrackFile> = createEntityAdapter<TrackFile>({
   sortComparer: sortByName
 });
-
-export const {
-  selectAll: selectAllScenarios,
-  selectEntities: selectScenarioEntities,
-  selectIds: selectScenarioIDs,
-  selectTotal: selectScenarioTotal,
-} = scenarioAdapter.getSelectors()
-
-export const {
-  selectAll: selectAllTrackFiles,
-  selectEntities: selectTrackFileEntities,
-  selectIds: selectTrackFileIDs,
-  selectTotal: selectTrackFileTotal,
-} = trackFileAdapter.getSelectors()
