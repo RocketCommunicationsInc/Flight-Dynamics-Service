@@ -4,7 +4,7 @@ import { EntityState } from '@ngrx/entity';
 export interface AppStore {
   scenarios: ScenariosState;
   trackFiles: TrackFilesState;
-  selectedSpacecraft: Spacecraft | null;
+  selectedSpacecraftId: string | null;
   selectedTrackFileId: string | null;
   selectedScenarioId: string | null;
 }

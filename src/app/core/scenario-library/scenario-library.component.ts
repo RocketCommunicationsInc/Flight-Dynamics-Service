@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component} from '@angular/core';
-import { AstroComponentsModule, RuxTreeNode } from '@astrouxds/angular';
-import { State, Store } from '@ngrx/store';
+import { AstroComponentsModule} from '@astrouxds/angular';
+import { Store } from '@ngrx/store';
 import { ScenariosActions, SpacecraftActions } from '../../+state/app.actions';
-import { selectScenarios, selectSelectedScenarioId, selectSelectedSpacecraft } from '../../+state/app.reducer';
-import { spacecraftSelector } from '../../+state/app.selectors';
+import { selectScenarios, selectSelectedScenarioId, selectSelectedSpacecraftId } from '../../+state/app.reducer';
+import { selectAllSpacecrafts } from '../../+state/app.selectors';
 import { ToastService } from '../../shared/toast.service';
 import { Scenario, Spacecraft } from '../../types/data.types';
 import { Router } from '@angular/router';
@@ -18,10 +18,10 @@ import { Observable } from 'rxjs';
   imports: [AstroComponentsModule, CommonModule],
 })
 export class ScenarioLibraryComponent {
-  selectedSpacecraft$: Observable<Spacecraft | null>
+  selectedSpacecraftId$: Observable<string | null>
   selectedScenario$: Observable<string | null>
   scenarios$: Observable<ScenariosState>;
-  spacecrafts$ = this.store.select(spacecraftSelector);
+  spacecrafts$ = this.store.select(selectAllSpacecrafts);
   scenarios: (Scenario | undefined)[] = [];
   spacecraftData: any;
   selectedSpacecraftId: string|null = null
@@ -33,7 +33,7 @@ export class ScenarioLibraryComponent {
     private router: Router
   ) {
     this.scenarios$ = this.store.select(selectScenarios);
-    this.selectedSpacecraft$ = this.store.select(selectSelectedSpacecraft)
+    this.selectedSpacecraftId$ = this.store.select(selectSelectedSpacecraftId)
     this.selectedScenario$ = this.store.select(selectSelectedScenarioId)
   }
 
@@ -44,8 +44,8 @@ export class ScenarioLibraryComponent {
       });
     });
 
-    this.selectedSpacecraft$.subscribe((res: Spacecraft|null) => {
-      this.selectedSpacecraftId = res?.id || null;
+    this.selectedSpacecraftId$.subscribe((res: string|null) => {
+      this.selectedSpacecraftId = res;
     });
     this.selectedScenario$.subscribe((res: string|null) => {
       this.selectedScenarioId = res;
@@ -56,8 +56,8 @@ export class ScenarioLibraryComponent {
     });
 
     this.store.dispatch(
-      SpacecraftActions.spacecraftSelected({
-        spacecraft: this.spacecraftData[0],
+      SpacecraftActions.spacecraftIdSelected({
+        spacecraftId: this.spacecraftData[0].id,
       })
     );
   }
@@ -69,7 +69,7 @@ export class ScenarioLibraryComponent {
   }
 
   onSpacecraftSelected(spacecraft: Spacecraft, scenario: Scenario){
-    this.store.dispatch(SpacecraftActions.spacecraftSelected({spacecraft}))
+    this.store.dispatch(SpacecraftActions.spacecraftIdSelected({spacecraftId: spacecraft.id}))
     this.store.dispatch(ScenariosActions.scenarioSelected({scenarioId: scenario.id}))
 
     this.router.navigateByUrl(
