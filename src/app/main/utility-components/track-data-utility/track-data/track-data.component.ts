@@ -225,9 +225,6 @@ export class TrackDataComponent {
           if (filter === 'Range') {
             return size > 1000;
           }
-          if (filter === '' || (!filter && !checkbox.checked)) {
-            return (this.filteredLegendData = this.dummyFileSize);
-          }
           return true;
         })
       );
