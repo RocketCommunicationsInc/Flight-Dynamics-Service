@@ -6,3 +6,7 @@
   */
   height: calc(100% - 9.875rem);
 }
+
+.table-wrapper rux-select {
+  width: 12rem;
+}
