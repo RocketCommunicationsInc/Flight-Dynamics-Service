@@ -1,4 +1,4 @@
-import { Scenario, TrackFile } from '../types/data.types';
+import { Scenario, Spacecraft, TrackFile } from '../types/data.types';
 import { EntityState } from '@ngrx/entity';
 
 export interface AppStore {

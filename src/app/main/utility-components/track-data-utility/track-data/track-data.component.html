@@ -80,6 +80,8 @@
         <rux-icon icon="search" size="1.5rem" />
       </div>
     </div>
+
+    <div class="chart-wrapper">
       <apx-chart
         [series]="chartOptions.series"
         [chart]="chartOptions.chart"
@@ -91,11 +93,20 @@
         [tooltip]="chartOptions.tooltip"
       ></apx-chart>
 
-      <footer>
-        <span>OD Quality Est: 82/100</span>
-        <span>Data Points: {{ dataPointLength }}</span>
-      </footer>
+      <div class="legend" #legend>
+        <rux-checkbox label="Az" (ruxchange)="filterCheckboxes($event, 'Az')" />
+        <rux-checkbox label="El" (ruxchange)="filterCheckboxes($event, 'El')" />
+        <rux-checkbox
+          label="Range"
+          (ruxchange)="filterCheckboxes($event, 'Range')"
+        />
+      </div>
     </div>
+    <footer>
+      <span>OD Quality Est: 82/100</span>
+      <span>Data Points: {{ dataPointLength }}</span>
+    </footer>
+  </div>
 
   <div *ngIf="showTable">
     <div class="table-wrapper">
