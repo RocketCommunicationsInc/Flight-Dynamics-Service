@@ -30,9 +30,11 @@
             *multipleSwitchCase="['initialElevation', 'finalElevation']"
           >
             <span class="status-wrapper">
-              <rux-status [status]="setStatus(row[col.field])" />
-              <span>
-                {{ row[col.field] }}
+              <span class="status-container">
+                <rux-status [status]="setStatus(row[col.field])" />
+                <span>
+                  {{ row[col.field] }}
+                </span>
               </span>
             </span>
           </ng-container>

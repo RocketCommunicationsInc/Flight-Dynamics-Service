@@ -4,10 +4,15 @@
 
 .status-wrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+}
+
+.status-container {
+  display: flex;
   align-items: center;
-  /* TODO: padding may need adjusment once elevation sizes are known
+  justify-content: space-between;
+  /* TODO: width may need adjusment once elevation sizes are known
   * this sets how close the staus symbol is to the value in the cell
   */
-  padding-inline-start: var(--spacing-10);
+  width: 6rem;
 }
