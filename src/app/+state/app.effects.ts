@@ -15,7 +15,6 @@ const loadScenarios = createEffect(
           })
         );
       })
-      // tap(val => console.log('scenarios', val))
     ),
   { functional: true }
 );
