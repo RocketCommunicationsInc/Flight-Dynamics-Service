@@ -28,9 +28,8 @@ header {
 }
 
 .legend-pushed {
-  right: 500px;
-  bottom: 175px;
-  background-color: rebeccapurple;
+  right: 460px;
+  bottom: 145px;
 }
 
 .legend rux-checkbox {

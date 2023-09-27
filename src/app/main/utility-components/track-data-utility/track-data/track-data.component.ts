@@ -80,24 +80,29 @@ export class TrackDataComponent {
     });
   }
 
-  legend = document.getElementById('legend');
-  @ViewChild('legend') div?: ElementRef;
+  @ViewChild('legend') legend?: ElementRef;
 
   openSitesDrawer() {
-    console.log(this.legend);
+    const legendEl = this.legend?.nativeElement;
     this.shrinkChart();
     this.isSitesDrawerOpen = !this.isSitesDrawerOpen;
-    (this.legend as any).classList.add('legend-pushed');
+    legendEl.classList.add('legend-pushed');
+
     if (!this.isSitesDrawerOpen) {
       this.expandChart();
+      legendEl.classList.remove('legend-pushed');
     }
   }
 
   openSettingsDrawer() {
+    const legendEl = this.legend?.nativeElement;
     this.shrinkChart();
     this.isSettingsDrawerOpen = !this.isSettingsDrawerOpen;
+    legendEl.classList.add('legend-pushed');
+
     if (!this.isSettingsDrawerOpen) {
       this.expandChart();
+      legendEl.classList.remove('legend-pushed');
     }
   }
 
