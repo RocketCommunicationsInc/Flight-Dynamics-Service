@@ -346,58 +346,8 @@ export class TrackDataComponent {
         cssClass: 'data-points',
       },
     },
-    //!--------------------------
     legend: {
-      show: true,
-      position: 'bottom',
-      horizontalAlign: 'right',
-      offsetY: 40,
-      markers: {
-        width: 10,
-        height: 10,
-      },
-      onItemClick: {
-        toggleDataSeries: true,
-      },
-    },
-    annotations: {
-      position: 'front',
-      yaxis: [
-        {
-          y: 0,
-          borderColor: 'transparent',
-          label: {
-            text: 'Az',
-            style: {
-              background: '',
-              color: 'var(--color-text-primary)',
-            },
-          },
-        },
-        {
-          y: 5,
-          borderColor: 'transparent',
-          label: {
-            text: 'El',
-            style: {
-              background: '',
-              color: 'var(--color-text-primary)',
-            },
-          },
-        },
-        {
-          y: 10,
-          borderColor: 'transparent',
-          label: {
-            text: 'Range',
-            style: {
-              background: '',
-              color: 'var(--color-text-primary)',
-            },
-          },
-        },
-      ],
-      //!--------------------------
+      show: false
     },
     markers: {
       size: [6, 0],
