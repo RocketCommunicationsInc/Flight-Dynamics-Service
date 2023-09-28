@@ -1,22 +1,27 @@
 import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { RouterLink, RouterOutlet } from '@angular/router';
 import { UnitSelectorComponent } from '../../shared';
+import { CommonModule } from '@angular/common';
 import { UnitMenuItems, selectUnit } from '../../shared/units/units.model';
+import { Spacecraft } from 'src/app/types/data.types';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
 
 @Component({
   standalone: true,
   selector: 'fds-scenario-data-display',
   templateUrl: './scenario-data-display.component.html',
   styleUrls: ['./scenario-data-display.component.css'],
-  imports: [
-    AstroComponentsModule,
-    UnitSelectorComponent,
-    RouterLink,
-    RouterOutlet,
-  ],
+  imports: [AstroComponentsModule, UnitSelectorComponent, CommonModule],
 })
 export class ScenarioDataDisplayComponent {
+  spacecraft$: Observable<Spacecraft | null | undefined>;
+
+  constructor(private store: Store) {
+    this.spacecraft$ = this.store.select(selectCurrentSpacecraft);
+  }
+
   catalogId = 30184;
   semiMajorAxis = 63714327;
   perigee = 363396432;
