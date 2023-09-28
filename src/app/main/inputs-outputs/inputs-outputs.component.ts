@@ -25,13 +25,6 @@ export class InputsOutputsComponent {
     { label: 'Outputs', id: 'outputs-tab', selected: false },
   ];
   tabsId: string = 'inputs-outputs-tabs';
-  notificationData = [
-    {
-      message: 'Update database file to initialize new orbit',
-      status: 'caution',
-      hideClose: false,
-    },
-  ];
 
   selected = 'inputs';
 
