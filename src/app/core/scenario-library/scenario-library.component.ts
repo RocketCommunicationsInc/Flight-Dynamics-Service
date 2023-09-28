@@ -9,7 +9,7 @@ import {
   selectSelectedSpacecraftId,
 } from '../../+state/app.selectors';
 import { ToastService } from '../../shared/toast.service';
-import { Scenario, Spacecraft } from '../../types/data.types';
+import { Scenario, Spacecraft, SpacecraftEntity } from '../../types/data.types';
 import { Router } from '@angular/router';
 import { AppStore, ScenariosState } from 'src/app/+state/app.model';
 import { Observable } from 'rxjs';
@@ -23,7 +23,7 @@ import { Observable } from 'rxjs';
 export class ScenarioLibraryComponent {
   selectedSpacecraftId$: Observable<string | null>;
   scenarios$: Observable<ScenariosState>;
-  spacecrafts$: Observable<Spacecraft[]>;
+  spacecrafts$: Observable<SpacecraftEntity>;
   scenarios: (Scenario | undefined)[] = [];
   spacecraftData: any;
   selectedSpacecraftId: string | null = null;
@@ -55,7 +55,7 @@ export class ScenarioLibraryComponent {
 
     this.store.dispatch(
       SpacecraftActions.spacecraftIdSelected({
-        spacecraftId: this.spacecraftData[0].id,
+        spacecraftId: Object.keys(this.spacecraftData)[0],
       })
     );
 
