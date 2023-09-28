@@ -3,6 +3,11 @@ import { AstroComponentsModule } from '@astrouxds/angular';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { UnitSelectorComponent } from '../../shared';
 import { UnitMenuItems, selectUnit } from '../../shared/units/units.model';
+import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
+import { Spacecraft } from 'src/app/types/data.types';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -12,6 +17,7 @@ import { UnitMenuItems, selectUnit } from '../../shared/units/units.model';
   imports: [
     AstroComponentsModule,
     UnitSelectorComponent,
+    CommonModule,
     RouterLink,
     RouterOutlet,
   ],
@@ -23,6 +29,8 @@ export class ScenarioDataDisplayComponent {
   inclination = 23.4362;
   eccentricity = 92.39401;
   mass = 43.23404;
+  spacecraft$: Observable<Spacecraft|null|undefined>;
+
   distanceUnits = [
     UnitMenuItems.meters,
     selectUnit(UnitMenuItems.kilometers),
@@ -33,4 +41,8 @@ export class ScenarioDataDisplayComponent {
     UnitMenuItems.radians,
     UnitMenuItems.revolutions,
   ];
+
+  constructor(private store:Store){
+    this.spacecraft$ = this.store.select(selectCurrentSpacecraft);
+  }
 }

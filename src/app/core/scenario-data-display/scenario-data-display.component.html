@@ -1,8 +1,10 @@
 <rux-container>
-  <div slot="header"><span class="title">Spacecraft Properties</span></div>
+  <div slot="header">
+    <span class="title">{{ (spacecraft$ | async)?.catalogId }} Properties</span>
+  </div>
   <section>
     <div>Catalog ID:</div>
-    <div>{{ catalogId }}</div>
+    <div>{{ (spacecraft$ | async)?.catalogId }}</div>
 
     <app-unit-selector [units]="distanceUnits" [value]="semiMajorAxis"
       >Semi-Major Axis</app-unit-selector
