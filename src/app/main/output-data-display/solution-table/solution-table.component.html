@@ -38,14 +38,17 @@
             [checked]="row.selected"
             (ruxchange)="tableService.selectRow($event, row)"
           />
-          <ng-container *ngSwitchCase="'status'">
-            <rux-status *ngIf="row.status !== 'normal'" [status]="row.status" />
-          </ng-container>
+
+          <div *ngSwitchCase="'difference'" class="status-col">
+            <rux-status [status]="row.status" />
+            {{ row[col.field] | unitConverter: getRowUnit(row) }}
+          </div>
+
           <rux-select
             size="small"
             *ngSwitchCase="'units'"
-            (ruxchange)="outputDataDisplayService.setRowUnit($event, row)"
-            [value]="outputDataDisplayService.getRowUnit(row)"
+            (ruxchange)="setRowUnit($event, row)"
+            [value]="getRowUnit(row)"
           >
             <rux-option
               *ngFor="let unit of row.units"
@@ -55,16 +58,10 @@
           </rux-select>
 
           <ng-container *ngSwitchDefault>
-            {{
-              outputDataDisplayService.setDefaultCase(
-                row[col.field],
-                outputDataDisplayService.getRowUnit(row)
-              )
-            }}
+            {{ row[col.field] | unitConverter: getRowUnit(row) }}
           </ng-container>
         </td>
       </tr>
     </tbody>
   </table>
-  <!-- </div> -->
 </div>

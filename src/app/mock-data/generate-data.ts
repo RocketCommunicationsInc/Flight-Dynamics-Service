@@ -244,3 +244,7 @@ export const mockTrackFiles = Object.entries(
 ).flatMap(([spacecraftId, trackFileIds], index) => {
   return trackFileIds.map((id) => generateTrackFile(spacecraftId, id, index));
 });
+
+export const randomNum = (min = 1e9, max = 9e9) => {
+  return faker.number.int({ min, max });
+};
