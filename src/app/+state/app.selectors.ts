@@ -60,19 +60,20 @@ export const selectCurrentTrackFile = createSelector(
   selectSelectedTrackFileId,
   (spacecraftId, scenarios, trackFiles, trackFileId): TrackFile | undefined => {
     if (trackFileId) return trackFiles[trackFileId];
+    // return
     /*
-     * If we get down here this means a trackFile has not be selected
+     * NOTE: if and when trackFileId is available on app load by getting the
+     * first trackFileId on the first spacecraft on the first scenario all code
+     * below can be removed
+     *
+     * Right now, if we get down here this means a trackFile has not be selected
      * by a user yet. The default behavior is to get the first trackFile
      * on the first spacecraft on the first scenario
      */
     if (!spacecraftId) {
       throw new Error('spacecraftId is null and should be available here');
     }
-    /*
-     * TODO: might want to refactor to replace selectAllScenarios
-     * with selectAllSpacecrafts once that selector is updated in
-     * another pr
-     */
+
     const defaultFirstSpacecraft = scenarios[0].spaceCraft.find(({ id }) => {
       return id === spacecraftId;
     });
