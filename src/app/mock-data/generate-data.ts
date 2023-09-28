@@ -170,14 +170,14 @@ const generateInclination = (): OrbitProperty => {
 
 const generatePeriod = (): OrbitProperty => {
   return {
-    value: faker.number.float({ min: 20, max: 2000 }),
+    value: faker.number.float({ min: 20, max: 2000, precision: 0.001 }),
     unit: 'min',
   };
 };
 
 const generateMeanMotion = (): OrbitProperty => {
   return {
-    value: faker.number.float({ min: 1, max: 90 }),
+    value: faker.number.float({ min: 1, max: 90, precision: 0.001 }),
     unit: 'deg/hr',
   };
 };
@@ -201,7 +201,7 @@ const generateRaan = (): OrbitProperty => {
 };
 const generateRevNo = (): OrbitProperty => {
   return {
-    value: faker.number.float({ min: 0.2, max: 40, precision: 0.0000001 }),
+    value: faker.number.float({ min: 0.2, max: 40, precision: 0.001 }),
     unit: '',
   };
 };
@@ -247,4 +247,8 @@ export const mockTrackFiles = Object.entries(
 
 export const randomNum = (min = 1e9, max = 9e9) => {
   return faker.number.int({ min, max });
+};
+
+export const toPrecision = (num: number, precision = 7) => {
+  return ~~(Math.pow(10, precision) * num) / Math.pow(10, precision);
 };
