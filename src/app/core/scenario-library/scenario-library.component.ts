@@ -18,13 +18,11 @@ import { Observable } from 'rxjs';
 })
 export class ScenarioLibraryComponent {
   selectedSpacecraftId$: Observable<string | null>
-  selectedScenario$: Observable<string | null>
   scenarios$: Observable<ScenariosState>
   spacecrafts$: Observable<Spacecraft[]>
   scenarios: (Scenario | undefined)[] = []
   spacecraftData: any
   selectedSpacecraftId: string|null = null
-  selectedScenarioId: string|null = null
 
   constructor(
     private toasts: ToastService,
@@ -33,7 +31,6 @@ export class ScenarioLibraryComponent {
   ) {
     this.scenarios$ = this.store.select(selectScenarios);
     this.selectedSpacecraftId$ = this.store.select(selectSelectedSpacecraftId)
-    this.selectedScenario$ = this.store.select(selectSelectedScenarioId)
     this.spacecrafts$ = this.store.select(selectAllSpacecrafts);
   }
 
@@ -46,9 +43,6 @@ export class ScenarioLibraryComponent {
 
     this.selectedSpacecraftId$.subscribe((res: string|null) => {
       this.selectedSpacecraftId = res;
-    });
-    this.selectedScenario$.subscribe((res: string|null) => {
-      this.selectedScenarioId = res;
     });
 
     this.spacecrafts$.subscribe((res: any) => {

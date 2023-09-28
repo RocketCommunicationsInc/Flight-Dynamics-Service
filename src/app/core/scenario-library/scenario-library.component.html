@@ -12,6 +12,7 @@
     <rux-tree-node
       (click)="onScenarioClick($event)"
       *ngFor="let scenario of scenarios"
+      [attr.expanded]="scenario === scenarios[0]"
     >
       {{ scenario?.name }}
       <ng-container *ngFor="let spacecraft of scenario?.spaceCraft">
