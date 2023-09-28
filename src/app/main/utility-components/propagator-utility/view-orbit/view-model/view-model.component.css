@@ -1,0 +1,40 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-block: var(--spacing-2);
+  padding-inline: calc(var(--spacing-6) + 4px);
+  background-color: var(--color-background-base-default);
+}
+
+.toolbar-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+rux-slider {
+  width: 13rem;
+  padding-inline: var(--spacing-2);
+}
+
+.zoom-wrapper {
+  display: flex;
+}
+
+.map-wrapper {
+  flex-grow: 1;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-8);
+  background-color: var(--color-background-surface-header);
+}

@@ -1,3 +1,19 @@
-rux-container::part(container) {
-  border: none;
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+header {
+  display: flex;
+  padding-block: var(--spacing-4);
+  gap: var(--spacing-2);
+  justify-content: space-between;
+  padding-inline: calc(var(--spacing-6) + 4px);
+  background-color: var(--color-background-surface-header);
+}
+
+.button-wrapper {
+  display: flex;
+  gap: var(--spacing-2);
 }

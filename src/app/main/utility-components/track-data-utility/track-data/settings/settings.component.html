@@ -1,0 +1,21 @@
+<rux-container
+  class="settings-drawer"
+  [ngClass]="{ 'open-drawer': isSettingsDrawerOpen }"
+>
+  <header slot="header">Display Settings</header>
+
+  <div class="chart-selection">
+    <rux-select label="Plot Type">
+      <rux-option label="Cartesian">Cartesian</rux-option>
+    </rux-select>
+
+    <rux-select label="Angle Range">
+      <rux-option label="(NF:INF)">(NF:INF)</rux-option>
+    </rux-select>
+  </div>
+
+  <rux-checkbox checked label="Cartesian Grid" />
+  <rux-checkbox disabled label="Polar Grid" />
+  <rux-checkbox disabled label="Bounds" />
+  <rux-checkbox disabled label="Nice Ticks" />
+</rux-container>
