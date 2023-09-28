@@ -1,0 +1,13 @@
+rux-pop-up {
+    width: 100%;
+}
+
+rux-input {
+min-width: 20.75rem;
+}
+
+rux-menu span {
+    font-style: italic;
+    margin-left: var(--spacing-2);
+    margin-top: var(--spacing-2);
+}

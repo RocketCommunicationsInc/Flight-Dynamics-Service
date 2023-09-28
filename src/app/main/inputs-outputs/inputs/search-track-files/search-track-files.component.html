@@ -1,15 +1,20 @@
-<rux-pop-up disable-auto-update close-on-select>
+<rux-pop-up close-on-select>
   <rux-menu>
-    <rux-menu-item> test </rux-menu-item>
+    <span>Latest Track File</span>
+    <rux-menu-item>Singular Track File</rux-menu-item>
+    <rux-menu-item-divider/>
+    <span>Recent Track Files</span>
+    <rux-menu-item>Track Files</rux-menu-item>
   </rux-menu>
-</rux-pop-up>
-<div slot="trigger">
+  
   <rux-input
-    slot="trigger"
-    type="text"
-    label="Database File"
-    formControlName="databaseFile"
-    type="search"
-    placeholder="Start typing to search files..."
+  slot="trigger"
+  type="text"
+  label="Database File"
+  formControlName="databaseFile"
+  type="search"
+  placeholder="Start typing to search files..."
+
   />
-</div>
+</rux-pop-up>
+ 
