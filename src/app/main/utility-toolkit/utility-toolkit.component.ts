@@ -2,13 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  selectSelectedSpacecraftId,
-  selectSpacecraftById,
-} from 'src/app/+state/app.selectors';
-import { selectAllSpacecrafts } from 'src/app/+state/app.selectors';
+import { selectSpacecraftById } from 'src/app/+state/app.selectors';
 import { Spacecraft } from 'src/app/types/data.types';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 interface Utility {
