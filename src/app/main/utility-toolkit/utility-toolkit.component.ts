@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import { selectSpacecraftById } from 'src/app/+state/app.selectors';
+import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
 import { Spacecraft } from 'src/app/types/data.types';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -29,7 +29,7 @@ export class UtilityToolkitComponent {
     private route: ActivatedRoute,
     private store: Store
   ) {
-    this.spacecraft$ = this.store.select(selectSpacecraftById);
+    this.spacecraft$ = this.store.select(selectCurrentSpacecraft);
   }
 
   ngOnInit() {

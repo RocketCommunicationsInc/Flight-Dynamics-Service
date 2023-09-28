@@ -7,7 +7,6 @@ import {
   selectAllSpacecrafts,
   selectScenarios,
   selectSelectedSpacecraftId,
-  selectSpacecraftById,
 } from '../../+state/app.selectors';
 import { ToastService } from '../../shared/toast.service';
 import { Scenario, Spacecraft } from '../../types/data.types';
