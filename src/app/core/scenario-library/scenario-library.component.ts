@@ -26,7 +26,6 @@ export class ScenarioLibraryComponent {
   spacecraftData: any;
   selectedSpacecraftId: string|null = null
   selectedScenarioId: string|null = null
-  currentScenario: string| null = null
 
   constructor(
     private toasts: ToastService,
@@ -72,7 +71,7 @@ export class ScenarioLibraryComponent {
   onScenarioClick(event: Event) {
     event.stopImmediatePropagation()
     const scenario = event.target as HTMLRuxTreeNodeElement
-    scenario.setExpanded(true)
+    scenario.setExpanded(!scenario.expanded)
   }
 
   onSpacecraftSelected(spacecraft: Spacecraft, scenario: Scenario){
