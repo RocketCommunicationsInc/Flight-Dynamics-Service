@@ -15,6 +15,7 @@
 
 .scenarios-library {
   grid-area: scenarios-library;
+  overflow: auto;
 }
 
 .scenario-data {
