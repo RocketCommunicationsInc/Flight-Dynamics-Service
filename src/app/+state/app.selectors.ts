@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { Spacecraft, TrackFile } from '../types/data.types';
-import { ScenariosState, TrackFilesState } from './app.model';
+import { ScenariosState } from './app.model';
 import { scenarioAdapter, trackFileAdapter } from './app.adapters';
 import { appFeature } from './app.reducer';
 
@@ -54,10 +54,36 @@ export const selectCurrentSpacecraftName = createSelector(
 );
 
 export const selectCurrentTrackFile = createSelector(
+  selectSelectedSpacecraftId,
+  selectAllScenarios,
   selectTrackFileEntities,
   selectSelectedTrackFileId,
-  (trackFiles: any, trackFileId: string | null) => {
-    if (!trackFileId) return null;
-    return trackFiles[trackFileId];
+  (spacecraftId, scenarios, trackFiles, trackFileId): TrackFile | undefined => {
+    if (trackFileId) return trackFiles[trackFileId];
+    /*
+     * If we get down here this means a trackFile has not be selected
+     * by a user yet. The default behavior is to get the first trackFile
+     * on the first spacecraft on the first scenario
+     */
+    if (!spacecraftId) {
+      throw new Error('spacecraftId is null and should be available here');
+    }
+    /*
+     * TODO: might want to refactor to replace selectAllScenarios
+     * with selectAllSpacecrafts once that selector is updated in
+     * another pr
+     */
+    const defaultFirstSpacecraft = scenarios[0].spaceCraft.find(({ id }) => {
+      return id === spacecraftId;
+    });
+
+    if (!defaultFirstSpacecraft) {
+      throw new Error(
+        'defaultFirstSpacecraft is undefined and should be available here'
+      );
+    }
+
+    const [firstTrackfileId] = defaultFirstSpacecraft.trackFileIds;
+    return trackFiles[firstTrackfileId];
   }
 );
