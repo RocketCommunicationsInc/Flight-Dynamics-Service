@@ -35,9 +35,7 @@ export const selectSpacecraftById = createSelector(
   selectAllSpacecrafts,
   selectSelectedSpacecraftId,
   (spacecrafts: Spacecraft[], spacecraftId: string | null) => {
-    if (spacecrafts && spacecraftId) {
-      return spacecrafts.find((craft) => craft.id === spacecraftId);
-    }
-    return null;
+    if (!spacecraftId) return null;
+    return spacecrafts.find((craft) => craft.id === spacecraftId);
   }
 );
