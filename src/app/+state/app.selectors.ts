@@ -15,7 +15,6 @@ export const {
   selectSelectedTrackFileId,
 } = appFeature;
 
-
 export const { selectAll: selectAllScenarios } =
   scenarioAdapter.getSelectors(selectScenarios);
 export const { selectAll: selectAllTrackFiles } =
@@ -29,5 +28,16 @@ export const selectAllSpacecrafts = createSelector(
       state.entities[id]?.spaceCraft.map((craft) => spacecrafts.push(craft));
     });
     return spacecrafts;
+  }
+);
+
+export const selectSpacecraftById = createSelector(
+  selectAllSpacecrafts,
+  selectSelectedSpacecraftId,
+  (spacecrafts: Spacecraft[], spacecraftId: string | null) => {
+    if (spacecrafts && spacecraftId) {
+      return spacecrafts.find((craft) => craft.id === spacecraftId);
+    }
+    return null;
   }
 );
