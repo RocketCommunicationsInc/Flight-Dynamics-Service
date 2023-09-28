@@ -1,8 +1,20 @@
 import { createSelector } from '@ngrx/store';
 import { Spacecraft } from '../types/data.types';
 import { ScenariosState } from './app.model';
-import { selectScenarios, selectTrackFiles } from './app.reducer';
 import { scenarioAdapter, trackFileAdapter } from './app.adapters';
+import { appFeature } from './app.reducer';
+
+export const {
+  name,
+  reducer,
+  selectAppState,
+  selectScenarios,
+  selectTrackFiles,
+  selectSelectedSpacecraftId,
+  selectSelectedScenarioId,
+  selectSelectedTrackFileId,
+} = appFeature;
+
 
 export const { selectAll: selectAllScenarios } =
   scenarioAdapter.getSelectors(selectScenarios);

@@ -3,8 +3,7 @@ import { Component} from '@angular/core';
 import { AstroComponentsModule} from '@astrouxds/angular';
 import { Store } from '@ngrx/store';
 import { ScenariosActions, SpacecraftActions } from '../../+state/app.actions';
-import { selectScenarios, selectSelectedScenarioId, selectSelectedSpacecraftId } from '../../+state/app.reducer';
-import { selectAllSpacecrafts } from '../../+state/app.selectors';
+import { selectAllSpacecrafts, selectScenarios, selectSelectedScenarioId, selectSelectedSpacecraftId } from '../../+state/app.selectors';
 import { ToastService } from '../../shared/toast.service';
 import { Scenario, Spacecraft } from '../../types/data.types';
 import { Router } from '@angular/router';
@@ -20,10 +19,10 @@ import { Observable } from 'rxjs';
 export class ScenarioLibraryComponent {
   selectedSpacecraftId$: Observable<string | null>
   selectedScenario$: Observable<string | null>
-  scenarios$: Observable<ScenariosState>;
-  spacecrafts$ = this.store.select(selectAllSpacecrafts);
-  scenarios: (Scenario | undefined)[] = [];
-  spacecraftData: any;
+  scenarios$: Observable<ScenariosState>
+  spacecrafts$: Observable<Spacecraft[]>
+  scenarios: (Scenario | undefined)[] = []
+  spacecraftData: any
   selectedSpacecraftId: string|null = null
   selectedScenarioId: string|null = null
 
@@ -35,6 +34,7 @@ export class ScenarioLibraryComponent {
     this.scenarios$ = this.store.select(selectScenarios);
     this.selectedSpacecraftId$ = this.store.select(selectSelectedSpacecraftId)
     this.selectedScenario$ = this.store.select(selectSelectedScenarioId)
+    this.spacecrafts$ = this.store.select(selectAllSpacecrafts);
   }
 
   ngOnInit() {
