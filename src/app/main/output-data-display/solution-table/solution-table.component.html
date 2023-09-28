@@ -41,7 +41,9 @@
 
           <div *ngSwitchCase="'difference'" class="status-col">
             <rux-status [status]="row.status" />
-            {{ row[col.field] | unitConverter: getRowUnit(row) }}
+            <span>
+              {{ row[col.field] | unitConverter: getRowUnit(row) }}
+            </span>
           </div>
 
           <rux-select
