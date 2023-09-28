@@ -1,6 +1,14 @@
 <header>
-  <ng-content select="[header]"> </ng-content>
+  <rux-tabs small (ruxselected)="onSelect($event)">
+    <rux-tab
+      [id]="tab.id"
+      [selected]="tab.selected"
+      [disabled]="tab.disabled"
+      *ngFor="let tab of tabs"
+      >{{ tab.label }}</rux-tab
+    >
+  </rux-tabs>
 </header>
 <div>
-  <ng-content></ng-content>
+  <ng-content />
 </div>

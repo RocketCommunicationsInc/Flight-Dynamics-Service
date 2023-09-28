@@ -1,0 +1,49 @@
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th
+          *ngFor="let col of tableService.columns"
+          [ngClass]="{ sortable: col.sortable }"
+          [attr.type]="col.type"
+        >
+          <div
+            [ngClass]="{ active: col.sorted }"
+            class="h-stack"
+            (click)="tableService.sort(col)"
+          >
+            {{ col.header }}
+            <rux-icon *ngIf="col.sortable" [icon]="col.icon" size="small" />
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of tableService.data" [attr.selected]="row.selected">
+        <td
+          *ngFor="let col of tableService.columns"
+          [ngSwitch]="col.field"
+          [attr.type]="col.type"
+          [ngClass]="{ sortable: col.sortable }"
+        >
+          <ng-container
+            *multipleSwitchCase="['initialElevation', 'finalElevation']"
+          >
+            <span class="status-wrapper">
+              <span class="status-container">
+                <rux-status [status]="setStatus(row[col.field])" />
+                <span>
+                  {{ row[col.field] }}
+                </span>
+              </span>
+            </span>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            {{ row[col.field] }}
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

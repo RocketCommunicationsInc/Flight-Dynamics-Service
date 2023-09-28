@@ -6,7 +6,7 @@
   color: var(--color-text-primary);
   display: grid;
   gap: var(--spacing-2);
-  grid-template-columns: 1.5fr 8.5fr;
+  grid-template-columns: minmax(17rem, 1.5fr) 8.5fr;
   grid-template-rows: 4.5fr 5.5fr;
   grid-template-areas:
     'scenarios-library main'
@@ -15,6 +15,7 @@
 
 .scenarios-library {
   grid-area: scenarios-library;
+  overflow: auto;
 }
 
 .scenario-data {
