@@ -42,6 +42,17 @@ export const selectCurrentSpacecraft = createSelector(
   }
 );
 
+export const selectCurrentSpacecraftName = createSelector(
+  selectAllSpacecrafts,
+  selectSelectedSpacecraftId,
+  (spacecrafts: Spacecraft[], spacecraftId: string | null) => {
+    if (!spacecraftId) return null;
+    let spacecraft;
+    spacecraft = spacecrafts.find((craft) => craft.id === spacecraftId);
+    return spacecraft?.catalogId;
+  }
+);
+
 export const selectCurrentTrackFile = createSelector(
   selectTrackFileEntities,
   selectSelectedTrackFileId,

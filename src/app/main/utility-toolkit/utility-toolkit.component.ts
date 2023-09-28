@@ -22,7 +22,6 @@ interface Utility {
 })
 export class UtilityToolkitComponent {
   spacecraft$: Observable<Spacecraft | null | undefined>;
-  spacecraft: Spacecraft | null | undefined;
 
   constructor(
     private router: Router,
@@ -32,11 +31,7 @@ export class UtilityToolkitComponent {
     this.spacecraft$ = this.store.select(selectCurrentSpacecraft);
   }
 
-  ngOnInit() {
-    this.spacecraft$.subscribe((res: Spacecraft | null | undefined) => {
-      this.spacecraft = res;
-    });
-  }
+  ngOnInit() {}
 
   onClick(util: Utility) {
     this.router.navigate([`./${util.link}`], {
