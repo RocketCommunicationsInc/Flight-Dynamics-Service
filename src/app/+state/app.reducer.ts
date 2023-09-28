@@ -65,14 +65,3 @@ export const appFeature = createFeature({
   name: 'app',
   reducer: AppReducer,
 });
-
-export const {
-  name,
-  reducer,
-  selectAppState,
-  selectScenarios,
-  selectTrackFiles,
-  selectSelectedSpacecraftId,
-  selectSelectedScenarioId,
-  selectSelectedTrackFileId,
-} = appFeature;
