@@ -2,26 +2,22 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import type { Status } from '@astrouxds/astro-web-components/dist/types/components';
 
-import { PERFORMANCE_DATA } from './output-data-display.data';
-import { randomNum } from 'src/app/mock-data/generate-data';
+import { randomNum, toPrecision } from 'src/app/mock-data/generate-data';
 import { UnitMenuItems } from 'src/app/shared/units/units.model';
 import { ColumnDefs } from 'src/app/shared/table.service';
-import { OrbitProperties, TrackFile } from 'src/app/types/data.types';
+import { OrbitProperties } from 'src/app/types/data.types';
+// import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { PerformanceData, SolutionData } from './output-data-display.model';
-import {
-  selectSelectedTrackFileId,
-  selectTrackFiles,
-} from 'src/app/+state/app.reducer';
+import { PERFORMANCE_DATA } from './output-data-display.data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OutputDataDisplayService {
-  selectSelectedTrackFileId$ = this.store.select(selectSelectedTrackFileId);
-  trackFiles$ = this.store.select(selectTrackFiles);
-  deviations: Status[] = [];
+  // currentTrackFile$ = this.store.select(selectCurrentTrackFile);
   performanceData: PerformanceData[] = PERFORMANCE_DATA;
   solutionData: SolutionData[] = [];
+  deviations: Status[] = [];
   columnDefs: ColumnDefs<SolutionData>[] = [
     { header: '', field: 'id' },
     { header: 'Solve For', field: 'property', sortable: true },
@@ -32,50 +28,44 @@ export class OutputDataDisplayService {
     { header: 'Units', field: 'units' },
   ];
 
-  constructor(private store: Store) {
-    let selectedTrackFile: TrackFile | undefined;
-    this.selectSelectedTrackFileId$.subscribe((id) => {
-      this.trackFiles$.subscribe(({ entities }) => {
-        if (!id) {
-          selectedTrackFile = Object.values(entities)[0];
-        } else {
-          selectedTrackFile = entities[id];
-        }
-      });
-      if (!selectedTrackFile) return;
+  constructor(
+    private store: Store
+  ) {
+   // this.currentTrackFile$.subscribe((trackFile) => {
+     // if (!trackFile) return;
       // prettier-ignore
-      const { degrees, kilometers, meters, miles, radians, revolutions } = UnitMenuItems;
-      const initial = selectedTrackFile.initialOrbitProperties;
-      const final = selectedTrackFile.processedTrackFile?.finalOrbitProperties;
-      this.deviations = []; // clear existing deviations if any
-      Object.entries(initial).forEach(([key, { unit, value }], index) => {
-        const finalVal = final ? final[key as keyof OrbitProperties].value : 0;
-        const status = this.setStatus(index);
+      //const { degrees, kilometers, meters, miles, radians, revolutions } = UnitMenuItems;
+      // const initial = trackFile.initialOrbitProperties;
+      // const final = trackFile.processedTrackFile?.finalOrbitProperties;
+      // this.deviations = []; // clear existing deviations if any
+      // Object.entries(initial).forEach(([key, { unit, value }], index) => {
+      //   const finalVal = final ? final[key as keyof OrbitProperties].value : 0;
+      //   const status = this.setStatus(index);
 
-        if (status !== 'off') {
-          this.deviations.push(status);
-        }
+      //   if (status !== 'off') {
+      //     this.deviations.push(status);
+      //   }
 
-        this.solutionData.push({
-          deviation: randomNum(100, 300),
-          difference: value - finalVal,
-          final: finalVal,
-          id: crypto.randomUUID(),
-          initial: value,
-          property: key,
-          status,
-          trackFileId: id || '', // TODO: remove when trackFileId is set up
-          units: [
-            { ...meters, selected: meters.val === unit },
-            { ...kilometers, selected: kilometers.val === unit },
-            { ...miles, selected: miles.val === unit },
-            { ...degrees, selected: degrees.val === unit },
-            { ...radians, selected: radians.val === unit },
-            { ...revolutions, selected: revolutions.val === unit },
-          ],
-        });
-      });
-    });
+      //   this.solutionData.push({
+      //     deviation: randomNum(100, 300),
+      //     difference: toPrecision(finalVal - value),
+      //     final: finalVal,
+      //     id: crypto.randomUUID(),
+      //     initial: value,
+      //     property: key,
+      //     status,
+      //     trackFileId: trackFile.id,
+      //     units: [
+      //       { ...meters, selected: meters.val === unit },
+      //       { ...kilometers, selected: kilometers.val === unit },
+      //       { ...miles, selected: miles.val === unit },
+      //       { ...degrees, selected: degrees.val === unit },
+      //       { ...radians, selected: radians.val === unit },
+      //       { ...revolutions, selected: revolutions.val === unit },
+      //     ],
+      //   });
+      // });
+   // });
   }
 
   private setStatus(index: number): Status {
@@ -96,3 +86,16 @@ export class OutputDataDisplayService {
     return this.deviations.filter((dev) => dev === 'critical').length;
   }
 }
+
+// export const selectCurrentTrackFile = createSelector(
+//   selectScenarios,
+//   selectSelectedTrackFileId,
+//   selectTrackFiles,
+//   (scenarios, id, { entities }) => {
+//     if (!id) {
+//       console.log(scenarios.entities);
+//       return Object.values(entities)[0];
+//     }
+//     return entities[id];
+//   }
+// );
