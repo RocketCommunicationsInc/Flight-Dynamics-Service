@@ -4,7 +4,7 @@
   * need to deducted for the header for all table rows to be
   * displayed when scrolling to the bottom
   */
-  height: calc(100% - 6.25rem);
+  height: calc(100% - 7rem);
 }
 
 table {
@@ -13,6 +13,9 @@ table {
 
 .status-col {
   display: flex;
-  gap: var(--spacing-2);
   justify-content: flex-end;
+}
+
+.status-col span {
+  min-width: 7.5rem;
 }
