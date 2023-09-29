@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
+import { Spacecraft } from 'src/app/types/data.types';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 interface Utility {
   icon: string;
@@ -17,11 +21,22 @@ interface Utility {
   styleUrls: ['./utility-toolkit.component.css'],
 })
 export class UtilityToolkitComponent {
-  constructor(private router: Router, private route: ActivatedRoute) {}
-  id = '000';
+  spacecraft$: Observable<Spacecraft | null | undefined>;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private store: Store
+  ) {
+    this.spacecraft$ = this.store.select(selectCurrentSpacecraft);
+  }
+
+  ngOnInit() {}
 
   onClick(util: Utility) {
-    this.router.navigate([`./${util.link}`], {relativeTo: this.route.firstChild});
+    this.router.navigate([`./${util.link}`], {
+      relativeTo: this.route.firstChild,
+    });
   }
 
   utilities: Utility[] = [

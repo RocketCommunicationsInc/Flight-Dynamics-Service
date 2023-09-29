@@ -1,4 +1,4 @@
-<span>SPACECRAFT {{ id }}</span>
+<span>SPACECRAFT {{ (spacecraft$ | async)?.catalogId }}</span>
 <div class="btns">
   <rux-button
     size="small"

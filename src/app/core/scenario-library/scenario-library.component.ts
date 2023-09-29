@@ -1,12 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { Store } from '@ngrx/store';
-import { SpacecraftActions } from '../../+state/app.actions';
-import { selectScenarios } from '../../+state/app.reducer';
+import { Store} from '@ngrx/store';
+import { ScenariosActions, SpacecraftActions, TrackFilesActions } from '../../+state/app.actions';
+import {
+  selectAllSpacecrafts,
+  selectScenarios,
+  selectSelectedSpacecraftId,
+} from '../../+state/app.selectors';
 import { ToastService } from '../../shared/toast.service';
-import { Scenario } from '../../types/data.types';
+import { Scenario, Spacecraft, SpacecraftEntity } from '../../types/data.types';
 import { Router } from '@angular/router';
+import { AppStore, ScenariosState } from 'src/app/+state/app.model';
+import { Observable, Subscription } from 'rxjs';
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -15,27 +21,71 @@ import { Router } from '@angular/router';
   imports: [AstroComponentsModule, CommonModule],
 })
 export class ScenarioLibraryComponent {
-  selectedCraft = signal<string | null>('');
-  scenarios$ = this.store.select(selectScenarios);
-  data: (Scenario | undefined)[] = [];
+  selectedSpacecraftId$: Observable<string | null>;
+  scenarios$: Observable<ScenariosState>;
+  spacecrafts$: Observable<SpacecraftEntity>;
+  scenarios: (Scenario | undefined)[] = [];
+  spacecraftData: any;
+  selectedSpacecraftId: string | null = null;
+
+  //subscriptions
+  spacecraftSub: Subscription | null = null
+  scenariosSub: Subscription | null = null
+  spacecraftsSub: Subscription | null = null
 
   constructor(
     private toasts: ToastService,
-    private store: Store,
+    private store: Store<AppStore>,
     private router: Router
-  ) {}
+  ) {
+    this.scenarios$ = this.store.select(selectScenarios);
+    this.selectedSpacecraftId$ = this.store.select(selectSelectedSpacecraftId);
+    this.spacecrafts$ = this.store.select(selectAllSpacecrafts);
+  }
 
-  /**
-   * Listen for the ruxtreenodeselected event and store the selected node in the selectedCraft signal
-   * @param el the rux-tree-node element
-   */
-  onTreeNodeSelected(e: Event) {
-    const el = e.target as HTMLRuxTreeNodeElement;
-    //We don't want to select the parent nodes, just the nodes being used as slots
-    if (el.slot === 'node') {
-      this.selectedCraft.set(el.textContent);
-      this.router.navigateByUrl(el.textContent?.trim() || '');
-    }
+  ngOnInit() {
+    this.scenariosSub = this.scenarios$.subscribe((res: any) => {
+      this.scenarios = res.ids.map((id: string) => {
+        return res.entities[id];
+      });
+    });
+
+    this.spacecraftSub = this.selectedSpacecraftId$.subscribe((res: string | null) => {
+      this.selectedSpacecraftId = res;
+    });
+
+    this.spacecraftsSub = this.spacecrafts$.subscribe((res: any) => {
+      this.spacecraftData = res;
+    });
+  }
+
+  ngOnDestroy(){
+    this.spacecraftSub?.unsubscribe()
+    this.spacecraftsSub?.unsubscribe()
+    this.scenariosSub?.unsubscribe()
+  }
+
+  onScenarioClick(event: Event) {
+    event.stopImmediatePropagation();
+    const scenario = event.target as HTMLRuxTreeNodeElement;
+    scenario.setExpanded(!scenario.expanded);
+  }
+
+  onSpacecraftSelected(spacecraft: Spacecraft, scenario: Scenario) {
+    this.store.dispatch(
+      SpacecraftActions.spacecraftIdSelected({ spacecraftId: spacecraft.id })
+    );
+    this.store.dispatch(
+      ScenariosActions.scenarioSelected({ scenarioId: scenario.id })
+    );
+
+    this.store.dispatch(
+      TrackFilesActions.trackFileSelected({ trackFileId: spacecraft.trackFileIds[0] })
+    );
+
+    this.router.navigateByUrl(
+      `${scenario.name.trim().replace(/\s/g, '-')}-${spacecraft.catalogId.trim().replace(/\s/g, '-')}` || ''
+    );
   }
 
   onIconClick() {
@@ -51,16 +101,5 @@ export class ScenarioLibraryComponent {
       hideClose: false,
       closeAfter: 3000,
     });
-  }
-
-  ngOnInit() {
-    this.scenarios$.subscribe((res: any) => {
-      this.data = res.ids.map((id: string) => {
-        return res.entities[id];
-      });
-    });
-    this.store.dispatch(
-      SpacecraftActions.spacecraftSelected({ spacecraftId: '123' })
-    );
   }
 }

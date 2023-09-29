@@ -1,40 +1,107 @@
 <fds-tabbed-child-container
   [tabs]="tabs"
-  [tabsParentId]="tabsId"
-  [notificationData]="outputDataDisplayService.ods"
+  [hasTabPanels]="true"
+  tabsParentId="output-data-display-tabs"
+  [notificationData]="hasNotification ? notificationData : undefined"
   [notificationHideClose]="true"
 >
-  <div class="sub-header">
-    <div class="container">
-      <div class="data">
-        <div class="heading">
-          <h1>{{ outputDataDisplayService.diviations.length }}</h1>
-          <p>Deviations</p>
-        </div>
-        <div class="alerts">
-          <div class="h-stack">
-            <rux-status status="caution" />
-            <p>Warning ({{ outputDataDisplayService.warnings.length }})</p>
+  <ng-container panels>
+    <rux-tab-panel aria-labelledby="od-solution">
+      <div class="sub-header">
+        <div class="container">
+          <div class="data">
+            <div class="heading">
+              <h1>{{ outputDataDisplayService.totalDeviations }}</h1>
+              <p>Deviations</p>
+            </div>
+            <div class="alerts">
+              <div class="h-stack">
+                <rux-status status="caution" />
+                <p>Warning ({{ outputDataDisplayService.warnings }})</p>
+              </div>
+              <div class="h-stack">
+                <rux-status status="critical" />
+                <p>Critical ({{ outputDataDisplayService.criticals }})</p>
+              </div>
+            </div>
           </div>
-          <div class="h-stack">
-            <rux-status status="critical" />
-            <p>Critical ({{ outputDataDisplayService.criticals.length }})</p>
+
+          <rux-segmented-button size="small" [data]="actions" />
+        </div>
+
+        <div class="container">
+          <rux-segmented-button
+            size="small"
+            [data]="views"
+            (ruxchange)="setCurrentView($event)"
+          />
+        </div>
+      </div>
+
+      <fds-solution-table *ngIf="currentView === 'View Table'" />
+      <fds-solution-graph *ngIf="currentView === 'View Graph'" />
+    </rux-tab-panel>
+
+    <rux-tab-panel aria-labelledby="od-performance">
+      <div class="sub-header">
+        <div class="container">
+          <div class="heading">
+            <h1>2</h1>
+            <p>Discrepancies</p>
+          </div>
+          <div class="data">
+            <rux-select label="Antenna">
+              <rux-option value="cumulative" label="Cumulative" />
+              <rux-option value="pass1" label="Pass 1" />
+              <rux-option value="pass2" label="Pass 2" />
+              <rux-option value="pass3" label="Pass 3" />
+            </rux-select>
+            <rux-select label="Data Type">
+              <rux-option value="range" label="Range" />
+            </rux-select>
           </div>
         </div>
       </div>
 
-      <rux-segmented-button size="small" [data]="actions" />
-    </div>
-
-    <div class="container">
-      <rux-segmented-button
-        size="small"
-        [data]="views"
-        (ruxchange)="setCurrentView($event)"
-      />
-    </div>
-  </div>
-
-  <fds-view-table *ngIf="currentView === 'View Table'" />
-  <fds-view-graph *ngIf="currentView === 'View Graph'" />
+      <div class="antenna-tables-wrapper">
+        <div class="sub-header">
+          <div class="container">
+            <h3>Cumulative</h3>
+            <div class="h-stack">
+              <p>Reference Frame: Cartesian ECI</p>
+              <p>|</p>
+              <p>Equinox: J2000</p>
+            </div>
+          </div>
+        </div>
+        <fds-performance-table
+          [data]="outputDataDisplayService.performanceData"
+        />
+        <div class="sub-header">
+          <div class="container">
+            <h3>Pass 1</h3>
+          </div>
+        </div>
+        <fds-performance-table
+          [data]="outputDataDisplayService.performanceData"
+        />
+        <div class="sub-header">
+          <div class="container">
+            <h3>Pass 2</h3>
+          </div>
+        </div>
+        <fds-performance-table
+          [data]="outputDataDisplayService.performanceData"
+        />
+        <div class="sub-header">
+          <div class="container">
+            <h3>Pass 3</h3>
+          </div>
+        </div>
+        <fds-performance-table
+          [data]="outputDataDisplayService.performanceData"
+        />
+      </div>
+    </rux-tab-panel>
+  </ng-container>
 </fds-tabbed-child-container>

@@ -1,6 +1,6 @@
 :host {
   display: block;
-  flex: 1;
+  width: 25%;
 }
 
 rux-tab-panels,

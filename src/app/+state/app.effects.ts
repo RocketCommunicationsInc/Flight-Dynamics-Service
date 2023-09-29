@@ -1,11 +1,8 @@
-import { Actions, createEffect, ofType } from '@ngrx/effects'
-import {
-  ScenariosActions,
-  TrackFilesActions,
-} from './app.actions'
-import { exhaustMap, map, tap } from 'rxjs'
-import { inject } from '@angular/core'
-import { MockDataService } from '../api/mock-data.service'
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ScenariosActions, TrackFilesActions } from './app.actions';
+import { exhaustMap, map} from 'rxjs';
+import { inject } from '@angular/core';
+import { MockDataService } from '../api/mock-data.service';
 
 const loadScenarios = createEffect(
   (scenarioService = inject(MockDataService)) =>
@@ -14,14 +11,13 @@ const loadScenarios = createEffect(
       exhaustMap(() => {
         return scenarioService.getScenarios().pipe(
           map((scenarios) => {
-            return ScenariosActions.scenariosRetrieved({ scenarios })
+            return ScenariosActions.scenariosRetrieved({ scenarios });
           })
-        )
-      }),
-        tap(val => console.log('scenarios', val))
+        );
+      })
     ),
   { functional: true }
-)
+);
 
 const loadTrackFiles = createEffect(
   (trackFileService = inject(MockDataService)) =>
@@ -30,15 +26,15 @@ const loadTrackFiles = createEffect(
       exhaustMap(() => {
         return trackFileService.getTrackFiles().pipe(
           map((trackFiles) => {
-            return TrackFilesActions.trackFilesRetrieved({ trackFiles })
+            return TrackFilesActions.trackFilesRetrieved({ trackFiles });
           })
-        )
+        );
       })
     ),
   { functional: true }
-)
+);
 
 export const AppEffects = {
   loadScenarios,
   loadTrackFiles,
-}
+};

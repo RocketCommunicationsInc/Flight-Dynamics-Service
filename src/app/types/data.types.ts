@@ -4,10 +4,18 @@ export type Scenario = {
   spaceCraft: Spacecraft[];
 };
 
+export type ScenarioEntity = {
+  [id: string]: Scenario;
+};
+
 export type Spacecraft = {
   id: string;
   catalogId: string;
   trackFileIds: string[];
+};
+
+export type SpacecraftEntity = {
+  [id: string]: Spacecraft;
 };
 
 export type OrbitProperty = {
@@ -46,6 +54,10 @@ export type TrackFile = {
   thrustProfileFileName: string;
   processedTrackFile: ProcessedTrackFile | null;
   initialOrbitProperties: OrbitProperties;
+};
+
+export type TrackFileEntity = {
+  [id: string]: TrackFile;
 };
 
 export type ProcessedTrackFile = {

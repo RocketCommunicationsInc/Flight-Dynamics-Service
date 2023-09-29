@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { SegmentedButton } from '@astrouxds/astro-web-components/dist/types/components';
 
 import type { Tabs } from 'src/app/types/Tabs';
 import { TabbedChildContainerComponent } from 'src/app/shared';
-import { ViewGraphComponent } from './view-graph/view-graph.component';
-import { ViewTableComponent } from './view-table/view-table.component';
+import { SolutionGraphComponent } from './solution-graph/solution-graph.component';
+import { SolutionTableComponent } from './solution-table/solution-table.component';
 import { OutputDataDisplayService } from './output-data-display.service';
 import { CurrentView } from './output-data-display.model';
+import { PerformanceTableComponent } from './performance-table/performance-table.component';
 
 @Component({
   selector: 'fds-output-data-display',
@@ -17,35 +18,50 @@ import { CurrentView } from './output-data-display.model';
     CommonModule,
     TabbedChildContainerComponent,
     AstroComponentsModule,
-    ViewGraphComponent,
-    ViewTableComponent,
+    SolutionGraphComponent,
+    SolutionTableComponent,
+    PerformanceTableComponent,
   ],
   templateUrl: './output-data-display.component.html',
   styleUrls: ['./output-data-display.component.css'],
 })
 export class OutputDataDisplayComponent {
-  tabsId = 'ods-display';
-  currentView: CurrentView = 'View Table';
+  constructor(public outputDataDisplayService: OutputDataDisplayService) {}
 
+  currentView: CurrentView = 'View Table';
+  hasNotification = true;
+  notificationData = [
+    {
+      message: 'OD success message on 9/25/23, 10:20 AM',
+      status: 'normal',
+    },
+  ];
   tabs: Tabs[] = [
     { label: 'OD Solution', id: 'od-solution', selected: true },
-    { label: 'OD Performance', id: 'od-performance', disabled: true },
+    { label: 'OD Performance', id: 'od-performance' },
   ];
 
   actions: SegmentedButton[] = [
-    { label: 'Secondary Action', selected: false },
+    { label: 'Secondary Action' },
     { label: 'Primary Action', selected: true },
   ];
 
   views: SegmentedButton[] = [
-    { label: 'View Table', selected: this.currentView === 'View Table' },
-    { label: 'View Graph', selected: this.currentView === 'View Graph' },
+    { label: 'View Table', selected: true },
+    { label: 'View Graph' },
   ];
-
-  constructor(public outputDataDisplayService: OutputDataDisplayService) {}
 
   setCurrentView(e: Event) {
     const event = e as CustomEvent;
     this.currentView = event.detail;
+  }
+
+  @HostListener('ruxselected', ['$event'])
+  onRuxSelected(e: any) {
+    if (e.detail.id === 'od-performance') {
+      this.hasNotification = false;
+    } else {
+      this.hasNotification = true;
+    }
   }
 }
