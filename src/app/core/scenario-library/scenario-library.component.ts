@@ -70,7 +70,7 @@ export class ScenarioLibraryComponent {
     );
 
     this.router.navigateByUrl(
-      `${scenario.name.trim()}-${spacecraft.catalogId.trim()}` || ''
+      `${scenario.name.trim().replace(/\s/g, '-')}-${spacecraft.catalogId.trim().replace(/\s/g, '-')}` || ''
     );
   }
 
