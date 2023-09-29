@@ -12,7 +12,7 @@ import { ToastService } from '../../shared/toast.service';
 import { Scenario, Spacecraft } from '../../types/data.types';
 import { Router } from '@angular/router';
 import { AppStore, ScenariosState } from 'src/app/+state/app.model';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -28,10 +28,14 @@ export class ScenarioLibraryComponent {
   spacecraftData: any;
   selectedSpacecraftId: string | null = null;
 
+  //subscriptions
+  spacecraftSub: Subscription | null = null
+  scenariosSub: Subscription | null = null
+  spacecraftsSub: Subscription | null = null
+
   constructor(
     private toasts: ToastService,
     private store: Store<AppStore>,
-    private state: State<AppStore>,
     private router: Router
   ) {
     this.scenarios$ = this.store.select(selectScenarios);
@@ -40,19 +44,25 @@ export class ScenarioLibraryComponent {
   }
 
   ngOnInit() {
-    this.scenarios$.subscribe((res: any) => {
+    this.scenariosSub = this.scenarios$.subscribe((res: any) => {
       this.scenarios = res.ids.map((id: string) => {
         return res.entities[id];
       });
     });
 
-    this.selectedSpacecraftId$.subscribe((res: string | null) => {
+    this.spacecraftSub = this.selectedSpacecraftId$.subscribe((res: string | null) => {
       this.selectedSpacecraftId = res;
     });
 
-    this.spacecrafts$.subscribe((res: any) => {
+    this.spacecraftsSub = this.spacecrafts$.subscribe((res: any) => {
       this.spacecraftData = res;
     });
+  }
+
+  ngOnDestroy(){
+    this.spacecraftSub?.unsubscribe()
+    this.spacecraftsSub?.unsubscribe()
+    this.scenariosSub?.unsubscribe()
   }
 
   onScenarioClick(event: Event) {
@@ -67,6 +77,10 @@ export class ScenarioLibraryComponent {
     );
     this.store.dispatch(
       ScenariosActions.scenarioSelected({ scenarioId: scenario.id })
+    );
+
+    this.store.dispatch(
+      TrackFilesActions.trackFileSelected({ trackFileId: spacecraft.trackFileIds[0] })
     );
 
     this.router.navigateByUrl(

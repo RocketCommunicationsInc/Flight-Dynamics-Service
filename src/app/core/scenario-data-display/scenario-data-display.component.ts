@@ -3,10 +3,10 @@ import { AstroComponentsModule } from '@astrouxds/angular';
 import { UnitSelectorComponent } from '../../shared';
 import { CommonModule } from '@angular/common';
 import { UnitMenuItems, selectUnit } from '../../shared/units/units.model';
-import { Spacecraft } from 'src/app/types/data.types';
+import { OrbitProperties, Spacecraft, TrackFile } from 'src/app/types/data.types';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
+import { Observable, Subscription } from 'rxjs';
+import { selectCurrentSpacecraft, selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 
 @Component({
   standalone: true,
@@ -17,16 +17,32 @@ import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
 })
 export class ScenarioDataDisplayComponent {
   spacecraft$: Observable<Spacecraft | null | undefined>;
-  catalogId = 30184;
-  semiMajorAxis = 63714327;
-  perigee = 363396432;
-  inclination = 23.4362;
-  eccentricity = 92.39401;
-  mass = 43.23404;
+  trackfile$: Observable<TrackFile|null>;
+  initialOrbit: OrbitProperties|null = null;
+  semiMajorAxis: number = 0;
+  perigee: number = 0;
+  inclination: number = 0;
 
+  //subscriptions
+  trackFileSub: Subscription|undefined;
 
   constructor(private store: Store) {
     this.spacecraft$ = this.store.select(selectCurrentSpacecraft);
+    this.trackfile$ = this.store.select(selectCurrentTrackFile)
+  }
+
+  ngOnInit(){
+    this.trackFileSub = this.trackfile$.subscribe((res)=>{
+      const initialOrbit = res?.initialOrbitProperties || null
+      this.initialOrbit = initialOrbit
+      this.semiMajorAxis= initialOrbit?.semiMajorAxis.value || 0;
+      this.perigee = initialOrbit?.perigee.value || 0;
+      this.inclination = initialOrbit?.inclination.value || 0;
+    })
+  }
+
+  ngOnDestroy(){
+    this.trackFileSub?.unsubscribe()
   }
 
   distanceUnits = [
@@ -34,6 +50,7 @@ export class ScenarioDataDisplayComponent {
     selectUnit(UnitMenuItems.kilometers),
     UnitMenuItems.miles,
   ];
+
   arcUnits = [
     selectUnit(UnitMenuItems.degrees),
     UnitMenuItems.radians,
