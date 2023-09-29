@@ -6,20 +6,13 @@ import {
   TrackFilesActions,
   ScenariosActions,
 } from 'src/app/+state/app.actions';
+import { AppStore } from 'src/app/+state/app.model';
 import {
-  AppStore,
-  ScenariosState,
-  TrackFilesState,
-} from 'src/app/+state/app.model';
-import { Observable } from 'rxjs';
-import {
-  selectAllSpacecrafts,
   selectAllTrackFiles,
+  selectCurrentSpacecraft,
   selectCurrentTrackFile,
-  selectScenarios,
-  selectSelectedSpacecraftId,
 } from 'src/app/+state/app.selectors';
-import { Spacecraft } from 'src/app/types/data.types';
+import { TrackFile } from 'src/app/types/data.types';
 
 @Component({
   selector: 'fds-search-track-files',
@@ -29,37 +22,48 @@ import { Spacecraft } from 'src/app/types/data.types';
   styleUrls: ['./search-track-files.component.css'],
 })
 export class SearchTrackFilesComponent {
-  scenarios$: Observable<ScenariosState>;
-  spacecrafts$: Observable<Spacecraft[]>;
-  //trackfiles$: Observable<TrackFilesState>
-  trackfile$: Observable<TrackFilesState>;
+  trackfile$ = this.store.select(selectCurrentTrackFile);
+  trackFiles$ = this.store.select(selectAllTrackFiles);
+  scenario$ = this.store.select(selectCurrentSpacecraft);
+  currentScenarioTrackFiles: TrackFile[] = [];
+  latestTrackFile: any = {};
 
   constructor(private store: Store<AppStore>) {
-    this.scenarios$ = this.store.select(selectScenarios);
-    // this.selectedSpacecraftId$ = this.store.select(selectSelectedSpacecraftId);
-    this.spacecrafts$ = this.store.select(selectAllSpacecrafts);
-    //this.trackfiles$ = this.store.select(selectAllTrackFiles)
-    this.trackfile$ = this.store.select(selectCurrentTrackFile);
+    this.scenario$.subscribe((scenario) => {
+      this.trackFiles$.subscribe((trackFile) => {
+        if (scenario) {
+          scenario.trackFileIds.forEach((id) => {
+            trackFile.map((file) => {
+              if (file.id.includes(id)) {
+                this.currentScenarioTrackFiles.push(file);
+                this.latestTrackFile = this.currentScenarioTrackFiles[0];
+              }
+            });
+          });
+        }
+      });
+    });
   }
 
   ngOnInit() {
-    console.log(this.trackfile$, 'trackfile');
-    //   this.scenarios$.subscribe((res: any) => {
-    //     this.scenarios = res.ids.map((id: string) => {
-    //       return res.entities[id];
-    //     });
-    //   });
-    //   this.store.dispatch(
-    //     ScenariosActions.scenarioSelected({
-    //       scenarioId: this.scenarios[0]!.id,
-    //     })
-    //   );
-    // }
+    console.log(this.currentScenarioTrackFiles, 'files');
+    //console.log(this.trackfile$, 'trackfile');
   }
 
+  selectedTrackFile: any = '';
+
+  captureInput(event: any) {
+    console.log(event.target.value);
+    event.target.value = this.selectedTrackFile;
+  }
+
+  currentValue: any = '';
+
   handleSelection(event: any) {
-    if (event.detail.value) {
-      console.log(event.detail.value, 'val');
-    }
+    this.currentScenarioTrackFiles.map((file) => {
+      if (file.id.includes(event.detail.value)) {
+        this.currentValue = file.name;
+      }
+    });
   }
 }

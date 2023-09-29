@@ -1,20 +1,26 @@
-<rux-pop-up close-on-select>
+<rux-pop-up close-on-select placement="bottom">
   <rux-menu (ruxmenuselected)="handleSelection($event)">
     <span>Latest Track File</span>
-    <rux-menu-item value="">Singular Track File</rux-menu-item>
-    <rux-menu-item-divider/>
+    <rux-menu-item value="{{ latestTrackFile.id }}">{{
+      latestTrackFile.name
+    }}</rux-menu-item>
+    <rux-menu-item-divider />
     <span>Recent Track Files</span>
-    <rux-menu-item value>Track Files</rux-menu-item>
+    <rux-menu-item
+      *ngFor="let file of currentScenarioTrackFiles"
+      value="{{ file.id }}"
+      >{{ file.name }}
+    </rux-menu-item>
   </rux-menu>
-  
-  <rux-input
-  slot="trigger"
-  type="text"
-  label="Database File"
-  formControlName="databaseFile"
-  type="search"
-  placeholder="Start typing to search files..."
 
+  <rux-input
+    slot="trigger"
+    type="text"
+    label="Database File"
+    formControlName="databaseFile"
+    type="search"
+    placeholder="Start typing to search files..."
+    (ruxinput)="captureInput($event)"
+    [value]="currentValue"
   />
 </rux-pop-up>
- 
