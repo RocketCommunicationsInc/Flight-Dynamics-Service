@@ -1,7 +1,7 @@
 <div>
   <ng-content></ng-content> ({{ unit }}):
   <rux-pop-up slot="left-side" placement="bottom-start" closeOnSelect>
-    <rux-icon icon="arrow-drop-down" size="1.75rem" slot="trigger" />
+    <rux-icon icon="arrow-drop-down" size="1.5rem" slot="trigger" />
     <rux-menu value="currentAxisUnit" (ruxmenuselected)="setUnit($event)">
       <rux-menu-item
         *ngFor="let item of _units"

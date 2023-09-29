@@ -3,6 +3,7 @@ import {
   SpacecraftActions,
   ScenariosActions,
   TrackFilesActions,
+  AppActions,
 } from './app.actions';
 import { AppStore, ScenariosState, TrackFilesState } from './app.model';
 import { scenarioAdapter, trackFileAdapter } from './app.adapters';
@@ -21,6 +22,17 @@ export const initialState: AppStore = {
 
 export const AppReducer = createReducer(
   initialState,
+
+  //Appwide Actions
+  on(AppActions.initializeIds,(state)=>{
+
+    const selectedScenario = state.scenarios.entities[state.scenarios.ids[0]]
+    const selectedSpacecraft = selectedScenario?.spaceCraft[0]
+    const selectedTrackFileId = selectedSpacecraft?.trackFileIds[0] || null
+
+    return ({
+    ...state, selectedTrackFileId, selectedScenarioId: selectedScenario?.id || null, selectedSpacecraftId: selectedSpacecraft?.id || null,
+  })}),
 
   //Scenario Actions
   on(ScenariosActions.scenariosRetrieved, (state, { scenarios }) => {

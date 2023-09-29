@@ -2,3 +2,7 @@ div:nth-child(odd) {
   display: flex;
   margin-top: var(--spacing-3);
 }
+
+rux-pop-up::part(container) {
+  line-height: 0;
+}
