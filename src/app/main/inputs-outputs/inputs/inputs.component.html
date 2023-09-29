@@ -1,8 +1,14 @@
 <form class="inputs_form" [formGroup]="inputForm" (ngSubmit)="onSubmit()">
   <div class="inputs_main">
     <div class="inputs_input-button-wrapper">
-      <rux-pop-up close-on-select placement="bottom">
-        <rux-menu *ngIf="!isValue" (ruxmenuselected)="handleSelection($event)">
+      <rux-pop-up
+        (ruxpopupclosed)="showPopup()"
+        [open]="openPopup"
+        close-on-select
+        placement="bottom"
+        #popup
+      >
+        <rux-menu *ngIf="!hasValue" (ruxmenuselected)="handleSelection($event)">
           <span>Latest Track File</span>
           <rux-menu-item
             [disabled]="noLatestTrackFile"
@@ -18,7 +24,7 @@
           </rux-menu-item>
         </rux-menu>
 
-        <rux-menu *ngIf="isValue" (ruxmenuselected)="handleSelection($event)">
+        <rux-menu *ngIf="hasValue" (ruxmenuselected)="handleSelection($event)">
           <span>Results</span>
           <rux-menu-item *ngFor="let file of results" value="{{ file.id }}"
             >{{ file.name }}
@@ -29,6 +35,7 @@
         </rux-menu>
 
         <rux-input
+          #dbInput
           slot="trigger"
           type="text"
           label="Database File"
@@ -37,6 +44,7 @@
           placeholder="Start typing to search files..."
           (ruxinput)="handleInput($event)"
           [value]="databaseFile"
+          (ruxfocus)="showPopup()"
         />
       </rux-pop-up>
     </div>
@@ -45,24 +53,20 @@
       label="Orbit Source"
       formControlName="orbitSource"
       [value]="orbitSourceFile"
+      class="orbit-source-input"
     />
 
     <rux-input
       label="Epoch"
       placeholder="MM/DD/YY 00:00:00 .000"
-      formControlName="epoch"
+      disabled
     ></rux-input>
     <rux-input
-      readonly
+      disabled
       label="Epoch Range"
       placeholder="MM/DD/YY 00:00:00 - MM/DD/YY 00:00:00"
-      formControlName="epochRange"
     ></rux-input>
-    <rux-input
-      label="Epoch Span"
-      formControlName="epochSpan"
-      placeholder="# Days"
-    ></rux-input>
+    <rux-input disabled label="Epoch Span" placeholder="# Days"></rux-input>
     <rux-input
       label="Thrust Profile"
       formControlName="thrustProfile"

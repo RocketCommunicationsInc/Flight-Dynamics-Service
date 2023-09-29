@@ -53,6 +53,7 @@ rux-pop-up::part(arrow) {
 rux-pop-up::part(popup-content) {
   margin-left: -.3rem;
   width: calc(100% - 1.5rem);
+  margin-top: -.75rem;
 }
 
 rux-menu {
@@ -69,4 +70,8 @@ rux-pop-up span {
 .no-results {
   text-decoration: none;
   padding: var(--spacing-4);
+}
+
+.orbit-source-input {
+  padding: 0
 }
