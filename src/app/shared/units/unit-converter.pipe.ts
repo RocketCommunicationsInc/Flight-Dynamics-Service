@@ -7,7 +7,8 @@ import { Unit } from './units.model';
   standalone: true,
 })
 export class UnitConverterPipe implements PipeTransform {
-  transform(value: number, unit: Unit): number | string {
-    return Conversions[unit](value);
+  transform(value: any, unit: Unit): number | string {
+    if (typeof value === 'number') return Conversions[unit](value);
+    return value;
   }
 }

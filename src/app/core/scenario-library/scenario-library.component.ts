@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { Store, State } from '@ngrx/store';
+import { Store} from '@ngrx/store';
 import { ScenariosActions, SpacecraftActions, TrackFilesActions } from '../../+state/app.actions';
 import {
   selectAllSpacecrafts,
@@ -9,7 +9,7 @@ import {
   selectSelectedSpacecraftId,
 } from '../../+state/app.selectors';
 import { ToastService } from '../../shared/toast.service';
-import { Scenario, Spacecraft } from '../../types/data.types';
+import { Scenario, Spacecraft, SpacecraftEntity } from '../../types/data.types';
 import { Router } from '@angular/router';
 import { AppStore, ScenariosState } from 'src/app/+state/app.model';
 import { Observable, Subscription } from 'rxjs';
@@ -23,7 +23,7 @@ import { Observable, Subscription } from 'rxjs';
 export class ScenarioLibraryComponent {
   selectedSpacecraftId$: Observable<string | null>;
   scenarios$: Observable<ScenariosState>;
-  spacecrafts$: Observable<Spacecraft[]>;
+  spacecrafts$: Observable<SpacecraftEntity>;
   scenarios: (Scenario | undefined)[] = [];
   spacecraftData: any;
   selectedSpacecraftId: string | null = null;
@@ -84,7 +84,7 @@ export class ScenarioLibraryComponent {
     );
 
     this.router.navigateByUrl(
-      `${scenario.name.trim()}-${spacecraft.catalogId.trim()}` || ''
+      `${scenario.name.trim().replace(/\s/g, '-')}-${spacecraft.catalogId.trim().replace(/\s/g, '-')}` || ''
     );
   }
 

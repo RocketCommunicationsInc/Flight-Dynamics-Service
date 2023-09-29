@@ -10,12 +10,12 @@ import type {
   OrbitProperties,
 } from '../types/data.types';
 
-const generateScenario = (scenarioLetter: string): Scenario => {
+const generateScenario = (scenarioName: string): Scenario => {
   const numOfSpaceCraft = faker.number.int({ min: 4, max: 8 });
 
   return {
     id: crypto.randomUUID(),
-    name: 'Scenario' + scenarioLetter,
+    name: scenarioName,
     spaceCraft: Array(numOfSpaceCraft)
       .fill(null)
       .map(() => generateSpacecraft()),
@@ -28,7 +28,7 @@ const generateSpacecraft = (): Spacecraft => {
 
   return {
     id: crypto.randomUUID(),
-    catalogId: 'IRON-' + catalogIdNum,
+    catalogId: 'IRON ' + catalogIdNum,
     trackFileIds: Array.from(Array(trackFileArrayLength), (_) =>
       faker.string.uuid()
     ),
@@ -170,14 +170,14 @@ const generateInclination = (): OrbitProperty => {
 
 const generatePeriod = (): OrbitProperty => {
   return {
-    value: faker.number.float({ min: 20, max: 2000 }),
+    value: faker.number.float({ min: 20, max: 2000, precision: 0.001 }),
     unit: 'min',
   };
 };
 
 const generateMeanMotion = (): OrbitProperty => {
   return {
-    value: faker.number.float({ min: 1, max: 90 }),
+    value: faker.number.float({ min: 1, max: 90, precision: 0.001 }),
     unit: 'deg/hr',
   };
 };
@@ -201,7 +201,7 @@ const generateRaan = (): OrbitProperty => {
 };
 const generateRevNo = (): OrbitProperty => {
   return {
-    value: faker.number.float({ min: 0.2, max: 40, precision: 0.0000001 }),
+    value: faker.number.float({ min: 0.2, max: 40, precision: 0.001 }),
     unit: '',
   };
 };
@@ -227,10 +227,10 @@ const generateMass = (): OrbitProperty => {
   };
 };
 
-const scenarioLetters = ['A', 'B', 'C', 'D'];
+const scenarioNames = ['Nominal OD', 'Post SK', 'Training'];
 
-export const mockScenarios = scenarioLetters.map((letter) =>
-  generateScenario(letter)
+export const mockScenarios = scenarioNames.map((name) =>
+  generateScenario(name)
 );
 export const spaceCraft = mockScenarios.flatMap(
   (scenario) => scenario.spaceCraft
@@ -244,3 +244,7 @@ export const mockTrackFiles = Object.entries(
 ).flatMap(([spacecraftId, trackFileIds], index) => {
   return trackFileIds.map((id) => generateTrackFile(spacecraftId, id, index));
 });
+
+export const randomNum = (min = 1e9, max = 9e9) => {
+  return faker.number.int({ min, max });
+};

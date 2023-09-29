@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { UnitSelectorComponent } from '../../shared';
-import { CommonModule } from '@angular/common';
 import { UnitMenuItems, selectUnit } from '../../shared/units/units.model';
 import { OrbitProperties, Spacecraft, TrackFile } from 'src/app/types/data.types';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { selectCurrentSpacecraft, selectCurrentTrackFile } from 'src/app/+state/app.selectors';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,

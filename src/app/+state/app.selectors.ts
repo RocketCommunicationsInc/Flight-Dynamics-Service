@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
-import { Spacecraft} from '../types/data.types';
-import { ScenariosState} from './app.model';
+import { Spacecraft, SpacecraftEntity, TrackFile } from '../types/data.types';
+import { ScenariosState } from './app.model';
 import { scenarioAdapter, trackFileAdapter } from './app.adapters';
 import { appFeature } from './app.reducer';
 
@@ -15,8 +15,10 @@ export const {
   selectSelectedTrackFileId,
 } = appFeature;
 
-export const { selectAll: selectAllScenarios } =
-  scenarioAdapter.getSelectors(selectScenarios);
+export const {
+  selectAll: selectAllScenarios,
+  selectEntities: selectScenarioEntities,
+} = scenarioAdapter.getSelectors(selectScenarios);
 export const {
   selectAll: selectAllTrackFiles,
   selectEntities: selectTrackFileEntities,
@@ -29,35 +31,29 @@ export const selectAllSpacecrafts = createSelector(
     state.ids.map((id) => {
       state.entities[id]?.spaceCraft.map((craft) => spacecrafts.push(craft));
     });
-    return spacecrafts;
+    const spacecraftsEntity: SpacecraftEntity = spacecrafts.reduce(
+      (prev, next) => ({ ...prev, [next.id]: next }),
+      {}
+    );
+    return spacecraftsEntity;
   }
 );
 
 export const selectCurrentSpacecraft = createSelector(
   selectAllSpacecrafts,
   selectSelectedSpacecraftId,
-  (spacecrafts: Spacecraft[], spacecraftId: string | null) => {
+  (spacecrafts: SpacecraftEntity, spacecraftId: string | null) => {
     if (!spacecraftId) return null;
-    return spacecrafts.find((craft) => craft.id === spacecraftId);
-  }
-);
-
-export const selectCurrentSpacecraftName = createSelector(
-  selectAllSpacecrafts,
-  selectSelectedSpacecraftId,
-  (spacecrafts: Spacecraft[], spacecraftId: string | null) => {
-    if (!spacecraftId) return null;
-    let spacecraft;
-    spacecraft = spacecrafts.find((craft) => craft.id === spacecraftId);
-    return spacecraft?.catalogId;
+    return spacecrafts[spacecraftId];
   }
 );
 
 export const selectCurrentTrackFile = createSelector(
   selectTrackFileEntities,
   selectSelectedTrackFileId,
-  (trackFiles: any, trackFileId: string | null) => {
-    if (!trackFileId) return null;
-    return trackFiles[trackFileId];
+  (trackFiles, trackFileId): TrackFile | null => {
+    const currentTrackFile =
+      trackFileId && trackFiles ? trackFiles[trackFileId]! : null;
+    return currentTrackFile;
   }
 );
