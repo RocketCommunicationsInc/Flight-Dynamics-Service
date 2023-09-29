@@ -2,7 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { Store } from '@ngrx/store';
-import { ScenariosActions, SpacecraftActions } from '../../+state/app.actions';
+import {
+  ScenariosActions,
+  SpacecraftActions,
+  TrackFilesActions,
+} from '../../+state/app.actions';
 import {
   selectAllSpacecrafts,
   selectScenarios,
@@ -66,6 +70,11 @@ export class ScenarioLibraryComponent {
     );
     this.store.dispatch(
       ScenariosActions.scenarioSelected({ scenarioId: scenario.id })
+    );
+    this.store.dispatch(
+      TrackFilesActions.trackFileSelected({
+        trackFileId: spacecraft.trackFileIds[0],
+      })
     );
 
     this.router.navigateByUrl(

@@ -26,9 +26,9 @@ export class InputsComponent {
   inputForm = new FormGroup({
     databaseFile: new FormControl(''),
     orbitSource: new FormControl('Ephemeris'),
-    epoch: new FormControl(''),
-    epochRange: new FormControl(''),
-    epochSpan: new FormControl(''),
+    epoch: new FormControl(),
+    epochRange: new FormControl(),
+    epochSpan: new FormControl(),
     thrustProfile: new FormControl('input_file_name.abc'),
     processedTrackFile: new FormControl('input_file_name.abc'),
   });
@@ -45,12 +45,16 @@ export class InputsComponent {
     });
     this.currentTrackFile$.subscribe((result) => {
       console.log(result);
-      console.log(result!.epochRangeEnd.getFullYear());
+      const epochStart = result!.epochRangeEnd.getTime();
+      const epochEnd = result!.epochRangeStart.getTime();
+      const diffTime = (epochStart - epochEnd) / (1000 * 3600 * 24);
       this.inputForm.patchValue({
+        databaseFile: result!.tleSourceFile.name,
         thrustProfile: result!.thrustProfileFileName,
-        epoch: result!.creationDate.toString(),
-        epochRange: result!.epochRangeStart.toString(),
-        // epochspan: (Math.ceil(Math.abs(result!.epochRangeStart - result!.epochRangeEnd))/(1000 * 60 * 60 * 24)).toString(),
+        epoch: result!.creationDate,
+        epochRange: `${result!.epochRangeStart} - ${result!.epochRangeEnd}`,
+        epochSpan: diffTime,
+        processedTrackFile: result!.processedTrackFile?.name,
       });
     });
   }
