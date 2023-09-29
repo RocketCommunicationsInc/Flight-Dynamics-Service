@@ -1,5 +1,12 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Scenario, Spacecraft, TrackFile } from '../types/data.types';
+import { Scenario, TrackFile } from '../types/data.types';
+
+export const AppActions = createActionGroup({
+  source: 'App',
+  events: {
+    'Initialize Ids': emptyProps(),
+  },
+});
 
 export const SpacecraftActions = createActionGroup({
   source: 'Spacecraft',

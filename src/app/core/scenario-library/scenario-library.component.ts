@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { Store } from '@ngrx/store';
-import { ScenariosActions, SpacecraftActions } from '../../+state/app.actions';
+import { Store, State } from '@ngrx/store';
+import { ScenariosActions, SpacecraftActions, TrackFilesActions } from '../../+state/app.actions';
 import {
   selectAllSpacecrafts,
   selectScenarios,
@@ -31,6 +31,7 @@ export class ScenarioLibraryComponent {
   constructor(
     private toasts: ToastService,
     private store: Store<AppStore>,
+    private state: State<AppStore>,
     private router: Router
   ) {
     this.scenarios$ = this.store.select(selectScenarios);
@@ -52,18 +53,6 @@ export class ScenarioLibraryComponent {
     this.spacecrafts$.subscribe((res: any) => {
       this.spacecraftData = res;
     });
-
-    this.store.dispatch(
-      SpacecraftActions.spacecraftIdSelected({
-        spacecraftId: this.spacecraftData[0].id,
-      })
-    );
-
-    this.store.dispatch(
-      ScenariosActions.scenarioSelected({
-        scenarioId: this.scenarios[0]!.id,
-      })
-    );
   }
 
   onScenarioClick(event: Event) {
