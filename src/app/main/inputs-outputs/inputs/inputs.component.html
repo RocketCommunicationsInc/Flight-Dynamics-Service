@@ -2,9 +2,9 @@
   <div class="inputs_main">
     <div class="inputs_input-button-wrapper">
       <rux-pop-up close-on-select placement="bottom">
-        <rux-menu (ruxmenuselected)="handleSelection($event)">
+        <rux-menu *ngIf="!isValue" (ruxmenuselected)="handleSelection($event)">
           <span>Latest Track File</span>
-          <rux-menu-item value="{{ latestTrackFile.id }}">{{
+          <rux-menu-item *ngIf="latestTrackFile !== ''" value="{{ latestTrackFile.id }}">{{
             latestTrackFile.name
           }}</rux-menu-item>
           <rux-menu-item-divider />
@@ -14,6 +14,16 @@
             value="{{ file.id }}"
             >{{ file.name }}
           </rux-menu-item>
+        </rux-menu>
+
+        <rux-menu *ngIf="isValue" (ruxmenuselected)="handleSelection($event)">
+          <span>Results</span>
+          <rux-menu-item *ngFor="let file of results" value="{{ file.id }}"
+            >{{ file.name }}
+          </rux-menu-item>
+          <div *ngIf="noResults" class="no-results">
+            No results match the given search parameters.
+          </div>
         </rux-menu>
 
         <rux-input
@@ -29,7 +39,11 @@
       </rux-pop-up>
     </div>
 
-    <rux-input label="Orbit Source" formControlName="orbitSource" [value]="orbitSourceFile" />
+    <rux-input
+      label="Orbit Source"
+      formControlName="orbitSource"
+      [value]="orbitSourceFile"
+    />
 
     <rux-input
       label="Epoch"
@@ -47,7 +61,11 @@
       formControlName="epochSpan"
       placeholder="# Days"
     ></rux-input>
-    <rux-input label="Thrust Profile" formControlName="thrustProfile"  [value]="thrustProfileFile"/>
+    <rux-input
+      label="Thrust Profile"
+      formControlName="thrustProfile"
+      [value]="thrustProfileFile"
+    />
     <rux-input
       label="Processed Track File"
       formControlName="processedTrackFile"
@@ -55,6 +73,8 @@
     />
   </div>
   <div class="inputs_footer">
-    <rux-button [disabled]="" type="submit">Determine Orbit</rux-button>
+    <rux-button [disabled]="isDataBaseFile" type="submit"
+      >Determine Orbit</rux-button
+    >
   </div>
 </form>

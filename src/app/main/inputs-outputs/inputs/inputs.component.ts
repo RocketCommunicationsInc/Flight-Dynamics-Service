@@ -34,11 +34,9 @@ export class InputsComponent {
     //TODO hook form data into where it's going to go
   }
 
-  trackfile$ = this.store.select(selectCurrentTrackFile);
   trackFiles$ = this.store.select(selectAllTrackFiles);
   scenario$ = this.store.select(selectCurrentSpacecraft);
   currentScenarioTrackFiles: TrackFile[] = [];
-  latestTrackFile: any = {};
 
   constructor(private store: Store<AppStore>) {
     this.scenario$.subscribe((scenario) => {
@@ -48,7 +46,6 @@ export class InputsComponent {
             trackFile.map((file) => {
               if (file.id.includes(id)) {
                 this.currentScenarioTrackFiles.push(file);
-                this.latestTrackFile = this.currentScenarioTrackFiles[0];
               }
             });
           });
@@ -57,17 +54,49 @@ export class InputsComponent {
     });
   }
 
-  handleInput(event: any) {}
+  isValue: boolean = false;
+  results: any[] = [];
+  noResults: boolean = false;
 
   databaseFile: string = '';
   orbitSourceFile: string = '';
   thrustProfileFile: string = '';
   processedTrackFile: string = '';
+  isDataBaseFile: boolean = true;
+  currentFiles = this.currentScenarioTrackFiles.map((file) => file);
+  latestTrackFile: any = {};
+
+  handleInput(event: any) {
+    console.log(this.currentFiles, 'late');
+    if (event.target.value !== '') {
+      this.isValue = true;
+      this.currentScenarioTrackFiles.filter((file) => {
+        if (!file.name.includes(event.target.value)) {
+          this.noResults = true;
+        }
+        if (file.name.includes(event.target.value)) {
+          this.results.push(file);
+          // this.databaseFile = file.name;
+          // this.results.forEach((result) => {
+          //   if(!result.includes(event.target.value)) {
+          //     this.results = []
+          //   }
+          // })
+          console.log(file, 'file');
+          console.log(this.results);
+        }
+      });
+    } else {
+      this.isValue = false;
+      // this.isDataBaseFile = true;
+    }
+  }
 
   handleSelection(event: any) {
     this.currentScenarioTrackFiles.map((file) => {
       if (file.id.includes(event.detail.value)) {
-        console.log(file);
+        this.latestTrackFile = file;
+        this.isDataBaseFile = false;
         this.databaseFile = file.name;
         this.orbitSourceFile = file.tleSourceFile.name;
         this.thrustProfileFile = file.thrustProfileFileName;
