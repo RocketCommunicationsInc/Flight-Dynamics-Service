@@ -68,7 +68,6 @@ export class TrackFilesComponent {
     within7Days.setDate(today.getDate() - 7);
     within30Days.setDate(today.getDate() - 30);
     within90Days.setDate(today.getDate() - 90);
-    console.log(within7Days)
 
     if (selection === 'all') {
       return (this.filteredData = this.allData);
