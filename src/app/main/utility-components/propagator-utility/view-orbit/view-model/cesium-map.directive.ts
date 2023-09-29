@@ -4,12 +4,8 @@ import {
   Cartesian3,
   Color,
   Viewer,
-  LabelStyle,
-  VerticalOrigin,
-  Cartesian2,
   PolylineOutlineMaterialProperty,
   SceneMode,
-  ProviderViewModel,
 } from 'cesium';
 
 @Directive({
@@ -18,12 +14,10 @@ import {
 })
 export class CesiumMapDirective implements OnInit {
   viewer: Viewer;
-  // bgInteractive: Color = new Color(77, 172, 255, 1);
   constructor(private el: ElementRef) {
     this.viewer = new Viewer(this.el.nativeElement);
     this.viewer.scene.mode = SceneMode.SCENE2D;
 
-    //TODO: figure out how to set the default baseLayerPicker to be Natural Earth II
     this.viewer.entities.add({
       position: Cartesian3.fromDegrees(-182, 129),
       point: {
