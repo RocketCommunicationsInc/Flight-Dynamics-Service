@@ -52,18 +52,6 @@ export class ScenarioLibraryComponent {
     this.spacecrafts$.subscribe((res: any) => {
       this.spacecraftData = res;
     });
-
-    this.store.dispatch(
-      SpacecraftActions.spacecraftIdSelected({
-        spacecraftId: Object.keys(this.spacecraftData)[0],
-      })
-    );
-
-    this.store.dispatch(
-      ScenariosActions.scenarioSelected({
-        scenarioId: this.scenarios[0]!.id,
-      })
-    );
   }
 
   onScenarioClick(event: Event) {

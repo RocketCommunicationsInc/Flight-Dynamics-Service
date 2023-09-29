@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ScenariosActions, TrackFilesActions } from './app.actions';
-import { exhaustMap, map, tap } from 'rxjs';
+import { exhaustMap, map} from 'rxjs';
 import { inject } from '@angular/core';
 import { MockDataService } from '../api/mock-data.service';
 
