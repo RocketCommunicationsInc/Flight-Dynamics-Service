@@ -36,3 +36,7 @@ form.inputs_form {
   margin-inline: auto;
   padding-block-start: var(--spacing-3);
 }
+
+rux-pop-up {
+  width: 100%;
+}

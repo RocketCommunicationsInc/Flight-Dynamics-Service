@@ -1,10 +1,35 @@
 <form class="inputs_form" [formGroup]="inputForm" (ngSubmit)="onSubmit()">
   <div class="inputs_main">
     <div class="inputs_input-button-wrapper">
-   <fds-search-track-files/>
+      <rux-pop-up close-on-select placement="bottom">
+        <rux-menu (ruxmenuselected)="handleSelection($event)">
+          <span>Latest Track File</span>
+          <rux-menu-item value="{{ latestTrackFile.id }}">{{
+            latestTrackFile.name
+          }}</rux-menu-item>
+          <rux-menu-item-divider />
+          <span>Recent Track Files</span>
+          <rux-menu-item
+            *ngFor="let file of currentScenarioTrackFiles"
+            value="{{ file.id }}"
+            >{{ file.name }}
+          </rux-menu-item>
+        </rux-menu>
+
+        <rux-input
+          slot="trigger"
+          type="text"
+          label="Database File"
+          formControlName="databaseFile"
+          type="search"
+          placeholder="Start typing to search files..."
+          (ruxinput)="handleInput($event)"
+          [value]="databaseFile"
+        />
+      </rux-pop-up>
     </div>
 
-      <rux-input label="Orbit Source" formControlName="orbitSource" />
+    <rux-input label="Orbit Source" formControlName="orbitSource" [value]="orbitSourceFile" />
 
     <rux-input
       label="Epoch"
@@ -12,7 +37,7 @@
       formControlName="epoch"
     ></rux-input>
     <rux-input
- readonly
+      readonly
       label="Epoch Range"
       placeholder="MM/DD/YY 00:00:00 - MM/DD/YY 00:00:00"
       formControlName="epochRange"
@@ -22,10 +47,11 @@
       formControlName="epochSpan"
       placeholder="# Days"
     ></rux-input>
-    <rux-input label="Thrust Profile" formControlName="thrustProfile" />
+    <rux-input label="Thrust Profile" formControlName="thrustProfile"  [value]="thrustProfileFile"/>
     <rux-input
       label="Processed Track File"
       formControlName="processedTrackFile"
+      [value]="processedTrackFile"
     />
   </div>
   <div class="inputs_footer">
