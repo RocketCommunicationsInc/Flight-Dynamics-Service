@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import type { Status } from '@astrouxds/astro-web-components/dist/types/components';
 
-import { randomNum, toPrecision } from 'src/app/mock-data/generate-data';
+import { randomNum } from 'src/app/mock-data/generate-data';
 import { UnitMenuItems } from 'src/app/shared/units/units.model';
 import { ColumnDefs } from 'src/app/shared/table.service';
 import { OrbitProperties } from 'src/app/types/data.types';
@@ -31,8 +31,8 @@ export class OutputDataDisplayService {
   constructor(private store: Store) {
     this.currentTrackFile$.subscribe((trackFile) => {
       if (!trackFile) return;
-      // prettier-ignore
-      const { degrees, kilometers, meters, miles, radians, revolutions } = UnitMenuItems;
+      const { degrees, kilometers, meters, miles, radians, revolutions } =
+        UnitMenuItems;
       const initial = trackFile.initialOrbitProperties;
       const final = trackFile.processedTrackFile?.finalOrbitProperties;
       this.deviations = []; // clear existing deviations if any
@@ -46,11 +46,11 @@ export class OutputDataDisplayService {
 
         this.solutionData.push({
           deviation: randomNum(100, 300),
-          difference: toPrecision(finalVal - value),
+          difference: Number((finalVal - value).toPrecision(7)),
           final: finalVal,
           id: crypto.randomUUID(),
           initial: value,
-          property: key,
+          property: this.camelCaseToTitleCase(key),
           status,
           trackFileId: trackFile.id,
           units: [
@@ -70,6 +70,11 @@ export class OutputDataDisplayService {
     if (index % 4 === 0) return 'caution';
     if (index % 10 === 0) return 'critical';
     return 'off';
+  }
+
+  private camelCaseToTitleCase(str: string) {
+    const reg = /^[a-z]|[A-Z]/g;
+    return str.replace(reg, (c, i) => (i ? ' ' : '') + c.toUpperCase());
   }
 
   get totalDeviations(): number {

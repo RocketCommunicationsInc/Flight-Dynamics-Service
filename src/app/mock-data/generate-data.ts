@@ -248,7 +248,3 @@ export const mockTrackFiles = Object.entries(
 export const randomNum = (min = 1e9, max = 9e9) => {
   return faker.number.int({ min, max });
 };
-
-export const toPrecision = (num: number, precision = 7) => {
-  return ~~(Math.pow(10, precision) * num) / Math.pow(10, precision);
-};
