@@ -3,6 +3,10 @@ import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { dummyFileData } from '../dummy-file-data';
 import { FormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { selectCurrentSpacecraft, selectSelectedTrackFileId, selectTrackFileEntities } from 'src/app/+state/app.selectors';
+import { TrackFile } from 'src/app/types/data.types';
+import { Subscription } from 'rxjs'
 import { Files } from 'src/app/types/Files';
 
 type Sort = 'ASC' | 'DESC' | '';
@@ -14,20 +18,47 @@ type Sort = 'ASC' | 'DESC' | '';
   styleUrls: ['./track-files.component.css'],
 })
 export class TrackFilesComponent {
-  dummyFileData = dummyFileData;
+  trackFiles$ = this.store.select(selectTrackFileEntities)
+  trackfileId$ = this.store.select(selectSelectedTrackFileId)
+  currentSpacecraft$ = this.store.select(selectCurrentSpacecraft)
+  currentTrackfileIds: string[] = []
+  trackFiles: TrackFile[] = []
+
+  //subscription
+  subscriptions: Subscription|null = null
 
   selectedFileName: string = '';
   selectedFileContent: string = '';
   editedContent: string = '';
   editTrackFile: boolean = false;
   isFileSelected: boolean = false;
-  filteredData: Files[] = this.dummyFileData;
+  allData: Files[] = [];
+  filteredData: Files[] = [];
   filteredFiles: Files[] = [];
 
   sortDirection: Sort = 'ASC';
   sortedColumn: string = '';
   showIcon: boolean = false;
   showSecondIcon: boolean = false;
+
+  constructor(private store: Store){}
+
+  ngOnInit(){
+    this.subscriptions = this.currentSpacecraft$.subscribe((res)=> this.currentTrackfileIds = res ? [...res.trackFileIds]: [])
+    const sub2 = this.trackFiles$.subscribe((res)=>{
+        if(this.currentTrackfileIds.length < 1 || !res) return;
+        this.trackFiles = this.currentTrackfileIds.map((id) => res[id]!)
+      }
+    )
+    this.subscriptions.add(sub2)
+    this.allData = this.trackFiles.map((file)=> ({...file, selected: false, content:''}))
+    this.filteredData = this.allData
+    console.log(this.trackFiles)
+  }
+
+  ngOnDestroy(){
+    this.subscriptions?.unsubscribe()
+  }
 
   handleFilter(selection: string): Files[] {
     const today = new Date();
@@ -39,22 +70,22 @@ export class TrackFilesComponent {
     within90Days.setDate(today.getDate() - 90);
 
     if (selection === 'all') {
-      return (this.filteredData = this.dummyFileData);
+      return (this.filteredData = this.allData);
     }
 
     if (selection === 'seven-days') {
-      this.filteredData = this.dummyFileData.filter((file) => {
-        return file.date <= today && file.date >= within7Days;
+      this.filteredData = this.allData.filter((file) => {
+        return file.creationDate <= today && file.creationDate >= within7Days;
       });
     }
     if (selection === 'thirty-days') {
-      this.filteredData = this.dummyFileData.filter((file) => {
-        return file.date <= today && file.date >= within30Days;
+      this.filteredData = this.allData.filter((file) => {
+        return file.creationDate <= today && file.creationDate >= within30Days;
       });
     }
     if (selection === 'ninety-days') {
-      this.filteredData = this.dummyFileData.filter((file) => {
-        return file.date <= today && file.date >= within90Days;
+      this.filteredData = this.allData.filter((file) => {
+        return file.creationDate <= today && file.creationDate >= within90Days;
       });
     }
 
@@ -94,7 +125,7 @@ export class TrackFilesComponent {
       this.isFileSelected = true;
     } else if (selectedCB.length > 1 && this.selectedFileName) {
       //if there are multiple checkboxes selected and you uncheck one, the selected file/content will default to first item in the array
-      this.selectedFileName = selectedCB[0].fileName;
+      this.selectedFileName = selectedCB[0].name;
       this.selectedFileContent = selectedCB[0].content;
     } else {
       this.selectedFileName = '';
@@ -106,8 +137,8 @@ export class TrackFilesComponent {
   handleSelectAll(event: any) {
     const checkbox = event.target as HTMLRuxCheckboxElement;
     if (checkbox.checked) {
-      this.dummyFileData.forEach((cb) => (cb.selected = true));
-    } else this.dummyFileData.forEach((cb) => (cb.selected = false));
+      this.filteredData.forEach((cb) => (cb.selected = true));
+    } else this.filteredData.forEach((cb) => (cb.selected = false));
   }
 
   handleEdit() {

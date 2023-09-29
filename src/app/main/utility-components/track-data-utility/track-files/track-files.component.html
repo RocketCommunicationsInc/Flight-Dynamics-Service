@@ -68,9 +68,9 @@
                 [disabled]="editTrackFile"
               />
             </td>
-            <td>{{ file.fileName }}</td>
-            <td>{{ file.date | date: 'MM/dd/YYYY' }}</td>
-            <td>{{ file.size }} kb</td>
+            <td>{{ file.name }}</td>
+            <td>{{ file.creationDate | date: 'MM/dd/YYYY' }}</td>
+            <td>{{ file.fileSize }} kb</td>
           </tr>
         </tbody>
       </table>

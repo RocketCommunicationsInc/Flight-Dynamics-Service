@@ -1,4 +1,4 @@
-import { Files } from '../../../types/Files';
+import { Files2 } from '../../../types/Files';
 
 const randomDate = (start: Date, end: Date) => {
   return new Date(
@@ -6,7 +6,7 @@ const randomDate = (start: Date, end: Date) => {
   );
 };
 
-export const dummyFileData: Files[] = [
+export const dummyFileData: Files2[] = [
   {
     fileName: 'trackfile_01',
     date: randomDate(new Date(2023, 0, 1), new Date()),

@@ -1,7 +1,10 @@
 <div>
   <div class="header-and-tabs">
     <header>
-      <rux-icon icon="mission" size="small" />Tracking Data Utility: IRON ####
+      <rux-icon icon="mission" size="small" />Tracking Data Utility:
+      <ng-container *ngIf="currentSpacecraft$ | async as spacecraft">{{
+        spacecraft.catalogId
+      }}</ng-container>
     </header>
 
     <rux-tabs (click)="tabSelect($event)">
