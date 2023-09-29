@@ -32,7 +32,6 @@ export class InputsComponent {
     thrustProfile: new FormControl('input_file_name.abc'),
     processedTrackFile: new FormControl('input_file_name.abc'),
   });
-  notificationActive = true;
 
   constructor(private store: Store<AppStore>) {
     this.spacecraft$ = this.store.select(selectCurrentSpacecraft);
@@ -63,8 +62,8 @@ export class InputsComponent {
     //TODO hook form data into where it's going to go
   }
 
-  handleSyncClick(): void {
-    console.log('sync data');
+  handleNewFile(): void {
+    console.log('new file chosen');
     //TODO This method would handle data syncing
   }
 }

@@ -27,11 +27,6 @@ form.inputs_form {
   align-items: flex-end;
 }
 
-.inputs_input-button-wrapper rux-input {
-  width: 100%;
-  padding-inline-end: var(--spacing-3);
-}
-
 .inputs_input-menu-wrapper {
   display: flex;
   flex-direction: row;

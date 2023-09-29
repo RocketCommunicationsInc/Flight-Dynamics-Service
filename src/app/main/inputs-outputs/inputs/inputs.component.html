@@ -4,14 +4,11 @@
     <!-- <div *ngFor="(spacecraft$ | async)?.trackFileIds">
 
     </div> -->
-    <div class="inputs_input-button-wrapper">
-      <rux-input
-        type="text"
-        label="Database File"
-        formControlName="databaseFile"
-      />
-      <rux-button iconOnly icon="sync" (click)="handleSyncClick()" />
-    </div>
+    <rux-input
+      type="text"
+      label="Database File"
+      formControlName="databaseFile"
+    />
     <div class="inputs_input-menu-wrapper">
       <rux-select label="Orbit Source" formControlName="orbitSource">
         <rux-option label="Ephemeris" value="ephemeris"></rux-option>
