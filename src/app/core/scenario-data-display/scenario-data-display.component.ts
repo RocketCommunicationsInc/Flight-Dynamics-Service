@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { UnitSelectorComponent } from '../../shared';
-import { CommonModule } from '@angular/common';
 import { UnitMenuItems, selectUnit } from '../../shared/units/units.model';
+import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
 import { Spacecraft } from 'src/app/types/data.types';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -28,6 +28,7 @@ export class ScenarioDataDisplayComponent {
   inclination = 23.4362;
   eccentricity = 92.39401;
   mass = 43.23404;
+
   distanceUnits = [
     UnitMenuItems.meters,
     selectUnit(UnitMenuItems.kilometers),

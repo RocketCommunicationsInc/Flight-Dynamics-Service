@@ -2,8 +2,6 @@ import type { Status } from '@astrouxds/astro-web-components/dist/types/componen
 
 import { MenuItem } from 'src/app/shared/units/units.model';
 
-export const StatusOptions: Status[] = ['caution', 'critical', 'normal'];
-
 export type CurrentView = 'View Table' | 'View Graph';
 
 export type DefaultValue = boolean | string | number | SelectOption[];
@@ -12,19 +10,39 @@ export interface SelectOption extends MenuItem {
   selected: boolean;
 }
 
-export interface SummaryData {
+export interface SolutionData {
   id: string;
   property: string;
   initial: number;
   final: number;
-  status: Status;
   difference: number;
   deviation: number;
+  trackFileId: string;
+  status: Status;
   units: SelectOption[];
 }
 
-export interface OrbitDeterminations {
-  message: string;
-  status: Status;
-  timestamp: number;
+export type Property =
+  | 'Start'
+  | 'Duration'
+  | 'Stop'
+  | 'Accepted'
+  | 'Edited'
+  | 'Outliers'
+  | 'Total'
+  | 'Outlier Rate'
+  | 'Minimum'
+  | 'Mean'
+  | 'Maximum'
+  | 'Std Dev'
+  | 'RMS';
+
+export interface PerformanceData {
+  property: Property;
+  initialRange: number;
+  finalRange: number;
+  initialAzimuth: number;
+  finalAzimuth: number;
+  initialElevation: number;
+  finalElevation: number;
 }

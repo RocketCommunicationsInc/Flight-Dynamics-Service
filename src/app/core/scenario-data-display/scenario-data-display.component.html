@@ -4,7 +4,7 @@
   </div>
   <section>
     <div>Catalog ID:</div>
-    <div>{{ catalogId }}</div>
+    <div>{{ (spacecraft$ | async)?.catalogId }}</div>
 
     <app-unit-selector [units]="distanceUnits" [value]="semiMajorAxis"
       >Semi-Major Axis</app-unit-selector

@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { Spacecraft, SpacecraftEntity } from '../types/data.types';
+import { Spacecraft, SpacecraftEntity, TrackFile } from '../types/data.types';
 import { ScenariosState } from './app.model';
 import { scenarioAdapter, trackFileAdapter } from './app.adapters';
 import { appFeature } from './app.reducer';
@@ -51,8 +51,9 @@ export const selectCurrentSpacecraft = createSelector(
 export const selectCurrentTrackFile = createSelector(
   selectTrackFileEntities,
   selectSelectedTrackFileId,
-  (trackFiles: any, trackFileId: string | null) => {
-    if (!trackFileId) return null;
-    return trackFiles[trackFileId];
+  (trackFiles, trackFileId): TrackFile | null => {
+    const currentTrackFile =
+      trackFileId && trackFiles ? trackFiles[trackFileId]! : null;
+    return currentTrackFile;
   }
 );
