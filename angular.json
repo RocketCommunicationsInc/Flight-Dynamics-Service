@@ -11,7 +11,7 @@
       "prefix": "fds",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "outputPath": "dist/flight-dynamics",
             "index": "src/index.html",
@@ -34,8 +34,7 @@
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js",
               "node_modules/cesium/Build/Cesium/Cesium.js"
-            ],
-            "customWebpackConfig": { "path": "./custom-webpack.config.js" }
+            ]
           },
           "configurations": {
             "production": {
@@ -63,7 +62,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
               "browserTarget": "flight-dynamics:build:production"
