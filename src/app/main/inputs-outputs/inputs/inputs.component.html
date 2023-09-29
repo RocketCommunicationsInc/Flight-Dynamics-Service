@@ -4,9 +4,11 @@
       <rux-pop-up close-on-select placement="bottom">
         <rux-menu *ngIf="!isValue" (ruxmenuselected)="handleSelection($event)">
           <span>Latest Track File</span>
-          <rux-menu-item *ngIf="latestTrackFile !== ''" value="{{ latestTrackFile.id }}">{{
-            latestTrackFile.name
-          }}</rux-menu-item>
+          <rux-menu-item
+            [disabled]="noLatestTrackFile"
+            value="{{ latestTrackFile.id }}"
+            >{{ latestTrackFile.name }}</rux-menu-item
+          >
           <rux-menu-item-divider />
           <span>Recent Track Files</span>
           <rux-menu-item
@@ -73,7 +75,7 @@
     />
   </div>
   <div class="inputs_footer">
-    <rux-button [disabled]="isDataBaseFile" type="submit"
+    <rux-button [disabled]="isDisabled" type="submit"
       >Determine Orbit</rux-button
     >
   </div>

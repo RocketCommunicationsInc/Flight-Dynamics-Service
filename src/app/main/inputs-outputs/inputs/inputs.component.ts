@@ -62,33 +62,28 @@ export class InputsComponent {
   orbitSourceFile: string = '';
   thrustProfileFile: string = '';
   processedTrackFile: string = '';
-  isDataBaseFile: boolean = true;
-  currentFiles = this.currentScenarioTrackFiles.map((file) => file);
+  isDisabled: boolean = true;
   latestTrackFile: any = {};
+  noLatestTrackFile: boolean = true;
 
   handleInput(event: any) {
-    console.log(this.currentFiles, 'late');
+    this.results = [];
+    if (event.target.value === '') {
+      this.databaseFile = '';
+      this.orbitSourceFile = '';
+      this.thrustProfileFile = '';
+      this.processedTrackFile = '';
+    }
     if (event.target.value !== '') {
       this.isValue = true;
       this.currentScenarioTrackFiles.filter((file) => {
-        if (!file.name.includes(event.target.value)) {
-          this.noResults = true;
-        }
         if (file.name.includes(event.target.value)) {
           this.results.push(file);
-          // this.databaseFile = file.name;
-          // this.results.forEach((result) => {
-          //   if(!result.includes(event.target.value)) {
-          //     this.results = []
-          //   }
-          // })
-          console.log(file, 'file');
-          console.log(this.results);
-        }
+        } else this.noResults = true;
       });
     } else {
       this.isValue = false;
-      // this.isDataBaseFile = true;
+      this.isDisabled = true;
     }
   }
 
@@ -96,7 +91,8 @@ export class InputsComponent {
     this.currentScenarioTrackFiles.map((file) => {
       if (file.id.includes(event.detail.value)) {
         this.latestTrackFile = file;
-        this.isDataBaseFile = false;
+        this.isDisabled = false;
+        this.noLatestTrackFile = false;
         this.databaseFile = file.name;
         this.orbitSourceFile = file.tleSourceFile.name;
         this.thrustProfileFile = file.thrustProfileFileName;
