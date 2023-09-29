@@ -68,6 +68,7 @@ export class TrackFilesComponent {
     within7Days.setDate(today.getDate() - 7);
     within30Days.setDate(today.getDate() - 30);
     within90Days.setDate(today.getDate() - 90);
+    console.log(within7Days)
 
     if (selection === 'all') {
       return (this.filteredData = this.allData);
@@ -75,17 +76,17 @@ export class TrackFilesComponent {
 
     if (selection === 'seven-days') {
       this.filteredData = this.allData.filter((file) => {
-        return file.creationDate <= today && file.creationDate >= within7Days;
+        return file.creationDate >= within7Days;
       });
     }
     if (selection === 'thirty-days') {
       this.filteredData = this.allData.filter((file) => {
-        return file.creationDate <= today && file.creationDate >= within30Days;
+        return file.creationDate >= within30Days;
       });
     }
     if (selection === 'ninety-days') {
       this.filteredData = this.allData.filter((file) => {
-        return file.creationDate <= today && file.creationDate >= within90Days;
+        return file.creationDate >= within90Days;
       });
     }
 
