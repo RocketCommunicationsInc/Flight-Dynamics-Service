@@ -1,4 +1,43 @@
-.orbit-determination-body {
+.app-grid {
+  height: calc(100vh - 6rem - 2px);
+  display: grid;
+  grid-template-columns: minmax(18rem, 1.5fr) 2.75fr 8.25fr;
+  grid-template-rows: 7rem auto auto;
+  grid-template-areas:
+    'scenarios-library utility-toolkit utility-toolkit'
+    'scenarios-library inputs-outputs output-data-display'
+    'scenario-data inputs-outputs output-data-display';
+}
+
+.utility-toolkit {
+  grid-area: utility-toolkit;
+}
+
+.scenarios-library {
+  grid-area: scenarios-library;
+  padding-inline-end: var(--spacing-2);
+  overflow: auto;
+}
+
+.scenario-data {
+  grid-area: scenario-data;
+  padding-inline-end: var(--spacing-2);
+  overflow: auto;
+}
+
+.inputs-outputs {
+  grid-area: inputs-outputs;
+}
+
+.output-data-display {
+  grid-area: output-data-display;
+}
+
+rux-container {
+  --body-padding: var(--spacing-0);
+}
+
+/* .orbit-determination-body {
   height: calc(100vh - 6rem);
   overflow-y: hidden;
   padding: var(--spacing-3);
@@ -11,27 +50,17 @@
   grid-template-areas:
     'scenarios-library main'
     'scenario-data main';
-}
+} */
 
-.scenarios-library {
-  grid-area: scenarios-library;
-  overflow: auto;
-}
-
-.scenario-data {
-  grid-area: scenario-data;
-  overflow: auto;
-}
-
-.main {
+/* .main {
   grid-area: main;
-}
+} */
 
-main {
+/* main {
   display: block;
   height: 100%;
-}
+} */
 
-rux-container::part(body) {
+/* rux-container::part(body) {
   padding: var(--spacing-0);
-}
+} */

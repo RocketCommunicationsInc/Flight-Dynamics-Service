@@ -2,15 +2,37 @@
   [lightMode]="lightTheme"
   (onChangeTheme)="changeTheme()"
 />
-<div class="orbit-determination-body">
+<div class="app-grid">
+  <div class="utility-toolkit">
+    <!-- FDS Utility Toolkit wll replace this div -->
+  </div>
+
   <fds-scenario-library class="scenarios-library" />
   <fds-scenario-data-display class="scenario-data" />
-  <rux-container class="main">
+
+  <!-- this would move to the input-outputs component -->
+  <rux-container class="inputs-outputs">
+    <rux-tabs slot="tab-bar" id="inputs-outputs" small>
+      <rux-tab id="inputs" selected>Inputs</rux-tab>
+      <rux-tab id="outputs">Outputs</rux-tab>
+    </rux-tabs>
+  </rux-container>
+
+  <!-- this would move to the output-data-display component -->
+  <rux-container class="output-data-display">
+    <rux-tabs slot="tab-bar" id="output-data-display" small>
+      <rux-tab id="od-solution" selected>OD Solution</rux-tab>
+      <rux-tab id="od-performance">OD Performance</rux-tab>
+    </rux-tabs>
+  </rux-container>
+
+  <!-- <rux-container class="main">
     <header slot="header">
       <fds-utility-toolkit></fds-utility-toolkit>
     </header>
     <main>
       <router-outlet></router-outlet>
     </main>
-  </rux-container>  
+  </rux-container> -->
+</div>
 <rux-toast-stack />
