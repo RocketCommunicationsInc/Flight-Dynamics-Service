@@ -3,6 +3,19 @@
   width: 75%;
 }
 
+rux-tab-panels,
+rux-tab-panel {
+  height: 100%;
+}
+
+rux-container {
+  --body-padding: 0;
+}
+
+rux-container::part(body) {
+  overflow: hidden;
+}
+
 .sub-header {
   display: flex;
   flex-direction: column;

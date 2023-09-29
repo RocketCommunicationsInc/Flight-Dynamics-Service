@@ -1,4 +1,8 @@
-div[slot="header"] {
+:host {
+  flex-grow: 1;
+}
+
+div[slot='header'] {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);

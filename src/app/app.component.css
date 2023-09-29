@@ -1,66 +1,42 @@
-.app-grid {
-  height: calc(100vh - 6rem - 2px);
+.app-layout {
   display: grid;
+  height: calc(100vh - 6rem);
+  padding: var(--spacing-050);
+  column-gap: var(--spacing-2);
   grid-template-columns: minmax(18rem, 1.5fr) 2.75fr 8.25fr;
   grid-template-rows: 7rem auto auto;
   grid-template-areas:
-    'scenarios-library utility-toolkit utility-toolkit'
-    'scenarios-library inputs-outputs output-data-display'
-    'scenario-data inputs-outputs output-data-display';
+    'aside header header'
+    'aside main main'
+    'aside main main';
 }
 
-.utility-toolkit {
-  grid-area: utility-toolkit;
+.app-header {
+  grid-area: header;
+}
+
+.app-aside {
+  grid-area: aside;
+  height: calc(100vh - 6.25rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  grid-area: main;
+  height: calc(100vh - 13.25rem);
+  display: flex;
+  flex-direction: column;
 }
 
 .scenarios-library {
-  grid-area: scenarios-library;
-  padding-inline-end: var(--spacing-2);
-  overflow: auto;
+  height: 44%;
 }
 
 .scenario-data {
-  grid-area: scenario-data;
-  padding-inline-end: var(--spacing-2);
-  overflow: auto;
+  height: 56%;
 }
 
-.inputs-outputs {
-  grid-area: inputs-outputs;
+header {
+  display: flex;
 }
-
-.output-data-display {
-  grid-area: output-data-display;
-}
-
-rux-container {
-  --body-padding: var(--spacing-0);
-}
-
-/* .orbit-determination-body {
-  height: calc(100vh - 6rem);
-  overflow-y: hidden;
-  padding: var(--spacing-3);
-  background-color: var(--color-background-base-default);
-  color: var(--color-text-primary);
-  display: grid;
-  gap: var(--spacing-2);
-  grid-template-columns: minmax(17rem, 1.5fr) 8.5fr;
-  grid-template-rows: 4.5fr 5.5fr;
-  grid-template-areas:
-    'scenarios-library main'
-    'scenario-data main';
-} */
-
-/* .main {
-  grid-area: main;
-} */
-
-/* main {
-  display: block;
-  height: 100%;
-} */
-
-/* rux-container::part(body) {
-  padding: var(--spacing-0);
-} */

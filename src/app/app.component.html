@@ -2,37 +2,18 @@
   [lightMode]="lightTheme"
   (onChangeTheme)="changeTheme()"
 />
-<div class="app-grid">
-  <div class="utility-toolkit">
-    <!-- FDS Utility Toolkit wll replace this div -->
-  </div>
+<div class="app-layout">
+  <header class="app-header">
+    <fds-utility-toolkit />
+  </header>
 
-  <fds-scenario-library class="scenarios-library" />
-  <fds-scenario-data-display class="scenario-data" />
+  <aside class="app-aside">
+    <fds-scenario-library class="scenarios-library" />
+    <fds-scenario-data-display class="scenario-data" />
+  </aside>
 
-  <!-- this would move to the input-outputs component -->
-  <rux-container class="inputs-outputs">
-    <rux-tabs slot="tab-bar" id="inputs-outputs" small>
-      <rux-tab id="inputs" selected>Inputs</rux-tab>
-      <rux-tab id="outputs">Outputs</rux-tab>
-    </rux-tabs>
-  </rux-container>
-
-  <!-- this would move to the output-data-display component -->
-  <rux-container class="output-data-display">
-    <rux-tabs slot="tab-bar" id="output-data-display" small>
-      <rux-tab id="od-solution" selected>OD Solution</rux-tab>
-      <rux-tab id="od-performance">OD Performance</rux-tab>
-    </rux-tabs>
-  </rux-container>
-
-  <!-- <rux-container class="main">
-    <header slot="header">
-      <fds-utility-toolkit></fds-utility-toolkit>
-    </header>
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-  </rux-container> -->
+  <main class="app-main">
+    <router-outlet />
+  </main>
 </div>
 <rux-toast-stack />

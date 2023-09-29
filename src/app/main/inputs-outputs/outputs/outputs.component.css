@@ -6,9 +6,7 @@
 form.outputs_form {
   display: flex;
   flex-direction: column;
-  padding-inline: var(--spacing-3);
-  height: 100%;
-  overflow: auto;
+  padding-inline: var(--spacing-4);
 }
 
 form.outputs_form > div {
