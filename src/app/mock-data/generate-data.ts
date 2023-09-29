@@ -241,8 +241,8 @@ spaceCraft.forEach((spacecraft) => {
 });
 export const mockTrackFiles = Object.entries(
   trackFileIdsBySpaceCraftId
-).flatMap(([spacecraftId, trackFileIds], index) => {
-  return trackFileIds.map((id) => generateTrackFile(spacecraftId, id, index));
+).flatMap(([spacecraftId, trackFileIds]) => {
+  return trackFileIds.map((id, index) => generateTrackFile(spacecraftId, id, index));
 });
 
 export const randomNum = (min = 1e9, max = 9e9) => {
