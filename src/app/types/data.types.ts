@@ -68,11 +68,16 @@ export type ProcessedTrackFile = {
 };
 
 export type EphemerisFile = {
+  id: string;
   trackFileRefId: string;
   name: string;
-  data: {
-    [key: string]: Ephemeride;
-  };
+  epoch: Date;
+  positionX: number;
+  positionY: number;
+  positionZ: number;
+  velocityX: number;
+  velocityY: number;
+  velocityZ: number;
 };
 
 export type TLEFile = {
