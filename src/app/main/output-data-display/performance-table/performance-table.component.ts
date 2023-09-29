@@ -5,7 +5,7 @@ import { Status } from '@astrouxds/astro-web-components/dist/types/components';
 
 import { ColumnDefs, TableService } from 'src/app/shared/table.service';
 import { MultipleSwitchCaseDirective } from 'src/app/shared/multiple-switch-case.directive';
-import { PerformanceData } from './performance.model';
+import { PerformanceData } from '../output-data-display.model';
 
 const columnDefs: ColumnDefs<PerformanceData>[] = [
   { field: 'property', header: 'Property' },
