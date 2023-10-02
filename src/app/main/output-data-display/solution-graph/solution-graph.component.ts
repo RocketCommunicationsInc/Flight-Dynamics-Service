@@ -74,7 +74,7 @@ export class SolutionGraphComponent {
   seriesFourData(length: number) {
     for (let i = 0; i < length; i++) {
       const first = this.randomInt(0, 500);
-      const second = this.randomInt(550, 1150);
+      const second = this.randomInt(550, 700);
       this.seriesFour.push({ x: '', y: [first, second] });
     }
     return this.seriesFour;
@@ -136,21 +136,21 @@ export class SolutionGraphComponent {
     },
     xaxis: {
       categories: [
-        'Feb 09',
-        'Feb 11',
-        'Feb 13',
-        'Feb 15',
-        'Feb 17',
-        'Feb 19',
-        'Feb 21',
-        'Feb 23',
-        'Feb 25',
-        'Feb 27',
-        'Feb 29',
-        'Mar 02',
-        'Mar 04',
-        'Mar 06',
-        'Mar 08',
+        ['Feb 09', 2023],
+        ['Feb 11', 2023],
+        ['Feb 13', 2023],
+        ['Feb 15', 2023],
+        ['Feb 17', 2023],
+        ['Feb 19', 2023],
+        ['Feb 21', 2023],
+        ['Feb 23', 2023],
+        ['Feb 25', 2023],
+        ['Feb 27', 2023],
+        ['Feb 29', 2023],
+        ['Mar 02', 2023],
+        ['Mar 04', 2023],
+        ['Mar 06', 2023],
+        ['Mar 08', 2023],
       ],
       axisTicks: {
         show: true,
@@ -160,9 +160,6 @@ export class SolutionGraphComponent {
         color: 'var(--color-text-primary)',
       },
       labels: {
-        formatter: function(label: string) {
-          // return `<div class='labels'>${label}<br> 2023</div>`
-        },
         style: {
           colors: 'var(--color-text-primary)',
         },
