@@ -1,11 +1,11 @@
 import { EntityAdapter, createEntityAdapter } from "@ngrx/entity";
-import { Scenario, Spacecraft, TrackFile } from "../types/data.types";
+import { Scenario, TrackFile } from "../types/data.types";
 
 export function sortByName(a: Scenario|TrackFile, b: Scenario|TrackFile): number {
   return a.name.localeCompare(b.name)
 }
 
-export function sortById(a: Scenario|TrackFile|Spacecraft, b: Scenario|TrackFile|Spacecraft): number {
+export function sortById(a: Scenario|TrackFile, b: Scenario|TrackFile): number {
   return a.id.localeCompare(b.id)
 }
 

@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  /*
+  * need to deducted for the header for all table rows to be
+  * displayed when scrolling to the bottom
+  */
+  height: calc(100% - 7rem);
+}
+
+table {
+  flex-grow: 1;
+}
+
+.status-col {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.status-col span {
+  min-width: 7.5rem;
+}

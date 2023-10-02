@@ -1,13 +1,28 @@
 import { createSelector } from '@ngrx/store';
-import { Spacecraft } from '../types/data.types';
+import { Spacecraft, SpacecraftEntity, TrackFile } from '../types/data.types';
 import { ScenariosState } from './app.model';
-import { selectScenarios, selectTrackFiles } from './app.reducer';
 import { scenarioAdapter, trackFileAdapter } from './app.adapters';
+import { appFeature } from './app.reducer';
 
-export const { selectAll: selectAllScenarios } =
-  scenarioAdapter.getSelectors(selectScenarios);
-export const { selectAll: selectAllTrackFiles } =
-  trackFileAdapter.getSelectors(selectTrackFiles);
+export const {
+  name,
+  reducer,
+  selectAppState,
+  selectScenarios,
+  selectTrackFiles,
+  selectSelectedSpacecraftId,
+  selectSelectedScenarioId,
+  selectSelectedTrackFileId,
+} = appFeature;
+
+export const {
+  selectAll: selectAllScenarios,
+  selectEntities: selectScenarioEntities,
+} = scenarioAdapter.getSelectors(selectScenarios);
+export const {
+  selectAll: selectAllTrackFiles,
+  selectEntities: selectTrackFileEntities,
+} = trackFileAdapter.getSelectors(selectTrackFiles);
 
 export const selectAllSpacecrafts = createSelector(
   selectScenarios,
@@ -16,6 +31,29 @@ export const selectAllSpacecrafts = createSelector(
     state.ids.map((id) => {
       state.entities[id]?.spaceCraft.map((craft) => spacecrafts.push(craft));
     });
-    return spacecrafts;
+    const spacecraftsEntity: SpacecraftEntity = spacecrafts.reduce(
+      (prev, next) => ({ ...prev, [next.id]: next }),
+      {}
+    );
+    return spacecraftsEntity;
+  }
+);
+
+export const selectCurrentSpacecraft = createSelector(
+  selectAllSpacecrafts,
+  selectSelectedSpacecraftId,
+  (spacecrafts: SpacecraftEntity, spacecraftId: string | null) => {
+    if (!spacecraftId) return null;
+    return spacecrafts[spacecraftId];
+  }
+);
+
+export const selectCurrentTrackFile = createSelector(
+  selectTrackFileEntities,
+  selectSelectedTrackFileId,
+  (trackFiles, trackFileId): TrackFile | null => {
+    const currentTrackFile =
+      trackFileId && trackFiles ? trackFiles[trackFileId]! : null;
+    return currentTrackFile;
   }
 );

@@ -25,6 +25,22 @@ h1 {
   line-height: var(--font-heading-1-line-height);
 }
 
+h2 {
+  font-family: var(--font-heading-2-font-family);
+  font-size: var(--font-heading-2-font-size);
+  font-weight: var(--font-heading-2-font-weight);
+  letter-spacing: var(--font-heading-2-letter-spacing);
+  line-height: var(--font-heading-2-line-height);
+}
+
+h3 {
+  font-family: var(--font-heading-3-font-family);
+  font-size: var(--font-heading-3-font-size);
+  font-weight: var(--font-heading-3-font-weight);
+  letter-spacing: var(--font-heading-3-letter-spacing);
+  line-height: var(--font-heading-3-line-height);
+}
+
 p {
   font-family: var(--font-body-1-font-family);
   font-size: var(--font-body-1-font-size);
@@ -33,23 +49,22 @@ p {
   line-height: var(--font-body-1-line-height);
 }
 
-/* rux-container styles */
+/* rux-container styles - calc subtracts 2px for top and bottom border */
 rux-container {
-  height: 100%;
+  height: calc(100% - var(--spacing-050));
 }
 
 rux-container::part(container) {
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow-y: hidden;
 }
 
 rux-container::part(body) {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: hidden;
+  overflow: auto;
 }
 
 /*
@@ -60,10 +75,11 @@ rux-container::part(body) {
 .table-wrapper {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: auto;
   height: 100%;
   /* This goes along with the fix for pushing the scrollbar down past the sticky header */
   background-color: var(--color-background-base-header);
+  border-top: 1px solid var(--container-color-border);
 }
 
 .table-wrapper::-webkit-scrollbar-track {
@@ -71,8 +87,8 @@ rux-container::part(body) {
 }
 
 .table-wrapper table {
-  width: 100%;
   border-collapse: collapse;
+  white-space: nowrap;
 }
 
 .table-wrapper thead {

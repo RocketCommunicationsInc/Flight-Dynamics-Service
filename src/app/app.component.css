@@ -1,36 +1,42 @@
-.orbit-determination-body {
-  height: calc(100vh - 6rem);
-  overflow-y: hidden;
-  padding: var(--spacing-3);
-  background-color: var(--color-background-base-default);
-  color: var(--color-text-primary);
+.app-layout {
   display: grid;
-  gap: var(--spacing-2);
-  grid-template-columns: 1.5fr 8.5fr;
-  grid-template-rows: 4.5fr 5.5fr;
+  height: calc(100vh - 6rem);
+  padding: var(--spacing-050);
+  column-gap: var(--spacing-2);
+  grid-template-columns: minmax(18rem, 1.5fr) 2.75fr 8.25fr;
+  grid-template-rows: 7rem auto auto;
   grid-template-areas:
-    'scenarios-library main'
-    'scenario-data main';
+    'aside header header'
+    'aside main main'
+    'aside main main';
+}
+
+.app-header {
+  grid-area: header;
+}
+
+.app-aside {
+  grid-area: aside;
+  height: calc(100vh - 6.25rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  grid-area: main;
+  height: calc(100vh - 13.25rem);
+  display: flex;
+  flex-direction: column;
 }
 
 .scenarios-library {
-  grid-area: scenarios-library;
+  height: 44%;
 }
 
 .scenario-data {
-  grid-area: scenario-data;
-  overflow: auto;
+  height: 56%;
 }
 
-.main {
-  grid-area: main;
-}
-
-main {
-  display: block;
-  height: 100%;
-}
-
-rux-container::part(body) {
-  padding: var(--spacing-0);
+header {
+  display: flex;
 }

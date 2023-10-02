@@ -14,7 +14,7 @@ import { ToastConfig, ToastService } from './shared/toast.service';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { UtilityToolkitComponent } from './main/utility-toolkit/utility-toolkit.component';
 import { Store } from '@ngrx/store';
-import { ScenariosActions, TrackFilesActions } from './+state/app.actions';
+import { ScenariosActions, TrackFilesActions, AppActions } from './+state/app.actions';
 
 @Component({
   standalone: true,
@@ -46,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     this.store.dispatch(ScenariosActions.scenariosRequested());
     this.store.dispatch(TrackFilesActions.trackFilesRequested());
+    this.store.dispatch(AppActions.initializeIds());
   }
 
   ngOnInit() {
