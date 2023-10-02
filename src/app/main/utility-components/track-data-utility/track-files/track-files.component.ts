@@ -24,17 +24,21 @@ export class TrackFilesComponent {
   currentTrackfileIds: string[] = []
   trackFiles: TrackFileEntity = {}
 
-  //subscription
-  subscriptions: Subscription|null = null
+  //editing and filtering
   editedContent: string = '';
   editTrackFile: boolean = false;
   selectedFileId: string | null = null;
   filteredIds: Filter[] = [];
 
+  //sorting
   sortDirection: Sort = 'ASC';
   sortedColumn: any = '';
   showIcon: boolean = false;
   showSecondIcon: boolean = false;
+
+  //subscription
+  subscriptions: Subscription|null = null
+
 
   constructor(private store: Store){}
 
@@ -121,31 +125,28 @@ export class TrackFilesComponent {
       this.sortDirection = 'ASC';
     }
 
-    if(column === 'creationDate'){
       this.filteredIds.sort((a: Filter, b: Filter) => {
-        const dateA = this.trackFiles[a.id].creationDate
-        const dateB = this.trackFiles[b.id].creationDate
-        return this.sortDirection === 'ASC'
-          ? new Date(dateA).getTime() - new Date(dateB).getTime()
-          : new Date(dateB).getTime() - new Date(dateA).getTime()
-      });
-    }
+        let itemA:number = 1
+        let itemB:number = 0
+        if(column === 'creationDate'){
+          itemA = new Date(this.trackFiles[a.id].creationDate).getTime()
+          itemB = new Date(this.trackFiles[b.id].creationDate).getTime()
+        }
 
-    if(column === 'fileSize'){
-      this.filteredIds.sort((a: Filter, b: Filter) => {
-        const fileA = this.trackFiles[a.id].fileSize
-        const fileB = this.trackFiles[b.id].fileSize
-        return this.sortDirection === 'ASC'
-          ? fileA - fileB
-          : fileB - fileA
-      });
-    }
+        if(column === 'fileSize'){
+          itemA = this.trackFiles[a.id].fileSize
+          itemB = this.trackFiles[b.id].fileSize
+        }
 
+        return this.sortDirection === 'ASC'
+          ? itemA - itemB
+          : itemB - itemA
+      });
   }
 
   handleCheckbox(currentFilter: Filter): void {
     this.filteredIds = this.filteredIds.map(id => id === currentFilter ? {...id, checked: !id.checked} : id)
-    //!Todo: What does the checkbox actually do anyways?
+    //!Todo: What does the checkbox actually do?
   }
 
   handleSelectAll(event: Event) {
@@ -154,21 +155,18 @@ export class TrackFilesComponent {
   }
 
   handleEdit() {
+    //!Todo: what are we actually editing here? Right now it's just a 'content' flag thats not in app state
     this.editedContent = this.filteredIds.find(filter=> filter.id === this.selectedFileId)?.content || '';
     this.editTrackFile = true;
   }
 
   handleCancel() {
+    this.editedContent = ''
     this.editTrackFile = false;
   }
 
   handleSave() {
-    this.filteredIds = this.filteredIds.map(filter => {
-      console.log(filter.id === this.selectedFileId)
-      console.log('content', this.editedContent)
-
-      return filter.id === this.selectedFileId ? {...filter, content: this.editedContent} : filter});
-
+    this.filteredIds = this.filteredIds.map(filter => filter.id === this.selectedFileId ? {...filter, content: this.editedContent} : filter);
     this.editTrackFile = false;
   }
 
