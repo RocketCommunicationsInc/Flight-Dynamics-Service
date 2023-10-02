@@ -22,6 +22,22 @@ rux-pop-up {
   width: inherit;
 }
 
+/* These part modifications make the popup look like a type-ahead dropdown */
+rux-pop-up::part(popup-content) {
+  margin-top: -12px;
+  margin-right: 12px;
+  margin-left: -26px;
+}
+
+rux-pop-up::part(arrow) {
+  display: none;
+}
+
+rux-menu {
+  max-height: 300px;
+  overflow: auto;
+}
+
 .inputs_main > :first-child {
   padding-block-start: var(--spacing-0);
 }
