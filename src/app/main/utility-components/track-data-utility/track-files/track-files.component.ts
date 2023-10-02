@@ -7,6 +7,7 @@ import { selectCurrentSpacecraft, selectSelectedTrackFileId, selectTrackFileEnti
 import { TrackFileEntity } from 'src/app/types/data.types';
 import { Subscription } from 'rxjs'
 import { Filter } from 'src/app/types/Files';
+import { TrackFilesActions } from 'src/app/+state/app.actions';
 
 type Sort = 'ASC' | 'DESC' | '';
 @Component({
@@ -56,10 +57,11 @@ export class TrackFilesComponent {
         this.trackFiles = currentTrackFiles
       }
     )
+    const sub3 = this.trackfileId$.subscribe((res)=> this.selectedFileId = res)
     this.subscriptions.add(sub2)
+    this.subscriptions.add(sub3)
 
     this.filteredIds = this.currentTrackfileIds.map((id)=> ({id, checked: false, filtered: false, content:''}))
-    console.log(this.trackFiles)
   }
 
   ngOnDestroy(){
@@ -112,7 +114,7 @@ export class TrackFilesComponent {
   onTrackSelect(event: Event, id:string) {
     const target = event.target as HTMLElement
     if(target.nodeName === "RUX-CHECKBOX") return;
-    this.selectedFileId = id
+    this.store.dispatch(TrackFilesActions.trackFileSelected({trackFileId: id}))
   }
 
   sortColumn(column:string) {
