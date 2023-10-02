@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { Spacecraft, TrackFile } from '../types/data.types';
+import { Spacecraft, SpacecraftEntity, TrackFile } from '../types/data.types';
 import { ScenariosState } from './app.model';
 import { scenarioAdapter, trackFileAdapter } from './app.adapters';
 import { appFeature } from './app.reducer';
@@ -15,8 +15,10 @@ export const {
   selectSelectedTrackFileId,
 } = appFeature;
 
-export const { selectAll: selectAllScenarios } =
-  scenarioAdapter.getSelectors(selectScenarios);
+export const {
+  selectAll: selectAllScenarios,
+  selectEntities: selectScenarioEntities,
+} = scenarioAdapter.getSelectors(selectScenarios);
 export const {
   selectAll: selectAllTrackFiles,
   selectEntities: selectTrackFileEntities,
@@ -29,62 +31,29 @@ export const selectAllSpacecrafts = createSelector(
     state.ids.map((id) => {
       state.entities[id]?.spaceCraft.map((craft) => spacecrafts.push(craft));
     });
-    return spacecrafts;
+    const spacecraftsEntity: SpacecraftEntity = spacecrafts.reduce(
+      (prev, next) => ({ ...prev, [next.id]: next }),
+      {}
+    );
+    return spacecraftsEntity;
   }
 );
 
 export const selectCurrentSpacecraft = createSelector(
   selectAllSpacecrafts,
   selectSelectedSpacecraftId,
-  (spacecrafts: Spacecraft[], spacecraftId: string | null) => {
+  (spacecrafts: SpacecraftEntity, spacecraftId: string | null) => {
     if (!spacecraftId) return null;
-    return spacecrafts.find((craft) => craft.id === spacecraftId);
-  }
-);
-
-export const selectCurrentSpacecraftName = createSelector(
-  selectAllSpacecrafts,
-  selectSelectedSpacecraftId,
-  (spacecrafts: Spacecraft[], spacecraftId: string | null) => {
-    if (!spacecraftId) return null;
-    let spacecraft;
-    spacecraft = spacecrafts.find((craft) => craft.id === spacecraftId);
-    return spacecraft?.catalogId;
+    return spacecrafts[spacecraftId];
   }
 );
 
 export const selectCurrentTrackFile = createSelector(
-  selectSelectedSpacecraftId,
-  selectAllScenarios,
   selectTrackFileEntities,
   selectSelectedTrackFileId,
-  (spacecraftId, scenarios, trackFiles, trackFileId): TrackFile | undefined => {
-    if (trackFileId) return trackFiles[trackFileId];
-    // return
-    /*
-     * NOTE: if and when trackFileId is available on app load by getting the
-     * first trackFileId on the first spacecraft on the first scenario all code
-     * below can be removed
-     *
-     * Right now, if we get down here this means a trackFile has not be selected
-     * by a user yet. The default behavior is to get the first trackFile
-     * on the first spacecraft on the first scenario
-     */
-    if (!spacecraftId) {
-      throw new Error('spacecraftId is null and should be available here');
-    }
-
-    const defaultFirstSpacecraft = scenarios[0].spaceCraft.find(({ id }) => {
-      return id === spacecraftId;
-    });
-
-    if (!defaultFirstSpacecraft) {
-      throw new Error(
-        'defaultFirstSpacecraft is undefined and should be available here'
-      );
-    }
-
-    const [firstTrackfileId] = defaultFirstSpacecraft.trackFileIds;
-    return trackFiles[firstTrackfileId];
+  (trackFiles, trackFileId): TrackFile | null => {
+    const currentTrackFile =
+      trackFileId && trackFiles ? trackFiles[trackFileId]! : null;
+    return currentTrackFile;
   }
 );

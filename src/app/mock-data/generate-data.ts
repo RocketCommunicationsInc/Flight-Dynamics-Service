@@ -10,12 +10,12 @@ import type {
   OrbitProperties,
 } from '../types/data.types';
 
-const generateScenario = (scenarioLetter: string): Scenario => {
+const generateScenario = (scenarioName: string): Scenario => {
   const numOfSpaceCraft = faker.number.int({ min: 4, max: 8 });
 
   return {
     id: crypto.randomUUID(),
-    name: 'Scenario' + scenarioLetter,
+    name: scenarioName,
     spaceCraft: Array(numOfSpaceCraft)
       .fill(null)
       .map(() => generateSpacecraft()),
@@ -28,7 +28,7 @@ const generateSpacecraft = (): Spacecraft => {
 
   return {
     id: crypto.randomUUID(),
-    catalogId: 'IRON-' + catalogIdNum,
+    catalogId: 'IRON ' + catalogIdNum,
     trackFileIds: Array.from(Array(trackFileArrayLength), (_) =>
       faker.string.uuid()
     ),
@@ -227,10 +227,10 @@ const generateMass = (): OrbitProperty => {
   };
 };
 
-const scenarioLetters = ['A', 'B', 'C', 'D'];
+const scenarioNames = ['Nominal OD', 'Post SK', 'Training'];
 
-export const mockScenarios = scenarioLetters.map((letter) =>
-  generateScenario(letter)
+export const mockScenarios = scenarioNames.map((name) =>
+  generateScenario(name)
 );
 export const spaceCraft = mockScenarios.flatMap(
   (scenario) => scenario.spaceCraft
