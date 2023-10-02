@@ -1,23 +1,17 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import {
-  Form,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { Spacecraft, TrackFile } from 'src/app/types/data.types';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ProcessedTrackFile, TrackFile } from 'src/app/types/data.types';
 import { filter, Observable, Subscription } from 'rxjs';
 import {
-  selectCurrentSpacecraft,
-  selectCurrentSpaceCraftTrackFileNames,
   selectCurrentSpaceCraftTrackFiles,
   selectCurrentTrackFile,
 } from 'src/app/+state/app.selectors';
 import { select, Store } from '@ngrx/store';
 import { AppStore } from 'src/app/+state/app.model';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
+import { MockDataService } from 'src/app/api/mock-data.service';
 
 @Component({
   selector: 'fds-inputs',
@@ -36,7 +30,8 @@ export class InputsComponent {
     thrustProfile: FormControl<string | null>;
     processedTrackFile: FormControl<string | null>;
   }>;
-  processedTrackFileName: string | undefined;
+  processedTrackFile: ProcessedTrackFile | undefined;
+  currentTrackFileId: string | undefined;
   trackfiles$: Observable<TrackFile[] | undefined> = this.store.select(
     selectCurrentSpaceCraftTrackFiles
   );
@@ -49,6 +44,7 @@ export class InputsComponent {
       const epochStart = result!.epochRangeEnd.getTime();
       const epochEnd = result!.epochRangeStart.getTime();
       const diffTime = (epochStart - epochEnd) / (1000 * 3600 * 24);
+      this.currentTrackFileId = result.id;
 
       this.inputForm = new FormGroup({
         databaseFile: new FormControl(result!.tleSourceFile.name),
@@ -59,15 +55,29 @@ export class InputsComponent {
         ),
         epochSpan: new FormControl(diffTime),
         thrustProfile: new FormControl(result!.thrustProfileFileName),
-        processedTrackFile: new FormControl(''),
+        processedTrackFile: new FormControl(
+          result.processedTrackFile && result.processedTrackFile.name
+        ),
       });
     });
 
-  constructor(private store: Store<AppStore>) {}
+  constructor(
+    private store: Store<AppStore>,
+    private ProcessTrackFileService: MockDataService
+  ) {}
 
-  ngOnInit() {}
   onSubmit(): void {
-    console.log(this.inputForm.value);
+    // generate processed trackFile using service
+    (this.processedTrackFile = this.ProcessTrackFileService.processtrackFile(
+      this.currentTrackFileId!
+    )),
+      //Dispatch processed trackfile as a property of the current trackfile, back into state
+      this.store.dispatch(
+        TrackFilesActions.trackFileProcessed({
+          trackFileId: this.currentTrackFileId!,
+          processedTrackFile: this.processedTrackFile,
+        })
+      );
   }
 
   handleSelect(e: any): void {

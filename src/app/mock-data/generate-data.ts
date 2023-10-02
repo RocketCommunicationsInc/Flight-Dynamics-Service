@@ -59,7 +59,7 @@ const generateTrackFile = (
     epochRangeStart: epoch,
     epochRangeEnd: faker.date.soon({ refDate: epoch, days: 5 }),
     thrustProfileFileName: 'thrustProfile_' + faker.hacker.ingverb() + '.txt',
-    processedTrackFile: generateProcessedTrackFile(id, index),
+    processedTrackFile: null,
     initialOrbitProperties: generateSatProperties(),
   };
 };
@@ -88,9 +88,8 @@ const generateTLEFile = (trackFileId: string, index: number): TLEFile => {
   };
 };
 
-const generateProcessedTrackFile = (
-  trackFileId: string,
-  index: number
+export const generateProcessedTrackFile = (
+  trackFileId: string | null
 ): ProcessedTrackFile => {
   return {
     trackFileRefId: trackFileId,
@@ -100,7 +99,7 @@ const generateProcessedTrackFile = (
   };
 };
 
-const generateSatProperties = (): OrbitProperties => {
+export const generateSatProperties = (): OrbitProperties => {
   return {
     argOfPerigee: generateArgOfPerigee(),
     apogee: generateApogee(),
@@ -232,9 +231,7 @@ const scenarioLetters = ['A', 'B', 'C', 'D'];
 export const mockScenarios = scenarioLetters.map((letter) =>
   generateScenario(letter)
 );
-export const spaceCraft = mockScenarios.flatMap(
-  (scenario) => scenario.spaceCraft
-);
+const spaceCraft = mockScenarios.flatMap((scenario) => scenario.spaceCraft);
 const trackFileIdsBySpaceCraftId: { [key: string]: string[] } = {};
 spaceCraft.forEach((spacecraft) => {
   trackFileIdsBySpaceCraftId[spacecraft.id] = spacecraft.trackFileIds;

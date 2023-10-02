@@ -61,7 +61,7 @@ export type TrackFileEntity = {
 };
 
 export type ProcessedTrackFile = {
-  trackFileRefId: string;
+  trackFileRefId: string | null;
   name: string;
   creationDate: Date;
   finalOrbitProperties: OrbitProperties;
