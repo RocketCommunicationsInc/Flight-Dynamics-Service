@@ -7,3 +7,7 @@ rux-tab-panels,
 rux-tab-panel {
   height: 100%;
 }
+
+rux-container {
+  --body-padding: 0;
+}

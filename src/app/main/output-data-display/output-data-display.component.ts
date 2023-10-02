@@ -1,10 +1,9 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { SegmentedButton } from '@astrouxds/astro-web-components/dist/types/components';
 
 import type { Tabs } from 'src/app/types/Tabs';
-import { TabbedChildContainerComponent } from 'src/app/shared';
 import { SolutionGraphComponent } from './solution-graph/solution-graph.component';
 import { SolutionTableComponent } from './solution-table/solution-table.component';
 import { OutputDataDisplayService } from './output-data-display.service';
@@ -16,7 +15,6 @@ import { PerformanceTableComponent } from './performance-table/performance-table
   standalone: true,
   imports: [
     CommonModule,
-    TabbedChildContainerComponent,
     AstroComponentsModule,
     SolutionGraphComponent,
     SolutionTableComponent,
@@ -26,16 +24,8 @@ import { PerformanceTableComponent } from './performance-table/performance-table
   styleUrls: ['./output-data-display.component.css'],
 })
 export class OutputDataDisplayComponent {
-  constructor(public outputDataDisplayService: OutputDataDisplayService) {}
-
   currentView: CurrentView = 'View Table';
-  hasNotification = true;
-  notificationData = [
-    {
-      message: 'OD success message on 9/25/23, 10:20 AM',
-      status: 'normal',
-    },
-  ];
+  tabsId = 'output-data-display-tabs';
   tabs: Tabs[] = [
     { label: 'OD Solution', id: 'od-solution', selected: true },
     { label: 'OD Performance', id: 'od-performance' },
@@ -51,17 +41,10 @@ export class OutputDataDisplayComponent {
     { label: 'View Graph' },
   ];
 
+  constructor(public outputDataDisplayService: OutputDataDisplayService) {}
+
   setCurrentView(e: Event) {
     const event = e as CustomEvent;
     this.currentView = event.detail;
-  }
-
-  @HostListener('ruxselected', ['$event'])
-  onRuxSelected(e: any) {
-    if (e.detail.id === 'od-performance') {
-      this.hasNotification = false;
-    } else {
-      this.hasNotification = true;
-    }
   }
 }

@@ -3,24 +3,10 @@
   justify-content: space-between;
 }
 
-.scenarios-tree,
-.scenarios-tree::part(container) {
-  height: 100%;
-  padding: 0;
-  overflow: hidden;
-}
-.scenarios-tree::part(body) {
-  overflow: auto;
-}
-
 rux-icon {
   cursor: pointer;
 }
 
 rux-tree-node[slot='node'] {
   cursor: pointer;
-}
-
-.title {
-  font-size: var(--font-size-xl);
 }
