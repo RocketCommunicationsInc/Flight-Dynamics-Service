@@ -1,10 +1,15 @@
-<span>SPACECRAFT {{ id }}</span>
+<h2>
+  SPACECRAFT
+  <span *ngIf="spacecraft$ | async as spacecraft">
+    {{ spacecraft.catalogId }}</span
+  >
+</h2>
 <div class="btns">
   <rux-button
     size="small"
     secondary
     [icon]="util.icon"
-    *ngFor="let util of utilities; index as i"
+    *ngFor="let util of utilities"
     (click)="onClick(util)"
   >
     {{ util.label }}

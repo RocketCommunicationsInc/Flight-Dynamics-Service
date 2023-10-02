@@ -1,18 +1,26 @@
 :host {
   display: block;
-  flex: 3;
+  width: 75%;
 }
 
-/* this sets the height of the pop up to the height of the trigger */
-rux-pop-up::part(container) {
-  display: flex;
+rux-tab-panels,
+rux-tab-panel {
+  height: 100%;
+}
+
+rux-container {
+  --body-padding: 0;
+}
+
+rux-container::part(body) {
+  overflow: hidden;
 }
 
 .sub-header {
   display: flex;
   flex-direction: column;
   background-color: var(--color-background-surface-header);
-  padding: var(--spacing-2) var(--spacing-4) var(--spacing-4);
+  padding: var(--spacing-4);
   gap: var(--spacing-3);
 }
 
@@ -26,6 +34,10 @@ rux-pop-up::part(container) {
   display: flex;
   align-items: baseline;
   gap: var(--spacing-10);
+}
+
+.data rux-select {
+  width: 12rem;
 }
 
 .heading {
@@ -43,4 +55,17 @@ rux-pop-up::part(container) {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
+}
+
+rux-tab-panel {
+  height: 100%;
+}
+
+.antenna-tables-wrapper {
+  /*
+  * need to deducted for the header for all table rows to be
+  * displayed when scrolling to the bottom
+  */
+  height: calc(100% - 6.25rem);
+  overflow-y: auto;
 }

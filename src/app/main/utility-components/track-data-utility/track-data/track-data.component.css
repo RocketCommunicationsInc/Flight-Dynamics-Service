@@ -1,3 +1,8 @@
+.track-data {
+  position: relative;
+  overflow: hidden;
+}
+
 header {
   display: flex;
   padding-block: var(--spacing-4);
@@ -8,9 +13,37 @@ header {
 
 /* CHART STYLES */
 
+.chart-wrapper {
+  position: relative;
+}
+
+.legend {
+  position: absolute;
+  bottom: 125px;
+  right: 100px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-background-base-default)  ;
+  padding: var(--spacing-2);
+}
+
+.legend-pushed {
+  right: 460px;
+  bottom: 145px;
+}
+
+.legend rux-checkbox {
+  padding: var(--spacing-1);
+}
+
+
 .button-wrapper {
   display: flex;
   gap: var(--spacing-2);
+}
+
+.button-wrapper rux-button {
+  width: var(--spacing-24);
 }
 
 .toolbar {

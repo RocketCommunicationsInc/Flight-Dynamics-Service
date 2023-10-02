@@ -3,21 +3,21 @@
     <thead>
       <tr>
         <th
-          *ngFor="let col of outputDataDisplayService.columns"
+          *ngFor="let col of tableService.columns"
           [ngSwitch]="col.field"
           [ngClass]="{ sortable: col.sortable }"
           [attr.type]="col.type"
         >
           <rux-checkbox
             *ngSwitchCase="'id'"
-            [checked]="outputDataDisplayService.areAllSelected()"
-            (ruxchange)="outputDataDisplayService.selectAll($event)"
+            [checked]="tableService.areAllSelected()"
+            (ruxchange)="tableService.selectAll($event)"
           />
           <div
             *ngSwitchDefault
             [ngClass]="{ active: col.sorted }"
             class="h-stack"
-            (click)="outputDataDisplayService.sort(col)"
+            (click)="tableService.sort(col)"
           >
             {{ col.header }}
             <rux-icon *ngIf="col.sortable" [icon]="col.icon" size="small" />
@@ -26,12 +26,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngFor="let row of outputDataDisplayService.data"
-        [attr.selected]="row.selected"
-      >
+      <tr *ngFor="let row of tableService.data" [attr.selected]="row.selected">
         <td
-          *ngFor="let col of outputDataDisplayService.columns"
+          *ngFor="let col of tableService.columns"
           [ngSwitch]="col.field"
           [attr.type]="col.type"
           [ngClass]="{ sortable: col.sortable }"
@@ -39,16 +36,21 @@
           <rux-checkbox
             *ngSwitchCase="'id'"
             [checked]="row.selected"
-            (ruxchange)="outputDataDisplayService.selectRow($event, row)"
+            (ruxchange)="tableService.selectRow($event, row)"
           />
-          <ng-container *ngSwitchCase="'status'">
-            <rux-status *ngIf="row.status !== 'normal'" [status]="row.status" />
-          </ng-container>
+
+          <div *ngSwitchCase="'difference'" class="status-col">
+            <rux-status [status]="row.status" />
+            <span>
+              {{ row[col.field] | unitConverter: getRowUnit(row) }}
+            </span>
+          </div>
+
           <rux-select
             size="small"
             *ngSwitchCase="'units'"
-            (ruxchange)="outputDataDisplayService.setRowUnit($event, row)"
-            [value]="outputDataDisplayService.getRowUnit(row)"
+            (ruxchange)="setRowUnit($event, row)"
+            [value]="getRowUnit(row)"
           >
             <rux-option
               *ngFor="let unit of row.units"
@@ -58,12 +60,7 @@
           </rux-select>
 
           <ng-container *ngSwitchDefault>
-            {{
-              outputDataDisplayService.setDefaultCase(
-                row[col.field],
-                outputDataDisplayService.getRowUnit(row)
-              )
-            }}
+            {{ row[col.field] | unitConverter: getRowUnit(row) }}
           </ng-container>
         </td>
       </tr>

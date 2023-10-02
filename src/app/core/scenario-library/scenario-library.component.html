@@ -1,22 +1,24 @@
 <rux-container class="scenarios-tree">
   <div slot="header">
-    <span class="title">Scenarios</span>
-    <rux-button
-      icon-only
-      icon="add"
-      size="small"
-      (click)="onIconClick()"
-    ></rux-button>
+    <span>Scenarios</span>
+    <rux-button icon-only icon="add" size="small" (click)="onIconClick()" />
   </div>
-  <rux-tree (ruxtreenodeselected)="onTreeNodeSelected($event)">
-    <rux-tree-node *ngFor="let parentNode of data">
-      {{ parentNode?.name }}
-      <rux-tree-node
-        slot="node"
-        *ngFor="let childNode of parentNode?.spaceCraft"
-      >
-        {{ childNode.catalogId }}
-      </rux-tree-node>
+  <rux-tree>
+    <rux-tree-node
+      (click)="onScenarioClick($event)"
+      *ngFor="let scenario of scenarios"
+      [attr.expanded]="scenario === scenarios[0]"
+    >
+      {{ scenario?.name }}
+      <ng-container *ngFor="let spacecraft of scenario?.spaceCraft">
+        <rux-tree-node
+          slot="node"
+          (ruxtreenodeselected)="onSpacecraftSelected(spacecraft, scenario!)"
+          [selected]="selectedSpacecraftId === spacecraft.id"
+        >
+          {{ spacecraft.catalogId }}
+        </rux-tree-node>
+      </ng-container>
     </rux-tree-node>
   </rux-tree>
 </rux-container>

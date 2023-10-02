@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
+
+import { Store } from '@ngrx/store';
 
 interface Utility {
   icon: string;
@@ -17,11 +20,18 @@ interface Utility {
   styleUrls: ['./utility-toolkit.component.css'],
 })
 export class UtilityToolkitComponent {
-  constructor(private router: Router, private route: ActivatedRoute) {}
-  id = '000';
+  spacecraft$ = this.store.select(selectCurrentSpacecraft);
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private store: Store
+  ) {}
 
   onClick(util: Utility) {
-    this.router.navigate([`./${util.link}`], {relativeTo: this.route.firstChild});
+    this.router.navigate([`./${util.link}`], {
+      relativeTo: this.route.firstChild,
+    });
   }
 
   utilities: Utility[] = [

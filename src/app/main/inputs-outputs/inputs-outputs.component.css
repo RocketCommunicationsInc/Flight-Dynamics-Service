@@ -1,9 +1,13 @@
 :host {
   display: block;
-  flex: 1;
+  width: 25%;
 }
 
 rux-tab-panels,
 rux-tab-panel {
   height: 100%;
+}
+
+rux-container {
+  --body-padding: 0;
 }
