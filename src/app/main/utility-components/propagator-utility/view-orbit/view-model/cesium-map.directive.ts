@@ -1,4 +1,4 @@
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef, Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 import {
   Cartesian3,
@@ -17,9 +17,32 @@ export class CesiumMapDirective implements OnInit {
   constructor(private el: ElementRef) {
     this.viewer = new Viewer(this.el.nativeElement);
     this.viewer.scene.mode = SceneMode.SCENE2D;
+    this.viewer.fullscreenButton.destroy();
+  }
 
+  @Input() cameraZoom: number = 19000000;
+  @Input() name: string = '';
+  @Input() satPos1X: number = 0;
+  @Input() satPos1Y: number = 0;
+  @Input() satPos2X: number = 0;
+  @Input() satPos2Y: number = 0;
+
+  ngOnInit(): void {
+    this.viewer.camera.zoomOut(this.cameraZoom);
+    this.addPoint(this.satPos1X, this.satPos1Y);
+    this.addPoint(this.satPos2X, this.satPos2Y);
+    this.addLine(this.satPos1X, this.satPos1Y, this.satPos2X, this.satPos2Y);
+  }
+
+  /**
+   * Creates and adds a point entity to the Cesium viewer.
+   *
+   * @param x the X degree of the point
+   * @param y the Y degree of the point
+   */
+  addPoint(x: number, y: number) {
     this.viewer.entities.add({
-      position: Cartesian3.fromDegrees(-182, 129),
+      position: Cartesian3.fromDegrees(x, y),
       point: {
         pixelSize: 5,
         color: Color.fromCssColorString('#1b2d3e'),
@@ -27,20 +50,27 @@ export class CesiumMapDirective implements OnInit {
         outlineWidth: 2,
       },
     });
+  }
+
+  /**
+   * Draws a line between the two given points.
+   *
+   * @param x1 satPos1X - the X degree of the first point
+   * @param y1 satPos1Y - the Y degree of the first point
+   * @param x2 satPos2X - the X degree of the second point
+   * @param y2 satPos2Y - the Y degree of the second point
+   */
+  addLine(x1: number, y1: number, x2: number, y2: number) {
     this.viewer.entities.add({
-      position: Cartesian3.fromDegrees(-82, 29),
-      point: {
-        pixelSize: 5,
-        color: Color.fromCssColorString('#1b2d3e'),
-        outlineColor: Color.fromCssColorString('#00c7cb'),
-        outlineWidth: 2,
-      },
-    });
-    this.viewer.entities.add({
-      name: 'Sample Satellite Path',
+      name: this.name,
       polyline: {
         positions: Cartesian3.fromDegreesArrayHeights([
-          -82, 29, 350000, -182, 129, 350000,
+          x1,
+          y1,
+          350000,
+          x2,
+          y2,
+          350000,
         ]),
         width: 5,
         material: new PolylineOutlineMaterialProperty({
@@ -50,12 +80,5 @@ export class CesiumMapDirective implements OnInit {
         }),
       },
     });
-  }
-  ngOnInit(): void {
-    this.viewer.camera.zoomOut(19000000);
-
-    // this.viewer.baseLayerPicker.viewModel.selectedImagery.name =
-    //   'Natrual Earth II';
-    console.log(this.viewer.imageryLayers);
   }
 }
