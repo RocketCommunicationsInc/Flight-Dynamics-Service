@@ -1,25 +1,25 @@
-import { Injectable } from '@angular/core'
-import { BehaviorSubject } from 'rxjs'
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import {
   mockScenarios,
   mockTrackFiles,
   spaceCraft,
-} from '../mock-data/generate-data'
-import { Scenario, Spacecraft, TrackFile } from '../types/data.types'
+} from '../mock-data/generate-data';
+import { Scenario, Spacecraft, TrackFile } from '../types/data.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MockDataService {
   getScenarios() {
-    return new BehaviorSubject<Scenario[]>(mockScenarios).asObservable()
+    return new BehaviorSubject<Scenario[]>(mockScenarios).asObservable();
   }
 
   getSpacecrafts() {
-    return new BehaviorSubject<Spacecraft[]>(spaceCraft).asObservable()
+    return new BehaviorSubject<Spacecraft[]>(spaceCraft).asObservable();
   }
 
   getTrackFiles() {
-    return new BehaviorSubject<TrackFile[]>(mockTrackFiles).asObservable()
+    return new BehaviorSubject<TrackFile[]>(mockTrackFiles).asObservable();
   }
 }

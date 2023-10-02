@@ -36,6 +36,7 @@ export class InputsComponent {
     thrustProfile: FormControl<string | null>;
     processedTrackFile: FormControl<string | null>;
   }>;
+  processedTrackFileName: string | undefined;
   trackfiles$: Observable<TrackFile[] | undefined> = this.store.select(
     selectCurrentSpaceCraftTrackFiles
   );
@@ -66,8 +67,7 @@ export class InputsComponent {
 
   ngOnInit() {}
   onSubmit(): void {
-    console.log(this.inputForm?.value);
-    //TODO hook form data into where it's going to go
+    console.log(this.inputForm.value);
   }
 
   handleSelect(e: any): void {
