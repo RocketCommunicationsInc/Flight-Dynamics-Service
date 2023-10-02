@@ -13,9 +13,13 @@ form.inputs_form {
   padding: var(--spacing-3);
 }
 
-.inputs_main > *,
-.inputs_main > :first-child.alertActive {
+.inputs_main > * {
   padding-block-start: var(--spacing-3);
+  width: 100%;
+}
+
+rux-pop-up {
+  width: inherit;
 }
 
 .inputs_main > :first-child {

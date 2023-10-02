@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { Spacecraft, SpacecraftEntity } from '../types/data.types';
+import { Spacecraft, SpacecraftEntity, TrackFile } from '../types/data.types';
 import { ScenariosState } from './app.model';
 import { scenarioAdapter, trackFileAdapter } from './app.adapters';
 import { appFeature } from './app.reducer';
@@ -54,5 +54,38 @@ export const selectCurrentTrackFile = createSelector(
   (trackFiles: any, trackFileId: string | null) => {
     if (!trackFileId) return null;
     return trackFiles[trackFileId];
+  }
+);
+
+export const selectCurrentSpaceCraftTrackFileNames = createSelector(
+  selectTrackFileEntities,
+  selectCurrentSpacecraft,
+  (trackfiles, spacecraft) => {
+    if (!spacecraft) return;
+    const spacecraftTrackfileIds: string[] = spacecraft.trackFileIds;
+    let spacecraftTrackfileNames = [];
+    if (spacecraftTrackfileIds) {
+      for (const id of spacecraftTrackfileIds) {
+        spacecraftTrackfileNames.push(trackfiles[id]?.name);
+      }
+    }
+    return spacecraftTrackfileNames;
+  }
+);
+
+export const selectCurrentSpaceCraftTrackFiles = createSelector(
+  selectTrackFileEntities,
+  selectCurrentSpacecraft,
+  (trackfiles, spacecraft) => {
+    if (!spacecraft) return;
+
+    const spacecraftTrackfileIds: string[] = spacecraft.trackFileIds;
+    let spacecraftAllTrackFiles: TrackFile[] = [];
+    if (spacecraftTrackfileIds) {
+      for (const id of spacecraftTrackfileIds) {
+        spacecraftAllTrackFiles.push(trackfiles[id]!);
+      }
+    }
+    return spacecraftAllTrackFiles;
   }
 );

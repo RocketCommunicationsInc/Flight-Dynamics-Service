@@ -1,14 +1,16 @@
 <form class="inputs_form" [formGroup]="inputForm" (ngSubmit)="onSubmit()">
   <div class="inputs_main">
-    <!-- {{trackFileIds}} -->
-    <!-- <div *ngFor="(spacecraft$ | async)?.trackFileIds">
-
-    </div> -->
-    <rux-input
+    <rux-pop-up placement="bottom" close-on-select>
+      <rux-input
+      slot="trigger"
       type="text"
       label="Database File"
       formControlName="databaseFile"
-    />
+      />
+      <rux-menu (ruxmenuselected)="handleSelect($event)">
+        <rux-menu-item [attr.data-id]="trackfile.id" *ngFor="let trackfile of trackfiles$ | async">{{trackfile.name}}</rux-menu-item>
+      </rux-menu>
+    </rux-pop-up>
     <div class="inputs_input-menu-wrapper">
       <rux-select label="Orbit Source" formControlName="orbitSource">
         <rux-option label="Ephemeris" value="ephemeris"></rux-option>

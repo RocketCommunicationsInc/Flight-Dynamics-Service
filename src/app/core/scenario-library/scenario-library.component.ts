@@ -16,7 +16,7 @@ import { ToastService } from '../../shared/toast.service';
 import { Scenario, Spacecraft, SpacecraftEntity } from '../../types/data.types';
 import { Router } from '@angular/router';
 import { AppStore, ScenariosState } from 'src/app/+state/app.model';
-import { Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -26,9 +26,19 @@ import { Observable } from 'rxjs';
 })
 export class ScenarioLibraryComponent {
   selectedSpacecraftId$: Observable<string | null>;
-  scenarios$: Observable<ScenariosState>;
-  spacecrafts$: Observable<SpacecraftEntity>;
   scenarios: (Scenario | undefined)[] = [];
+  scenarios$: Subscription = this.store
+    .select(selectScenarios)
+    .pipe(
+      map(
+        (scenario) =>
+          (this.scenarios = scenario.ids.map((id) => {
+            return scenario.entities[id];
+          }))
+      )
+    )
+    .subscribe();
+  spacecrafts$: Observable<SpacecraftEntity>;
   spacecraftData: any;
   selectedSpacecraftId: string | null = null;
 
@@ -37,17 +47,17 @@ export class ScenarioLibraryComponent {
     private store: Store<AppStore>,
     private router: Router
   ) {
-    this.scenarios$ = this.store.select(selectScenarios);
+    // this.scenarios$ = this.store.select(selectScenarios);
     this.selectedSpacecraftId$ = this.store.select(selectSelectedSpacecraftId);
     this.spacecrafts$ = this.store.select(selectAllSpacecrafts);
   }
 
   ngOnInit() {
-    this.scenarios$.subscribe((res: any) => {
-      this.scenarios = res.ids.map((id: string) => {
-        return res.entities[id];
-      });
-    });
+    // this.scenarios$.subscribe((res: any) => {
+    //   this.scenarios = res.ids.map((id: string) => {
+    //     return res.entities[id];
+    //   });
+    // });
 
     this.selectedSpacecraftId$.subscribe((res: string | null) => {
       this.selectedSpacecraftId = res;

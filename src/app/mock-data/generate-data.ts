@@ -51,7 +51,7 @@ const generateTrackFile = (
   return {
     id,
     spaceCraftRefId: spaceCraftRefId,
-    name: 'trackfile_' + index,
+    name: 'trackfile_' + id,
     creationDate: getCreationDate(),
     fileSize: fileSizeNum,
     ephemerisSourceFile: generateEphemerisFile(id, index),
@@ -80,7 +80,7 @@ const generateEphemerisFile = (
 const generateTLEFile = (trackFileId: string, index: number): TLEFile => {
   return {
     trackFileRefId: trackFileId,
-    name: 'trackfile_' + index + '_TLE.txt',
+    name: 'trackfile_' + trackFileId + '_TLE.txt',
     line1:
       '1 25544U 98067A   23261.87436073  .00014645  00000-0  26964-3 0  9992',
     line2:
@@ -94,7 +94,7 @@ const generateProcessedTrackFile = (
 ): ProcessedTrackFile => {
   return {
     trackFileRefId: trackFileId,
-    name: 'trackfile_' + index + 'processed.txt',
+    name: 'trackfile_' + trackFileId + 'processed.txt',
     creationDate: new Date(),
     finalOrbitProperties: generateSatProperties(),
   };
