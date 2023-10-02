@@ -1,3 +1,18 @@
+<div class="solution-graph">
+<div class="legend">
+  <div
+    class="checkboxes"
+    *ngFor="let series of chartOptions.series; let i = index"
+  >
+    <rux-checkbox
+      [style.border-color]="series.color"
+      [checked]="series.visible"
+      (ruxchange)="handleLegend(i)"
+    />
+    <label> {{ series.name }}</label>
+  </div>
+</div>
+
 <apx-chart
   [series]="chartOptions.series"
   [chart]="chartOptions.chart"
@@ -8,4 +23,4 @@
   [legend]="chartOptions.legend"
   [tooltip]="chartOptions.tooltip"
 ></apx-chart>
-
+</div>

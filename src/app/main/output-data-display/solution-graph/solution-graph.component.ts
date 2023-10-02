@@ -12,9 +12,7 @@ import {
   ApexOptions,
   ChartComponent,
 } from 'ng-apexcharts';
-import { OutputDataDisplayService } from '../output-data-display.service';
-import { PerformanceData } from '../output-data-display.model';
-import { TableService } from 'src/app/shared/table.service';
+import { AstroComponentsModule } from '@astrouxds/angular';
 
 type ChartOptions = {
   series: ApexAxisChartSeries | any;
@@ -30,127 +28,98 @@ type ChartOptions = {
 @Component({
   selector: 'fds-solution-graph',
   standalone: true,
-  imports: [CommonModule, NgApexchartsModule],
+  imports: [CommonModule, NgApexchartsModule, AstroComponentsModule],
   templateUrl: './solution-graph.component.html',
   styleUrls: ['./solution-graph.component.css'],
 })
 export class SolutionGraphComponent {
   @ViewChild(ChartComponent) chart?: ChartComponent;
-  // @Input() data: PerformanceData[] = [];
 
-  constructor(public outputDataDisplayService: OutputDataDisplayService) {
-    console.log(this.seriesTwoData)
+  seriesOne: { x: string; y: number[] }[] = [];
+  seriesTwo: { x: string; y: number[] }[] = [];
+  seriesThree: { x: string; y: number[] }[] = [];
+  seriesFour: { x: string; y: number[] }[] = [];
+
+  randomInt(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  property = this.outputDataDisplayService.solutionData.map(
-    (state) => state.property
-  );
+  seriesOneData(length: number) {
+    for (let i = 0; i < length; i++) {
+      const first = this.randomInt(150, 600);
+      const second = this.randomInt(550, 900);
+      this.seriesOne.push({ x: '', y: [first, second] });
+    }
+    return this.seriesOne;
+  }
 
-  initialState = this.outputDataDisplayService.solutionData.map(
-    (state) => state.initial
-  );
+  seriesTwoData(length: number) {
+    for (let i = 0; i < length; i++) {
+      const first = this.randomInt(300, 800);
+      const second = this.randomInt(1000, 1200);
+      this.seriesTwo.push({ x: '', y: [first, second] });
+    }
+    return this.seriesTwo;
+  }
 
-  finalState = this.outputDataDisplayService.solutionData.map(
-    (state) => state.final
-  );
+  seriesThreeData(length: number) {
+    for (let i = 0; i < length; i++) {
+      const first = this.randomInt(50, 100);
+      const second = this.randomInt(350, 500);
+      this.seriesThree.push({ x: '', y: [first, second] });
+    }
+    return this.seriesThree;
+  }
 
-  seriesOne = this.initialState.map((initial, index) => [
-    initial,
-    this.finalState[index],
-  ]);
+  seriesFourData(length: number) {
+    for (let i = 0; i < length; i++) {
+      const first = this.randomInt(0, 500);
+      const second = this.randomInt(550, 1150);
+      this.seriesFour.push({ x: '', y: [first, second] });
+    }
+    return this.seriesFour;
+  }
 
-  seriesTwo = this.initialState.map((initial, index) => [
-    initial - 500,
-    this.finalState[index] - 125,
-  ]);
+  handleLegend(index: number) {
+    const series = this.chartOptions.series[index];
+    series.visible = !series.visible;
 
-  seriesThree = this.initialState.map((initial, index) => [
-    initial - 50,
-    this.finalState[index] - 10,
-  ]);
-
-  seriesOneData = this.seriesOne.map((data) => ({
-    x: data,
-    y: data,
-    fill: 'red',
-    // fillColor: 'green',
-    colors: ['red', 'green'],
-    //  color: 'purple'
-  }));
-
-  seriesTwoData = this.seriesTwo.map((data) => ({
-    x: data,
-    y: data,
-    fill: 'red',
-    // fillColor: 'green',
-    colors: ['red', 'green'],
-    //  color: 'purple'
-  }));
-
-  seriesThreeData = this.seriesThree.map((data) => ({
-    x: data,
-    y: data,
-    fill: 'red',
-    // fillColor: 'green',
-    colors: ['red', 'green'],
-    //  color: 'purple'
-  }));
+    const updatedSeries = this.chartOptions.series.filter(
+      (data: any) => data.visible
+    );
+    this.chart?.updateSeries(updatedSeries);
+  }
 
   chartOptions: Partial<ChartOptions> | any = {
     series: [
-      { data: this.seriesOneData },
-      { data: this.seriesTwoData },
-       //{ data: this.seriesOneData },
-      // { data: this.seriesTwoData },
-    //  { data: [{
-    //     x: '',
-    //     y: [65, 96]
-    //   },
-    //   {
-    //     x: '',
-    //     y: [55, 78]
-    //   },
-    //   {
-    //     x: '',
-    //     y: [95, 186]
-    //   }]},
-    //   { data: [{
-    //     x: '',
-    //     y: [65, 96]
-    //   },
-    //   {
-    //     x: '',
-    //     y: [55, 78]
-    //   },
-    //   {
-    //     x: '',
-    //     y: [95, 186]
-    //   }]},
-    ],
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        distributed: true,
-        //background: '#293450',
-        // style: {
-        // colors: [
-        //   'var(--color-data-visualization-1)',
-        //   'var(--color-data-visualization-2)',
-        //   'var(--color-data-visualization-3)',
-        //   'var(--color-data-visualization-4)',
-        // ],
-        colors: [
-          'purple',
-          'orange',
-          'yellow',
-          'red',
-        ],
-        // }
+      {
+        name: 'Alpha',
+        color: 'var(--color-data-visualization-1)',
+        data: this.seriesOneData(15),
+        visible: true,
       },
-    },
-
+      {
+        name: 'Bravo',
+        color: 'var(--color-data-visualization-2)',
+        data: this.seriesTwoData(15),
+        visible: true,
+      },
+      {
+        name: 'Charlie',
+        color: 'var(--color-data-visualization-3)',
+        data: this.seriesThreeData(15),
+        visible: true,
+      },
+      {
+        name: 'Echo',
+        color: 'var(--color-data-visualization-4)',
+        data: this.seriesFourData(15),
+        visible: true,
+      },
+    ],
     chart: {
-      height: 500,
+      background: 'var(--color-background-base-default)',
+      height: 475,
       type: 'rangeBar',
       toolbar: {
         show: false,
@@ -159,45 +128,9 @@ export class SolutionGraphComponent {
         enabled: false,
       },
     },
-    // colors: [
-    //   'var(--color-data-visualization-1)',
-    //   'var(--color-data-visualization-2)',
-    //   'var(--color-data-visualization-3)',
-    //   'var(--color-data-visualization-4)',
-    // ],
-    colors: [
-      'purple',
-      'orange',
-      'yellow',
-      'red',
-    ],
-    // fill: {
-    //   colors: ['#F44336', '#E91E63', '#9C27B0'],
-    // },
-    fill: {
-      type: 'solid',
-      opacity: 0.6,
-      colors: [
-        'purple',
-        'orange',
-        'yellow',
-        'red',
-      ],
-    },
     stroke: {
       lineCap: 'round',
     },
-    //   dataLabels: {
-    //     style: {
-    //       colors: ['#F44336', '#E91E63', '#9C27B0']
-    //     }
-    //   },
-    //   markers: {
-    //     colors: ['#F44336', '#E91E63', '#9C27B0']
-    //  },
-    // theme: {
-    //   enabled: true
-    // },
     legend: {
       show: false,
     },
@@ -220,15 +153,16 @@ export class SolutionGraphComponent {
         'Mar 08',
       ],
       axisTicks: {
-        //show: true,
+        show: true,
       },
       axisBorder: {
         show: true,
         color: 'var(--color-text-primary)',
       },
       labels: {
-        //enabled: true,
-        //show: true,
+        formatter: function(label: string) {
+          // return `<div class='labels'>${label}<br> 2023</div>`
+        },
         style: {
           colors: 'var(--color-text-primary)',
         },
@@ -239,6 +173,10 @@ export class SolutionGraphComponent {
     },
     yaxis: [
       {
+        tickAmount: 12,
+        decimalsInFloat: 0,
+        min: 0,
+        max: 1200,
         axisTicks: {
           show: true,
         },
