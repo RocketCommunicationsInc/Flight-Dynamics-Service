@@ -19,7 +19,7 @@
             </th>
             <th>File Name</th>
             <th
-              (click)="sortColumn('date')"
+              (click)="sortColumn('creationDate')"
               (mouseenter)="showIcon = true"
               (mouseleave)="showIcon = false"
             >
@@ -38,7 +38,7 @@
             </th>
 
             <th
-              (click)="sortColumn('size')"
+              (click)="sortColumn('fileSize')"
               (mouseenter)="showSecondIcon = true"
               (mouseleave)="showSecondIcon = false"
             >
@@ -61,7 +61,10 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let id of filteredIds">
-            <tr *ngIf="id.filtered === false">
+            <tr
+              *ngIf="id.filtered === false"
+              [ngClass]="{ selected: id.id === selectedFileId }"
+            >
               <td>
                 <rux-checkbox
                   [checked]="id.selected"
@@ -80,10 +83,10 @@
 
     <div class="file-wrapper">
       <header>
-        <span>{{ selectedFileName }}</span>
+        <span>{{ selectedFileId ? trackFiles[selectedFileId].name : '' }}</span>
         <div>
           <rux-button
-            [disabled]="!isFileSelected"
+            [disabled]="!editTrackFile"
             borderless
             secondary
             icon="cancel"
@@ -91,7 +94,7 @@
             >Cancel</rux-button
           >
           <rux-button
-            [disabled]="!isFileSelected"
+            [disabled]="!editTrackFile"
             borderless
             secondary
             icon="save"
@@ -103,15 +106,14 @@
 
       <div class="file-content" *ngIf="!editTrackFile">
         <rux-icon icon="antenna-transmit" size="7rem" />
-        <rux-button [disabled]="!isFileSelected" (click)="handleEdit()"
+        <rux-button [disabled]="!selectedFileId" (click)="handleEdit()"
           >Edit Track File</rux-button
         >
       </div>
       <rux-textarea
         *ngIf="editTrackFile"
         class="edit-file"
-        value=" {{ selectedFileContent }}"
-        (ruxchange)="handleTextarea($event)"
+        [(ngModel)]="editedContent"
       />
     </div>
   </div>

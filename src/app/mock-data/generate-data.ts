@@ -37,7 +37,6 @@ const generateSpacecraft = (): Spacecraft => {
 
 //generates a random date between now and 120 days ago
 const generateRandomDate = ()=>{
-  const today = new Date()
   const randomNum = Math.floor(Math.random() * 120)
   const randomDate = new Date()
   randomDate.setDate(new Date().getDate() - randomNum)

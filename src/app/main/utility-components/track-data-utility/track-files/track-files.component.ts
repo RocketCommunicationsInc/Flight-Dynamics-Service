@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { selectCurrentSpacecraft, selectSelectedTrackFileId, selectTrackFileEntities } from 'src/app/+state/app.selectors';
-import { TrackFile, TrackFileEntity } from 'src/app/types/data.types';
+import { TrackFileEntity } from 'src/app/types/data.types';
 import { Subscription } from 'rxjs'
 import { Filter } from 'src/app/types/Files';
 
@@ -17,25 +17,22 @@ type Sort = 'ASC' | 'DESC' | '';
   styleUrls: ['./track-files.component.css'],
 })
 export class TrackFilesComponent {
+
   trackFiles$ = this.store.select(selectTrackFileEntities)
   trackfileId$ = this.store.select(selectSelectedTrackFileId)
   currentSpacecraft$ = this.store.select(selectCurrentSpacecraft)
   currentTrackfileIds: string[] = []
-  trackFiles:TrackFileEntity = {}
+  trackFiles: TrackFileEntity = {}
 
   //subscription
   subscriptions: Subscription|null = null
-
-  selectedFileName: string = '';
-  selectedFileContent: string = '';
   editedContent: string = '';
   editTrackFile: boolean = false;
-  isFileSelected: boolean = false;
+  selectedFileId: string | null = null;
   filteredIds: Filter[] = [];
-  filteredTrackFiles: TrackFile[] = []
 
   sortDirection: Sort = 'ASC';
-  sortedColumn: string = '';
+  sortedColumn: any = '';
   showIcon: boolean = false;
   showSecondIcon: boolean = false;
 
@@ -63,11 +60,6 @@ export class TrackFilesComponent {
     this.subscriptions?.unsubscribe()
   }
 
-  filterTrackFiles(){
-    const filteredIds = this.filteredIds.filter(id => !id.filtered)
-    return this.filteredTrackFiles = filteredIds.map(id => this.trackFiles[id.id]);
-  }
-
   handleFilter(selection: string): Filter[] {
     const today = new Date();
     const within7Days = new Date();
@@ -76,6 +68,8 @@ export class TrackFilesComponent {
     within7Days.setDate(today.getDate() - 7);
     within30Days.setDate(today.getDate() - 30);
     within90Days.setDate(today.getDate() - 90);
+
+    console.log(selection)
 
     let newFilteredIds = this.filteredIds
 
@@ -107,15 +101,14 @@ export class TrackFilesComponent {
 
   onSelect(event: any) {
     this.filteredIds = this.handleFilter(event.target.value);
-    this.filterTrackFiles()
   }
 
-  sortColumn(column: string) {
+  sortColumn(column:string) {
     if (column === this.sortedColumn) {
-      if (column === 'date') {
-        this.showIcon = !this.showIcon;
+      if (column === 'creationDate') {
+
       }
-      if (column === 'size') {
+      if (column === 'fileSize') {
         this.showSecondIcon = !this.showSecondIcon;
       }
       this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
@@ -123,29 +116,39 @@ export class TrackFilesComponent {
       this.sortedColumn = column;
       this.sortDirection = 'ASC';
     }
-    this.filteredTrackFiles.sort((a: any, b: any) => {
-      return this.sortDirection === 'ASC'
-        ? a[this.sortedColumn] - b[this.sortedColumn]
-        : b[this.sortedColumn] - a[this.sortedColumn];
-    });
+
+    if(column === 'creationDate'){
+      this.filteredIds.sort((a: Filter, b: Filter) => {
+        const dateA = this.trackFiles[a.id].creationDate
+        const dateB = this.trackFiles[b.id].creationDate
+        return this.sortDirection === 'ASC'
+          ? new Date(dateA).getTime() - new Date(dateB).getTime()
+          : new Date(dateB).getTime() - new Date(dateA).getTime()
+      });
+    }
+
+    if(column === 'fileSize'){
+      this.filteredIds.sort((a: Filter, b: Filter) => {
+        const fileA = this.trackFiles[a.id].fileSize
+        const fileB = this.trackFiles[b.id].fileSize
+        return this.sortDirection === 'ASC'
+          ? fileA - fileB
+          : fileB - fileA
+      });
+    }
+
   }
 
-  handleCheckbox(file: any): void {
+  handleCheckbox(currentFilter: Filter): void {
     const selectedCB = this.filteredIds.filter((cb) => cb.selected);
-    file.selected = !file.selected;
-    if (file.selected) {
-      this.selectedFileName = file.fileName;
-      this.selectedFileContent = file.content;
-      this.isFileSelected = true;
-    } else if (selectedCB.length > 1 && this.selectedFileName) {
+    currentFilter.selected = !currentFilter.selected;
+    if (currentFilter.selected) {
+      this.selectedFileId = currentFilter.id;
+    } else if (selectedCB.length > 1 && this.selectedFileId) {
       //if there are multiple checkboxes selected and you uncheck one, the selected file/content will default to first item in the array
-      this.selectedFileName = this.trackFiles[selectedCB[0].id].name;
-      //!TODO: Content should be.. what? When you edit a file what should you edit?
-      this.selectedFileContent = this.trackFiles[selectedCB[0].id].ephemerisSourceFile.name
+      this.selectedFileId = selectedCB[0].id
     } else {
-      this.selectedFileName = '';
-      this.selectedFileContent = '';
-      this.isFileSelected = false;
+      this.selectedFileId = null;
     }
   }
 
@@ -160,6 +163,7 @@ export class TrackFilesComponent {
   }
 
   handleEdit() {
+    this.editedContent = this.filteredIds.find(filter=> filter.id === this.selectedFileId)?.content || '';
     this.editTrackFile = true;
   }
 
@@ -168,13 +172,14 @@ export class TrackFilesComponent {
   }
 
   handleSave() {
-    this.selectedFileContent = this.editedContent;
+    console.log(this.selectedFileId)
+    this.filteredIds = this.filteredIds.map(filter => {
+      console.log(filter.id === this.selectedFileId)
+      console.log('content', this.editedContent)
+
+      return filter.id === this.selectedFileId ? {...filter, content: this.editedContent} : filter});
+
     this.editTrackFile = false;
   }
 
-  handleTextarea(event: any) {
-    if (event.target.value) {
-      this.editedContent = event.target.value;
-    }
-  }
 }
