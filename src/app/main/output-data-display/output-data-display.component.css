@@ -30,6 +30,10 @@ rux-container::part(body) {
   align-items: center;
 }
 
+.action-btn-wrapper rux-button:nth-of-type(1) {
+  margin-right: var(--spacing-3);
+}
+
 .data {
   display: flex;
   align-items: baseline;

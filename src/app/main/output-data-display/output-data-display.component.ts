@@ -31,20 +31,18 @@ export class OutputDataDisplayComponent {
     { label: 'OD Performance', id: 'od-performance' },
   ];
 
-  actions: SegmentedButton[] = [
-    { label: 'Secondary Action' },
-    { label: 'Primary Action', selected: true },
-  ];
-
-  views: SegmentedButton[] = [
-    { label: 'View Table', selected: true },
-    { label: 'View Graph' },
-  ];
-
   constructor(public outputDataDisplayService: OutputDataDisplayService) {}
 
-  setCurrentView(e: Event) {
-    const event = e as CustomEvent;
-    this.currentView = event.detail;
+  showGraph: boolean = false;
+  showTable: boolean = true;
+
+  viewTable() {
+    this.showGraph = false;
+    this.showTable = true;
+  }
+
+  viewGraph() {
+    this.showGraph = true;
+    this.showTable = false;
   }
 }

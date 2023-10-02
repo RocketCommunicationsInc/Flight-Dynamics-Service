@@ -29,21 +29,31 @@
               </div>
             </div>
           </div>
-
-          <rux-segmented-button size="small" [data]="actions" />
-        </div>
-
-        <div class="container">
-          <rux-segmented-button
-            size="small"
-            [data]="views"
-            (ruxchange)="setCurrentView($event)"
-          />
+          <div>
+            <rux-button
+              icon="notes"
+              size="small"
+              secondary
+              (click)="viewTable()"
+              >Table</rux-button
+            >
+            <rux-button
+              icon="show-chart"
+              size="small"
+              secondary
+              (click)="viewGraph()"
+              >Graph</rux-button
+            >
+          </div>
+          <div class="action-btn-wrapper">
+            <rux-button size="small" secondary>Create TLE</rux-button>
+            <rux-button size="small">Create Ephemeris</rux-button>
+          </div>
         </div>
       </div>
 
-      <fds-solution-table *ngIf="currentView === 'View Table'" />
-      <fds-solution-graph *ngIf="currentView === 'View Graph'" />
+      <fds-solution-table *ngIf="showTable" />
+      <fds-solution-graph *ngIf="showGraph" />
     </rux-tab-panel>
 
     <rux-tab-panel [attr.aria-labelledby]="tabs[1].id">
