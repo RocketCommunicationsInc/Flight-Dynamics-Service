@@ -15,7 +15,10 @@
         <thead>
           <tr>
             <th>
-              <rux-checkbox (ruxchange)="handleSelectAll($event)" />
+              <rux-checkbox
+                (ruxchange)="handleSelectAll($event)"
+                [disabled]="editTrackFile"
+              />
             </th>
             <th>File Name</th>
             <th
@@ -64,10 +67,11 @@
             <tr
               *ngIf="id.filtered === false"
               [ngClass]="{ selected: id.id === selectedFileId }"
+              (click)="onTrackSelect($event, id.id)"
             >
               <td>
                 <rux-checkbox
-                  [checked]="id.selected"
+                  [checked]="id.checked"
                   (ruxchange)="handleCheckbox(id)"
                   [disabled]="editTrackFile"
                 />

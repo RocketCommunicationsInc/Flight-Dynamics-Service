@@ -52,7 +52,7 @@ export class TrackFilesComponent {
     )
     this.subscriptions.add(sub2)
 
-    this.filteredIds = this.currentTrackfileIds.map((id)=> ({id, selected: false, filtered: false, content:''}))
+    this.filteredIds = this.currentTrackfileIds.map((id)=> ({id, checked: false, filtered: false, content:''}))
     console.log(this.trackFiles)
   }
 
@@ -68,8 +68,6 @@ export class TrackFilesComponent {
     within7Days.setDate(today.getDate() - 7);
     within30Days.setDate(today.getDate() - 30);
     within90Days.setDate(today.getDate() - 90);
-
-    console.log(selection)
 
     let newFilteredIds = this.filteredIds
 
@@ -103,10 +101,16 @@ export class TrackFilesComponent {
     this.filteredIds = this.handleFilter(event.target.value);
   }
 
+  onTrackSelect(event: Event, id:string) {
+    const target = event.target as HTMLElement
+    if(target.nodeName === "RUX-CHECKBOX") return;
+    this.selectedFileId = id
+  }
+
   sortColumn(column:string) {
     if (column === this.sortedColumn) {
       if (column === 'creationDate') {
-
+        this.showIcon = !this.showIcon;
       }
       if (column === 'fileSize') {
         this.showSecondIcon = !this.showSecondIcon;
@@ -140,26 +144,13 @@ export class TrackFilesComponent {
   }
 
   handleCheckbox(currentFilter: Filter): void {
-    const selectedCB = this.filteredIds.filter((cb) => cb.selected);
-    currentFilter.selected = !currentFilter.selected;
-    if (currentFilter.selected) {
-      this.selectedFileId = currentFilter.id;
-    } else if (selectedCB.length > 1 && this.selectedFileId) {
-      //if there are multiple checkboxes selected and you uncheck one, the selected file/content will default to first item in the array
-      this.selectedFileId = selectedCB[0].id
-    } else {
-      this.selectedFileId = null;
-    }
+    this.filteredIds = this.filteredIds.map(id => id === currentFilter ? {...id, checked: !id.checked} : id)
+    //!Todo: What does the checkbox actually do anyways?
   }
 
-  handleSelectAll(event: any) {
+  handleSelectAll(event: Event) {
     const checkbox = event.target as HTMLRuxCheckboxElement;
-    let newFilteredIds = this.filteredIds
-    if (checkbox.checked) {
-      newFilteredIds = this.filteredIds.map((id) => (!id.filtered ? {...id, selected: true} : {...id}));
-    } else newFilteredIds = this.filteredIds.map((id) => (!id.filtered ? {...id, selected: false}: {...id}));
-
-    this.filteredIds = newFilteredIds
+      this.filteredIds = this.filteredIds.map((id) => (!id.filtered ? {...id, checked: checkbox.checked} : {...id}));
   }
 
   handleEdit() {
@@ -172,7 +163,6 @@ export class TrackFilesComponent {
   }
 
   handleSave() {
-    console.log(this.selectedFileId)
     this.filteredIds = this.filteredIds.map(filter => {
       console.log(filter.id === this.selectedFileId)
       console.log('content', this.editedContent)
