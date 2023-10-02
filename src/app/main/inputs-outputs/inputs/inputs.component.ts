@@ -31,14 +31,14 @@ export class InputsComponent {
   }
 
   trackFiles$ = this.store.select(selectAllTrackFiles);
-  scenario$ = this.store.select(selectCurrentSpacecraft);
+  spacecraft$ = this.store.select(selectCurrentSpacecraft);
   currentScenarioTrackFiles: TrackFile[] = [];
 
   constructor(private store: Store<AppStore>) {
-    this.scenario$.subscribe((scenario) => {
+    this.spacecraft$.subscribe((spacecraft) => {
       this.trackFiles$.subscribe((trackFile) => {
-        if (scenario) {
-          scenario.trackFileIds.forEach((id) => {
+        if (spacecraft) {
+          spacecraft.trackFileIds.forEach((id) => {
             trackFile.map((file) => {
               if (file.id.includes(id)) {
                 this.currentScenarioTrackFiles.push(file);
