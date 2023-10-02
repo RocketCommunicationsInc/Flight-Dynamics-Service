@@ -18,7 +18,7 @@ import {
   ApexOptions,
   ChartComponent,
 } from 'ng-apexcharts';
-import { Files2 } from 'src/app/types/Files';
+import { Files } from 'src/app/types/Files';
 import { SitesComponent } from './sites/sites.component';
 import { SettingsComponent } from './settings/settings.component';
 
@@ -110,7 +110,7 @@ export class TrackDataComponent {
     this.showTable = false;
   }
 
-  filteredData: Files2[] = this.dummyFileData;
+  filteredData: Files[] = this.dummyFileData;
   sortDirection: Sort = 'ASC';
   sortedColumn: string = '';
   showIcon: boolean = false;
