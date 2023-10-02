@@ -24,11 +24,13 @@ export class TrackFilesComponent {
   currentTrackfileIds: string[] = []
   trackFiles: TrackFileEntity = {}
 
-  //editing and filtering
+  //filtering
+  filteredIds: Filter[] = [];
+
+  //editing
   editedContent: string = '';
   editTrackFile: boolean = false;
   selectedFileId: string | null = null;
-  filteredIds: Filter[] = [];
 
   //sorting
   sortDirection: Sort = 'ASC';
@@ -85,12 +87,14 @@ export class TrackFilesComponent {
          {...id, filtered: false} : {...id, filtered: true}
       });
     }
+
     if (selection === 'thirty-days') {
       newFilteredIds = this.filteredIds.map((id) => {
         return this.trackFiles[id.id].creationDate >= within30Days ?
           {...id, filtered: false} : {...id, filtered: true}
        });
     }
+
     if (selection === 'ninety-days') {
       newFilteredIds = this.filteredIds.map((id) => {
         return this.trackFiles[id.id].creationDate >= within90Days ?
