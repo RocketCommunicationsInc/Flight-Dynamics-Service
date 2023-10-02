@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ import { TrackFile } from 'src/app/types/data.types';
   templateUrl: './inputs.component.html',
   styleUrls: ['./inputs.component.css'],
 })
-export class InputsComponent implements AfterViewInit {
+export class InputsComponent {
   inputForm = new FormGroup({
     databaseFile: new FormControl(''),
     orbitSource: new FormControl(''),
@@ -28,17 +28,6 @@ export class InputsComponent implements AfterViewInit {
   onSubmit(): void {
     console.log(this.inputForm.value);
     //TODO hook form data into where it's going to go
-  }
-
-  // @ViewChild('popup', { static: false }) popup?: ElementRef;
-  // @ViewChild('dbInput', { static: false }) dbInput?: ElementRef;
-
-  ngAfterViewInit(): void {
-    //   this.popup?.nativeElement.addEventListener('ruxpopupclosed', () => {
-    //     if (document.activeElement === this.dbInput?.nativeElement) {
-    //       this.popup?.nativeElement.show();
-    //     }
-    //   });
   }
 
   trackFiles$ = this.store.select(selectAllTrackFiles);
@@ -72,7 +61,14 @@ export class InputsComponent implements AfterViewInit {
   orbitSourceFile: string = '';
   thrustProfileFile: string = '';
   processedTrackFile: string = '';
-  openPopup: boolean = false;
+
+  @ViewChild('popup', { static: false }) popup?: HTMLRuxPopUpElement;
+
+  showPopup() {
+    if (this.popup) {
+      this.popup.show();
+    }
+  }
 
   handleInput(event: any) {
     this.results = [];
@@ -81,12 +77,9 @@ export class InputsComponent implements AfterViewInit {
       this.orbitSourceFile = '';
       this.thrustProfileFile = '';
       this.processedTrackFile = '';
-      this.openPopup = true;
     }
     if (event.target.value !== '') {
-      // this.dbInput?.nativeElement.setFocus();
-      // console.log(this.dbInput?.nativeElement);
-      this.openPopup = true;
+      this.showPopup();
       this.hasValue = true;
       this.currentScenarioTrackFiles.filter((file) => {
         if (file.name.includes(event.target.value)) {
@@ -97,23 +90,6 @@ export class InputsComponent implements AfterViewInit {
       this.hasValue = false;
       this.isDisabled = true;
     }
-  }
-
-  // handleFocus(event: any) {
-  //   console.log(event.target, 'eventttt');
-  //   if (event.target.value !== '') {
-  //     this.hasValue = true;
-  //     this.currentScenarioTrackFiles.filter((file) => {
-  //       if (!file.name.includes(event.target.value)) {
-  //         this.noResults = true;
-  //       }
-  //     });
-  //   }
-  // }
-
-  showPopup() {
-    // console.log(this.popup)
-    // this.popup?.nativeElement.show()
   }
 
   handleSelection(event: any) {

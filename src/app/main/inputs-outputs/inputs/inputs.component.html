@@ -1,13 +1,7 @@
 <form class="inputs_form" [formGroup]="inputForm" (ngSubmit)="onSubmit()">
   <div class="inputs_main">
     <div class="inputs_input-button-wrapper">
-      <rux-pop-up
-        (ruxpopupclosed)="showPopup()"
-        [open]="openPopup"
-        close-on-select
-        placement="bottom"
-        #popup
-      >
+      <rux-pop-up close-on-select placement="bottom" #popup>
         <rux-menu *ngIf="!hasValue" (ruxmenuselected)="handleSelection($event)">
           <span>Latest Track File</span>
           <rux-menu-item
@@ -35,16 +29,13 @@
         </rux-menu>
 
         <rux-input
-          #dbInput
           slot="trigger"
-          type="text"
           label="Database File"
           formControlName="databaseFile"
           type="search"
           placeholder="Start typing to search files..."
           (ruxinput)="handleInput($event)"
           [value]="databaseFile"
-          (ruxfocus)="showPopup()"
         />
       </rux-pop-up>
     </div>
