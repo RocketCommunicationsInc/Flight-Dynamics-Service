@@ -5,6 +5,8 @@ export interface Files extends TrackFile {
   content: string;
 }
 
+export interface Filter {id:string, selected: boolean, filtered: boolean, content:''}
+
 export interface Files2 {
   fileName: string;
   date: Date;

@@ -60,18 +60,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let file of filteredData">
-            <td>
-              <rux-checkbox
-                [checked]="file.selected"
-                (ruxchange)="handleCheckbox(file)"
-                [disabled]="editTrackFile"
-              />
-            </td>
-            <td>{{ file.name }}</td>
-            <td>{{ file.creationDate | date: 'MM/dd/YYYY' }}</td>
-            <td>{{ file.fileSize }} kb</td>
-          </tr>
+          <ng-container *ngFor="let id of filteredIds">
+            <tr *ngIf="id.filtered === false">
+              <td>
+                <rux-checkbox
+                  [checked]="id.selected"
+                  (ruxchange)="handleCheckbox(id)"
+                  [disabled]="editTrackFile"
+                />
+              </td>
+              <td>{{ trackFiles[id.id].name }}</td>
+              <td>{{ trackFiles[id.id].creationDate | date: 'MM/dd/YYYY' }}</td>
+              <td>{{ trackFiles[id.id].fileSize }} kb</td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>

@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { dummyFileData } from '../dummy-file-data';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { selectCurrentSpacecraft, selectSelectedTrackFileId, selectTrackFileEntities } from 'src/app/+state/app.selectors';
-import { TrackFile } from 'src/app/types/data.types';
+import { TrackFile, TrackFileEntity } from 'src/app/types/data.types';
 import { Subscription } from 'rxjs'
-import { Files } from 'src/app/types/Files';
+import { Filter } from 'src/app/types/Files';
 
 type Sort = 'ASC' | 'DESC' | '';
 @Component({
@@ -22,7 +21,7 @@ export class TrackFilesComponent {
   trackfileId$ = this.store.select(selectSelectedTrackFileId)
   currentSpacecraft$ = this.store.select(selectCurrentSpacecraft)
   currentTrackfileIds: string[] = []
-  trackFiles: TrackFile[] = []
+  trackFiles:TrackFileEntity = {}
 
   //subscription
   subscriptions: Subscription|null = null
@@ -32,9 +31,8 @@ export class TrackFilesComponent {
   editedContent: string = '';
   editTrackFile: boolean = false;
   isFileSelected: boolean = false;
-  allData: Files[] = [];
-  filteredData: Files[] = [];
-  filteredFiles: Files[] = [];
+  filteredIds: Filter[] = [];
+  filteredTrackFiles: TrackFile[] = []
 
   sortDirection: Sort = 'ASC';
   sortedColumn: string = '';
@@ -47,12 +45,17 @@ export class TrackFilesComponent {
     this.subscriptions = this.currentSpacecraft$.subscribe((res)=> this.currentTrackfileIds = res ? [...res.trackFileIds]: [])
     const sub2 = this.trackFiles$.subscribe((res)=>{
         if(this.currentTrackfileIds.length < 1 || !res) return;
-        this.trackFiles = this.currentTrackfileIds.map((id) => res[id]!)
+
+        let currentTrackFiles = {}
+        this.currentTrackfileIds.map(id =>{
+          if (res[id]) currentTrackFiles = {...currentTrackFiles, [id]: res[id]}
+        })
+        this.trackFiles = currentTrackFiles
       }
     )
     this.subscriptions.add(sub2)
-    this.allData = this.trackFiles.map((file)=> ({...file, selected: false, content:''}))
-    this.filteredData = this.allData
+
+    this.filteredIds = this.currentTrackfileIds.map((id)=> ({id, selected: false, filtered: false, content:''}))
     console.log(this.trackFiles)
   }
 
@@ -60,7 +63,12 @@ export class TrackFilesComponent {
     this.subscriptions?.unsubscribe()
   }
 
-  handleFilter(selection: string): Files[] {
+  filterTrackFiles(){
+    const filteredIds = this.filteredIds.filter(id => !id.filtered)
+    return this.filteredTrackFiles = filteredIds.map(id => this.trackFiles[id.id]);
+  }
+
+  handleFilter(selection: string): Filter[] {
     const today = new Date();
     const within7Days = new Date();
     const within30Days = new Date();
@@ -69,31 +77,37 @@ export class TrackFilesComponent {
     within30Days.setDate(today.getDate() - 30);
     within90Days.setDate(today.getDate() - 90);
 
+    let newFilteredIds = this.filteredIds
+
     if (selection === 'all') {
-      return (this.filteredData = this.allData);
+      newFilteredIds = this.filteredIds.map(id => ({...id, filtered: false}))
     }
 
     if (selection === 'seven-days') {
-      this.filteredData = this.allData.filter((file) => {
-        return file.creationDate >= within7Days;
+      newFilteredIds = this.filteredIds.map((id) => {
+       return this.trackFiles[id.id].creationDate >= within7Days ?
+         {...id, filtered: false} : {...id, filtered: true}
       });
     }
     if (selection === 'thirty-days') {
-      this.filteredData = this.allData.filter((file) => {
-        return file.creationDate >= within30Days;
-      });
+      newFilteredIds = this.filteredIds.map((id) => {
+        return this.trackFiles[id.id].creationDate >= within30Days ?
+          {...id, filtered: false} : {...id, filtered: true}
+       });
     }
     if (selection === 'ninety-days') {
-      this.filteredData = this.allData.filter((file) => {
-        return file.creationDate >= within90Days;
-      });
+      newFilteredIds = this.filteredIds.map((id) => {
+        return this.trackFiles[id.id].creationDate >= within90Days ?
+          {...id, filtered: false} : {...id, filtered: true}
+       });
     }
 
-    return this.filteredData;
+    return newFilteredIds;
   }
 
   onSelect(event: any) {
-    this.filteredFiles = this.handleFilter(event.target.value);
+    this.filteredIds = this.handleFilter(event.target.value);
+    this.filterTrackFiles()
   }
 
   sortColumn(column: string) {
@@ -109,7 +123,7 @@ export class TrackFilesComponent {
       this.sortedColumn = column;
       this.sortDirection = 'ASC';
     }
-    this.filteredData.sort((a: any, b: any) => {
+    this.filteredTrackFiles.sort((a: any, b: any) => {
       return this.sortDirection === 'ASC'
         ? a[this.sortedColumn] - b[this.sortedColumn]
         : b[this.sortedColumn] - a[this.sortedColumn];
@@ -117,7 +131,7 @@ export class TrackFilesComponent {
   }
 
   handleCheckbox(file: any): void {
-    const selectedCB = this.filteredData.filter((cb) => cb.selected);
+    const selectedCB = this.filteredIds.filter((cb) => cb.selected);
     file.selected = !file.selected;
     if (file.selected) {
       this.selectedFileName = file.fileName;
@@ -125,8 +139,9 @@ export class TrackFilesComponent {
       this.isFileSelected = true;
     } else if (selectedCB.length > 1 && this.selectedFileName) {
       //if there are multiple checkboxes selected and you uncheck one, the selected file/content will default to first item in the array
-      this.selectedFileName = selectedCB[0].name;
-      this.selectedFileContent = selectedCB[0].content;
+      this.selectedFileName = this.trackFiles[selectedCB[0].id].name;
+      //!TODO: Content should be.. what? When you edit a file what should you edit?
+      this.selectedFileContent = this.trackFiles[selectedCB[0].id].ephemerisSourceFile.name
     } else {
       this.selectedFileName = '';
       this.selectedFileContent = '';
@@ -136,9 +151,12 @@ export class TrackFilesComponent {
 
   handleSelectAll(event: any) {
     const checkbox = event.target as HTMLRuxCheckboxElement;
+    let newFilteredIds = this.filteredIds
     if (checkbox.checked) {
-      this.filteredData.forEach((cb) => (cb.selected = true));
-    } else this.filteredData.forEach((cb) => (cb.selected = false));
+      newFilteredIds = this.filteredIds.map((id) => (!id.filtered ? {...id, selected: true} : {...id}));
+    } else newFilteredIds = this.filteredIds.map((id) => (!id.filtered ? {...id, selected: false}: {...id}));
+
+    this.filteredIds = newFilteredIds
   }
 
   handleEdit() {
