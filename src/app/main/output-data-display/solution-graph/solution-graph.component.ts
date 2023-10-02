@@ -64,7 +64,7 @@ export class SolutionGraphComponent {
 
   seriesThreeData(length: number) {
     for (let i = 0; i < length; i++) {
-      const first = this.randomInt(50, 100);
+      const first = this.randomInt(0, 100);
       const second = this.randomInt(350, 500);
       this.seriesThree.push({ x: '', y: [first, second] });
     }
@@ -129,7 +129,8 @@ export class SolutionGraphComponent {
       },
     },
     stroke: {
-      lineCap: 'round',
+      colors: ['transparent'],
+      width: 5,
     },
     legend: {
       show: false,
