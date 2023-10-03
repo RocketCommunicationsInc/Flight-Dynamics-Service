@@ -86,7 +86,7 @@ export class TrackFilesComponent {
 
   handleEdit() {
     //!Todo: what are we actually editing here? Right now it's just a 'content' flag thats not in app state
-    this.editedContent = this.allIds.find(filter=> filter.id === this.selectedFileId)?.content || '';
+    this.editedContent = this.trackFiles[this.selectedFileId!]?.comment || '';
     this.editTrackFile = true;
   }
 
@@ -96,7 +96,8 @@ export class TrackFilesComponent {
   }
 
   handleSave() {
-    this.allIds = this.allIds.map(filter => filter.id === this.selectedFileId ? {...filter, content: this.editedContent} : filter);
+    this.store.dispatch(TrackFilesActions.trackFileModified({trackFileId: this.selectedFileId!, updatedTrackFile: {...this.trackFiles[this.selectedFileId!], comment: this.editedContent}}))
+    this.editedContent=''
     this.editTrackFile = false;
   }
 

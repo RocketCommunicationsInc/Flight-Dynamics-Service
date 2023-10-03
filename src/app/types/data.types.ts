@@ -54,6 +54,8 @@ export type TrackFile = {
   thrustProfileFileName: string;
   processedTrackFile: ProcessedTrackFile | null;
   initialOrbitProperties: OrbitProperties;
+  //!Todo: this is a temp data holder until we decide what 'edit track file' is supposed to do
+  comment?: string
 };
 
 export type TrackFileEntity = {
