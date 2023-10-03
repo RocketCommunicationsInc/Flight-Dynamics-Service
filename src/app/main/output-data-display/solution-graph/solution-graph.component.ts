@@ -13,6 +13,7 @@ import {
   ChartComponent,
 } from 'ng-apexcharts';
 import { AstroComponentsModule } from '@astrouxds/angular';
+import { randomNum } from 'src/app/mock-data/generate-data';
 
 type ChartOptions = {
   series: ApexAxisChartSeries | any;
@@ -40,15 +41,12 @@ export class SolutionGraphComponent {
   seriesThree: { x: string; y: number[] }[] = [];
   seriesFour: { x: string; y: number[] }[] = [];
 
-  randomInt(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+  randomInt = randomNum;
 
   seriesOneData(length: number) {
     for (let i = 0; i < length; i++) {
-  
-      const first = this.randomInt(50, 200);
-      const second = this.randomInt(500, 60);
+      const first = this.randomInt(100, 200);
+      const second = this.randomInt(400, 450);
       this.seriesOne.push({ x: '', y: [first, second] });
     }
     return this.seriesOne;
@@ -57,7 +55,7 @@ export class SolutionGraphComponent {
   seriesTwoData(length: number) {
     for (let i = 0; i < length; i++) {
       const first = this.randomInt(50, 100);
-      const second = this.randomInt(200, 150);
+      const second = this.randomInt(200, 300);
       this.seriesTwo.push({ x: '', y: [first, second] });
     }
     return this.seriesTwo;
@@ -66,7 +64,7 @@ export class SolutionGraphComponent {
   seriesThreeData(length: number) {
     for (let i = 0; i < length; i++) {
       const first = this.randomInt(0, 300);
-      const second = this.randomInt(350, 40);
+      const second = this.randomInt(350, 400);
       this.seriesThree.push({ x: '', y: [first, second] });
     }
     return this.seriesThree;
@@ -120,7 +118,7 @@ export class SolutionGraphComponent {
     ],
     chart: {
       background: 'var(--color-background-base-default)',
-      height: 475,
+      height: 450,
       type: 'rangeBar',
       toolbar: {
         show: false,

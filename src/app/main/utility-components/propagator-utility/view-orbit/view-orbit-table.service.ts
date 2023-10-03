@@ -11,6 +11,7 @@ import { map, filter } from 'rxjs/operators';
 import type { TrackFile } from '../../../../types/data.types';
 import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { Store } from '@ngrx/store';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export interface SelectOption extends MenuItem {
   selected: boolean;
 }
@@ -26,6 +27,7 @@ export class ViewOrbitTableService {
   currentTrackFile$: Subscription = this.store
     .select(selectCurrentTrackFile)
     .pipe(
+      takeUntilDestroyed(),
       map((trackFile: TrackFile | null) =>
         this.ephemerisData.push(trackFile!.ephemerisSourceFile)
       )
