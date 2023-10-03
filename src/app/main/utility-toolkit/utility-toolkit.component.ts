@@ -1,14 +1,8 @@
-import { filter } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RouterModule,
-} from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
 import { ToastService } from 'src/app/shared/toast.service';
@@ -26,9 +20,9 @@ interface Utility {
   templateUrl: './utility-toolkit.component.html',
   styleUrls: ['./utility-toolkit.component.css'],
 })
-export class UtilityToolkitComponent implements OnInit {
+export class UtilityToolkitComponent {
+  @Input({ required: true }) currentToolkitPath: undefined | string;
   spacecraft$ = this.store.select(selectCurrentSpacecraft);
-  currentToolkitPath: string | undefined;
 
   constructor(
     private router: Router,
@@ -54,15 +48,6 @@ export class UtilityToolkitComponent implements OnInit {
       link: 'propagator',
     },
   ];
-
-  ngOnInit(): void {
-    this.router.events
-      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
-      .subscribe((e: NavigationEnd) => {
-        const paths = e.url.split('/');
-        this.currentToolkitPath = paths[2];
-      });
-  }
 
   onClick(util: Utility) {
     this.router.navigate([`./${util.link}`], {
