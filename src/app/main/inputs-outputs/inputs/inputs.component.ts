@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-
+import { OutputDataDisplayService } from '../../output-data-display/output-data-display.service';
 @Component({
   selector: 'fds-inputs',
   standalone: true,
@@ -21,6 +21,13 @@ export class InputsComponent {
     processedTrackFile: new FormControl('input_file_name.abc'),
   });
   notificationActive = true;
+
+  constructor(private bannerService: OutputDataDisplayService) {}
+
+  handleBanner() {
+    this.bannerService.handleBanner();
+  }
+
   onSubmit(): void {
     console.log(this.inputForm.value);
     //TODO hook form data into where it's going to go

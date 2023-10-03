@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import type { Tabs } from 'src/app/types/Tabs';
@@ -22,7 +22,7 @@ import { ToastService } from 'src/app/shared/toast.service';
   templateUrl: './output-data-display.component.html',
   styleUrls: ['./output-data-display.component.css'],
 })
-export class OutputDataDisplayComponent {
+export class OutputDataDisplayComponent implements OnInit {
   currentView: CurrentView = 'View Table';
   tabsId = 'output-data-display-tabs';
   tabs: Tabs[] = [
@@ -30,9 +30,24 @@ export class OutputDataDisplayComponent {
     { label: 'OD Performance', id: 'od-performance' },
   ];
 
+  showBanner: boolean = false;
+  dateAndTime = new Date();
+
+  ngOnInit(): void {
+    this.bannerService.showBanner$.subscribe((visible) => {
+      this.showBanner = visible;
+      if (visible) {
+        setTimeout(() => {
+          this.showBanner = false;
+        }, 8000);
+      }
+    });
+  }
+
   constructor(
     public outputDataDisplayService: OutputDataDisplayService,
-    private toasts: ToastService
+    private toasts: ToastService,
+    private bannerService: OutputDataDisplayService
   ) {}
 
   handleTLE() {

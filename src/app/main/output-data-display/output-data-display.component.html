@@ -1,4 +1,7 @@
 <rux-container>
+  <div class="text-banner" *ngIf="showBanner">
+    OD Successfully Completed on {{ dateAndTime | date: 'MM/dd/YYYY HH:MM' }}
+  </div>
   <rux-tabs slot="tab-bar" [id]="tabsId" small>
     <rux-tab
       [id]="tab.id"
