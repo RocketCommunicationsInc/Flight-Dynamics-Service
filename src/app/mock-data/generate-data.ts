@@ -54,7 +54,14 @@ const generateTrackFile = (
     name: 'trackfile_' + index,
     creationDate: getCreationDate(),
     fileSize: fileSizeNum,
-    ephemerisSourceFile: generateEphemerisFile(id, index),
+    ephemerisSourceFile: generateEphemerisFile(
+      id,
+      index,
+      randomNum(-1000, 1000),
+      randomNum(-1000, 1000),
+      randomNum(-1000, 1000),
+      randomNum(-1000, 1000)
+    ),
     tleSourceFile: generateTLEFile(id, index),
     epochRangeStart: epoch,
     epochRangeEnd: faker.date.soon({ refDate: epoch, days: 5 }),
@@ -66,13 +73,23 @@ const generateTrackFile = (
 
 const generateEphemerisFile = (
   trackFileId: string,
-  index: number
+  index: number,
+  satPos1X: number,
+  satPos1Y: number,
+  satPos2X: number,
+  satPos2Y: number
 ): EphemerisFile => {
   return {
     trackFileRefId: trackFileId,
     name: `trackfile_${index}_Ephemeris.txt`,
     data: {
       helloWorld: { p: [1, 2, 3], v: [4, 5, 6] },
+    },
+    satCords: {
+      satPos1X: satPos1X,
+      satPos1Y: satPos1Y,
+      satPos2X: satPos2X,
+      satPos2Y: satPos2Y,
     },
   };
 };

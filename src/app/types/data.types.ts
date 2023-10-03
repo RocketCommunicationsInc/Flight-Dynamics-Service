@@ -73,6 +73,9 @@ export type EphemerisFile = {
   data: {
     [key: string]: Ephemeride;
   };
+  satCords: {
+    [key: string]: number;
+  };
 };
 
 export type TLEFile = {
