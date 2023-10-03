@@ -23,10 +23,17 @@
 
   <rux-button
     *ngIf="currentToolkitPath; else utlBtns"
-    routerLink=".."
+    (click)="isConfirmCloseOpen = true"
     size="small"
     borderless
     icon="close"
     >Close Utility</rux-button
   >
 </div>
+<rux-dialog
+  *ngIf="isConfirmCloseOpen"
+  open
+  header="Close?"
+  [message]="confirmMessage"
+  (ruxdialogclosed)="onConfirm($event)"
+/>

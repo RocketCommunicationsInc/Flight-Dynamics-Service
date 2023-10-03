@@ -7,6 +7,10 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
 import { ToastService } from 'src/app/shared/toast.service';
 
+const upperCaseFirstLetter = (word: string) => {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+};
+
 interface Utility {
   icon: string;
   label: string;
@@ -23,6 +27,7 @@ interface Utility {
 export class UtilityToolkitComponent {
   @Input({ required: true }) currentToolkitPath: undefined | string;
   spacecraft$ = this.store.select(selectCurrentSpacecraft);
+  isConfirmCloseOpen = false;
 
   constructor(
     private router: Router,
@@ -40,7 +45,7 @@ export class UtilityToolkitComponent {
     {
       icon: 'antenna-receive',
       label: 'Track Data',
-      link: 'track',
+      link: 'track-data',
     },
     {
       icon: 'public',
@@ -48,6 +53,19 @@ export class UtilityToolkitComponent {
       link: 'propagator',
     },
   ];
+
+  get confirmMessage() {
+    const words = this.currentToolkitPath?.split('-') || [];
+    const util = words.map(upperCaseFirstLetter).join(' ');
+    return `Are you sure you want to close ${util}?`;
+  }
+
+  onConfirm(e: Event) {
+    this.isConfirmCloseOpen = false;
+    const isConfirmed = (e as CustomEvent).detail;
+    if (!isConfirmed) return;
+    this.router.navigate(['..']);
+  }
 
   onClick(util: Utility) {
     this.router.navigate([`./${util.link}`], {
