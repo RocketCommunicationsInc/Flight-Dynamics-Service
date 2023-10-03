@@ -8,7 +8,12 @@ import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
 @Component({
   selector: 'fds-track-data-util',
   standalone: true,
-  imports: [CommonModule, AstroComponentsModule, TrackFilesComponent, TrackDataComponent],
+  imports: [
+    CommonModule,
+    AstroComponentsModule,
+    TrackFilesComponent,
+    TrackDataComponent,
+  ],
   templateUrl: './track-data-utility.component.html',
   styleUrls: ['./track-data-utility.component.css'],
 })
