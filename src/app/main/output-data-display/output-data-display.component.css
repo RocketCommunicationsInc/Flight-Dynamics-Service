@@ -37,6 +37,9 @@ rux-container::part(body) {
 .data {
   display: flex;
   align-items: baseline;
+}
+
+.performance {
   gap: var(--spacing-10);
 }
 
@@ -48,6 +51,7 @@ rux-container::part(body) {
   display: flex;
   align-items: baseline;
   gap: var(--spacing-3);
+  margin-right: var(--spacing-6);
 }
 
 .alerts {

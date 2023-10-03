@@ -105,14 +105,15 @@ rux-container::part(body) {
   background-color: var(--color-background-surface-header);
   font-family: var(--font-heading-5-font-family);
   font-size: var(--font-heading-5-font-size);
-  font-weight: var(--font-heading-5-font-weight);
+  font-weight: var(--font-weights-medium);
   line-height: var(--font-heading-5-line-height);
   letter-spacing: var(--font-heading-5-letter-spacing);
 }
 
-.table-wrapper th[type='number'] .h-stack {
+/* Design has decided to left align all cells for now */
+/* .table-wrapper th[type='number'] .h-stack {
   justify-content: flex-end;
-}
+} */
 
 .table-wrapper tbody {
   background-color: var(--color-background-surface-default);
@@ -143,9 +144,10 @@ rux-container::part(body) {
   padding-block: var(--table-body-cell-padding-y);
 }
 
-.table-wrapper td[type='number'] {
+/* Design has decided to left align all cells for now */
+/* .table-wrapper td[type='number'] {
   text-align: right;
-}
+} */
 
 .table-wrapper td[type='number'].sortable {
   padding-right: 2.5rem;

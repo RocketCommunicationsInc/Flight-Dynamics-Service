@@ -30,24 +30,18 @@
             </div>
           </div>
           <div>
-            <rux-button
-              icon="notes"
-              size="small"
-              secondary
-              (click)="viewTable()"
+            <rux-button icon="notes" secondary (click)="viewTable()"
               >Table</rux-button
             >
-            <rux-button
-              icon="show-chart"
-              size="small"
-              secondary
-              (click)="viewGraph()"
+            <rux-button icon="show-chart" secondary (click)="viewGraph()"
               >Graph</rux-button
             >
           </div>
           <div class="action-btn-wrapper">
-            <rux-button size="small" secondary>Create TLE</rux-button>
-            <rux-button size="small">Create Ephemeris</rux-button>
+            <rux-button secondary (click)="handleTLE()">Create TLE</rux-button>
+            <rux-button (click)="handleEphemeris()"
+              >Create Ephemeris</rux-button
+            >
           </div>
         </div>
       </div>
@@ -63,7 +57,7 @@
             <h1>2</h1>
             <p>Discrepancies</p>
           </div>
-          <div class="data">
+          <div class="data performance">
             <rux-select label="Antenna">
               <rux-option value="cumulative" label="Cumulative" />
               <rux-option value="pass1" label="Pass 1" />

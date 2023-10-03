@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { SegmentedButton } from '@astrouxds/astro-web-components/dist/types/components';
-
 import type { Tabs } from 'src/app/types/Tabs';
 import { SolutionGraphComponent } from './solution-graph/solution-graph.component';
 import { SolutionTableComponent } from './solution-table/solution-table.component';
 import { OutputDataDisplayService } from './output-data-display.service';
 import { CurrentView } from './output-data-display.model';
 import { PerformanceTableComponent } from './performance-table/performance-table.component';
+import { ToastService } from 'src/app/shared/toast.service';
 
 @Component({
   selector: 'fds-output-data-display',
@@ -31,7 +30,26 @@ export class OutputDataDisplayComponent {
     { label: 'OD Performance', id: 'od-performance' },
   ];
 
-  constructor(public outputDataDisplayService: OutputDataDisplayService) {}
+  constructor(
+    public outputDataDisplayService: OutputDataDisplayService,
+    private toasts: ToastService
+  ) {}
+
+  handleTLE() {
+    this.toasts.addToast({
+      message: 'TLE Created',
+      hideClose: false,
+      closeAfter: 3000,
+    });
+  }
+
+  handleEphemeris() {
+    this.toasts.addToast({
+      message: 'Ephemeris Created',
+      hideClose: false,
+      closeAfter: 3000,
+    });
+  }
 
   showGraph: boolean = false;
   showTable: boolean = true;
