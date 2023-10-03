@@ -12,5 +12,5 @@
 }
 
 .btns *:nth-child(2) {
-  margin-right: var(--spacing-12);
+  margin-right: var(--spacing-3);
 }

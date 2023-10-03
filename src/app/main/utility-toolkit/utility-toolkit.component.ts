@@ -1,10 +1,17 @@
-import { Component } from '@angular/core';
+import { filter } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { ActivatedRoute, Router } from '@angular/router';
-import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterModule,
+} from '@angular/router';
 
-import { Store } from '@ngrx/store';
+import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
+import { ToastService } from 'src/app/shared/toast.service';
 
 interface Utility {
   icon: string;
@@ -15,43 +22,29 @@ interface Utility {
 @Component({
   selector: 'fds-utility-toolkit',
   standalone: true,
-  imports: [CommonModule, AstroComponentsModule],
+  imports: [CommonModule, AstroComponentsModule, RouterModule],
   templateUrl: './utility-toolkit.component.html',
   styleUrls: ['./utility-toolkit.component.css'],
 })
-export class UtilityToolkitComponent {
+export class UtilityToolkitComponent implements OnInit {
   spacecraft$ = this.store.select(selectCurrentSpacecraft);
+  currentToolkitPath: string | undefined;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private store: Store
+    private store: Store,
+    private toast: ToastService
   ) {}
 
-  onClick(util: Utility) {
-    this.router.navigate([`./${util.link}`], {
-      relativeTo: this.route.firstChild,
-    });
-  }
-
   utilities: Utility[] = [
-    {
-      icon: 'tune',
-      label: 'Compare',
-      link: 'compare',
-    },
-    {
-      icon: 'add-circle',
-      label: 'Create Report',
-      link: 'report',
-    },
     {
       icon: 'list',
       label: 'Log',
       link: 'log',
     },
     {
-      icon: 'antenna',
+      icon: 'antenna-receive',
       label: 'Track Data',
       link: 'track',
     },
@@ -61,4 +54,27 @@ export class UtilityToolkitComponent {
       link: 'propagator',
     },
   ];
+
+  ngOnInit(): void {
+    this.router.events
+      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe((e: NavigationEnd) => {
+        const paths = e.url.split('/');
+        this.currentToolkitPath = paths[2];
+      });
+  }
+
+  onClick(util: Utility) {
+    this.router.navigate([`./${util.link}`], {
+      relativeTo: this.route.firstChild,
+    });
+  }
+
+  createReport() {
+    this.toast.addToast({
+      message: 'Report Created',
+      hideClose: false,
+      closeAfter: 3000,
+    });
+  }
 }

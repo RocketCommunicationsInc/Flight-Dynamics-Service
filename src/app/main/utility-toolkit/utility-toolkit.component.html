@@ -5,13 +5,28 @@
   >
 </h2>
 <div class="btns">
+  <ng-template #utlBtns>
+    <rux-button size="small" secondary icon="list-alt" (click)="createReport()"
+      >Create Report</rux-button
+    >
+
+    <rux-button
+      size="small"
+      secondary
+      [icon]="util.icon"
+      *ngFor="let util of utilities"
+      (click)="onClick(util)"
+    >
+      {{ util.label }}
+    </rux-button>
+  </ng-template>
+
   <rux-button
+    *ngIf="currentToolkitPath; else utlBtns"
+    routerLink=".."
     size="small"
-    secondary
-    [icon]="util.icon"
-    *ngFor="let util of utilities"
-    (click)="onClick(util)"
+    borderless
+    icon="close"
+    >Close Utility</rux-button
   >
-    {{ util.label }}
-  </rux-button>
 </div>
