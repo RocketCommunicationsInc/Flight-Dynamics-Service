@@ -12,6 +12,7 @@ import { select, Store } from '@ngrx/store';
 import { AppStore } from 'src/app/+state/app.model';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
 import { MockDataService } from 'src/app/api/mock-data.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'fds-inputs',
@@ -37,6 +38,7 @@ export class InputsComponent {
   );
   currentTrackFile$: Subscription = this.store
     .pipe(
+      takeUntilDestroyed(),
       select(selectCurrentTrackFile),
       filter((val) => val !== null)
     )
