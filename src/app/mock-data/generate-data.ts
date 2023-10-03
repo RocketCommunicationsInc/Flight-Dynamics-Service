@@ -35,24 +35,11 @@ const generateSpacecraft = (): Spacecraft => {
   };
 };
 
-//generates a random date between now and 120 days ago
-const generateRandomDate = ()=>{
-  const randomNum = Math.floor(Math.random() * 120)
-  const randomDate = new Date()
-  randomDate.setDate(new Date().getDate() - randomNum)
-  return randomDate
-}
-
 const generateTrackFile = (
   spaceCraftRefId: string,
   id: string,
   index: number
 ): TrackFile => {
-  // const getCreationDate = () => {
-  //   let creationDate = new Date();
-  //   creationDate.setHours(creationDate.getHours() + 4);
-  //   return creationDate;
-  // };
   const fileSizeNum = faker.number.int({ min: 30, max: 300 });
   const epoch = faker.date.recent({ refDate: new Date(), days: 2 });
 
@@ -60,7 +47,7 @@ const generateTrackFile = (
     id,
     spaceCraftRefId: spaceCraftRefId,
     name: 'trackfile_' + index,
-    creationDate: generateRandomDate(),
+    creationDate: faker.date.recent({ days: 120 }),
     fileSize: fileSizeNum,
     ephemerisSourceFile: generateEphemerisFile(id, index),
     tleSourceFile: generateTLEFile(id, index),
