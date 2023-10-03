@@ -11,13 +11,7 @@
         <rux-menu-item [attr.data-id]="trackfile.id" *ngFor="let trackfile of trackfiles$ | async">{{trackfile.name}}</rux-menu-item>
       </rux-menu>
     </rux-pop-up>
-    <div class="inputs_input-menu-wrapper">
-      <rux-select label="Orbit Source" formControlName="orbitSource">
-        <rux-option label="Ephemeris" value="ephemeris"></rux-option>
-        <rux-option label="TLE" value="tle"></rux-option>
-      </rux-select>
-      <rux-input label="" formControlName="databaseFile" readonly />
-    </div>
+    <rux-input label="Orbit Source" formControlName="orbitSource" readonly />
     <rux-input
       label="Epoch"
       placeholder="MM/DD/YY 00:00:00 .000"

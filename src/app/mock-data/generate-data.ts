@@ -71,7 +71,7 @@ const generateEphemerisFile = (
   return {
     id: crypto.randomUUID(),
     trackFileRefId: trackFileId,
-    name: `trackfile_${index}_Ephemeris.txt`,
+    name: `trackfile_${trackFileId}_Ephemeris.txt`,
     epoch: faker.date.recent({ refDate: new Date(), days: 7 }),
     positionX: 1,
     positionY: 1,
@@ -94,7 +94,7 @@ const generateTLEFile = (trackFileId: string, index: number): TLEFile => {
 };
 
 export const generateProcessedTrackFile = (
-  trackFileId: string | null
+  trackFileId: string
 ): ProcessedTrackFile => {
   return {
     trackFileRefId: trackFileId,

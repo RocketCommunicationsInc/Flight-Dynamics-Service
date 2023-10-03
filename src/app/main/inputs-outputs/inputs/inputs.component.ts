@@ -48,7 +48,7 @@ export class InputsComponent {
 
       this.inputForm = new FormGroup({
         databaseFile: new FormControl(result!.tleSourceFile.name),
-        orbitSource: new FormControl('Ephemeris'),
+        orbitSource: new FormControl(result!.ephemerisSourceFile.name),
         epoch: new FormControl(result!.creationDate),
         epochRange: new FormControl(
           `${result!.epochRangeStart} - ${result!.epochRangeEnd}`
@@ -74,7 +74,7 @@ export class InputsComponent {
       //Dispatch processed trackfile as a property of the current trackfile, back into state
       this.store.dispatch(
         TrackFilesActions.trackFileProcessed({
-          trackFileId: this.currentTrackFileId!,
+          trackFileId: this.processedTrackFile.trackFileRefId!,
           processedTrackFile: this.processedTrackFile,
         })
       );
