@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Scenario, TrackFile } from '../types/data.types';
+import { ProcessedTrackFile, Scenario, TrackFile } from '../types/data.types';
 
 export const AppActions = createActionGroup({
   source: 'App',
@@ -30,6 +30,10 @@ export const TrackFilesActions = createActionGroup({
     'Track Files Requested': emptyProps(),
     'Track Files Retrieved': props<{ trackFiles: TrackFile[] }>(),
     'Track File Selected': props<{ trackFileId: string }>(),
+    'Track File Processed': props<{
+      processedTrackFile: ProcessedTrackFile;
+      trackFileId: string;
+    }>(),
     'Add Track File': props<{ trackFile: TrackFile }>(),
     'Remove Track File': props<{ trackFileId: string }>(),
   },

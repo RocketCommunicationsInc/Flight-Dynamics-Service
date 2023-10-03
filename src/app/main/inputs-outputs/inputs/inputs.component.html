@@ -1,20 +1,17 @@
 <form class="inputs_form" [formGroup]="inputForm" (ngSubmit)="onSubmit()">
   <div class="inputs_main">
-    <div class="inputs_input-button-wrapper">
+    <rux-pop-up placement="bottom" close-on-select>
       <rux-input
-        type="text"
-        label="Database File"
-        formControlName="databaseFile"
+      slot="trigger"
+      type="text"
+      label="Database File"
+      formControlName="databaseFile"
       />
-      <rux-button iconOnly icon="sync" (click)="handleSyncClick()" />
-    </div>
-    <div class="inputs_input-menu-wrapper">
-      <rux-select label="Orbit Source" formControlName="orbitSource">
-        <rux-option label="Ephemeris" value="ephemeris"></rux-option>
-        <rux-option label="TLE" value="tle"></rux-option>
-      </rux-select>
-      <rux-input label="" formControlName="databaseFile" readonly />
-    </div>
+      <rux-menu (ruxmenuselected)="handleSelect($event)">
+        <rux-menu-item [attr.data-id]="trackfile.id" *ngFor="let trackfile of trackfiles$ | async">{{trackfile.name}}</rux-menu-item>
+      </rux-menu>
+    </rux-pop-up>
+    <rux-input label="Orbit Source" formControlName="orbitSource" readonly />
     <rux-input
       label="Epoch"
       placeholder="MM/DD/YY 00:00:00 .000"
@@ -31,7 +28,7 @@
       placeholder="# Days"
     ></rux-input>
     <rux-input label="Thrust Profile" formControlName="thrustProfile" />
-    <rux-input
+      <rux-input
       label="Processed Track File"
       formControlName="processedTrackFile"
     />
