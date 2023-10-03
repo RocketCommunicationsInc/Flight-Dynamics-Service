@@ -10,9 +10,11 @@
       />
       <rux-menu *ngIf="!hasValue" (ruxmenuselected)="handleSelect($event)">
         <span>Latest Track File</span>
-        <rux-menu-item  [attr.data-id]="currentTrackFile.id" value="{{ currentTrackFile.name }}">{{
-          currentTrackFile.name
-        }}</rux-menu-item>
+        <rux-menu-item
+          [attr.data-id]="currentTrackFile.id"
+          value="{{ currentTrackFile.name }}"
+          >{{ currentTrackFile.name }}</rux-menu-item
+        >
         <rux-menu-item-divider />
         <span>Recent Track Files</span>
         <rux-menu-item
