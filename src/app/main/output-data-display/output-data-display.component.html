@@ -1,4 +1,4 @@
-<rux-container>
+<rux-container class="output-data">
   <rux-tabs slot="tab-bar" [id]="tabsId" small>
     <rux-tab
       [id]="tab.id"
@@ -54,7 +54,7 @@
             <p>Discrepancies</p>
           </div>
           <div class="data">
-            <rux-select label="Antenna" (ruxmenuselected)="onSelect($event)">
+            <rux-select label="Antenna" (ruxchange)="onSelect($event)">
               <rux-option value="cumulative" label="Cumulative" />
               <rux-option value="pass1" label="Pass 1" />
               <rux-option value="pass2" label="Pass 2" />
@@ -83,7 +83,7 @@
         />
         <div class="sub-header">
           <div class="container">
-            <h3>Pass 1</h3>
+            <h3 id="pass1">Pass 1</h3>
           </div>
         </div>
         <fds-performance-table
@@ -91,7 +91,7 @@
         />
         <div class="sub-header">
           <div class="container">
-            <h3>Pass 2</h3>
+            <h3 id="pass2">Pass 2</h3>
           </div>
         </div>
         <fds-performance-table
@@ -99,7 +99,7 @@
         />
         <div class="sub-header">
           <div class="container">
-            <h3>Pass 3</h3>
+            <h3 id="pass3">Pass 3</h3>
           </div>
         </div>
         <fds-performance-table

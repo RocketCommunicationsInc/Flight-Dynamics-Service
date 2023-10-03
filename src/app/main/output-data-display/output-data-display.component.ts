@@ -48,10 +48,24 @@ export class OutputDataDisplayComponent {
     this.currentView = event.detail;
   }
 
-
   onSelect(event: any) {
-const target = event.detail
-//if()
-   // document.getElementById("cumulative").scrollIntoView();
+    const target = event.target.value;
+    const cumulativeSection = document?.getElementById('cumulative');
+    const pass1Section = document?.getElementById('pass1');
+    const pass2Section = document?.getElementById('pass2');
+    const pass3Section = document?.getElementById('pass3');
+
+    if (target === 'cumulative' && cumulativeSection) {
+      cumulativeSection.scrollIntoView();
+    }
+    if (target === 'pass1' && pass1Section) {
+      pass1Section.scrollIntoView();
+    }
+    if (target === 'pass2' && pass2Section) {
+      pass2Section.scrollIntoView();
+    }
+    if (target === 'pass3' && pass3Section) {
+      pass3Section.scrollIntoView();
+    }
   }
 }
