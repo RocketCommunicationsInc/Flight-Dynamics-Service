@@ -25,7 +25,7 @@ rux-pop-up {
 /* These part modifications make the popup look like a type-ahead dropdown */
 rux-pop-up::part(popup-content) {
   width: calc(100% - var(--spacing-6));
-  margin-top: -12px;
+  margin-block-start: calc(-1 * var(--spacing-3));
 }
 
 rux-pop-up::part(arrow) {
