@@ -54,7 +54,7 @@
             <p>Discrepancies</p>
           </div>
           <div class="data">
-            <rux-select label="Antenna">
+            <rux-select label="Antenna" (ruxmenuselected)="onSelect($event)">
               <rux-option value="cumulative" label="Cumulative" />
               <rux-option value="pass1" label="Pass 1" />
               <rux-option value="pass2" label="Pass 2" />
@@ -70,7 +70,7 @@
       <div class="antenna-tables-wrapper">
         <div class="sub-header">
           <div class="container">
-            <h3>Cumulative</h3>
+            <h3 id="cumulative">Cumulative</h3>
             <div class="h-stack">
               <p>Reference Frame: Cartesian ECI</p>
               <p>|</p>

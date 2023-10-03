@@ -47,4 +47,11 @@ export class OutputDataDisplayComponent {
     const event = e as CustomEvent;
     this.currentView = event.detail;
   }
+
+
+  onSelect(event: any) {
+const target = event.detail
+//if()
+   // document.getElementById("cumulative").scrollIntoView();
+  }
 }
