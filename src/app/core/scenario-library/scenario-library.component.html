@@ -6,15 +6,15 @@
   <rux-tree>
     <rux-tree-node
       (click)="onScenarioClick($event)"
-      *ngFor="let scenario of scenarios"
-      [attr.expanded]="scenario === scenarios[0]"
+      *ngFor="let scenario of (scenarios$ | async)"
+      [attr.expanded]="scenario === (scenarios$ | async )![0]"
     >
       {{ scenario?.name }}
       <ng-container *ngFor="let spacecraft of scenario?.spaceCraft">
         <rux-tree-node
           slot="node"
           (ruxtreenodeselected)="onSpacecraftSelected(spacecraft, scenario!)"
-          [selected]="selectedSpacecraftId === spacecraft.id"
+          [selected]="(selectedSpacecraftId$ | async) === spacecraft.id"
         >
           {{ spacecraft.catalogId }}
         </rux-tree-node>

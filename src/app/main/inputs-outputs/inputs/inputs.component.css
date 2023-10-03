@@ -12,13 +12,33 @@ form.inputs_form {
   padding: var(--spacing-4);
 }
 
-.inputs_main > *,
-.inputs_main > :first-child.alertActive {
+.inputs_main > * {
   padding-block-start: var(--spacing-3);
+  width: 100%;
+}
+
+rux-pop-up {
+  width: inherit;
+}
+
+/* These part modifications make the popup look like a type-ahead dropdown */
+rux-pop-up::part(popup-content) {
+  width: calc(100% - var(--spacing-6));
+  margin-block-start: calc(-1 * var(--spacing-3));
+}
+
+rux-pop-up::part(arrow) {
+  display: none;
+}
+
+rux-menu {
+  max-height: 300px;
+  overflow: auto;
 }
 
 .inputs_main > :first-child {
   padding-block-start: var(--spacing-0);
+  cursor: pointer;
 }
 
 .inputs_input-button-wrapper {
@@ -37,7 +57,7 @@ form.inputs_form {
 }
 
 .inputs_footer rux-button {
-  width: 21.5rem;
+  width: 20rem;
 }
 
 .inputs_input-button-wrapper rux-input:nth-of-type(1) {
@@ -54,7 +74,6 @@ rux-pop-up::part(arrow) {
 }
 
 rux-pop-up::part(popup-content) {
-  margin-left: -0.3rem;
   width: calc(100% - 2rem);
   margin-top: -0.75rem;
 }

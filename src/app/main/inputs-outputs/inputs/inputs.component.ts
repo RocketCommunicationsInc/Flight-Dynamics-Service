@@ -2,13 +2,17 @@ import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AppStore } from 'src/app/+state/app.model';
-import { Store } from '@ngrx/store';
+import { ProcessedTrackFile, TrackFile } from 'src/app/types/data.types';
+import { filter, Observable, Subscription } from 'rxjs';
 import {
-  selectAllTrackFiles,
-  selectCurrentSpacecraft,
+  selectCurrentSpaceCraftTrackFiles,
+  selectCurrentTrackFile,
 } from 'src/app/+state/app.selectors';
-import { TrackFile } from 'src/app/types/data.types';
+import { select, Store } from '@ngrx/store';
+import { AppStore } from 'src/app/+state/app.model';
+import { TrackFilesActions } from 'src/app/+state/app.actions';
+import { MockDataService } from 'src/app/api/mock-data.service';
+
 @Component({
   selector: 'fds-inputs',
   standalone: true,
@@ -17,50 +21,80 @@ import { TrackFile } from 'src/app/types/data.types';
   styleUrls: ['./inputs.component.css'],
 })
 export class InputsComponent {
-  inputForm = new FormGroup({
-    databaseFile: new FormControl(''),
-    orbitSource: new FormControl(''),
-    thrustProfile: new FormControl(''),
-    processedTrackFile: new FormControl(''),
-  });
-  notificationActive = true;
+  inputForm!: FormGroup<{
+    databaseFile: FormControl<string | null>;
+    orbitSource: FormControl<string | null>;
+    epoch: FormControl<Date | null>;
+    epochRange: FormControl<string | null>;
+    epochSpan: FormControl<number | null>;
+    thrustProfile: FormControl<string | null>;
+    processedTrackFile: FormControl<string | null>;
+  }>;
+  processedTrackFile: ProcessedTrackFile | undefined;
+  currentTrackFileId: string | undefined;
+  trackfilesArr: TrackFile[] = [];
+  trackfiles$: Observable<TrackFile[] | undefined> = this.store.select(
+    selectCurrentSpaceCraftTrackFiles
+  );
+  trackfiles: Subscription = this.trackfiles$.subscribe(
+    (result) => result?.map((files) => this.trackfilesArr.push(files))
+  );
 
-  onSubmit(): void {
-    console.log(this.inputForm.value);
-    //TODO hook form data into where it's going to go
-  }
+  currentTrackFile: any = {};
+  currentTrackFile$: Subscription = this.store
+    .pipe(
+      select(selectCurrentTrackFile),
+      filter((val) => val !== null)
+    )
+    .subscribe((result) => {
+      const epochStart = result!.epochRangeEnd.getTime();
+      const epochEnd = result!.epochRangeStart.getTime();
+      const diffTime = (epochStart - epochEnd) / (1000 * 3600 * 24);
+      this.currentTrackFileId = result!.id;
+      this.currentTrackFile = result!.tleSourceFile;
 
-  trackFiles$ = this.store.select(selectAllTrackFiles);
-  spacecraft$ = this.store.select(selectCurrentSpacecraft);
-  currentScenarioTrackFiles: TrackFile[] = [];
-
-  constructor(private store: Store<AppStore>) {
-    this.spacecraft$.subscribe((spacecraft) => {
-      this.trackFiles$.subscribe((trackFile) => {
-        if (spacecraft) {
-          spacecraft.trackFileIds.forEach((id) => {
-            trackFile.map((file) => {
-              if (file.id.includes(id)) {
-                this.currentScenarioTrackFiles.push(file);
-              }
-            });
-          });
-        }
+      this.inputForm = new FormGroup({
+        databaseFile: new FormControl(result!.tleSourceFile.name),
+        orbitSource: new FormControl(result!.ephemerisSourceFile.name),
+        epoch: new FormControl(result!.creationDate),
+        epochRange: new FormControl(
+          `${result!.epochRangeStart} - ${result!.epochRangeEnd}`
+        ),
+        epochSpan: new FormControl(diffTime),
+        thrustProfile: new FormControl(result!.thrustProfileFileName),
+        processedTrackFile: new FormControl(
+          result!.processedTrackFile && result!.processedTrackFile.name
+        ),
       });
     });
+
+  constructor(
+    private store: Store<AppStore>,
+    private ProcessTrackFileService: MockDataService
+  ) {}
+
+  onSubmit(): void {
+    // generate processed trackFile using service
+    (this.processedTrackFile = this.ProcessTrackFileService.processtrackFile(
+      this.currentTrackFileId!
+    )),
+      //Dispatch processed trackfile as a property of the current trackfile, back into state
+      this.store.dispatch(
+        TrackFilesActions.trackFileProcessed({
+          trackFileId: this.processedTrackFile.trackFileRefId!,
+          processedTrackFile: this.processedTrackFile,
+        })
+      );
   }
 
-  hasValue: boolean = false;
-  results: any[] = [];
-  noResults: boolean = false;
-  isDisabled: boolean = true;
-  latestTrackFile: any = {};
-  noLatestTrackFile: boolean = true;
-
-  databaseFile: string = '';
-  orbitSourceFile: string = '';
-  thrustProfileFile: string = '';
-  processedTrackFile: string = '';
+  handleSelect(e: any): void {
+    this.isDisabled = false;
+    const event = e as CustomEvent;
+    const fileId: string = event.detail.getAttribute('data-id');
+    this.store.dispatch(
+      TrackFilesActions.trackFileSelected({ trackFileId: fileId })
+    );
+  }
 
   @ViewChild('popup', { static: false }) popup?: HTMLRuxPopUpElement;
 
@@ -70,39 +104,27 @@ export class InputsComponent {
     }
   }
 
+  results: any[] = [];
+  hasValue: boolean = false;
+  noResults: boolean = false;
+  isDisabled: boolean = false;
+
   handleInput(event: any) {
     this.results = [];
-    if (event.target.value === '') {
-      this.databaseFile = '';
-      this.orbitSourceFile = '';
-      this.thrustProfileFile = '';
-      this.processedTrackFile = '';
-    }
     if (event.target.value !== '') {
       this.showPopup();
       this.hasValue = true;
-      this.currentScenarioTrackFiles.filter((file) => {
+      this.trackfilesArr.filter((file) => {
         if (file.name.includes(event.target.value)) {
           this.results.push(file);
+          if (this.results.length >= 1) {
+            this.noResults = false;
+          }
         } else this.noResults = true;
       });
     } else {
       this.hasValue = false;
       this.isDisabled = true;
     }
-  }
-
-  handleSelection(event: any) {
-    this.currentScenarioTrackFiles.map((file) => {
-      if (file.id.includes(event.detail.value)) {
-        this.latestTrackFile = file;
-        this.isDisabled = false;
-        this.noLatestTrackFile = false;
-        this.databaseFile = file.name;
-        this.orbitSourceFile = file.tleSourceFile.name;
-        this.thrustProfileFile = file.thrustProfileFileName;
-        this.processedTrackFile = file.processedTrackFile?.name as string;
-      }
-    });
   }
 }
