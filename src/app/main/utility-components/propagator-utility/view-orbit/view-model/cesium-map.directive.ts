@@ -27,7 +27,7 @@ export class CesiumMapDirective implements OnInit, OnChanges {
     this.viewer.camera.maximumZoomFactor = 1;
   }
 
-  @Input() cameraZoom: number = 18000000;
+  @Input() cameraZoom: number = 36000000;
   @Input() name: string = '';
   @Input() satPos1X: number = 0;
   @Input() satPos1Y: number = 0;
@@ -36,11 +36,22 @@ export class CesiumMapDirective implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.viewer.camera.zoomOut(this.cameraZoom);
+    this.viewer.camera.flyTo({
+      destination: Cartesian3.fromDegrees(
+        this.viewer.camera.positionCartographic.longitude,
+        this.viewer.camera.positionCartographic.latitude,
+        this.viewer.camera.positionCartographic.height
+      ),
+    });
     this.addPoint(this.satPos1X, this.satPos1Y);
     this.addPoint(this.satPos2X, this.satPos2Y);
     this.addLine(this.satPos1X, this.satPos1Y, this.satPos2X, this.satPos2Y);
+    console.log(this.viewer.camera.positionCartographic, 'look');
   }
 
+  onFlyComplete() {
+    this.viewer.camera.zoomOut(this.cameraZoom);
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['cameraZoom'].isFirstChange()) {
       this.viewer.camera.zoomIn(changes['cameraZoom'].currentValue);
@@ -56,15 +67,6 @@ export class CesiumMapDirective implements OnInit, OnChanges {
         changes['cameraZoom'].previousValue - changes['cameraZoom'].currentValue
       );
     }
-  }
-
-  zoomIn(amount: number) {
-    console.log('zooming in');
-    this.viewer.camera.zoomIn(amount);
-  }
-  zoomOut(amount: number) {
-    console.log('zooming out');
-    this.viewer.camera.zoomOut(amount);
   }
 
   /**
@@ -100,10 +102,10 @@ export class CesiumMapDirective implements OnInit, OnChanges {
         positions: Cartesian3.fromDegreesArrayHeights([
           x1,
           y1,
-          350000,
+          250000,
           x2,
           y2,
-          350000,
+          250000,
         ]),
         width: 5,
         material: new PolylineOutlineMaterialProperty({

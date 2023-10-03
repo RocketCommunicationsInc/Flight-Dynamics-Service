@@ -61,10 +61,10 @@ const generateTrackFile = (
     ephemerisSourceFile: generateEphemerisFile(
       id,
       index,
-      randomNum(-1000, 1000),
-      randomNum(-1000, 1000),
-      randomNum(-1000, 1000),
-      randomNum(-1000, 1000)
+      randomNum(-500, 1000),
+      randomNum(-500, 1000),
+      randomNum(-500, 1000),
+      randomNum(-500, 1000)
     ),
     tleSourceFile: generateTLEFile(id, index),
     epochRangeStart: epoch,

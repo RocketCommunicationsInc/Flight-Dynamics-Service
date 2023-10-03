@@ -6,7 +6,6 @@ import { CesiumMapDirective } from './cesium-map.directive';
 import { selectCurrentTrackFileEphemerisData } from 'src/app/+state/app.selectors';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { TrackFile } from 'src/app/types/data.types';
 
 @Component({
   selector: 'fds-view-model',
@@ -25,7 +24,7 @@ export class ViewModelComponent {
     selectCurrentTrackFileEphemerisData
   );
   showControlsPanel: boolean = false;
-  zoomLevel: number = 18000000;
+  zoomLevel: number = 36000000;
 
   constructor(private store: Store) {}
 
