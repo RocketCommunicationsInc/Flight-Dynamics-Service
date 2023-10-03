@@ -8,7 +8,7 @@ describe('TrackFilesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TrackFilesComponent]
+      imports: [TrackFilesComponent],
     });
     fixture = TestBed.createComponent(TrackFilesComponent);
     component = fixture.componentInstance;
