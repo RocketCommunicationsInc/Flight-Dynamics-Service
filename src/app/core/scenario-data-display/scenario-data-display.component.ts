@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { selectCurrentSpacecraft, selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -32,7 +33,7 @@ export class ScenarioDataDisplayComponent {
   }
 
   ngOnInit(){
-    this.trackFileSub = this.trackfile$.subscribe((res)=>{
+    this.trackFileSub = this.trackfile$.pipe(takeUntilDestroyed()).subscribe((res)=>{
       const initialOrbit = res?.initialOrbitProperties || null
       this.initialOrbit = initialOrbit
       this.semiMajorAxis= initialOrbit?.semiMajorAxis.value || 0;

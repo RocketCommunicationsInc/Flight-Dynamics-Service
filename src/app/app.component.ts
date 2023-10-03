@@ -15,6 +15,7 @@ import { Subject, filter, takeUntil } from 'rxjs';
 import { UtilityToolkitComponent } from './main/utility-toolkit/utility-toolkit.component';
 import { Store } from '@ngrx/store';
 import { ScenariosActions, TrackFilesActions, AppActions } from './+state/app.actions';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -53,7 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.toasts
       .getStack()
       .pipe(
-        takeUntil(this.destroyed),
+        takeUntilDestroyed(),
         filter((val): val is ToastConfig => !!val)
       )
       .subscribe((config: ToastConfig) => this.toastStack?.addToast(config));
