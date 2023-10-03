@@ -22,6 +22,10 @@ const generateScenario = (scenarioName: string): Scenario => {
   };
 };
 
+export const randomNum = (min = 1e9, max = 9e9) => {
+  return faker.number.int({ min, max });
+};
+
 const generateSpacecraft = (): Spacecraft => {
   const catalogIdNum = faker.number.int({ min: 1000, max: 9999 });
   const trackFileArrayLength = faker.number.int({ min: 20, max: 30 });
@@ -51,7 +55,7 @@ const generateTrackFile = (
   return {
     id,
     spaceCraftRefId: spaceCraftRefId,
-    name: 'trackfile_' + index,
+    name: 'trackfile_' + id,
     creationDate: getCreationDate(),
     fileSize: fileSizeNum,
     ephemerisSourceFile: generateEphemerisFile(
@@ -66,7 +70,7 @@ const generateTrackFile = (
     epochRangeStart: epoch,
     epochRangeEnd: faker.date.soon({ refDate: epoch, days: 5 }),
     thrustProfileFileName: 'thrustProfile_' + faker.hacker.ingverb() + '.txt',
-    processedTrackFile: generateProcessedTrackFile(id, index),
+    processedTrackFile: null,
     initialOrbitProperties: generateSatProperties(),
   };
 };
@@ -80,24 +84,30 @@ const generateEphemerisFile = (
   satPos2Y: number
 ): EphemerisFile => {
   return {
+    id: crypto.randomUUID(),
     trackFileRefId: trackFileId,
-    name: `trackfile_${index}_Ephemeris.txt`,
-    data: {
-      helloWorld: { p: [1, 2, 3], v: [4, 5, 6] },
-    },
+
     satCords: {
       satPos1X: satPos1X,
       satPos1Y: satPos1Y,
       satPos2X: satPos2X,
       satPos2Y: satPos2Y,
     },
+    name: `trackfile_${trackFileId}_Ephemeris.txt`,
+    epoch: faker.date.recent({ refDate: new Date(), days: 7 }),
+    positionX: 1,
+    positionY: 1,
+    positionZ: 3,
+    velocityX: 1,
+    velocityY: 2,
+    velocityZ: 3,
   };
 };
 
 const generateTLEFile = (trackFileId: string, index: number): TLEFile => {
   return {
     trackFileRefId: trackFileId,
-    name: 'trackfile_' + index + '_TLE.txt',
+    name: 'trackfile_' + trackFileId + '_TLE.txt',
     line1:
       '1 25544U 98067A   23261.87436073  .00014645  00000-0  26964-3 0  9992',
     line2:
@@ -105,19 +115,18 @@ const generateTLEFile = (trackFileId: string, index: number): TLEFile => {
   };
 };
 
-const generateProcessedTrackFile = (
-  trackFileId: string,
-  index: number
+export const generateProcessedTrackFile = (
+  trackFileId: string
 ): ProcessedTrackFile => {
   return {
     trackFileRefId: trackFileId,
-    name: 'trackfile_' + index + 'processed.txt',
+    name: 'trackfile_' + trackFileId + 'processed.txt',
     creationDate: new Date(),
     finalOrbitProperties: generateSatProperties(),
   };
 };
 
-const generateSatProperties = (): OrbitProperties => {
+export const generateSatProperties = (): OrbitProperties => {
   return {
     argOfPerigee: generateArgOfPerigee(),
     apogee: generateApogee(),
@@ -249,9 +258,7 @@ const scenarioNames = ['Nominal OD', 'Post SK', 'Training'];
 export const mockScenarios = scenarioNames.map((name) =>
   generateScenario(name)
 );
-export const spaceCraft = mockScenarios.flatMap(
-  (scenario) => scenario.spaceCraft
-);
+const spaceCraft = mockScenarios.flatMap((scenario) => scenario.spaceCraft);
 const trackFileIdsBySpaceCraftId: { [key: string]: string[] } = {};
 spaceCraft.forEach((spacecraft) => {
   trackFileIdsBySpaceCraftId[spacecraft.id] = spacecraft.trackFileIds;
@@ -261,7 +268,3 @@ export const mockTrackFiles = Object.entries(
 ).flatMap(([spacecraftId, trackFileIds], index) => {
   return trackFileIds.map((id) => generateTrackFile(spacecraftId, id, index));
 });
-
-export const randomNum = (min = 1e9, max = 9e9) => {
-  return faker.number.int({ min, max });
-};

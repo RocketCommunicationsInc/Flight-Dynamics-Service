@@ -57,3 +57,27 @@ export const selectCurrentTrackFile = createSelector(
     return currentTrackFile;
   }
 );
+
+export const selectCurrentSpaceCraftTrackFiles = createSelector(
+  selectTrackFileEntities,
+  selectCurrentSpacecraft,
+  (trackfiles, spacecraft) => {
+    if (!spacecraft) return;
+
+    const spacecraftTrackfileIds: string[] = spacecraft.trackFileIds;
+    let spacecraftAllTrackFiles: TrackFile[] = [];
+    if (spacecraftTrackfileIds) {
+      for (const id of spacecraftTrackfileIds) {
+        spacecraftAllTrackFiles.push(trackfiles[id]!);
+      }
+    }
+    return spacecraftAllTrackFiles;
+  }
+);
+
+export const selectCurrentTrackFileEphemerisData = createSelector(
+  selectCurrentTrackFile,
+  (TrackFile): { [key: string]: number } | null => {
+    return TrackFile!.ephemerisSourceFile.satCords;
+  }
+);

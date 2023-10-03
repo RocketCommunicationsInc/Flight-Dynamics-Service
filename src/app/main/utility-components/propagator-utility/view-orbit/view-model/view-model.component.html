@@ -11,9 +11,9 @@
     <rux-icon icon="search" size="extra-small" />
   </div>
 </div>
-
-<div fdsCesiumMap [cameraZoom]="zoomLevel" [satPos1X]="-1000" [satPos1Y]="1000" [satPos2X]="0" [satPos2Y]="500"
-  name="Sat Path Name"></div>
+<div fdsCesiumMap [cameraZoom]="zoomLevel" [satPos1X]="(ephemData$ | async)!.satPos1X"
+  [satPos1Y]="(ephemData$ | async)!.satPos1Y" [satPos2X]="(ephemData$ | async)!.satPos2X"
+  [satPos2Y]="(ephemData$ | async)!.satPos2Y" name="Sat Path Name"></div>
 
 <footer>
   <rux-icon icon="play" size="normal" />

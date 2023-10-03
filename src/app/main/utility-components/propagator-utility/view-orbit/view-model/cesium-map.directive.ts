@@ -42,26 +42,16 @@ export class CesiumMapDirective implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes['cameraZoom'].currentValue, 'current value');
     if (changes['cameraZoom'].isFirstChange()) {
       this.viewer.camera.zoomIn(changes['cameraZoom'].currentValue);
     } else if (
       changes['cameraZoom'].currentValue > changes['cameraZoom'].previousValue
     ) {
       //zoom out
-      console.log(
-        'zoom out this amount: ',
-        changes['cameraZoom'].currentValue - changes['cameraZoom'].previousValue
-      );
       this.viewer.camera.zoomOut(
         changes['cameraZoom'].currentValue - changes['cameraZoom'].previousValue
       );
     } else {
-      console.log(
-        'zoom in this amount: ',
-        changes['cameraZoom'].previousValue - changes['cameraZoom'].currentValue
-      );
-
       this.viewer.camera.zoomIn(
         changes['cameraZoom'].previousValue - changes['cameraZoom'].currentValue
       );
