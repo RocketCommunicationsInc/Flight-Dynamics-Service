@@ -34,10 +34,10 @@ footer {
   gap: var(--spacing-8);
   background-color: var(--color-background-surface-header);
 }
+.map-wrapper {
+  height: 100%;
+}
 div[fdsCesiumMap] {
   width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+  height: 66vh;
 }

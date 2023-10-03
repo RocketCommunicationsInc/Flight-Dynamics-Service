@@ -1,4 +1,10 @@
-import { Directive, ElementRef, Input } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { OnInit } from '@angular/core';
 import {
   Cartesian3,
@@ -12,15 +18,16 @@ import {
   selector: '[fdsCesiumMap]',
   standalone: true,
 })
-export class CesiumMapDirective implements OnInit {
+export class CesiumMapDirective implements OnInit, OnChanges {
   viewer: Viewer;
   constructor(private el: ElementRef) {
     this.viewer = new Viewer(this.el.nativeElement);
     this.viewer.scene.mode = SceneMode.SCENE2D;
     this.viewer.fullscreenButton.destroy();
+    this.viewer.camera.maximumZoomFactor = 1;
   }
 
-  @Input() cameraZoom: number = 19000000;
+  @Input() cameraZoom: number = 18000000;
   @Input() name: string = '';
   @Input() satPos1X: number = 0;
   @Input() satPos1Y: number = 0;
@@ -32,6 +39,42 @@ export class CesiumMapDirective implements OnInit {
     this.addPoint(this.satPos1X, this.satPos1Y);
     this.addPoint(this.satPos2X, this.satPos2Y);
     this.addLine(this.satPos1X, this.satPos1Y, this.satPos2X, this.satPos2Y);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes['cameraZoom'].currentValue, 'current value');
+    if (changes['cameraZoom'].isFirstChange()) {
+      this.viewer.camera.zoomIn(changes['cameraZoom'].currentValue);
+    } else if (
+      changes['cameraZoom'].currentValue > changes['cameraZoom'].previousValue
+    ) {
+      //zoom out
+      console.log(
+        'zoom out this amount: ',
+        changes['cameraZoom'].currentValue - changes['cameraZoom'].previousValue
+      );
+      this.viewer.camera.zoomOut(
+        changes['cameraZoom'].currentValue - changes['cameraZoom'].previousValue
+      );
+    } else {
+      console.log(
+        'zoom in this amount: ',
+        changes['cameraZoom'].previousValue - changes['cameraZoom'].currentValue
+      );
+
+      this.viewer.camera.zoomIn(
+        changes['cameraZoom'].previousValue - changes['cameraZoom'].currentValue
+      );
+    }
+  }
+
+  zoomIn(amount: number) {
+    console.log('zooming in');
+    this.viewer.camera.zoomIn(amount);
+  }
+  zoomOut(amount: number) {
+    console.log('zooming out');
+    this.viewer.camera.zoomOut(amount);
   }
 
   /**

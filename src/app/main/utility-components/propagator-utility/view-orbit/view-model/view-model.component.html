@@ -6,13 +6,14 @@
       </div> -->
 
   <div class="zoom-wrapper">
-    <rux-icon icon="search" size="extra-small" />
-    <rux-slider [value]="zoomLevel" (ruxchange)="handleZoom($event)" min="5" max="20" />
     <rux-icon icon="search" size="1.5rem" />
+    <rux-slider [value]="zoomLevel" (ruxchange)="handleZoom($event)" step="1000000" min="0" max="36000000" />
+    <rux-icon icon="search" size="extra-small" />
   </div>
 </div>
 
-<div fdsCesiumMap [satPos1X]="-182" [satPos1Y]="129" [satPos2X]="-82" [satPos2Y]="29" name="Sat Path Name"></div>
+<div fdsCesiumMap [cameraZoom]="zoomLevel" [satPos1X]="-182" [satPos1Y]="129" [satPos2X]="-82" [satPos2Y]="29"
+  name="Sat Path Name"></div>
 
 <footer>
   <rux-icon icon="play" size="normal" />

@@ -18,11 +18,10 @@ import { CesiumMapDirective } from './cesium-map.directive';
 })
 export class ViewModelComponent {
   showControlsPanel: boolean = false;
-  zoomLevel: number = 20;
+  zoomLevel: number = 18000000;
 
   handleZoom(event: any) {
     this.zoomLevel = event.target.value;
-    // add map library to handle zoom change here
   }
 
   toggleControls() {
