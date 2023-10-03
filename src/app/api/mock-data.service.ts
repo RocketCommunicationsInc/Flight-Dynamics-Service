@@ -19,7 +19,7 @@ export class MockDataService {
     return new BehaviorSubject<TrackFile[]>(mockTrackFiles).asObservable();
   }
 
-  processtrackFile(trackFileId: string | null) {
+  processtrackFile(trackFileId: string) {
     return generateProcessedTrackFile(trackFileId);
   }
 }
