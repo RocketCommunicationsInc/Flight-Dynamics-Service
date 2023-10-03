@@ -14,71 +14,55 @@
       <table>
         <thead>
           <tr>
-            <th>
+            <th
+              *ngFor="let col of trackFilesTableService.columns"
+              [ngSwitch]="col.field"
+              [ngClass]="{ sortable: col.sortable }"
+              [attr.type]="col.type"
+            >
               <rux-checkbox
-                (ruxchange)="handleSelectAll($event)"
-                [disabled]="editTrackFile"
+                *ngSwitchCase="'id'"
+                [checked]="trackFilesTableService.areAllSelected()"
+                (ruxchange)="trackFilesTableService.selectAll($event)"
               />
-            </th>
-            <th>File Name</th>
-            <th
-              (click)="sortColumn('creationDate')"
-              (mouseenter)="showIcon = true"
-              (mouseleave)="showIcon = false"
-            >
-              Date
-              <span class="icon-span" [ngClass]="{ 'show-icon': showIcon }">
-                <rux-icon
-                  size="small"
-                  *ngIf="showIcon"
-                  [icon]="
-                    sortDirection === 'ASC'
-                      ? 'arrow-drop-down'
-                      : 'arrow-drop-up'
-                  "
-                />
-              </span>
-            </th>
-
-            <th
-              (click)="sortColumn('fileSize')"
-              (mouseenter)="showSecondIcon = true"
-              (mouseleave)="showSecondIcon = false"
-            >
-              File Size
-              <span
-                class="icon-span"
-                [ngClass]="{ 'show-icon': showSecondIcon }"
+              <div
+                *ngSwitchDefault
+                [ngClass]="{ active: col.sorted }"
+                class="h-stack"
+                (click)="trackFilesTableService.sort(col)"
               >
-                <rux-icon
-                  size="small"
-                  *ngIf="showSecondIcon"
-                  [icon]="
-                    sortDirection === 'ASC'
-                      ? 'arrow-drop-down'
-                      : 'arrow-drop-up'
-                  "
-              /></span>
+                {{ col.header }}
+                <rux-icon *ngIf="col.sortable" [icon]="col.icon" size="small" />
+              </div>
             </th>
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let id of filteredIds">
+          <ng-container *ngFor="let row of trackFilesTableService.data">
             <tr
-              *ngIf="id.filtered === false"
-              [ngClass]="{ selected: id.id === selectedFileId }"
-              (click)="onTrackSelect($event, id.id)"
+              [attr.selected]="row.id === selectedFileId"
+              (click)="onTrackSelect($event, row.id)"
+              *ngIf="!row.filtered"
             >
-              <td>
+              <td
+                *ngFor="let col of trackFilesTableService.columns"
+                [ngSwitch]="col.field"
+                [attr.type]="col.type"
+                [ngClass]="{ sortable: col.sortable }"
+              >
                 <rux-checkbox
-                  [checked]="id.checked"
-                  (ruxchange)="handleCheckbox(id)"
+                  *ngSwitchCase="'id'"
+                  [checked]="row.selected"
+                  (ruxchange)="trackFilesTableService.selectRow($event, row)"
                   [disabled]="editTrackFile"
                 />
+                <ng-container *ngSwitchCase="'creationDate'">
+                  {{ row.filtered }}{{ row.creationDate | date: 'MM/dd/YYYY' }}
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  {{ row[col.field] }}
+                </ng-container>
               </td>
-              <td>{{ trackFiles[id.id].name }}</td>
-              <td>{{ trackFiles[id.id].creationDate | date: 'MM/dd/YYYY' }}</td>
-              <td>{{ trackFiles[id.id].fileSize }} kb</td>
             </tr>
           </ng-container>
         </tbody>

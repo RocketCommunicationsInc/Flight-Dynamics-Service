@@ -1,4 +1,4 @@
-export interface Filter {id:string, checked: boolean, filtered: boolean, content:string}
+export interface Filter {id:string, content:string}
 
 export interface Files {
   fileName: string;
