@@ -77,11 +77,16 @@ const generateEphemerisFile = (
   index: number
 ): EphemerisFile => {
   return {
+    id: crypto.randomUUID(),
     trackFileRefId: trackFileId,
     name: `trackfile_${index}_Ephemeris.txt`,
-    data: {
-      helloWorld: { p: [1, 2, 3], v: [4, 5, 6] },
-    },
+    epoch: faker.date.recent({ refDate: new Date(), days: 7 }),
+    positionX: 1,
+    positionY: 1,
+    positionZ: 3,
+    velocityX: 1,
+    velocityY: 2,
+    velocityZ: 3,
   };
 };
 

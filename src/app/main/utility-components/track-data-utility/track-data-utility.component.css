@@ -1,3 +1,7 @@
+:host {
+  flex-grow: 1;
+}
+
 .header-and-tabs {
   padding: var(--spacing-2);
 }
@@ -13,5 +17,3 @@ header {
 rux-icon {
   color: white;
 }
-
-

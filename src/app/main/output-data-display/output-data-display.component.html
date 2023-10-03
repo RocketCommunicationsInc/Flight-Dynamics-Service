@@ -1,12 +1,16 @@
-<fds-tabbed-child-container
-  [tabs]="tabs"
-  [hasTabPanels]="true"
-  tabsParentId="output-data-display-tabs"
-  [notificationData]="hasNotification ? notificationData : undefined"
-  [notificationHideClose]="true"
->
-  <ng-container panels>
-    <rux-tab-panel aria-labelledby="od-solution">
+<rux-container>
+  <rux-tabs slot="tab-bar" [id]="tabsId" small>
+    <rux-tab
+      [id]="tab.id"
+      [selected]="tab.selected"
+      [disabled]="tab.disabled"
+      *ngFor="let tab of tabs"
+      >{{ tab.label }}</rux-tab
+    >
+  </rux-tabs>
+
+  <rux-tab-panels [attr.aria-labelledby]="tabsId">
+    <rux-tab-panel [attr.aria-labelledby]="tabs[0].id">
       <div class="sub-header">
         <div class="container">
           <div class="data">
@@ -42,7 +46,7 @@
       <fds-solution-graph *ngIf="currentView === 'View Graph'" />
     </rux-tab-panel>
 
-    <rux-tab-panel aria-labelledby="od-performance">
+    <rux-tab-panel [attr.aria-labelledby]="tabs[1].id">
       <div class="sub-header">
         <div class="container">
           <div class="heading">
@@ -103,5 +107,5 @@
         />
       </div>
     </rux-tab-panel>
-  </ng-container>
-</fds-tabbed-child-container>
+  </rux-tab-panels>
+</rux-container>

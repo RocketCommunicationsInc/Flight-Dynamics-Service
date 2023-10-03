@@ -1,16 +1,19 @@
-<fds-tabbed-child-container
-  [tabs]="tabs"
-  [hasTabPanels]="true"
-  [tabsParentId]="tabsId"
-  [notificationData]="notificationData"
-  [notificationHideClose]="false"
->
-  <ng-container panels>
-    <rux-tab-panel aria-labelledby="inputs-tab">
-      <fds-inputs></fds-inputs>
+<rux-container>
+  <rux-tabs slot="tab-bar" [id]="tabsId" small>
+    <rux-tab
+      [id]="tab.id"
+      [selected]="tab.selected"
+      [disabled]="tab.disabled"
+      *ngFor="let tab of tabs"
+      >{{ tab.label }}</rux-tab
+    >
+  </rux-tabs>
+  <rux-tab-panels [attr.aria-labelledby]="tabsId">
+    <rux-tab-panel [attr.aria-labelledby]="tabs[0].id">
+      <fds-inputs />
     </rux-tab-panel>
-    <rux-tab-panel aria-labelledby="outputs-tab">
-      <fds-outputs></fds-outputs>
+    <rux-tab-panel [attr.aria-labelledby]="tabs[1].id">
+      <fds-outputs />
     </rux-tab-panel>
-  </ng-container>
-</fds-tabbed-child-container>
+  </rux-tab-panels>
+</rux-container>
