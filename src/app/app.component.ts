@@ -4,6 +4,8 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  DestroyRef,
+  inject,
 } from '@angular/core';
 import { ScenarioDataDisplayComponent } from './core/scenario-data-display/scenario-data-display.component';
 import { ScenarioLibraryComponent } from './core/scenario-library/scenario-library.component';
@@ -14,7 +16,11 @@ import { ToastConfig, ToastService } from './shared/toast.service';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { UtilityToolkitComponent } from './main/utility-toolkit/utility-toolkit.component';
 import { Store } from '@ngrx/store';
-import { ScenariosActions, TrackFilesActions, AppActions } from './+state/app.actions';
+import {
+  ScenariosActions,
+  TrackFilesActions,
+  AppActions,
+} from './+state/app.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -33,6 +39,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class AppComponent implements OnInit, OnDestroy {
+  destroyRef = inject(DestroyRef);
   @HostBinding('class.light-theme') lightTheme: boolean = false;
   @ViewChild(RuxToastStack) toastStack?: HTMLRuxToastStackElement | null;
   destroyed = new Subject(); // Cleans up subscriptions to avoid memory leaks
@@ -54,7 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.toasts
       .getStack()
       .pipe(
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.destroyRef),
         filter((val): val is ToastConfig => !!val)
       )
       .subscribe((config: ToastConfig) => this.toastStack?.addToast(config));
