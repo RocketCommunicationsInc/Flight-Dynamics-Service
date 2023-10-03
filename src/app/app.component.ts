@@ -48,10 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.lightTheme = !this.lightTheme;
   }
 
-  constructor(
-    private toasts: ToastService,
-    private store: Store
-  ) {
+  constructor(private toasts: ToastService, private store: Store) {
     this.store.dispatch(ScenariosActions.scenariosRequested());
     this.store.dispatch(TrackFilesActions.trackFilesRequested());
     this.store.dispatch(AppActions.initializeIds());
