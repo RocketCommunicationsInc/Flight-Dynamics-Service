@@ -8,7 +8,7 @@ describe('ViewTableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ViewTableComponent]
+      imports: [ViewTableComponent],
     });
     fixture = TestBed.createComponent(ViewTableComponent);
     component = fixture.componentInstance;

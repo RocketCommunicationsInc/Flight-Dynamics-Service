@@ -9,6 +9,7 @@ import { OrbitProperties } from 'src/app/types/data.types';
 import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { PerformanceData, SolutionData } from './output-data-display.model';
 import { PERFORMANCE_DATA } from './output-data-display.data';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,7 @@ export class OutputDataDisplayService {
   ];
 
   constructor(private store: Store) {
-    this.currentTrackFile$.subscribe((trackFile) => {
+    this.currentTrackFile$.pipe(takeUntilDestroyed()).subscribe((trackFile) => {
       if (!trackFile) return;
       const { degrees, kilometers, meters, miles, radians, revolutions } =
         UnitMenuItems;
