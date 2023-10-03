@@ -15,7 +15,7 @@ import {
 import { ToastService } from '../../shared/toast.service';
 import { Scenario, Spacecraft, SpacecraftEntity } from '../../types/data.types';
 import { Router } from '@angular/router';
-import { AppStore, ScenariosState } from 'src/app/+state/app.model';
+import { AppStore } from 'src/app/+state/app.model';
 import { map, Observable, Subscription } from 'rxjs';
 @Component({
   standalone: true,
@@ -42,30 +42,35 @@ export class ScenarioLibraryComponent {
   spacecraftData: any;
   selectedSpacecraftId: string | null = null;
 
+  //subscriptions
+  spacecraftSub: Subscription | null = null;
+  scenariosSub: Subscription | null = null;
+  spacecraftsSub: Subscription | null = null;
+
   constructor(
     private toasts: ToastService,
     private store: Store<AppStore>,
     private router: Router
   ) {
-    // this.scenarios$ = this.store.select(selectScenarios);
     this.selectedSpacecraftId$ = this.store.select(selectSelectedSpacecraftId);
     this.spacecrafts$ = this.store.select(selectAllSpacecrafts);
   }
 
   ngOnInit() {
-    // this.scenarios$.subscribe((res: any) => {
-    //   this.scenarios = res.ids.map((id: string) => {
-    //     return res.entities[id];
-    //   });
-    // });
+    this.spacecraftSub = this.selectedSpacecraftId$.subscribe(
+      (res: string | null) => {
+        this.selectedSpacecraftId = res;
+      }
+    );
 
-    this.selectedSpacecraftId$.subscribe((res: string | null) => {
-      this.selectedSpacecraftId = res;
-    });
-
-    this.spacecrafts$.subscribe((res: any) => {
+    this.spacecraftsSub = this.spacecrafts$.subscribe((res: any) => {
       this.spacecraftData = res;
     });
+  }
+
+  ngOnDestroy() {
+    this.spacecraftSub?.unsubscribe();
+    this.spacecraftsSub?.unsubscribe();
   }
 
   onScenarioClick(event: Event) {
@@ -87,8 +92,16 @@ export class ScenarioLibraryComponent {
       })
     );
 
+    this.store.dispatch(
+      TrackFilesActions.trackFileSelected({
+        trackFileId: spacecraft.trackFileIds[0],
+      })
+    );
+
     this.router.navigateByUrl(
-      `${scenario.name.trim()}-${spacecraft.catalogId.trim()}` || ''
+      `${scenario.name.trim().replace(/\s/g, '-')}-${spacecraft.catalogId
+        .trim()
+        .replace(/\s/g, '-')}` || ''
     );
   }
 

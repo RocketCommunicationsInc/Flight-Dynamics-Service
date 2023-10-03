@@ -68,11 +68,16 @@ export type ProcessedTrackFile = {
 };
 
 export type EphemerisFile = {
+  id: string;
   trackFileRefId: string;
   name: string;
-  data: {
-    [key: string]: Ephemeride;
-  };
+  epoch: Date;
+  positionX: number;
+  positionY: number;
+  positionZ: number;
+  velocityX: number;
+  velocityY: number;
+  velocityZ: number;
 };
 
 export type TLEFile = {
@@ -82,7 +87,10 @@ export type TLEFile = {
   line2: string;
 };
 
-type Ephemeride = { p: [number, number, number]; v: [number, number, number] };
+export type Ephemeride = {
+  p: [number, number, number];
+  v: [number, number, number];
+};
 
 //TODO: work out performance table properties with design.
 // const PERFORMANCE_TABLE_COLUMNS = {

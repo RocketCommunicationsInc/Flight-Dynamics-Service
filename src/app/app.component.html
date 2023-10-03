@@ -2,15 +2,18 @@
   [lightMode]="lightTheme"
   (onChangeTheme)="changeTheme()"
 />
-<div class="orbit-determination-body">
-  <fds-scenario-library class="scenarios-library" />
-  <fds-scenario-data-display class="scenario-data" />
-  <rux-container class="main">
-    <header slot="header">
-      <fds-utility-toolkit></fds-utility-toolkit>
-    </header>
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-  </rux-container>  
+<div class="app-layout">
+  <header class="app-header">
+    <fds-utility-toolkit />
+  </header>
+
+  <aside class="app-aside">
+    <fds-scenario-library class="scenarios-library" />
+    <fds-scenario-data-display class="scenario-data" />
+  </aside>
+
+  <main class="app-main">
+    <router-outlet />
+  </main>
+</div>
 <rux-toast-stack />

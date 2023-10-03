@@ -44,7 +44,7 @@ export class InputsComponent {
       const epochStart = result!.epochRangeEnd.getTime();
       const epochEnd = result!.epochRangeStart.getTime();
       const diffTime = (epochStart - epochEnd) / (1000 * 3600 * 24);
-      this.currentTrackFileId = result.id;
+      this.currentTrackFileId = result!.id;
 
       this.inputForm = new FormGroup({
         databaseFile: new FormControl(result!.tleSourceFile.name),
@@ -56,7 +56,7 @@ export class InputsComponent {
         epochSpan: new FormControl(diffTime),
         thrustProfile: new FormControl(result!.thrustProfileFileName),
         processedTrackFile: new FormControl(
-          result.processedTrackFile && result.processedTrackFile.name
+          result!.processedTrackFile && result!.processedTrackFile.name
         ),
       });
     });

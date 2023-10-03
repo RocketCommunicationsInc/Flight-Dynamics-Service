@@ -2,7 +2,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: auto;
 }
 
 form.inputs_form {
@@ -10,7 +9,7 @@ form.inputs_form {
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
-  padding: var(--spacing-3);
+  padding: var(--spacing-4);
 }
 
 .inputs_main > * {

@@ -1,10 +1,10 @@
-<rux-container>
+<rux-container *ngIf="spacecraft$ | async as spacecraft">
   <div slot="header">
-    <span class="title">{{ (spacecraft$ | async)?.catalogId }} Properties</span>
+    <span>{{ spacecraft.catalogId }} Properties</span>
   </div>
   <section>
     <div>Catalog ID:</div>
-    <div>{{ catalogId }}</div>
+    <div>{{ spacecraft.catalogId }}</div>
 
     <app-unit-selector [units]="distanceUnits" [value]="semiMajorAxis"
       >Semi-Major Axis</app-unit-selector
@@ -16,10 +16,26 @@
       >Inclination</app-unit-selector
     >
 
-    <div>Eccentricity:</div>
-    <div>{{ eccentricity }}</div>
+    <div>
+      Eccentricity<ng-container
+        *ngIf="
+          initialOrbit?.eccentricity?.unit &&
+          initialOrbit?.eccentricity?.unit !== ''
+        "
+        >({{ initialOrbit!.eccentricity.unit }})</ng-container
+      >:
+    </div>
+    <div>
+      {{ initialOrbit?.eccentricity?.value || '' }}
+    </div>
 
-    <div>Mass:</div>
-    <div>{{ mass }}</div>
+    <div>
+      Mass<ng-container *ngIf="initialOrbit?.mass?.unit"
+        >({{ initialOrbit!.mass.unit }})</ng-container
+      >:
+    </div>
+    <div>
+      {{ initialOrbit?.mass?.value }}
+    </div>
   </section>
 </rux-container>

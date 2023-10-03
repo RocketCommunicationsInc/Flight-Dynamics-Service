@@ -1,6 +1,19 @@
 :host {
   display: block;
-  flex: 3;
+  width: 75%;
+}
+
+rux-tab-panels,
+rux-tab-panel {
+  height: 100%;
+}
+
+rux-container {
+  --body-padding: 0;
+}
+
+rux-container::part(body) {
+  overflow: hidden;
 }
 
 .sub-header {
@@ -49,6 +62,10 @@ rux-tab-panel {
 }
 
 .antenna-tables-wrapper {
-  height: 100%;
+  /*
+  * need to deducted for the header for all table rows to be
+  * displayed when scrolling to the bottom
+  */
+  height: calc(100% - 6.25rem);
   overflow-y: auto;
 }
