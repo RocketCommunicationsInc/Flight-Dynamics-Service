@@ -46,8 +46,9 @@ export class SolutionGraphComponent {
 
   seriesOneData(length: number) {
     for (let i = 0; i < length; i++) {
-      const first = this.randomInt(150, 600);
-      const second = this.randomInt(550, 900);
+  
+      const first = this.randomInt(50, 200);
+      const second = this.randomInt(500, 60);
       this.seriesOne.push({ x: '', y: [first, second] });
     }
     return this.seriesOne;
@@ -55,8 +56,8 @@ export class SolutionGraphComponent {
 
   seriesTwoData(length: number) {
     for (let i = 0; i < length; i++) {
-      const first = this.randomInt(300, 800);
-      const second = this.randomInt(1000, 1200);
+      const first = this.randomInt(50, 100);
+      const second = this.randomInt(200, 150);
       this.seriesTwo.push({ x: '', y: [first, second] });
     }
     return this.seriesTwo;
@@ -64,8 +65,8 @@ export class SolutionGraphComponent {
 
   seriesThreeData(length: number) {
     for (let i = 0; i < length; i++) {
-      const first = this.randomInt(0, 100);
-      const second = this.randomInt(350, 500);
+      const first = this.randomInt(0, 300);
+      const second = this.randomInt(350, 40);
       this.seriesThree.push({ x: '', y: [first, second] });
     }
     return this.seriesThree;
@@ -73,8 +74,8 @@ export class SolutionGraphComponent {
 
   seriesFourData(length: number) {
     for (let i = 0; i < length; i++) {
-      const first = this.randomInt(0, 500);
-      const second = this.randomInt(550, 700);
+      const first = this.randomInt(150, 600);
+      const second = this.randomInt(550, 800);
       this.seriesFour.push({ x: '', y: [first, second] });
     }
     return this.seriesFour;
@@ -112,7 +113,7 @@ export class SolutionGraphComponent {
       },
       {
         name: 'Echo',
-        color: 'var(--color-data-visualization-4)',
+        color: 'var(--color-data-visualization-5)',
         data: this.seriesFourData(15),
         visible: true,
       },
@@ -130,7 +131,7 @@ export class SolutionGraphComponent {
     },
     stroke: {
       colors: ['transparent'],
-      width: 5,
+      width: 5.5,
     },
     legend: {
       show: false,
@@ -154,7 +155,7 @@ export class SolutionGraphComponent {
         ['Mar 08', 2023],
       ],
       axisTicks: {
-        show: true,
+        show: false,
       },
       axisBorder: {
         show: true,
