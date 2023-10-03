@@ -58,22 +58,6 @@ export const selectCurrentTrackFile = createSelector(
   }
 );
 
-export const selectCurrentSpaceCraftTrackFileNames = createSelector(
-  selectTrackFileEntities,
-  selectCurrentSpacecraft,
-  (trackfiles, spacecraft) => {
-    if (!spacecraft) return;
-    const spacecraftTrackfileIds: string[] = spacecraft.trackFileIds;
-    let spacecraftTrackfileNames = [];
-    if (spacecraftTrackfileIds) {
-      for (const id of spacecraftTrackfileIds) {
-        spacecraftTrackfileNames.push(trackfiles[id]?.name);
-      }
-    }
-    return spacecraftTrackfileNames;
-  }
-);
-
 export const selectCurrentSpaceCraftTrackFiles = createSelector(
   selectTrackFileEntities,
   selectCurrentSpacecraft,

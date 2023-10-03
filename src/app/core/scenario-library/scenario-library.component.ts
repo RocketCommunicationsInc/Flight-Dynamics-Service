@@ -8,15 +8,14 @@ import {
   TrackFilesActions,
 } from '../../+state/app.actions';
 import {
-  selectAllSpacecrafts,
-  selectScenarios,
+  selectAllScenarios,
   selectSelectedSpacecraftId,
 } from '../../+state/app.selectors';
 import { ToastService } from '../../shared/toast.service';
-import { Scenario, Spacecraft, SpacecraftEntity } from '../../types/data.types';
+import { Scenario, Spacecraft } from '../../types/data.types';
 import { Router } from '@angular/router';
 import { AppStore } from 'src/app/+state/app.model';
-import { map, Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -25,53 +24,16 @@ import { map, Observable, Subscription } from 'rxjs';
   imports: [AstroComponentsModule, CommonModule],
 })
 export class ScenarioLibraryComponent {
-  selectedSpacecraftId$: Observable<string | null>;
-  scenarios: (Scenario | undefined)[] = [];
-  scenarios$: Subscription = this.store
-    .select(selectScenarios)
-    .pipe(
-      map(
-        (scenario) =>
-          (this.scenarios = scenario.ids.map((id) => {
-            return scenario.entities[id];
-          }))
-      )
-    )
-    .subscribe();
-  spacecrafts$: Observable<SpacecraftEntity>;
-  spacecraftData: any;
-  selectedSpacecraftId: string | null = null;
-
-  //subscriptions
-  spacecraftSub: Subscription | null = null;
-  scenariosSub: Subscription | null = null;
-  spacecraftsSub: Subscription | null = null;
+  selectedSpacecraftId$: Observable<string | null> = this.store.select(
+    selectSelectedSpacecraftId
+  );
+  scenarios$: Observable<Scenario[]> = this.store.select(selectAllScenarios);
 
   constructor(
     private toasts: ToastService,
     private store: Store<AppStore>,
     private router: Router
-  ) {
-    this.selectedSpacecraftId$ = this.store.select(selectSelectedSpacecraftId);
-    this.spacecrafts$ = this.store.select(selectAllSpacecrafts);
-  }
-
-  ngOnInit() {
-    this.spacecraftSub = this.selectedSpacecraftId$.subscribe(
-      (res: string | null) => {
-        this.selectedSpacecraftId = res;
-      }
-    );
-
-    this.spacecraftsSub = this.spacecrafts$.subscribe((res: any) => {
-      this.spacecraftData = res;
-    });
-  }
-
-  ngOnDestroy() {
-    this.spacecraftSub?.unsubscribe();
-    this.spacecraftsSub?.unsubscribe();
-  }
+  ) {}
 
   onScenarioClick(event: Event) {
     event.stopImmediatePropagation();
