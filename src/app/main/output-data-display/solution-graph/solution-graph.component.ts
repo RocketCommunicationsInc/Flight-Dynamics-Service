@@ -43,40 +43,19 @@ export class SolutionGraphComponent {
 
   randomInt = randomNum;
 
-  seriesOneData(length: number) {
-    for (let i = 0; i < length; i++) {
-      const first = this.randomInt(100, 200);
-      const second = this.randomInt(400, 450);
-      this.seriesOne.push({ x: '', y: [first, second] });
+  seriesData(
+    num1: number,
+    num2: number,
+    num3: number,
+    num4: number,
+    series: any
+  ) {
+    for (let i = 0; i < 15; i++) {
+      const first = this.randomInt(num1, num2);
+      const second = this.randomInt(num3, num4);
+      series.push({ x: '', y: [first, second] });
     }
-    return this.seriesOne;
-  }
-
-  seriesTwoData(length: number) {
-    for (let i = 0; i < length; i++) {
-      const first = this.randomInt(50, 100);
-      const second = this.randomInt(200, 300);
-      this.seriesTwo.push({ x: '', y: [first, second] });
-    }
-    return this.seriesTwo;
-  }
-
-  seriesThreeData(length: number) {
-    for (let i = 0; i < length; i++) {
-      const first = this.randomInt(0, 300);
-      const second = this.randomInt(350, 400);
-      this.seriesThree.push({ x: '', y: [first, second] });
-    }
-    return this.seriesThree;
-  }
-
-  seriesFourData(length: number) {
-    for (let i = 0; i < length; i++) {
-      const first = this.randomInt(150, 600);
-      const second = this.randomInt(550, 800);
-      this.seriesFour.push({ x: '', y: [first, second] });
-    }
-    return this.seriesFour;
+    return series;
   }
 
   handleLegend(index: number) {
@@ -94,25 +73,25 @@ export class SolutionGraphComponent {
       {
         name: 'Alpha',
         color: 'var(--color-data-visualization-1)',
-        data: this.seriesOneData(15),
+        data: this.seriesData(50, 100, 80, 500, this.seriesOne),
         visible: true,
       },
       {
         name: 'Bravo',
         color: 'var(--color-data-visualization-2)',
-        data: this.seriesTwoData(15),
+        data: this.seriesData(0, 200, 175, 400, this.seriesTwo),
         visible: true,
       },
       {
         name: 'Charlie',
         color: 'var(--color-data-visualization-3)',
-        data: this.seriesThreeData(15),
+        data: this.seriesData(100, 400, 450, 800, this.seriesThree),
         visible: true,
       },
       {
         name: 'Echo',
         color: 'var(--color-data-visualization-5)',
-        data: this.seriesFourData(15),
+        data: this.seriesData(700, 750, 800, 1200, this.seriesFour),
         visible: true,
       },
     ],
