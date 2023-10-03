@@ -18,3 +18,11 @@ table {
 .status-col rux-status {
  padding-right: var(--spacing-2);
 }
+
+.table-wrapper th[type='number'] .h-stack {
+  justify-content: flex-start;
+}
+
+.table-wrapper td[type='number'] {
+  text-align: left;
+}

@@ -110,10 +110,9 @@ rux-container::part(body) {
   letter-spacing: var(--font-heading-5-letter-spacing);
 }
 
-/* Design has decided to left align all cells for now */
-/* .table-wrapper th[type='number'] .h-stack {
+.table-wrapper th[type='number'] .h-stack {
   justify-content: flex-end;
-} */
+}
 
 .table-wrapper tbody {
   background-color: var(--color-background-surface-default);
@@ -144,10 +143,9 @@ rux-container::part(body) {
   padding-block: var(--table-body-cell-padding-y);
 }
 
-/* Design has decided to left align all cells for now */
-/* .table-wrapper td[type='number'] {
+.table-wrapper td[type='number'] {
   text-align: right;
-} */
+}
 
 .table-wrapper td[type='number'].sortable {
   padding-right: 2.5rem;
