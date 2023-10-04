@@ -9,6 +9,7 @@ import { TrackFilesActions } from 'src/app/+state/app.actions';
 import { TrackFilesTableService } from '../track-files-table.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
+import { ColumnDefs } from 'src/app/shared/table.service';
 
 @Component({
   selector: 'fds-track-files',
@@ -28,16 +29,26 @@ export class TrackFilesComponent {
   editedContent: string = '';
   editTrackFile: boolean = false;
 
+  //table defs
+  columnDefs = [
+    { header: '', field: 'id' },
+    { header: 'File Name', field: 'name', sortable: true },
+    { header: 'Date', field: 'creationDate', sortable: true },
+    { header: 'File Size', field: 'fileSize', sortable: true },
+  ];
+
   // Cleans up subscriptions to avoid memory leaks
   destroyRef = inject(DestroyRef)
   destroyed = new Subject();
 
-  constructor(private store: Store, public trackFilesTableService: TrackFilesTableService){}
+  constructor(private store: Store, public trackFilesTableService: TrackFilesTableService){
+
+  }
 
   ngOnInit(){
     this.trackFiles$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => this.trackFiles = res || [])
     this.selectedTrackFile$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res)=> this.selectedTrackFile = res)
-    this.trackFilesTableService.initialize(this.trackFiles);
+    this.trackFilesTableService.initialize(this.trackFiles, this.columnDefs);
   }
 
   ngOnDestroy(){

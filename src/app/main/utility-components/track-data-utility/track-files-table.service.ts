@@ -3,19 +3,13 @@ import { Store } from '@ngrx/store';
 import { TableService, ColumnDefs } from 'src/app/shared/table.service';
 import { TrackFile } from 'src/app/types/data.types';
 
-type TrackData = TrackFile & {
+export type TrackData = TrackFile & {
   filtered: boolean
 }
 @Injectable({
   providedIn: 'root',
 })
 export class TrackFilesTableService extends TableService<TrackData> {
-  columnDefs: ColumnDefs<TrackData>[] = [
-    { header: '', field: 'id' },
-    { header: 'File Name', field: 'name', sortable: true },
-    { header: 'Date', field: 'creationDate', sortable: true },
-    { header: 'File Size', field: 'fileSize', sortable: true },
-  ];
 
   filter(selection: string): void {
     const today = new Date();
@@ -47,10 +41,10 @@ export class TrackFilesTableService extends TableService<TrackData> {
     this.data = newData
   }
 
-  initialize(data: TrackFile[]){
+  initialize(data: TrackFile[], columnDefs: ColumnDefs<any>[]){
     const trackdata = data.map((trackfile) => ({...trackfile, filtered: false}))
     this.init({
-      columnDefs: this.columnDefs,
+      columnDefs: columnDefs,
       data: trackdata
     });
   }

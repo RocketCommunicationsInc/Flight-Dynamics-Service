@@ -83,7 +83,7 @@
 
     <div class="chart-wrapper">
       <apx-chart
-        [series]="chartOptions.series"
+        [series]="series"
         [chart]="chartOptions.chart"
         [xaxis]="chartOptions.xaxis"
         [yaxis]="chartOptions.yaxis"
@@ -94,9 +94,18 @@
       ></apx-chart>
 
       <div class="legend" #legend>
-        <rux-checkbox label="Az" (ruxchange)="filterCheckboxes($event, 'Az')" />
-        <rux-checkbox label="El" (ruxchange)="filterCheckboxes($event, 'El')" />
         <rux-checkbox
+          disabled
+          label="Inc"
+          (ruxchange)="filterCheckboxes($event, 'Inc')"
+        />
+        <rux-checkbox
+          disabled
+          label="El"
+          (ruxchange)="filterCheckboxes($event, 'El')"
+        />
+        <rux-checkbox
+          disabled
           label="Range"
           (ruxchange)="filterCheckboxes($event, 'Range')"
         />
@@ -108,58 +117,46 @@
     </footer>
   </div>
 
+  <!--Table Component: ToDo split into two components-->
   <div *ngIf="showTable">
     <div class="table-wrapper">
       <table>
         <thead>
           <tr>
-            <th>File Name</th>
             <th
-              (click)="sortColumn('date')"
-              (mouseenter)="showIcon = true"
-              (mouseleave)="showIcon = false"
+              *ngFor="let col of trackFilesTableService.columns"
+              [ngClass]="{ sortable: col.sortable }"
+              [attr.type]="col.type"
             >
-              Date
-              <span class="icon-span" [ngClass]="{ 'show-icon': showIcon }">
-                <rux-icon
-                  size="small"
-                  *ngIf="showIcon"
-                  [icon]="
-                    sortDirection === 'ASC'
-                      ? 'arrow-drop-down'
-                      : 'arrow-drop-up'
-                  "
-                />
-              </span>
-            </th>
-            <th
-              (click)="sortColumn('size')"
-              (mouseenter)="showSecondIcon = true"
-              (mouseleave)="showSecondIcon = false"
-            >
-              File Size
-              <span
-                class="icon-span"
-                [ngClass]="{ 'show-icon': showSecondIcon }"
+              <div
+                [ngClass]="{ active: col.sorted }"
+                class="h-stack"
+                (click)="trackFilesTableService.sort(col)"
               >
-                <rux-icon
-                  size="small"
-                  *ngIf="showSecondIcon"
-                  [icon]="
-                    sortDirection === 'ASC'
-                      ? 'arrow-drop-down'
-                      : 'arrow-drop-up'
-                  "
-              /></span>
+                {{ col.header }}
+                <rux-icon *ngIf="col.sortable" [icon]="col.icon" size="small" />
+              </div>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let file of filteredData">
-            <td>{{ file.fileName }}</td>
-            <td>{{ file.date | date: 'MM/dd/YYYY' }}</td>
-            <td>{{ file.size }} kb</td>
-          </tr>
+          <ng-container *ngFor="let row of trackFilesTableService.data">
+            <tr *ngIf="!row.filtered">
+              <td
+                *ngFor="let col of trackFilesTableService.columns"
+                [ngSwitch]="col.field"
+                [attr.type]="col.type"
+                [ngClass]="{ sortable: col.sortable }"
+              >
+                <ng-container *ngSwitchCase="'creationDate'">
+                  {{ row.creationDate | date: 'MM/dd/YYYY' }}
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  {{ row[col.field] }}
+                </ng-container>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>

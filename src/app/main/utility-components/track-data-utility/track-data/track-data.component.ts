@@ -1,7 +1,7 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, DestroyRef, inject } from '@angular/core';
+import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { dummyFileData } from '../dummy-file-data';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -14,11 +14,13 @@ import {
   ApexOptions,
   ChartComponent,
 } from 'ng-apexcharts';
-import { Files } from 'src/app/types/Files';
 import { SitesComponent } from './sites/sites.component';
 import { SettingsComponent } from './settings/settings.component';
-
-type Sort = 'ASC' | 'DESC' | '';
+import { Store } from '@ngrx/store';
+import { selectCurrentSpaceCraftTrackFiles } from 'src/app/+state/app.selectors';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TrackFile } from 'src/app/types/data.types';
+import { TrackFilesTableService } from '../track-files-table.service';
 
 type ChartOptions = {
   series: ApexAxisChartSeries | any;
@@ -30,6 +32,12 @@ type ChartOptions = {
   legend: ApexOptions | any;
   tooltip: ApexTooltip | any;
 };
+
+type ChartData = {
+  inc: number
+  el: number
+  range: number
+}
 
 @Component({
   selector: 'fds-track-data',
@@ -48,11 +56,107 @@ export class TrackDataComponent {
   @ViewChild(ChartComponent) chart?: ChartComponent;
   @ViewChild('legend') legend?: ElementRef;
 
-  dummyFileData = dummyFileData;
+  selectedTrackFiles$ = this.store.select(selectCurrentSpaceCraftTrackFiles)
+  selectedTrackFiles: TrackFile[] = []
+
+  //show/hide variables
   isSitesDrawerOpen: boolean = false;
   isSettingsDrawerOpen: boolean = false;
   showGraph: boolean = true;
   showTable: boolean = false;
+
+  //table variables
+  columnDefs = [
+    { header: 'File Name', field: 'name', sortable: true },
+    { header: 'Date', field: 'creationDate', sortable: true },
+    { header: 'File Size', field: 'fileSize', sortable: true },
+  ];
+
+  //chart variables
+  chartData: ChartData[] = []
+  chartFilter: string[] =[]
+  slopeData = [
+    [800, 825],
+    [815, 850],
+    [840, 875],
+    [865, 900],
+    [895, 925],
+    [915, 950],
+    [940, 975],
+    [965, 1000],
+    [990, 1050],
+    [1040, 1100],
+    [1090, 1150],
+    [1150, 1200],
+    [1200, 1300],
+    [1300, 1400],
+    [1400, 1550],
+    [1490, 1650],
+    [1590, 1800],
+  ];
+  series: any = [
+    {
+      name: 'Inc',
+      data: [1,2,3,4,5],
+      type: 'scatter',
+    },
+    {
+      name: 'El',
+      data: [1,2,3,4,5],
+      type: 'scatter',
+    },
+    {
+      name: 'Range',
+      data: [1,2,3,4,5],
+      type: 'scatter',
+    },
+    {
+      name: 'Slope',
+      data: this.slopeData,
+      type: 'line',
+      color: 'var(--color-data-visualization-3)',
+    },
+  ]
+
+  zoomLevel: number = 20;
+  dates: string[] = []
+  labelsShown: string[] = [];
+
+  dataPointLength: number = 0;
+  dataPointToDelete: number | null = null;
+  deletedDataPoints: any[] | null = [];
+
+  //subscription cleanup
+  destroyRef = inject(DestroyRef)
+  destroyed = new Subject();
+
+  constructor(private store: Store, public trackFilesTableService: TrackFilesTableService){
+    this.selectedTrackFiles$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
+      this.selectedTrackFiles = res || []
+      this.chartData = res!.map(file => {
+        const inc = file.initialOrbitProperties.inclination.value
+        const el = Math.floor(Math.random() * inc - 5)
+        const range = Math.ceil(Math.random() * inc + 5)
+        return {inc: inc, el: el, range: range};
+      })
+
+    })
+  }
+
+  ngOnInit(){
+    this.trackFilesTableService.initialize(this.selectedTrackFiles, this.columnDefs);
+    this.dates = this.selectedTrackFiles.map((file) => file.creationDate.toLocaleDateString());
+    this.dataPointLength = this.chartData.length
+    this.labelsShown = this.dates
+    this.chartOptions.xaxis.categories = this.labelsShown
+    this.updateChartData()
+
+  }
+
+  ngOnDestroy(){
+    this.destroyed.next(true);
+    this.destroyed.complete();
+  }
 
   shrinkChart() {
     this.chart?.updateOptions({
@@ -106,77 +210,14 @@ export class TrackDataComponent {
     this.showTable = false;
   }
 
-  filteredData: Files[] = this.dummyFileData;
-  sortDirection: Sort = 'ASC';
-  sortedColumn: string = '';
-  showIcon: boolean = false;
-  showSecondIcon: boolean = false;
 
-  sortColumn(column: string) {
-    if (column === this.sortedColumn) {
-      if (column === 'date') {
-        this.showIcon = !this.showIcon;
-      }
-      if (column === 'size') {
-        this.showSecondIcon = !this.showSecondIcon;
-      }
-      this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
-    } else {
-      this.sortedColumn = column;
-      this.sortDirection = 'ASC';
-    }
-    this.filteredData.sort((a: any, b: any) => {
-      return this.sortDirection === 'ASC'
-        ? a[this.sortedColumn] - b[this.sortedColumn]
-        : b[this.sortedColumn] - a[this.sortedColumn];
-    });
-  }
-
-  slopeData = [
-    [800, 825],
-    [815, 850],
-    [840, 875],
-    [865, 900],
-    [895, 925],
-    [915, 950],
-    [940, 975],
-    [965, 1000],
-    [990, 1050],
-    [1040, 1100],
-    [1090, 1150],
-    [1150, 1200],
-    [1200, 1300],
-    [1300, 1400],
-    [1400, 1550],
-    [1490, 1650],
-    [1590, 1800],
-  ];
-
-  dummyFileSize: number[] = this.dummyFileData.map((file) => file.size);
-  filteredLegendData: number[] = this.dummyFileSize;
-
-  zoomLevel: number = 20;
-  dummyDates = this.dummyFileData.map((file) => file.date.toLocaleDateString());
-  labelsShown: any[] = this.dummyDates;
-
-  dataPointLength: number = this.filteredLegendData.length;
-  dataPointToDelete: number | null = null;
-  deletedDataPoints: any[] | null = [];
-
-  updateChartData(newData: any[]) {
-    const updatedData = [
-      {
-        name: this.chartOptions.series[0].name,
-        data: (this.chartOptions.series[0].data = newData),
-        type: this.chartOptions.series[0].type,
-      },
-      {
-        name: this.chartOptions.series[1].name,
-        data: this.chartOptions.series[1].data,
-        type: this.chartOptions.series[1].type,
-      },
-    ];
-    this.chart?.updateSeries(updatedData);
+  updateChartData = () => {
+    const updatedData = this.chartOptions.series.map((series:any)=> {
+      const key = series.name.toLowerCase() as keyof ChartData
+      const newData = this.chartData.map(datum => datum[key]|| 0)
+      return this.chartData[0].hasOwnProperty(key) ? {...series, data: newData} : series
+    })
+    this.series = updatedData;
   }
 
   updateSlopeData(newData: any[]) {
@@ -195,7 +236,7 @@ export class TrackDataComponent {
     this.chart?.updateSeries(updatedData);
   }
 
-  selectedFilters: any[] = [];
+  selectedFilters: string[] = [];
 
   filterCheckboxes(event: any, filter: string) {
     const checkbox = event.target as HTMLRuxCheckboxElement;
@@ -208,40 +249,41 @@ export class TrackDataComponent {
         this.selectedFilters.splice(index, 1);
       }
     }
-    this.filteredLegendData = this.dummyFileSize.filter((size) => {
+    const orbitProperties = this.selectedTrackFiles.map((files) => files.initialOrbitProperties)
+    const filterDummy = this.chartData.filter((size) => {
       return (
         this.selectedFilters.length === 0 ||
         this.selectedFilters.some((filter) => {
           if (filter === 'Az') {
-            return size < 500;
+            return size.inc < 500;
           }
           if (filter === 'El') {
-            return size < 1000 && size >= 500;
+            return size.inc < 1000 && size.inc >= 500;
           }
           if (filter === 'Range') {
-            return size > 1000;
+            return size.inc > 1000;
           }
           return true;
         })
       );
     });
-    this.dataPointLength = this.filteredLegendData.length;
-    this.updateChartData(this.filteredLegendData);
+    this.dataPointLength = this.chartData.length;
+    // this.updateChartData(this.chartData);
   }
 
   onDelete() {
     if (this.dataPointToDelete !== null) {
-      this.dummyFileData.filter((_, index) => index !== this.dataPointToDelete);
+      this.selectedTrackFiles.filter((_, index) => index !== this.dataPointToDelete);
 
       //take the removed obj and put the value in to a deletePointsArray for undo btn
-      const removedObj = dummyFileData.splice(this.dataPointToDelete, 1);
-      const fileSize = removedObj.map((file) => file.size);
+      const removedObj = this.selectedTrackFiles.splice(this.dataPointToDelete, 1);
+      const fileSize = removedObj.map((file) => file.fileSize);
       this.deletedDataPoints?.push(fileSize.pop());
 
       //get the updated files for series data
-      this.dummyFileSize = dummyFileData.map((file) => file.size);
-      this.updateChartData(this.dummyFileSize);
-      this.dataPointLength = this.dummyFileSize.length;
+      // this.selectedTrackFiles = this.selectedTrackFiles.map((file) => file.fileSize);
+      // this.updateChartData(this.fileSize);
+      // this.dataPointLength = this.fileSize.length;
 
       this.dataPointToDelete = null;
       this.disableUndo = false;
@@ -253,18 +295,18 @@ export class TrackDataComponent {
   onUndo() {
     const lastValRemoved = this.deletedDataPoints?.pop();
     const deletedArr = (this.deletedDataPoints as number[]).length;
-    if (Number(lastValRemoved)) {
-      this.dummyFileSize.push(Number(lastValRemoved));
-      if (deletedArr < 1) {
-        this.disableUndo = true;
-      }
-    }
-    this.updateChartData(this.dummyFileSize);
-    this.dataPointLength = this.dummyFileSize.length;
+    // if (Number(lastValRemoved)) {
+    //   this.fileSize.push(Number(lastValRemoved));
+    //   if (deletedArr < 1) {
+    //     this.disableUndo = true;
+    //   }
+    // }
+    // this.updateChartData(this.fileSize);
+    // this.dataPointLength = this.fileSize.length;
   }
 
   updateSeriesOne(zoomLevel: number) {
-    return this.dummyFileSize.slice(0, zoomLevel);
+    // return this.fileSize.slice(0, zoomLevel);
   }
 
   updateSeriesTwo(zoomLevel: number) {
@@ -273,10 +315,10 @@ export class TrackDataComponent {
 
   handleZoom(event: any) {
     this.zoomLevel = event.target.value;
-    this.labelsShown = this.dummyDates.slice(0, this.zoomLevel);
+    this.labelsShown = this.dates.slice(0, this.zoomLevel);
 
     //Update both series, categories, and labels on zoom
-    this.updateChartData(this.updateSeriesOne(this.zoomLevel));
+    // this.updateChartData(this.updateSeriesOne(this.zoomLevel));
     this.updateSlopeData(this.updateSeriesTwo(this.zoomLevel));
     this.chart?.updateOptions({
       xaxis: {
@@ -287,19 +329,8 @@ export class TrackDataComponent {
   }
 
   chartOptions: Partial<ChartOptions> | any = {
-    series: [
-      {
-        name: 'Main',
-        data: this.filteredLegendData,
-        type: 'scatter',
-      },
-      {
-        name: 'Slope',
-        data: this.slopeData,
-        type: 'line',
-        color: 'var(--color-data-visualization-3)',
-      },
-    ],
+    series: this.series,
+
     chart: {
       height: 425,
       type: 'line',
@@ -311,8 +342,8 @@ export class TrackDataComponent {
       },
       events: {
         dataPointSelection: (event: any, chartContext: any, config: any) => {
-          this.dataPointToDelete = dummyFileData.findIndex(
-            (file) => file.size === config?.dataPointIndex
+          this.dataPointToDelete = this.selectedTrackFiles.findIndex(
+            (file) => file.fileSize === config?.dataPointIndex
           );
           //Change the color of selected data point
           const dataPoints = document.querySelectorAll('.apexcharts-marker');
@@ -335,8 +366,8 @@ export class TrackDataComponent {
       show: false,
     },
     markers: {
-      size: [6, 0],
-      colors: 'var(--color-data-visualization-2)',
+      size: [6, 6, 6, 0],
+      colors: ['var(--color-data-visualization-4)', 'var(--color-data-visualization-2)', 'var(--color-data-visualization-3)', 'var(--color-data-visualization-1)'],
     },
     stroke: {
       width: 2,
@@ -366,18 +397,16 @@ export class TrackDataComponent {
         show: false,
       },
       theme: '',
-      custom: function ({ series, seriesIndex, dataPointIndex }: any) {
-        const dummyDates = dummyFileData.map((file) =>
-          file.date.toLocaleDateString()
-        );
+      custom: ({ series, seriesIndex, dataPointIndex }: any) => {
+        console.log(series)
         return (
           '<div class="tooltip-box">' +
           '<span> DGS' +
           '</span> <br/>' +
           '<span> ' +
-          dummyDates[dataPointIndex] +
+          this.dates[dataPointIndex] +
           '</span> <br/>' +
-          '<span>El: ' +
+          '<span>' + this.chartOptions.series[seriesIndex].name + ':' +
           series[seriesIndex][dataPointIndex] +
           '</span>' +
           '</div>'
@@ -400,7 +429,7 @@ export class TrackDataComponent {
     yaxis: [
       {
         title: {
-          text: 'Az/EI (degrees)',
+          text: 'Az/El (degrees)',
           style: {
             color: 'var(--color-text-primary)',
           },
