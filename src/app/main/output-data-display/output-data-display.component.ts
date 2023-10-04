@@ -56,16 +56,16 @@ export class OutputDataDisplayComponent {
     const pass3Section = document?.getElementById('pass3');
 
     if (target === 'cumulative' && cumulativeSection) {
-      cumulativeSection.scrollIntoView();
+      cumulativeSection.scrollIntoView({ behavior: 'smooth' });
     }
     if (target === 'pass1' && pass1Section) {
-      pass1Section.scrollIntoView();
+      pass1Section.scrollIntoView({ behavior: 'smooth' });
     }
     if (target === 'pass2' && pass2Section) {
-      pass2Section.scrollIntoView();
+      pass2Section.scrollIntoView({ behavior: 'smooth' });
     }
     if (target === 'pass3' && pass3Section) {
-      pass3Section.scrollIntoView();
+      pass3Section.scrollIntoView({ behavior: 'smooth' });
     }
   }
 }

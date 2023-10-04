@@ -3,10 +3,6 @@
   width: 75%;
 }
 
-.output-data {
-  scroll-behavior: smooth;
-}
-
 rux-tab-panels,
 rux-tab-panel {
   height: 100%;
