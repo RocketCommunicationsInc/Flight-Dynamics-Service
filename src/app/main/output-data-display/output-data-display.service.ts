@@ -7,7 +7,7 @@ import { ColumnDefs } from 'src/app/shared/table.service';
 import { OrbitProperties } from 'src/app/types/data.types';
 import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { PerformanceData, SolutionData } from './output-data-display.model';
-import { PERFORMANCE_DATA } from './output-data-display.data';
+import { PERFORMANCE_DATA, CUMULATIVE_DATA } from './output-data-display.data';
 import { BehaviorSubject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -17,6 +17,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class OutputDataDisplayService {
   currentTrackFile$ = this.store.select(selectCurrentTrackFile);
   performanceData: PerformanceData[] = PERFORMANCE_DATA;
+  cumulativeData: any[] = CUMULATIVE_DATA
   solutionData: SolutionData[] = [];
   deviations: Status[] = [];
   columnDefs: ColumnDefs<SolutionData>[] = [

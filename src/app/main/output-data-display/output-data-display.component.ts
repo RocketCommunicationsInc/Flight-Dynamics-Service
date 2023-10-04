@@ -66,6 +66,16 @@ export class OutputDataDisplayComponent implements OnInit {
     });
   }
 
+  handleDataSelect(event: any) {
+    if (event.target.value) {
+      this.toasts.addToast({
+        message: 'This feature has not been implemented',
+        hideClose: false,
+        closeAfter: 3000,
+      });
+    }
+  }
+
   showGraph: boolean = false;
   showTable: boolean = true;
 
@@ -79,7 +89,7 @@ export class OutputDataDisplayComponent implements OnInit {
     this.showTable = false;
   }
 
-  onSelect(event: any) {
+  handleAntennaSelect(event: any) {
     const target = event.target.value;
     const cumulativeSection = document?.getElementById('cumulative');
     const pass1Section = document?.getElementById('pass1');
