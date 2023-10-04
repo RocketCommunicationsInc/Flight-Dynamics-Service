@@ -12,6 +12,8 @@ import { select, Store } from '@ngrx/store';
 import { AppStore } from 'src/app/+state/app.model';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
 import { MockDataService } from 'src/app/api/mock-data.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { OutputDataDisplayService } from '../../output-data-display/output-data-display.service';
 
 @Component({
   selector: 'fds-inputs',
@@ -43,6 +45,7 @@ export class InputsComponent {
   currentTrackFile: any = {};
   currentTrackFile$: Subscription = this.store
     .pipe(
+      takeUntilDestroyed(),
       select(selectCurrentTrackFile),
       filter((val) => val !== null)
     )
@@ -70,8 +73,13 @@ export class InputsComponent {
 
   constructor(
     private store: Store<AppStore>,
-    private ProcessTrackFileService: MockDataService
+    private ProcessTrackFileService: MockDataService,
+    private bannerService: OutputDataDisplayService
   ) {}
+
+  handleBanner() {
+    this.bannerService.handleBanner();
+  }
 
   onSubmit(): void {
     // generate processed trackFile using service

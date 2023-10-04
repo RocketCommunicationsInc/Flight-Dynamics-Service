@@ -7,8 +7,8 @@ import { AstroComponentsModule } from '@astrouxds/angular';
   standalone: true,
   imports: [CommonModule, AstroComponentsModule],
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+  styleUrls: ['./settings.component.css'],
 })
 export class SettingsComponent {
-@Input() isSettingsDrawerOpen: boolean = false
+  @Input() isSettingsDrawerOpen: boolean = false;
 }

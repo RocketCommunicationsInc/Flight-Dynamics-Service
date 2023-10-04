@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import type { Status } from '@astrouxds/astro-web-components/dist/types/components';
-
 import { randomNum } from 'src/app/mock-data/generate-data';
 import { UnitMenuItems } from 'src/app/shared/units/units.model';
 import { ColumnDefs } from 'src/app/shared/table.service';
@@ -9,6 +8,8 @@ import { OrbitProperties } from 'src/app/types/data.types';
 import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { PerformanceData, SolutionData } from './output-data-display.model';
 import { PERFORMANCE_DATA } from './output-data-display.data';
+import { BehaviorSubject } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +25,12 @@ export class OutputDataDisplayService {
     { header: 'Initial State', field: 'initial' },
     { header: 'Final State', field: 'final' },
     { header: 'Std Dev', field: 'deviation' },
-    { header: 'Difference', field: 'difference', sortable: true },
+    { header: 'Difference', field: 'difference' },
     { header: 'Units', field: 'units' },
   ];
 
   constructor(private store: Store) {
-    this.currentTrackFile$.subscribe((trackFile) => {
+    this.currentTrackFile$.pipe(takeUntilDestroyed()).subscribe((trackFile) => {
       if (!trackFile) return;
       const { degrees, kilometers, meters, miles, radians, revolutions } =
         UnitMenuItems;
@@ -87,5 +88,11 @@ export class OutputDataDisplayService {
 
   get criticals(): number {
     return this.deviations.filter((dev) => dev === 'critical').length;
+  }
+
+  private showBannerSubject = new BehaviorSubject<boolean>(false);
+  showBanner$ = this.showBannerSubject.asObservable();
+  handleBanner() {
+    this.showBannerSubject.next(!this.showBannerSubject.value);
   }
 }

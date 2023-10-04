@@ -10,18 +10,24 @@
       />
       <rux-menu *ngIf="!hasValue" (ruxmenuselected)="handleSelect($event)">
         <span>Latest Track File</span>
-        <rux-menu-item
-          [attr.data-id]="currentTrackFile.id"
-          value="{{ currentTrackFile.name }}"
-          >{{ currentTrackFile.name }}</rux-menu-item
+        <ng-container
+          *ngFor="let trackfile of trackfiles$ | async; let latestFile = first"
         >
-        <rux-menu-item-divider />
-        <span>Recent Track Files</span>
-        <rux-menu-item
-          [attr.data-id]="trackfile.id"
-          *ngFor="let trackfile of trackfiles$ | async"
-          >{{ trackfile.name }}</rux-menu-item
-        >
+          <rux-menu-item
+            *ngIf="latestFile"
+            [attr.data-id]="trackfile.id"
+            value="{{ trackfile.name }}"
+            >{{ trackfile.name }}</rux-menu-item
+          >
+
+          <rux-menu-item-divider *ngIf="latestFile" />
+          <span *ngIf="latestFile">Recent Track Files</span>
+          <div #recentFiles>
+            <rux-menu-item *ngIf="recentFiles" [attr.data-id]="trackfile.id">{{
+              trackfile.name
+            }}</rux-menu-item>
+          </div>
+        </ng-container>
       </rux-menu>
 
       <rux-menu *ngIf="hasValue" (ruxmenuselected)="handleSelect($event)">
@@ -59,7 +65,7 @@
     />
   </div>
   <div class="inputs_footer">
-    <rux-button [disabled]="isDisabled" type="submit"
+    <rux-button [disabled]="isDisabled" (click)="handleBanner()" type="submit"
       >Determine Orbit</rux-button
     >
   </div>

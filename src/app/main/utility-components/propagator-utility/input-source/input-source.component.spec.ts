@@ -8,7 +8,7 @@ describe('InputSourceComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [InputSourceComponent]
+      imports: [InputSourceComponent],
     });
     fixture = TestBed.createComponent(InputSourceComponent);
     component = fixture.componentInstance;

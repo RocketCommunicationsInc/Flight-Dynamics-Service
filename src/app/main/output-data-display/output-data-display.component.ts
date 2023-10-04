@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { SegmentedButton } from '@astrouxds/astro-web-components/dist/types/components';
-
 import type { Tabs } from 'src/app/types/Tabs';
 import { SolutionGraphComponent } from './solution-graph/solution-graph.component';
 import { SolutionTableComponent } from './solution-table/solution-table.component';
 import { OutputDataDisplayService } from './output-data-display.service';
 import { CurrentView } from './output-data-display.model';
 import { PerformanceTableComponent } from './performance-table/performance-table.component';
+import { ToastService } from 'src/app/shared/toast.service';
 
 @Component({
   selector: 'fds-output-data-display',
@@ -23,7 +22,7 @@ import { PerformanceTableComponent } from './performance-table/performance-table
   templateUrl: './output-data-display.component.html',
   styleUrls: ['./output-data-display.component.css'],
 })
-export class OutputDataDisplayComponent {
+export class OutputDataDisplayComponent implements OnInit {
   currentView: CurrentView = 'View Table';
   tabsId = 'output-data-display-tabs';
   tabs: Tabs[] = [
@@ -31,20 +30,52 @@ export class OutputDataDisplayComponent {
     { label: 'OD Performance', id: 'od-performance' },
   ];
 
-  actions: SegmentedButton[] = [
-    { label: 'Secondary Action' },
-    { label: 'Primary Action', selected: true },
-  ];
+  showBanner: boolean = false;
+  dateAndTime = new Date();
 
-  views: SegmentedButton[] = [
-    { label: 'View Table', selected: true },
-    { label: 'View Graph' },
-  ];
+  ngOnInit(): void {
+    this.bannerService.showBanner$.subscribe((visible) => {
+      this.showBanner = visible;
+      if (visible) {
+        setTimeout(() => {
+          this.showBanner = false;
+        }, 8000);
+      }
+    });
+  }
 
-  constructor(public outputDataDisplayService: OutputDataDisplayService) {}
+  constructor(
+    public outputDataDisplayService: OutputDataDisplayService,
+    private toasts: ToastService,
+    private bannerService: OutputDataDisplayService
+  ) {}
 
-  setCurrentView(e: Event) {
-    const event = e as CustomEvent;
-    this.currentView = event.detail;
+  handleTLE() {
+    this.toasts.addToast({
+      message: 'TLE Created',
+      hideClose: false,
+      closeAfter: 3000,
+    });
+  }
+
+  handleEphemeris() {
+    this.toasts.addToast({
+      message: 'Ephemeris Created',
+      hideClose: false,
+      closeAfter: 3000,
+    });
+  }
+
+  showGraph: boolean = false;
+  showTable: boolean = true;
+
+  viewTable() {
+    this.showGraph = false;
+    this.showTable = true;
+  }
+
+  viewGraph() {
+    this.showGraph = true;
+    this.showTable = false;
   }
 }

@@ -23,7 +23,7 @@ header {
   right: 100px;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-background-base-default)  ;
+  background-color: var(--color-background-base-default);
   padding: var(--spacing-2);
 }
 
@@ -35,7 +35,6 @@ header {
 .legend rux-checkbox {
   padding: var(--spacing-1);
 }
-
 
 .button-wrapper {
   display: flex;

@@ -8,7 +8,7 @@ describe('PropagatorControlsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PropagatorControlsComponent]
+      imports: [PropagatorControlsComponent],
     });
     fixture = TestBed.createComponent(PropagatorControlsComponent);
     component = fixture.componentInstance;

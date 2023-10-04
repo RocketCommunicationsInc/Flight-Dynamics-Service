@@ -8,7 +8,7 @@ describe('ViewOrbitComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ViewOrbitComponent]
+      imports: [ViewOrbitComponent],
     });
     fixture = TestBed.createComponent(ViewOrbitComponent);
     component = fixture.componentInstance;

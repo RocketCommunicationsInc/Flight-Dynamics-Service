@@ -2,7 +2,7 @@ import { Files } from '../../../types/Files';
 
 const randomDate = (start: Date, end: Date) => {
   return new Date(
-    start.getTime() + Math.random() * (end.getTime() - start.getTime()),
+    start.getTime() + Math.random() * (end.getTime() - start.getTime())
   );
 };
 
