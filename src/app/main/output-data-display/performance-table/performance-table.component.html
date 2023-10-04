@@ -31,16 +31,18 @@
           >
             <span class="status-wrapper">
               <span class="status-container">
-                <span>
-                  {{ row[col.field] }}
-                </span>
+                <span> {{ row[col.field] }}&deg; </span>
                 <rux-status [status]="setStatus(row[col.field])" />
               </span>
             </span>
           </ng-container>
 
-          <ng-container *ngSwitchDefault>
+          <ng-container *multipleSwitchCase="['property']">
             {{ row[col.field] }}
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            {{ row[col.field] }}&deg;
           </ng-container>
         </td>
       </tr>

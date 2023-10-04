@@ -40,12 +40,8 @@ export class PerformanceTableComponent implements OnChanges {
     if (typeof num === 'string') {
       throw new Error('Cannot setStatus with a string as an argument');
     }
-
-    // num should be between 1_000_000 and 10_000_000 with random numbers set
-    if (num > 4e6 && num < 7e6) return '';
-    if (num < 2e6 || num > 9e6) return 'serious';
-    if (num < 4e6 || num > 7e6) return '';
-
+    //*TODO update this logic
+    if (num < 100) return 'serious';
     throw new Error(`Missed setStatus case ${num}`);
   }
 }
