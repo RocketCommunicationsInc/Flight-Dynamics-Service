@@ -1,0 +1,17 @@
+:host {
+  height: 100%;
+}
+
+div[slot='header'] {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+rux-container::part(container) {
+  border: none;
+}
+
+rux-container {
+  --body-padding: var(--spacing-0);
+}

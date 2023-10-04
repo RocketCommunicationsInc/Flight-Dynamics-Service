@@ -30,6 +30,7 @@ export const TrackFilesActions = createActionGroup({
     'Track Files Requested': emptyProps(),
     'Track Files Retrieved': props<{ trackFiles: TrackFile[] }>(),
     'Track File Selected': props<{ trackFileId: string }>(),
+    "Track File Modified": props<{ trackFileId: string, updatedTrackFile: TrackFile}>(),
     'Track File Processed': props<{
       processedTrackFile: ProcessedTrackFile;
       trackFileId: string;

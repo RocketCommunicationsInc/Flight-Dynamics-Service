@@ -12,5 +12,12 @@
 }
 
 .btns *:nth-child(2) {
-  margin-right: var(--spacing-12);
+  margin-right: var(--spacing-3);
+}
+
+rux-dialog::part(message) {
+  height: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
