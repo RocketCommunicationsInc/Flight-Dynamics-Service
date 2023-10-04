@@ -44,7 +44,7 @@ export class OutputDataDisplayService {
         if (status !== 'off') {
           this.deviations.push(status);
         }
-
+        
         this.solutionData.push({
           deviation: randomNum(100, 300),
           difference: Number((finalVal - value).toPrecision(7)),
