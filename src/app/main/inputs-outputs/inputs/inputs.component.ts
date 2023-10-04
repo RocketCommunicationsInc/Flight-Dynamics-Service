@@ -55,6 +55,7 @@ export class InputsComponent {
       const diffTime = (epochStart - epochEnd) / (1000 * 3600 * 24);
       this.currentTrackFileId = result!.id;
       this.currentTrackFile = result!.tleSourceFile;
+      console.log(result!.processedTrackFile && result!.processedTrackFile.name)
 
       this.inputForm = new FormGroup({
         databaseFile: new FormControl(result!.tleSourceFile.name),
