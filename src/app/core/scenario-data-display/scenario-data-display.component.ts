@@ -38,22 +38,13 @@ export class ScenarioDataDisplayComponent {
   constructor(private store: Store) {
     this.spacecraft$ = this.store.select(selectCurrentSpacecraft);
     this.trackfile$ = this.store.select(selectCurrentTrackFile);
-  }
-
-  ngOnInit() {
-    this.trackFileSub = this.trackfile$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((res) => {
-        const initialOrbit = res?.initialOrbitProperties || null;
-        this.initialOrbit = initialOrbit;
-        this.semiMajorAxis = initialOrbit?.semiMajorAxis.value || 0;
-        this.perigee = initialOrbit?.perigee.value || 0;
-        this.inclination = initialOrbit?.inclination.value || 0;
-      });
-  }
-
-  ngOnDestroy() {
-    this.trackFileSub?.unsubscribe();
+    this.trackFileSub = this.trackfile$.pipe(takeUntilDestroyed()).subscribe((res)=>{
+      const initialOrbit = res?.initialOrbitProperties || null
+      this.initialOrbit = initialOrbit
+      this.semiMajorAxis= initialOrbit?.semiMajorAxis.value || 0;
+      this.perigee = initialOrbit?.perigee.value || 0;
+      this.inclination = initialOrbit?.inclination.value || 0;
+    });
   }
 
   distanceUnits = [

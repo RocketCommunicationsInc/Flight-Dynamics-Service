@@ -1,11 +1,5 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { AstroComponentsModule, RuxToastStack } from '@astrouxds/angular';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AstroComponentsModule } from '@astrouxds/angular';
 import { ToastService } from '../../shared/toast.service';
 
 @Component({
