@@ -13,16 +13,12 @@ form.inputs_form {
 }
 
 .inputs_main > * {
-  padding-block-start: var(--spacing-2);
+  padding-block-start: var(--spacing-3);
   width: 100%;
 }
 
 rux-pop-up {
   width: inherit;
-}
-
-rux-input::part(label) {
-  margin-bottom: 0.3rem;
 }
 
 /* These part modifications make the popup look like a type-ahead dropdown */

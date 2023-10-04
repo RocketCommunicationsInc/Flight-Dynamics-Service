@@ -40,18 +40,17 @@
         </div>
       </rux-menu>
     </rux-pop-up>
-    <rux-input label="Orbit Source" formControlName="orbitSource" readonly />
+    <rux-input label="Orbit Source" formControlName="orbitSource" />
     <rux-input
       label="Epoch"
       placeholder="MM/DD/YY 00:00:00 .000"
-      disabled
+      formControlName="epoch"
     ></rux-input>
     <rux-input
-      disabled
+      formControlName="epochRange"
       label="Epoch Range"
       placeholder="MM/DD/YY 00:00:00 - MM/DD/YY 00:00:00"
     ></rux-input>
-    <rux-input disabled label="Epoch Span" placeholder="# Days"></rux-input>
     <rux-input
       label="Epoch Span"
       formControlName="epochSpan"
