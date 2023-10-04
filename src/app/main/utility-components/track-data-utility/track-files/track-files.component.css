@@ -68,6 +68,9 @@ td:nth-of-type(4) {
 th.show-icon {
   padding-right: var(--spacing-6);
 }
+tr.selected {
+  background-color: var(--color-background-surface-selected);
+}
 
 /* FILE STYLES */
 
@@ -102,4 +105,10 @@ header {
 
 .edit-file {
   padding: var(--spacing-4);
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: var(--opacity-disabled);
 }

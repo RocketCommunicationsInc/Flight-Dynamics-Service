@@ -68,6 +68,15 @@ export const AppReducer = createReducer(
     ...state,
     selectedTrackFileId: trackFileId,
   })),
+  on(TrackFilesActions.trackFileModified, (state, {trackFileId, updatedTrackFile}) => ({
+    ...state,
+    trackFiles: trackFileAdapter.updateOne({
+      id: trackFileId,
+      changes: {
+        ...state.trackFiles.entities[trackFileId], ...updatedTrackFile
+      }
+    }, state.trackFiles)
+  })),
   on(
     TrackFilesActions.trackFileProcessed,
     (state, { trackFileId, processedTrackFile }) => ({

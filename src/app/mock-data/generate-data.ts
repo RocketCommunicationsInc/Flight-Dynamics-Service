@@ -40,19 +40,14 @@ const generateTrackFile = (
   id: string,
   index: number
 ): TrackFile => {
-  const getCreationDate = () => {
-    let creationDate = new Date();
-    creationDate.setHours(creationDate.getHours() + 4);
-    return creationDate;
-  };
   const fileSizeNum = faker.number.int({ min: 30, max: 300 });
   const epoch = faker.date.recent({ refDate: new Date(), days: 2 });
 
   return {
     id,
     spaceCraftRefId: spaceCraftRefId,
-    name: 'trackfile_' + id,
-    creationDate: getCreationDate(),
+    name: 'trackfile_' + index,
+    creationDate: faker.date.recent({ days: 120 }),
     fileSize: fileSizeNum,
     ephemerisSourceFile: generateEphemerisFile(id, index),
     tleSourceFile: generateTLEFile(id, index),
@@ -243,8 +238,8 @@ spaceCraft.forEach((spacecraft) => {
 });
 export const mockTrackFiles = Object.entries(
   trackFileIdsBySpaceCraftId
-).flatMap(([spacecraftId, trackFileIds], index) => {
-  return trackFileIds.map((id) => generateTrackFile(spacecraftId, id, index));
+).flatMap(([spacecraftId, trackFileIds]) => {
+  return trackFileIds.map((id, index) => generateTrackFile(spacecraftId, id, index));
 });
 
 export const randomNum = (min = 1e9, max = 9e9) => {
