@@ -11,9 +11,9 @@
     <rux-icon icon="search" size="extra-small" />
   </div>
 </div>
-<div fdsCesiumMap [cameraZoom]="zoomLevel" [satPos1X]="(ephemData$ | async)!.satPos1X"
-  [satPos1Y]="(ephemData$ | async)!.satPos1Y" [satPos2X]="(ephemData$ | async)!.satPos2X"
-  [satPos2Y]="(ephemData$ | async)!.satPos2Y" [name]="(trackFile$ | async)!.name"></div>
+<div fdsCesiumMap [cameraZoom]="zoomLevel" [satPos1X]="(ephemData$ | async)!['satPos1X']"
+  [satPos1Y]="(ephemData$ | async)!['satPos1Y']" [satPos2X]="(ephemData$ | async)!['satPos2X']"
+  [satPos2Y]="(ephemData$ | async)!['satPos2Y']" [name]="(trackFile$ | async)!.name"></div>
 
 <footer>
   <rux-icon icon="play" size="normal" />

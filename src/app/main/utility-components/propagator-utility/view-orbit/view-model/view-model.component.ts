@@ -9,6 +9,7 @@ import {
 } from 'src/app/+state/app.selectors';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { EphemerisFile, TrackFile } from 'src/app/types/data.types';
 
 @Component({
   selector: 'fds-view-model',
@@ -23,10 +24,10 @@ import { Observable } from 'rxjs';
   styleUrls: ['./view-model.component.css'],
 })
 export class ViewModelComponent {
-  ephemData$: Observable<any | null> = this.store.select(
+  ephemData$: Observable<{ [key: string]: number } | null> = this.store.select(
     selectCurrentTrackFileEphemerisData
   );
-  trackFile$: Observable<any | null> = this.store.select(
+  trackFile$: Observable<TrackFile | null> = this.store.select(
     selectCurrentTrackFile
   );
   showControlsPanel: boolean = false;

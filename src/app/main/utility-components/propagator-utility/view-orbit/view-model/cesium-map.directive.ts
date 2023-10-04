@@ -38,8 +38,8 @@ export class CesiumMapDirective implements OnInit, OnChanges {
     this.viewer.camera.zoomOut(this.cameraZoom);
     this.viewer.camera.flyTo({
       destination: Cartesian3.fromDegrees(
-        this.viewer.camera.positionCartographic.longitude,
-        this.viewer.camera.positionCartographic.latitude,
+        this.satPos1X,
+        this.satPos1Y,
         this.viewer.camera.positionCartographic.height
       ),
     });
@@ -48,9 +48,6 @@ export class CesiumMapDirective implements OnInit, OnChanges {
     this.addLine(this.satPos1X, this.satPos1Y, this.satPos2X, this.satPos2Y);
   }
 
-  onFlyComplete() {
-    this.viewer.camera.zoomOut(this.cameraZoom);
-  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['cameraZoom'].isFirstChange()) {
       this.viewer.camera.zoomIn(changes['cameraZoom'].currentValue);
