@@ -13,6 +13,8 @@ import { AppStore } from 'src/app/+state/app.model';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
 import { MockDataService } from 'src/app/api/mock-data.service';
 import { LogData, LogDataService } from 'src/app/shared/log-data.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { OutputDataDisplayService } from '../../output-data-display/output-data-display.service';
 
 @Component({
   selector: 'fds-inputs',
@@ -39,6 +41,7 @@ export class InputsComponent {
   currentTrackFile: TrackFile | null | undefined;
   currentTrackFile$: Subscription = this.store
     .pipe(
+      takeUntilDestroyed(),
       select(selectCurrentTrackFile),
       filter((val) => val !== null)
     )
@@ -67,11 +70,16 @@ export class InputsComponent {
   constructor(
     private store: Store<AppStore>,
     private ProcessTrackFileService: MockDataService,
-    private LogDataService: LogDataService
+    private LogDataService: LogDataService,
+    private bannerService: OutputDataDisplayService
   ) {}
 
   sendLogData(data: LogData) {
     this.LogDataService.addLogData(data);
+  }
+
+  handleBanner() {
+    this.bannerService.handleBanner();
   }
 
   onSubmit(): void {

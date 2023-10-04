@@ -8,7 +8,7 @@ describe('TrackDataComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TrackDataComponent]
+      imports: [TrackDataComponent],
     });
     fixture = TestBed.createComponent(TrackDataComponent);
     component = fixture.componentInstance;

@@ -105,7 +105,7 @@ rux-container::part(body) {
   background-color: var(--color-background-surface-header);
   font-family: var(--font-heading-5-font-family);
   font-size: var(--font-heading-5-font-size);
-  font-weight: var(--font-heading-5-font-weight);
+  font-weight: var(--font-weights-medium);
   line-height: var(--font-heading-5-line-height);
   letter-spacing: var(--font-heading-5-letter-spacing);
 }
