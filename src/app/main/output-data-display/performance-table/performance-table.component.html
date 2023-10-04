@@ -31,10 +31,10 @@
           >
             <span class="status-wrapper">
               <span class="status-container">
-                <rux-status [status]="setStatus(row[col.field])" />
                 <span>
                   {{ row[col.field] }}
                 </span>
+                <rux-status [status]="setStatus(row[col.field])" />
               </span>
             </span>
           </ng-container>
