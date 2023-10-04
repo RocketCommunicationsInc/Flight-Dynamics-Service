@@ -1,14 +1,14 @@
-import { Component} from '@angular/core';
+import { Component, DestroyRef, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { selectCurrentSpacecraft, selectSelectedTrackFileId, selectTrackFileEntities } from 'src/app/+state/app.selectors';
-import { TrackFileEntity } from 'src/app/types/data.types';
-import { Subscription } from 'rxjs'
-import { Filter} from 'src/app/types/Files';
+import { selectCurrentSpaceCraftTrackFiles, selectCurrentTrackFile } from 'src/app/+state/app.selectors';
+import { TrackFile } from 'src/app/types/data.types';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
-import { TrackData, TrackFilesTableService } from '../track-files-table.service';
+import { TrackFilesTableService } from '../track-files-table.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'fds-track-files',
@@ -19,74 +19,44 @@ import { TrackData, TrackFilesTableService } from '../track-files-table.service'
   styleUrls: ['./track-files.component.css'],
 })
 export class TrackFilesComponent {
-
-  trackFiles$ = this.store.select(selectTrackFileEntities)
-  trackfileId$ = this.store.select(selectSelectedTrackFileId)
-  currentSpacecraft$ = this.store.select(selectCurrentSpacecraft)
-  currentTrackfileIds: string[] = []
-  trackFiles: TrackFileEntity = {}
-
-  //filtering
-  allIds: Filter[] = []
-  data: TrackData[] = []
+  trackFiles$ = this.store.select(selectCurrentSpaceCraftTrackFiles)
+  selectedTrackFile$ = this.store.select(selectCurrentTrackFile)
+  trackFiles: TrackFile[] = []
+  selectedTrackFile: TrackFile | null = null;
 
   //editing
   editedContent: string = '';
   editTrackFile: boolean = false;
-  selectedFileId: string | null = null;
 
-  //subscription
-  subscriptions: Subscription|null = null
+  // Cleans up subscriptions to avoid memory leaks
+  destroyRef = inject(DestroyRef)
+  destroyed = new Subject();
 
-
-
-  constructor(private store: Store, public trackFilesTableService: TrackFilesTableService){
-  }
+  constructor(private store: Store, public trackFilesTableService: TrackFilesTableService){}
 
   ngOnInit(){
-    this.subscriptions = this.currentSpacecraft$.subscribe((res)=> this.currentTrackfileIds = res ? [...res.trackFileIds]: [])
-
-    const sub2 = this.trackFiles$.subscribe((res)=>{
-
-        if(this.currentTrackfileIds.length < 1 || !res) return;
-
-        let currentTrackFiles = {}
-        this.currentTrackfileIds.map(id =>{
-          if (res[id]) currentTrackFiles = {...currentTrackFiles, [id]: res[id]}
-        })
-        this.trackFiles = currentTrackFiles
-      }
-    )
-    const sub3 = this.trackfileId$.subscribe((res)=> this.selectedFileId = res)
-
-    this.subscriptions.add(sub2)
-    this.subscriptions.add(sub3)
-
-    this.allIds = this.currentTrackfileIds.map((id)=> ({id, content:''}))
-    this.data = this.allIds.map(id => {
-      const trackfile = this.trackFiles[id.id]
-      return {id: trackfile.id, creationDate: trackfile.creationDate, name: trackfile.name, fileSize: trackfile.fileSize, filtered: false}
-    })
-
-    this.trackFilesTableService.initialize(this.data);
+    this.trackFiles$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => this.trackFiles = res || [])
+    this.selectedTrackFile$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res)=> this.selectedTrackFile = res)
+    this.trackFilesTableService.initialize(this.trackFiles);
   }
 
   ngOnDestroy(){
-    this.subscriptions?.unsubscribe()
+    this.destroyed.next(true);
+    this.destroyed.complete();
   }
 
   onSelect(event: any) {
     this.trackFilesTableService.filter(event.target.value);
   }
 
-  onTrackSelect(event: Event, id:string) {
+  onRowClick(event: Event, id:string) {
     if((event.target as HTMLElement).nodeName === "RUX-CHECKBOX") return;
     this.store.dispatch(TrackFilesActions.trackFileSelected({trackFileId: id}))
   }
 
   handleEdit() {
     //!Todo: what are we actually editing here? Right now it's just a 'content' flag thats not in app state
-    this.editedContent = this.trackFiles[this.selectedFileId!]?.comment || '';
+    this.editedContent = this.selectedTrackFile?.comment || '';
     this.editTrackFile = true;
   }
 
@@ -96,7 +66,7 @@ export class TrackFilesComponent {
   }
 
   handleSave() {
-    this.store.dispatch(TrackFilesActions.trackFileModified({trackFileId: this.selectedFileId!, updatedTrackFile: {...this.trackFiles[this.selectedFileId!], comment: this.editedContent}}))
+    if(this.selectedTrackFile) this.store.dispatch(TrackFilesActions.trackFileModified({trackFileId: this.selectedTrackFile.id, updatedTrackFile: {...this.selectedTrackFile, comment: this.editedContent}}))
     this.editedContent=''
     this.editTrackFile = false;
   }

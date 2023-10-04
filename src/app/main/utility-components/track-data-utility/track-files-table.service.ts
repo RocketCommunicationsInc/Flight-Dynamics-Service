@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TableService, ColumnDefs } from 'src/app/shared/table.service';
+import { TrackFile } from 'src/app/types/data.types';
 
-export interface TrackData { id: string, creationDate: Date, fileSize: number, name: string, filtered: boolean}
+// export interface TrackData { id: string, creationDate: Date, fileSize: number, name: string, filtered: boolean}
+
+type TrackData = TrackFile & {
+filtered: boolean
+}
 
 
 @Injectable({
@@ -50,11 +55,17 @@ export class TrackFilesTableService extends TableService<TrackData> {
     this.data = newData
   }
 
-  initialize(data: TrackData[]){
+  initialize(data: TrackFile[]){
+    const trackdata = data.map((trackfile) => ({...trackfile, filtered: false}))
     this.init({
       columnDefs: this.columnDefs,
-      data: data
+      data: trackdata
     });
+  }
+
+  selectFiltered(event: Event){
+    const isChecked = (event.target as HTMLRuxCheckboxElement).checked;
+    this.data = this.data.map(row => !row.filtered ? {...row, selected: isChecked} : row)
   }
 
 }

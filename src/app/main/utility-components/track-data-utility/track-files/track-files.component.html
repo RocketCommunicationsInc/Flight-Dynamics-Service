@@ -11,7 +11,7 @@
 
   <div class="content">
     <div class="table-wrapper">
-      <table>
+      <table [ngClass]="{ disabled: editTrackFile }">
         <thead>
           <tr>
             <th
@@ -23,7 +23,7 @@
               <rux-checkbox
                 *ngSwitchCase="'id'"
                 [checked]="trackFilesTableService.areAllSelected()"
-                (ruxchange)="trackFilesTableService.selectAll($event)"
+                (ruxchange)="trackFilesTableService.selectFiltered($event)"
               />
               <div
                 *ngSwitchDefault
@@ -40,8 +40,8 @@
         <tbody>
           <ng-container *ngFor="let row of trackFilesTableService.data">
             <tr
-              [attr.selected]="row.id === selectedFileId"
-              (click)="onTrackSelect($event, row.id)"
+              [attr.selected]="row.id === selectedTrackFile!.id"
+              (click)="onRowClick($event, row.id)"
               *ngIf="!row.filtered"
             >
               <td
@@ -52,12 +52,12 @@
               >
                 <rux-checkbox
                   *ngSwitchCase="'id'"
-                  [checked]="row.selected"
+                  [checked]="row.selected || row.id === selectedTrackFile!.id"
                   (ruxchange)="trackFilesTableService.selectRow($event, row)"
                   [disabled]="editTrackFile"
                 />
                 <ng-container *ngSwitchCase="'creationDate'">
-                  {{ row.filtered }}{{ row.creationDate | date: 'MM/dd/YYYY' }}
+                  {{ row.creationDate | date: 'MM/dd/YYYY' }}
                 </ng-container>
                 <ng-container *ngSwitchDefault>
                   {{ row[col.field] }}
@@ -71,7 +71,7 @@
 
     <div class="file-wrapper">
       <header>
-        <span>{{ selectedFileId ? trackFiles[selectedFileId].name : '' }}</span>
+        <span>{{ selectedTrackFile ? selectedTrackFile.name : '' }}</span>
         <div>
           <rux-button
             [disabled]="!editTrackFile"
@@ -94,7 +94,7 @@
 
       <div class="file-content" *ngIf="!editTrackFile">
         <rux-icon icon="antenna-transmit" size="7rem" />
-        <rux-button [disabled]="!selectedFileId" (click)="handleEdit()"
+        <rux-button [disabled]="!selectedTrackFile!.id" (click)="handleEdit()"
           >Edit Track File</rux-button
         >
       </div>
