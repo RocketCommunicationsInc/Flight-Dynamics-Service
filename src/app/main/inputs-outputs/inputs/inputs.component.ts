@@ -2,17 +2,24 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ProcessedTrackFile, TrackFile } from 'src/app/types/data.types';
+import {
+  LogData,
+  ProcessedTrackFile,
+  TrackFile,
+} from 'src/app/types/data.types';
 import { filter, Observable, Subscription } from 'rxjs';
 import {
   selectCurrentSpaceCraftTrackFiles,
   selectCurrentTrackFile,
+  selectSelectedScenarioId,
 } from 'src/app/+state/app.selectors';
 import { select, Store } from '@ngrx/store';
 import { AppStore } from 'src/app/+state/app.model';
-import { TrackFilesActions } from 'src/app/+state/app.actions';
+import {
+  SpacecraftActions,
+  TrackFilesActions,
+} from 'src/app/+state/app.actions';
 import { MockDataService } from 'src/app/api/mock-data.service';
-import { LogData, LogDataService } from 'src/app/shared/log-data.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OutputDataDisplayService } from '../../output-data-display/output-data-display.service';
 
@@ -35,6 +42,14 @@ export class InputsComponent {
   }>;
   processedTrackFile: ProcessedTrackFile | undefined;
   currentTrackFileId: string | undefined;
+  currentScenarioId: string | undefined | null;
+  currentScenarioId$: Subscription = this.store
+    .pipe(
+      takeUntilDestroyed(),
+      filter((val) => val !== null),
+      select(selectSelectedScenarioId)
+    )
+    .subscribe((result) => (this.currentScenarioId = result));
   trackfiles$: Observable<TrackFile[] | undefined> = this.store.select(
     selectCurrentSpaceCraftTrackFiles
   );
@@ -70,12 +85,17 @@ export class InputsComponent {
   constructor(
     private store: Store<AppStore>,
     private ProcessTrackFileService: MockDataService,
-    private LogDataService: LogDataService,
     private bannerService: OutputDataDisplayService
   ) {}
 
   sendLogData(data: LogData) {
-    this.LogDataService.addLogData(data);
+    this.store.dispatch(
+      SpacecraftActions.spacecraftEventAdded({
+        scenarioId: this.currentScenarioId!,
+        spacecraftId: this.currentTrackFile!.spaceCraftRefId,
+        event: data,
+      })
+    );
   }
 
   handleBanner() {

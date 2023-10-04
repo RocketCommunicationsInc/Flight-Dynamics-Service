@@ -7,6 +7,9 @@ import {
 } from './app.actions';
 import { AppStore, ScenariosState, TrackFilesState } from './app.model';
 import { scenarioAdapter, trackFileAdapter } from './app.adapters';
+import { findIndex } from 'rxjs';
+import { state } from '@angular/animations';
+import { Spacecraft } from '../types/data.types';
 
 const initialScenarios: ScenariosState = scenarioAdapter.getInitialState({});
 
@@ -68,15 +71,22 @@ export const AppReducer = createReducer(
     ...state,
     selectedTrackFileId: trackFileId,
   })),
-  on(TrackFilesActions.trackFileModified, (state, {trackFileId, updatedTrackFile}) => ({
-    ...state,
-    trackFiles: trackFileAdapter.updateOne({
-      id: trackFileId,
-      changes: {
-        ...state.trackFiles.entities[trackFileId], ...updatedTrackFile
-      }
-    }, state.trackFiles)
-  })),
+  on(
+    TrackFilesActions.trackFileModified,
+    (state, { trackFileId, updatedTrackFile }) => ({
+      ...state,
+      trackFiles: trackFileAdapter.updateOne(
+        {
+          id: trackFileId,
+          changes: {
+            ...state.trackFiles.entities[trackFileId],
+            ...updatedTrackFile,
+          },
+        },
+        state.trackFiles
+      ),
+    })
+  ),
   on(
     TrackFilesActions.trackFileProcessed,
     (state, { trackFileId, processedTrackFile }) => ({
@@ -98,7 +108,37 @@ export const AppReducer = createReducer(
   on(SpacecraftActions.spacecraftIdSelected, (state, { spacecraftId }) => ({
     ...state,
     selectedSpacecraftId: spacecraftId,
-  }))
+  })),
+  on(
+    SpacecraftActions.spacecraftEventAdded,
+    (state, { scenarioId, spacecraftId, event }) => {
+      const scenario = state.scenarios.entities[scenarioId];
+      const updatedSpacecrafts: any = scenario?.spaceCraft.map((craft) => {
+        if (craft.id === spacecraftId) {
+          let updatedEvents = [...craft.eventData, ...[event]];
+          const changes = { eventData: updatedEvents };
+          return {
+            ...craft,
+            ...changes,
+          };
+        }
+        return craft;
+      });
+      return {
+        ...state,
+        scenarios: scenarioAdapter.updateOne(
+          {
+            id: scenarioId,
+            changes: {
+              ...scenario,
+              spaceCraft: updatedSpacecrafts,
+            },
+          },
+          state.scenarios
+        ),
+      };
+    }
+  )
 );
 
 export const appFeature = createFeature({

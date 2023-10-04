@@ -12,6 +12,7 @@ export type Spacecraft = {
   id: string;
   catalogId: string;
   trackFileIds: string[];
+  eventData: LogData[];
 };
 
 export type SpacecraftEntity = {
@@ -55,7 +56,7 @@ export type TrackFile = {
   processedTrackFile: ProcessedTrackFile | null;
   initialOrbitProperties: OrbitProperties;
   //!Todo: this is a temp data holder until we decide what 'edit track file' is supposed to do
-  comment?: string
+  comment?: string;
 };
 
 export type TrackFileEntity = {
@@ -92,6 +93,12 @@ export type TLEFile = {
 export type Ephemeride = {
   p: [number, number, number];
   v: [number, number, number];
+};
+
+export type LogData = {
+  timestamp: Date;
+  status: string;
+  message: string;
 };
 
 //TODO: work out performance table properties with design.

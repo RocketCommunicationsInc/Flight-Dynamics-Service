@@ -32,6 +32,7 @@ const generateSpacecraft = (): Spacecraft => {
     trackFileIds: Array.from(Array(trackFileArrayLength), (_) =>
       faker.string.uuid()
     ),
+    eventData: [],
   };
 };
 
@@ -239,7 +240,9 @@ spaceCraft.forEach((spacecraft) => {
 export const mockTrackFiles = Object.entries(
   trackFileIdsBySpaceCraftId
 ).flatMap(([spacecraftId, trackFileIds]) => {
-  return trackFileIds.map((id, index) => generateTrackFile(spacecraftId, id, index));
+  return trackFileIds.map((id, index) =>
+    generateTrackFile(spacecraftId, id, index)
+  );
 });
 
 export const randomNum = (min = 1e9, max = 9e9) => {
