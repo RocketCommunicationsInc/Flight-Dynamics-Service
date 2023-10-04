@@ -1,19 +1,10 @@
 <div>
-  <div class="header-and-tabs">
-    <header>
-      <rux-icon icon="mission" size="small" />Tracking Data Utility:
-      <ng-container *ngIf="currentSpacecraft$ | async as spacecraft">{{
-        spacecraft.catalogId
-      }}</ng-container>
-    </header>
-
-    <rux-tabs (click)="tabSelect($event)">
-      <rux-tab id="files" small selected="true">Select Files</rux-tab>
-      <rux-tab id="data" small>Filter/Edit Data</rux-tab>
-    </rux-tabs>
-  </div>
-  <div [ngSwitch]="selectedTab">
-    <fds-track-files *ngSwitchCase="'files'" />
-    <fds-track-data *ngSwitchCase="'data'" />
-  </div>
+  <rux-tabs (click)="tabSelect($event)">
+    <rux-tab id="files" small selected="true">Select Files</rux-tab>
+    <rux-tab id="data" small>Filter/Edit Data</rux-tab>
+  </rux-tabs>
+</div>
+<div [ngSwitch]="selectedTab">
+  <fds-track-files *ngSwitchCase="'files'" />
+  <fds-track-data *ngSwitchCase="'data'" />
 </div>
