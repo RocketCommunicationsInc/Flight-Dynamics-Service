@@ -1,6 +1,8 @@
 <div class="log-utility">
   <div slot="header">
-    <rux-icon icon="list" size="small" />Log Utility: Satellite #
+    <rux-icon icon="list" size="small" />
+    Log Utility: Spacecraft {{(spacecraft$ | async)?.catalogId}}
+    <rux-button secondary size="small" routerLink="..">Back</rux-button>
   </div>
 
   <rux-log [data]="logData" />

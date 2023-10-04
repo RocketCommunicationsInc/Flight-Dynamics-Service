@@ -12,6 +12,7 @@ import { select, Store } from '@ngrx/store';
 import { AppStore } from 'src/app/+state/app.model';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
 import { MockDataService } from 'src/app/api/mock-data.service';
+import { LogData, LogDataService } from 'src/app/shared/log-data.service';
 
 @Component({
   selector: 'fds-inputs',
@@ -35,12 +36,14 @@ export class InputsComponent {
   trackfiles$: Observable<TrackFile[] | undefined> = this.store.select(
     selectCurrentSpaceCraftTrackFiles
   );
+  currentTrackFile: TrackFile | null | undefined;
   currentTrackFile$: Subscription = this.store
     .pipe(
       select(selectCurrentTrackFile),
       filter((val) => val !== null)
     )
     .subscribe((result) => {
+      this.currentTrackFile = result;
       const epochStart = result!.epochRangeEnd.getTime();
       const epochEnd = result!.epochRangeStart.getTime();
       const diffTime = (epochStart - epochEnd) / (1000 * 3600 * 24);
@@ -63,8 +66,13 @@ export class InputsComponent {
 
   constructor(
     private store: Store<AppStore>,
-    private ProcessTrackFileService: MockDataService
+    private ProcessTrackFileService: MockDataService,
+    private LogDataService: LogDataService
   ) {}
+
+  sendLogData(data: LogData) {
+    this.LogDataService.addLogData(data);
+  }
 
   onSubmit(): void {
     // generate processed trackFile using service
@@ -78,6 +86,12 @@ export class InputsComponent {
           processedTrackFile: this.processedTrackFile,
         })
       );
+
+    this.sendLogData({
+      timestamp: new Date(),
+      status: 'normal',
+      message: `Processed trackfile created from ${this.currentTrackFile?.name}`,
+    });
   }
 
   handleSelect(e: any): void {
