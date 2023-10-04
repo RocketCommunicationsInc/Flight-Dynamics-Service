@@ -46,7 +46,6 @@ export class CesiumMapDirective implements OnInit, OnChanges {
     this.addPoint(this.satPos1X, this.satPos1Y);
     this.addPoint(this.satPos2X, this.satPos2Y);
     this.addLine(this.satPos1X, this.satPos1Y, this.satPos2X, this.satPos2Y);
-    console.log(this.viewer.camera.positionCartographic, 'look');
   }
 
   onFlyComplete() {

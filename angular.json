@@ -18,6 +18,18 @@
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "nosleep.js",
+              "apexcharts",
+              "grapheme-splitter",
+              "bitmap-sdf",
+              "rbush",
+              "earcut",
+              "mersenne-twister",
+              "urijs",
+              "protobufjs/dist/minimal/protobuf.js",
+              "dompurify"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets",

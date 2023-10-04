@@ -8,4 +8,7 @@ module.exports = {
       stream: false,
     },
   },
+  module: {
+    unknownContextCritical: false,
+  },
 };
