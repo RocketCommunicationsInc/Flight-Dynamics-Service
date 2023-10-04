@@ -1,131 +1,74 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { dummyFileData } from '../dummy-file-data';
 import { FormsModule } from '@angular/forms';
-import { Files } from 'src/app/types/Files';
+import { Store } from '@ngrx/store';
+import { selectCurrentSpaceCraftTrackFiles, selectCurrentTrackFile } from 'src/app/+state/app.selectors';
+import { TrackFile } from 'src/app/types/data.types';
+import { TrackFilesActions } from 'src/app/+state/app.actions';
+import { TrackFilesTableService } from '../track-files-table.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subject } from 'rxjs';
 
-type Sort = 'ASC' | 'DESC' | '';
 @Component({
   selector: 'fds-track-files',
   standalone: true,
   imports: [CommonModule, AstroComponentsModule, FormsModule],
+  providers: [TrackFilesTableService],
   templateUrl: './track-files.component.html',
   styleUrls: ['./track-files.component.css'],
 })
 export class TrackFilesComponent {
-  dummyFileData = dummyFileData;
+  trackFiles$ = this.store.select(selectCurrentSpaceCraftTrackFiles)
+  selectedTrackFile$ = this.store.select(selectCurrentTrackFile)
+  trackFiles: TrackFile[] = []
+  selectedTrackFile: TrackFile | null = null;
 
-  selectedFileName: string = '';
-  selectedFileContent: string = '';
+  //editing
   editedContent: string = '';
   editTrackFile: boolean = false;
-  isFileSelected: boolean = false;
-  filteredData: Files[] = this.dummyFileData;
-  filteredFiles: Files[] = [];
 
-  sortDirection: Sort = 'ASC';
-  sortedColumn: string = '';
-  showIcon: boolean = false;
-  showSecondIcon: boolean = false;
+  // Cleans up subscriptions to avoid memory leaks
+  destroyRef = inject(DestroyRef)
+  destroyed = new Subject();
 
-  handleFilter(selection: string): Files[] {
-    const today = new Date();
-    const within7Days = new Date();
-    const within30Days = new Date();
-    const within90Days = new Date();
-    within7Days.setDate(today.getDate() - 7);
-    within30Days.setDate(today.getDate() - 30);
-    within90Days.setDate(today.getDate() - 90);
+  constructor(private store: Store, public trackFilesTableService: TrackFilesTableService){}
 
-    if (selection === 'all') {
-      return (this.filteredData = this.dummyFileData);
-    }
+  ngOnInit(){
+    this.trackFiles$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => this.trackFiles = res || [])
+    this.selectedTrackFile$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res)=> this.selectedTrackFile = res)
+    this.trackFilesTableService.initialize(this.trackFiles);
+  }
 
-    if (selection === 'seven-days') {
-      this.filteredData = this.dummyFileData.filter((file) => {
-        return file.date <= today && file.date >= within7Days;
-      });
-    }
-    if (selection === 'thirty-days') {
-      this.filteredData = this.dummyFileData.filter((file) => {
-        return file.date <= today && file.date >= within30Days;
-      });
-    }
-    if (selection === 'ninety-days') {
-      this.filteredData = this.dummyFileData.filter((file) => {
-        return file.date <= today && file.date >= within90Days;
-      });
-    }
-
-    return this.filteredData;
+  ngOnDestroy(){
+    this.destroyed.next(true);
+    this.destroyed.complete();
   }
 
   onSelect(event: any) {
-    this.filteredFiles = this.handleFilter(event.target.value);
+    this.trackFilesTableService.filter(event.target.value);
   }
 
-  sortColumn(column: string) {
-    if (column === this.sortedColumn) {
-      if (column === 'date') {
-        this.showIcon = !this.showIcon;
-      }
-      if (column === 'size') {
-        this.showSecondIcon = !this.showSecondIcon;
-      }
-      this.sortDirection = this.sortDirection === 'ASC' ? 'DESC' : 'ASC';
-    } else {
-      this.sortedColumn = column;
-      this.sortDirection = 'ASC';
-    }
-    this.filteredData.sort((a: any, b: any) => {
-      return this.sortDirection === 'ASC'
-        ? a[this.sortedColumn] - b[this.sortedColumn]
-        : b[this.sortedColumn] - a[this.sortedColumn];
-    });
-  }
-
-  handleCheckbox(file: any): void {
-    const selectedCB = this.filteredData.filter((cb) => cb.selected);
-    file.selected = !file.selected;
-    if (file.selected) {
-      this.selectedFileName = file.fileName;
-      this.selectedFileContent = file.content;
-      this.isFileSelected = true;
-    } else if (selectedCB.length > 1 && this.selectedFileName) {
-      //if there are multiple checkboxes selected and you uncheck one, the selected file/content will default to first item in the array
-      this.selectedFileName = selectedCB[0].fileName;
-      this.selectedFileContent = selectedCB[0].content;
-    } else {
-      this.selectedFileName = '';
-      this.selectedFileContent = '';
-      this.isFileSelected = false;
-    }
-  }
-
-  handleSelectAll(event: any) {
-    const checkbox = event.target as HTMLRuxCheckboxElement;
-    if (checkbox.checked) {
-      this.dummyFileData.forEach((cb) => (cb.selected = true));
-    } else this.dummyFileData.forEach((cb) => (cb.selected = false));
+  onRowClick(event: Event, id:string) {
+    if((event.target as HTMLElement).nodeName === "RUX-CHECKBOX") return;
+    this.store.dispatch(TrackFilesActions.trackFileSelected({trackFileId: id}))
   }
 
   handleEdit() {
+    //!Todo: what are we actually editing here? Right now it's just a 'content' flag thats not in app state
+    this.editedContent = this.selectedTrackFile?.comment || '';
     this.editTrackFile = true;
   }
 
   handleCancel() {
+    this.editedContent = ''
     this.editTrackFile = false;
   }
 
   handleSave() {
-    this.selectedFileContent = this.editedContent;
+    if(this.selectedTrackFile) this.store.dispatch(TrackFilesActions.trackFileModified({trackFileId: this.selectedTrackFile.id, updatedTrackFile: {...this.selectedTrackFile, comment: this.editedContent}}))
+    this.editedContent=''
     this.editTrackFile = false;
   }
 
-  handleTextarea(event: any) {
-    if (event.target.value) {
-      this.editedContent = event.target.value;
-    }
-  }
 }

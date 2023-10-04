@@ -1,20 +1,7 @@
 :host {
-  flex-grow: 1;
-}
-
-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-header button {
-  margin-inline-start: auto;
+  height: 100%;
 }
 
 rux-tab-panel {
   height: 100%;
-}
-rux-container::part(body) {
-  padding: var(--spacing-0);
 }
