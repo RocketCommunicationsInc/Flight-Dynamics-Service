@@ -30,9 +30,16 @@ rux-container::part(body) {
   align-items: center;
 }
 
+.action-btn-wrapper rux-button:nth-of-type(1) {
+  margin-right: var(--spacing-3);
+}
+
 .data {
   display: flex;
   align-items: baseline;
+}
+
+.performance {
   gap: var(--spacing-10);
 }
 
@@ -44,6 +51,7 @@ rux-container::part(body) {
   display: flex;
   align-items: baseline;
   gap: var(--spacing-3);
+  margin-right: var(--spacing-6);
 }
 
 .alerts {
@@ -68,4 +76,13 @@ rux-tab-panel {
   */
   height: calc(100% - 6.25rem);
   overflow-y: auto;
+}
+
+.text-banner {
+  display: flex;
+  justify-content: center;
+  font-weight: var(--font-weights-bold);
+  background-color: var(--color-palette-cyan-900);
+  padding-block: var(--spacing-2);
+  font-size: var(--font-size-md);
 }
