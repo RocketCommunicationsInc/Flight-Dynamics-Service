@@ -27,7 +27,6 @@ export class OutputDataDisplayService {
   cumulativeData: PerformanceData[] = CUMULATIVE_DATA;
   solutionData: SolutionData[] = [];
   deviations: Status[] = [];
-  warningsTotal: any[] = [];
   columnDefs: ColumnDefs<SolutionData>[] = [
     { header: '', field: 'id' },
     { header: 'Solve For', field: 'property', sortable: true },
