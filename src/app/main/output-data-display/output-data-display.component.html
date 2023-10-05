@@ -59,7 +59,11 @@
           <div class="heading">
             <h1>2</h1>
             <p>Discrepancies</p>
-            <span> <rux-status status="serious" />Warning (2)</span>
+            <span>
+              <rux-status status="serious" />Warning ({{
+                outputDataDisplayService.performanceWarnings
+              }})</span
+            >
           </div>
           <div class="data performance">
             <rux-select

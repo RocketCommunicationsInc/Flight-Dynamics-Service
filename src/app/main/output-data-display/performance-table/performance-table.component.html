@@ -31,7 +31,9 @@
           >
             <span class="status-wrapper">
               <span class="status-container">
-                <span> {{ row[col.field] }}&deg; </span>
+                <span>
+                  {{ row[col.field].toString() | slice: 0 : 6 }}&deg;
+                </span>
                 <rux-status [status]="setStatus(row[col.field])" />
               </span>
             </span>
@@ -42,7 +44,7 @@
           </ng-container>
 
           <ng-container *ngSwitchDefault>
-            {{ row[col.field] }}&deg;
+            {{ row[col.field].toString() | slice: 0 : 6 }}&deg;
           </ng-container>
         </td>
       </tr>

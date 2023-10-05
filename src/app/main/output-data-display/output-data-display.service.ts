@@ -27,6 +27,7 @@ export class OutputDataDisplayService {
   cumulativeData: PerformanceData[] = CUMULATIVE_DATA;
   solutionData: SolutionData[] = [];
   deviations: Status[] = [];
+  warningsTotal: any[] = [];
   columnDefs: ColumnDefs<SolutionData>[] = [
     { header: '', field: 'id' },
     { header: 'Solve For', field: 'property', sortable: true },
@@ -96,6 +97,12 @@ export class OutputDataDisplayService {
 
   get criticals(): number {
     return this.deviations.filter((dev) => dev === 'critical').length;
+  }
+
+  get performanceWarnings(): number {
+    return this.cumulativeData.filter(
+      (prop) => Number(prop.finalElevation) > 40
+    ).length;
   }
 
   private showBannerSubject = new BehaviorSubject<boolean>(false);

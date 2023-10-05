@@ -1,7 +1,4 @@
-import {
-  randomNum,
-  randNumWithDecimals,
-} from 'src/app/mock-data/generate-data';
+import { randNumWithDecimals } from 'src/app/mock-data/generate-data';
 import { PerformanceData, Property } from './output-data-display.model';
 
 const properties: Property[] = [
@@ -23,12 +20,12 @@ const properties: Property[] = [
 const getRandomValues = (properties: any): any => {
   const values = {
     properties,
-    finalAzimuth: randomNum(300, 360),
-    finalElevation: randNumWithDecimals(2.999, 4.999),
-    finalRange: randomNum(151, 360),
-    initialAzimuth: randomNum(0, 299),
-    initialElevation: randNumWithDecimals(0.999, 1.999),
-    initialRange: randomNum(0, 150),
+    finalAzimuth: randNumWithDecimals(300, 360),
+    finalElevation: randNumWithDecimals(6, 20),
+    finalRange: randNumWithDecimals(151, 360),
+    initialAzimuth: randNumWithDecimals(0, 299),
+    initialElevation: randNumWithDecimals(1, 5),
+    initialRange: randNumWithDecimals(0, 150),
   };
   return values;
 };
@@ -38,13 +35,15 @@ export const PERFORMANCE_DATA = properties.map<PerformanceData>((property) => ({
   ...getRandomValues(property),
 }));
 
-export const PERFORMANCE_DATA_2 = properties.map<PerformanceData>((property) => ({
+export const PERFORMANCE_DATA_2 = properties.map<PerformanceData>(
+  (property) => ({
     property,
     ...getRandomValues(property),
   })
 );
 
-export const PERFORMANCE_DATA_3 = properties.map<PerformanceData>((property) => ({
+export const PERFORMANCE_DATA_3 = properties.map<PerformanceData>(
+  (property) => ({
     property,
     ...getRandomValues(property),
   })

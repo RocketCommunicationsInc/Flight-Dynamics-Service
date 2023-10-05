@@ -91,22 +91,22 @@ export class OutputDataDisplayComponent implements OnInit {
 
   handleAntennaSelect(event: any) {
     const target = event.target.value;
-    const cumulativeSection = document?.getElementById('cumulative');
-    const pass1Section = document?.getElementById('pass1');
-    const pass2Section = document?.getElementById('pass2');
-    const pass3Section = document?.getElementById('pass3');
+    const cumulative = document?.getElementById('cumulative');
+    const pass1 = document?.getElementById('pass1');
+    const pass2 = document?.getElementById('pass2');
+    const pass3 = document?.getElementById('pass3');
 
-    if (target === 'cumulative' && cumulativeSection) {
-      cumulativeSection.scrollIntoView({ behavior: 'smooth' });
+    if (target === 'cumulative' && cumulative) {
+      cumulative.scrollIntoView({ behavior: 'smooth' });
     }
-    if (target === 'pass1' && pass1Section) {
-      pass1Section.scrollIntoView({ behavior: 'smooth' });
+    if (target === 'pass1' && pass1) {
+      pass1.scrollIntoView({ behavior: 'smooth' });
     }
-    if (target === 'pass2' && pass2Section) {
-      pass2Section.scrollIntoView({ behavior: 'smooth' });
+    if (target === 'pass2' && pass2) {
+      pass2.scrollIntoView({ behavior: 'smooth' });
     }
-    if (target === 'pass3' && pass3Section) {
-      pass3Section.scrollIntoView({ behavior: 'smooth' });
+    if (target === 'pass3' && pass3) {
+      pass3.scrollIntoView({ behavior: 'smooth' });
     }
   }
 }
