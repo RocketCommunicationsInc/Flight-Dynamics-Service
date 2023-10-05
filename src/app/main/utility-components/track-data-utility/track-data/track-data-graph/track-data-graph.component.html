@@ -35,21 +35,9 @@
   ></apx-chart>
 
   <div class="legend" #legend>
-    <rux-checkbox
-      disabled
-      label="Inc"
-      (ruxchange)="filterCheckboxes($event, 'Inc')"
-    />
-    <rux-checkbox
-      disabled
-      label="El"
-      (ruxchange)="filterCheckboxes($event, 'El')"
-    />
-    <rux-checkbox
-      disabled
-      label="Range"
-      (ruxchange)="filterCheckboxes($event, 'Range')"
-    />
+    <rux-checkbox label="Az" (ruxchange)="filterCheckboxes(0)" />
+    <rux-checkbox label="El" (ruxchange)="filterCheckboxes(1)" />
+    <rux-checkbox label="Range" (ruxchange)="filterCheckboxes(2)" />
   </div>
 </div>
 <footer>

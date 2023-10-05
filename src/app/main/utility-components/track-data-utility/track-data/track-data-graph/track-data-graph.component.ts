@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, DestroyRef, inject, Input } from '@angular/core';
+import { Component, ViewChild, ElementRef, DestroyRef, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
@@ -33,9 +33,8 @@ type ChartOptions = {
 };
 
 type ChartDataItem = {
-  inc: number
+  az: number
   el: number
-  range: number
   slope: number[] | number
 }
 
@@ -62,27 +61,28 @@ export class TrackDataGraphComponent {
   //chart variables
   chartData: ChartDataItem[] = []
   chartFilter: string[] =[]
+  disableUndo: boolean = true;
 
-  series: ApexAxisChartSeries = [
+  series: ApexAxisChartSeries|any = [
     {
-      name: 'Inc',
+      name: 'Az',
       data: [1,2,3,4,5],
       type: 'scatter',
+      visible: true,
+      color: 'var(--color-data-visualization-2)',
     },
     {
       name: 'El',
       data: [1,2,3,4,5],
       type: 'scatter',
-    },
-    {
-      name: 'Range',
-      data: [1,2,3,4,5],
-      type: 'scatter',
+      visible: true,
+      color: 'var(--color-data-visualization-1)',
     },
     {
       name: 'Slope',
       data: [1,2,3,4,5],
       type: 'line',
+      visible: true,
       color: 'var(--color-data-visualization-3)',
     },
   ]
@@ -109,10 +109,9 @@ export class TrackDataGraphComponent {
     this.dates = this.selectedTrackFiles.map((file) => file.creationDate.toLocaleDateString());
     this.labelsShown = this.dates
     this.chartData = this.selectedTrackFiles.map((file) => {
-      const inc = file.initialOrbitProperties.inclination.value
-      const el =  inc - Math.ceil(Math.random() * 10)
-      const range =  inc + Math.ceil(Math.random() * 10)
-      return {inc: inc, el: el, range: range, slope: (range + el)/2};
+      const azimuth = file.initialOrbitProperties.azimuth.value
+      const elevation =  file.initialOrbitProperties.elevation.value
+      return {az: azimuth, el: elevation, slope: [azimuth,elevation]};
     })
     this.chartOptions.xaxis.categories = this.labelsShown
     this.updateSeries(this.chartData)
@@ -134,7 +133,7 @@ export class TrackDataGraphComponent {
   }
 
   updateSeries = (data: ChartDataItem[]) => {
-    let dataPointLength:number = 0
+    let dataPointLength: number = 0
     const updatedData = this.series.map((series:any)=> {
       const key = series.name.toLowerCase() as keyof ChartDataItem
 
@@ -150,37 +149,13 @@ export class TrackDataGraphComponent {
 
   selectedFilters: string[] = [];
 
-  filterCheckboxes(event: any, filter: string) {
-    const checkbox = event.target as HTMLRuxCheckboxElement;
+  filterCheckboxes(seriesIndex: number) {
 
-    if (checkbox.checked) {
-      this.selectedFilters.push(filter);
-    } else {
-      const index = this.selectedFilters.indexOf(filter);
-      if (index !== -1) {
-        this.selectedFilters.splice(index, 1);
-      }
-    }
-    const orbitProperties = this.selectedTrackFiles.map((files) => files.initialOrbitProperties)
-    const filterDummy = this.chartData.filter((size) => {
-      return (
-        this.selectedFilters.length === 0 ||
-        this.selectedFilters.some((filter) => {
-          if (filter === 'Az') {
-            return size.inc < 500;
-          }
-          if (filter === 'El') {
-            return size.inc < 1000 && size.inc >= 500;
-          }
-          if (filter === 'Range') {
-            return size.inc > 1000;
-          }
-          return true;
-        })
-      );
-    });
-    // this.dataPointLength = this.chartData.length;
-    // this.updateChartData(this.chartData);
+    this.series =
+      const newSeries = this.series.map((series:ApexAxisChartSeries|any, index:number)=>{
+        return index === seriesIndex ? {...series, visible: !series.visible} : series
+      })
+      this.chart?.updateSeries()
   }
 
   onDelete() {
@@ -201,8 +176,6 @@ export class TrackDataGraphComponent {
       this.disableUndo = false;
     }
   }
-
-  disableUndo: boolean = true;
 
   onUndo() {
     const lastValRemoved = this.deletedDataPoints?.pop();
@@ -269,8 +242,7 @@ export class TrackDataGraphComponent {
       show: false,
     },
     markers: {
-      size: [6, 6, 6, 0],
-      colors: ['var(--color-data-visualization-4)', 'var(--color-data-visualization-2)', 'var(--color-data-visualization-3)', 'var(--color-data-visualization-1)'],
+      size: [6, 6, 0],
     },
     stroke: {
       width: 2,
