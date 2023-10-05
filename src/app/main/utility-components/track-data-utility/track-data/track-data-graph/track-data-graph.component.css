@@ -1,16 +1,3 @@
-.track-data {
-  position: relative;
-  overflow: hidden;
-}
-
-header {
-  display: flex;
-  padding-block: var(--spacing-4);
-  gap: var(--spacing-2);
-  justify-content: space-between;
-  padding-inline: var(--spacing-4);
-}
-
 /* CHART STYLES */
 
 .chart-wrapper {
@@ -90,41 +77,4 @@ footer {
 
 :host ::ng-deep .selected-data-point {
   fill: var(--color-data-visualization-1);
-}
-
-/* TABLE STYLES */
-
-.table-wrapper {
-  height: 38rem;
-}
-
-.icon-span {
-  width: var(--spacing-6);
-  display: inline-block;
-  padding-right: 0;
-}
-
-th.show-icon {
-  padding-right: var(--spacing-6);
-}
-
-rux-icon {
-  vertical-align: middle;
-}
-
-th:nth-of-type(3):hover,
-th:nth-of-type(2):hover {
-  cursor: pointer;
-}
-
-td:nth-of-type(3),
-td:nth-of-type(2),
-th:nth-of-type(3),
-th:nth-of-type(2) {
-  text-align: right;
-}
-
-td:nth-of-type(3),
-td:nth-of-type(2) {
-  padding-right: var(--spacing-8);
 }

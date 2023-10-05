@@ -32,7 +32,7 @@ type ChartOptions = {
   tooltip: ApexTooltip | any;
 };
 
-type ChartData = {
+type ChartDataItem = {
   inc: number
   el: number
   range: number
@@ -61,7 +61,7 @@ export class TrackDataGraphComponent {
   selectedTrackFiles: TrackFile[] = []
 
   //chart variables
-  chartData: ChartData[] = []
+  chartData: ChartDataItem[] = []
   chartFilter: string[] =[]
 
   series: ApexAxisChartSeries = [
@@ -108,7 +108,6 @@ export class TrackDataGraphComponent {
 
   ngOnInit(){
     this.dates = this.selectedTrackFiles.map((file) => file.creationDate.toLocaleDateString());
-    this.dataPointLength = this.chartData.length
     this.labelsShown = this.dates
     this.chartData = this.selectedTrackFiles.map((file) => {
       const inc = file.initialOrbitProperties.inclination.value
@@ -135,13 +134,19 @@ export class TrackDataGraphComponent {
     this.legend?.nativeElement.classList.toggle('legend-pushed', drawerOpen)
   }
 
-  updateSeries = (data: ChartData[]) => {
+  updateSeries = (data: ChartDataItem[]) => {
+    let dataPointLength:number = 0
     const updatedData = this.series.map((series:any)=> {
-      const key = series.name.toLowerCase() as keyof ChartData
-      const newData = data.map(datum => datum[key]|| 0)
+      const key = series.name.toLowerCase() as keyof ChartDataItem
+
+      const newData = data.map(datum => {
+        dataPointLength = dataPointLength + 1
+        return datum[key]})
+
       return this.chartData[0].hasOwnProperty(key) ? {...series, data: newData} : series
     })
     this.series = updatedData;
+    this.dataPointLength = dataPointLength
   }
 
   selectedFilters: string[] = [];
@@ -175,7 +180,7 @@ export class TrackDataGraphComponent {
         })
       );
     });
-    this.dataPointLength = this.chartData.length;
+    // this.dataPointLength = this.chartData.length;
     // this.updateChartData(this.chartData);
   }
 
