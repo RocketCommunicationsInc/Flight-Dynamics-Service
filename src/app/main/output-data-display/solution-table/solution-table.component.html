@@ -54,7 +54,7 @@
           >
             <rux-option
               *ngFor="let unit of row.units"
-              [label]="unit.label"
+              [label]="capitalize(unit.val)"
               [value]="unit.val"
             />
           </rux-select>

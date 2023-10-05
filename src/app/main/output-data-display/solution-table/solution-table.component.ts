@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-
 import { UnitConverterPipe } from 'src/app/shared';
 import { TableService } from 'src/app/shared/table.service';
 import { Unit } from 'src/app/shared/units/units.model';
 import { OutputDataDisplayService } from '../output-data-display.service';
 import { SolutionData } from '../output-data-display.model';
+import { capitalize } from 'src/app/shared/utils';
 
 @Component({
   selector: 'fds-solution-table',
@@ -26,6 +26,8 @@ export class SolutionTableComponent {
       data: this.outputDataDisplayService.solutionData,
     });
   }
+
+  capitalize = capitalize;
 
   getRowUnit(row: SolutionData): Unit {
     const selected = row.units.find((unit) => unit.selected);

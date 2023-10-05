@@ -5,6 +5,7 @@ import { Tabs } from 'src/app/types/Tabs';
 import { InputsComponent } from './inputs/inputs.component';
 import { OutputsComponent } from './outputs/outputs.component';
 
+
 @Component({
   selector: 'fds-inputs-outputs',
   standalone: true,

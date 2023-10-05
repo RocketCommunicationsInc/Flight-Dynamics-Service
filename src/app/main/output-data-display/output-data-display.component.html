@@ -1,4 +1,7 @@
 <rux-container>
+  <div class="text-banner" *ngIf="showBanner">
+    OD Successfully Completed on {{ dateAndTime | date: 'MM/dd/YY hh:mm' }}
+  </div>
   <rux-tabs slot="tab-bar" [id]="tabsId" small>
     <rux-tab
       [id]="tab.id"
@@ -29,21 +32,25 @@
               </div>
             </div>
           </div>
-
-          <rux-segmented-button size="small" [data]="actions" />
-        </div>
-
-        <div class="container">
-          <rux-segmented-button
-            size="small"
-            [data]="views"
-            (ruxchange)="setCurrentView($event)"
-          />
+          <div>
+            <rux-button icon="notes" secondary (click)="viewTable()"
+              >Table</rux-button
+            >
+            <rux-button icon="show-chart" secondary (click)="viewGraph()"
+              >Graph</rux-button
+            >
+          </div>
+          <div class="action-btn-wrapper">
+            <rux-button secondary (click)="handleTLE()">Create TLE</rux-button>
+            <rux-button (click)="handleEphemeris()"
+              >Create Ephemeris</rux-button
+            >
+          </div>
         </div>
       </div>
 
-      <fds-solution-table *ngIf="currentView === 'View Table'" />
-      <fds-solution-graph *ngIf="currentView === 'View Graph'" />
+      <fds-solution-table *ngIf="showTable" />
+      <fds-solution-graph *ngIf="showGraph" />
     </rux-tab-panel>
 
     <rux-tab-panel [attr.aria-labelledby]="tabs[1].id">
@@ -53,7 +60,7 @@
             <h1>2</h1>
             <p>Discrepancies</p>
           </div>
-          <div class="data">
+          <div class="data performance">
             <rux-select label="Antenna">
               <rux-option value="cumulative" label="Cumulative" />
               <rux-option value="pass1" label="Pass 1" />
