@@ -22,6 +22,10 @@ const generateScenario = (scenarioName: string): Scenario => {
   };
 };
 
+export const randomNum = (min = 1e9, max = 9e9) => {
+  return faker.number.int({ min, max });
+};
+
 const generateSpacecraft = (): Spacecraft => {
   const catalogIdNum = faker.number.int({ min: 1000, max: 9999 });
   const trackFileArrayLength = faker.number.int({ min: 20, max: 30 });
@@ -49,7 +53,14 @@ const generateTrackFile = (
     name: 'trackfile_' + index,
     creationDate: faker.date.recent({ days: 120 }),
     fileSize: fileSizeNum,
-    ephemerisSourceFile: generateEphemerisFile(id, index),
+    ephemerisSourceFile: generateEphemerisFile(
+      id,
+      index,
+      randomNum(-400, 1000),
+      randomNum(-400, 1000),
+      randomNum(-400, 800),
+      randomNum(-400, 800)
+    ),
     tleSourceFile: generateTLEFile(id, index),
     epochRangeStart: epoch,
     epochRangeEnd: faker.date.soon({ refDate: epoch, days: 5 }),
@@ -61,11 +72,22 @@ const generateTrackFile = (
 
 const generateEphemerisFile = (
   trackFileId: string,
-  index: number
+  index: number,
+  satPos1X: number,
+  satPos1Y: number,
+  satPos2X: number,
+  satPos2Y: number
 ): EphemerisFile => {
   return {
     id: crypto.randomUUID(),
     trackFileRefId: trackFileId,
+
+    satCords: {
+      satPos1X: satPos1X,
+      satPos1Y: satPos1Y,
+      satPos2X: satPos2X,
+      satPos2Y: satPos2Y,
+    },
     name: `trackfile_${trackFileId}_Ephemeris.txt`,
     epoch: faker.date.recent({ refDate: new Date(), days: 7 }),
     positionX: 1,
@@ -241,7 +263,3 @@ export const mockTrackFiles = Object.entries(
 ).flatMap(([spacecraftId, trackFileIds]) => {
   return trackFileIds.map((id, index) => generateTrackFile(spacecraftId, id, index));
 });
-
-export const randomNum = (min = 1e9, max = 9e9) => {
-  return faker.number.int({ min, max });
-};

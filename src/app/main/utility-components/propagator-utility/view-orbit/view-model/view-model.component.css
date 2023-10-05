@@ -28,13 +28,16 @@ rux-slider {
   display: flex;
 }
 
-.map-wrapper {
-  flex-grow: 1;
-}
-
 footer {
   display: flex;
   justify-content: center;
   gap: var(--spacing-8);
   background-color: var(--color-background-surface-header);
+}
+.map-wrapper {
+  height: 100%;
+}
+div[fdsCesiumMap] {
+  width: 100%;
+  height: calc(100% - 4.5rem);
 }

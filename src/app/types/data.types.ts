@@ -73,6 +73,9 @@ export type EphemerisFile = {
   id: string;
   trackFileRefId: string;
   name: string;
+  satCords: {
+    [key: string]: number;
+  };
   epoch: Date;
   positionX: number;
   positionY: number;
