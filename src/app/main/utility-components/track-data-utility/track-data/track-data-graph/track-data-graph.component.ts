@@ -36,7 +36,7 @@ type ChartDataItem = {
   inc: number
   el: number
   range: number
-  slope: number[]|number
+  slope: number[] | number
 }
 
 @Component({
@@ -56,7 +56,6 @@ export class TrackDataGraphComponent {
   @ViewChild(ChartComponent) chart?: ChartComponent;
   @ViewChild('legend') legend?: ElementRef;
 
-  //show/hide variables
   selectedTrackFiles$ = this.store.select(selectCurrentSpaceCraftTrackFiles)
   selectedTrackFiles: TrackFile[] = []
 
