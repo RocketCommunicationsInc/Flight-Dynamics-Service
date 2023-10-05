@@ -49,6 +49,11 @@ export class TrackFilesTableService extends TableService<TrackData> {
     });
   }
 
+  override selectAll(): void {
+    this.data = this.data.map((row) => ({...row, selected: true}))
+
+  }
+
   selectFiltered(event: Event){
     const isChecked = (event.target as HTMLRuxCheckboxElement).checked;
     this.data = this.data.map(row => !row.filtered ? {...row, selected: isChecked} : row)
