@@ -6,10 +6,9 @@ import { Store } from '@ngrx/store';
 import { selectCurrentSpaceCraftTrackFiles, selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { TrackFile } from 'src/app/types/data.types';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
-import { TrackFilesTableService } from '../track-files-table.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
-import { ColumnDefs } from 'src/app/shared/table.service';
+import { TrackFilesTableService } from '../track-files-table.service';
 
 @Component({
   selector: 'fds-track-files',
