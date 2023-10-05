@@ -1,0 +1,41 @@
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th
+          *ngFor="let col of trackFilesTableService.columns"
+          [ngClass]="{ sortable: col.sortable }"
+          [attr.type]="col.type"
+        >
+          <div
+            [ngClass]="{ active: col.sorted }"
+            class="h-stack"
+            (click)="trackFilesTableService.sort(col)"
+          >
+            {{ col.header }}
+            <rux-icon *ngIf="col.sortable" [icon]="col.icon" size="small" />
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let row of trackFilesTableService.data">
+        <tr *ngIf="!row.filtered">
+          <td
+            *ngFor="let col of trackFilesTableService.columns"
+            [ngSwitch]="col.field"
+            [attr.type]="col.type"
+            [ngClass]="{ sortable: col.sortable }"
+          >
+            <ng-container *ngSwitchCase="'creationDate'">
+              {{ row.creationDate | date: 'MM/dd/YYYY' }}
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              {{ row[col.field] }}
+            </ng-container>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
