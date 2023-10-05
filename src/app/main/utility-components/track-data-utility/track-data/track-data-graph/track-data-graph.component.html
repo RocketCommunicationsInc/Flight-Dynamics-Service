@@ -35,17 +35,13 @@
   ></apx-chart>
 
   <div class="legend">
-    <div
-      class="checkboxes"
-      *ngFor="let series of series; let i = index; let last = last"
-    >
+    <div class="checkboxes" *ngFor="let series of series; let i = index">
       <rux-checkbox
-        *ngIf="!last"
         [style.border-color]="series.color"
         [checked]="series.visible"
-        (ruxchange)="filterCheckboxes($event, series.name)"
+        (ruxchange)="toggleData(i)"
       />
-      <label *ngIf="!last"> {{ series.name }}</label>
+      <label> {{ series.name }}</label>
     </div>
   </div>
 </div>

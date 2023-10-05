@@ -1,17 +1,8 @@
-import { Component, ViewChild, ElementRef, DestroyRef, inject } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import {
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexYAxis,
   NgApexchartsModule,
-  ApexMarkers,
-  ApexStroke,
-  ApexTooltip,
-  ApexOptions,
 } from 'ng-apexcharts';
 import { SitesComponent } from './sites/sites.component';
 import { SettingsComponent } from './settings/settings.component';

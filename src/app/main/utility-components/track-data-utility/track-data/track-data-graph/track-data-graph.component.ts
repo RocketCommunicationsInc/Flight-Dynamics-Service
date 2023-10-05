@@ -26,6 +26,7 @@ import { Store } from '@ngrx/store';
 import { selectCurrentSpaceCraftTrackFiles } from 'src/app/+state/app.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TrackFile } from 'src/app/types/data.types';
+import { TrackFilesTableService } from '../../track-files-table.service';
 
 type ChartOptions = {
   series: ApexAxisChartSeries | any;
@@ -56,6 +57,7 @@ type ChartDataItem = {
   ],
   templateUrl: './track-data-graph.component.html',
   styleUrls: ['./track-data-graph.component.css'],
+  providers: [TrackFilesTableService],
 })
 export class TrackDataGraphComponent {
   @ViewChild(ChartComponent) chart?: ChartComponent;
@@ -74,23 +76,22 @@ export class TrackDataGraphComponent {
       name: 'Az',
       data: [1, 2, 3, 4, 5],
       type: 'scatter',
-      visible: true,
       color: 'var(--color-data-visualization-2)',
+      visible: true,
     },
     {
       name: 'El',
       data: [1, 2, 3, 4, 5],
       type: 'scatter',
+      color: 'var(--color-data-visualization-6)',
       visible: true,
-      color: 'var(--color-data-visualization-1)',
-
     },
     {
       name: 'Slope',
       data: [1, 2, 3, 4, 5],
       type: 'line',
-      visible: true,
       color: 'var(--color-data-visualization-3)',
+      visible: true,
     },
   ];
 
@@ -106,7 +107,10 @@ export class TrackDataGraphComponent {
   destroyRef = inject(DestroyRef);
   destroyed = new Subject();
 
-  constructor(private store: Store) {
+  constructor(
+    private store: Store,
+    public trackFilesTableService: TrackFilesTableService
+  ) {
     this.selectedTrackFiles$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => {
@@ -114,7 +118,32 @@ export class TrackDataGraphComponent {
       });
   }
 
+  orderByDate(data: TrackFile[]) {
+    return data.sort((a, b) => {
+      const firstDate = new Date(a.creationDate);
+      const lastDate = new Date(b.creationDate);
+      return Number(firstDate) - Number(lastDate);
+    });
+  }
+
+  tableTrackFiles: TrackFile[] = [];
+
   ngOnInit() {
+    // this.trackFilesTableService.getTableData();
+    // console.log(this.trackFilesTableService.getTableData(), 'fetch that data pleeeasee');
+    //     this.trackFilesTableService.tableData$.subscribe((tData) =>{
+    //       this.tableTrackFiles = tData
+    //     })
+    // this.trackFilesTableService.initialize(this.tableTrackFiles, []);
+    // console.log(this.tableTrackFiles, 't files');
+    //     this.trackFilesTableService.selectAll();
+    //     console.log(this.tableTrackFiles, "graph files")
+
+    //    const azimuth2 = this.tableTrackFiles.map((data) => data.initialOrbitProperties.azimuth.value)
+
+    // console.log(azimuth2)
+    this.orderByDate(this.selectedTrackFiles);
+
     this.dates = this.selectedTrackFiles.map((file) =>
       file.creationDate.toLocaleDateString()
     );
@@ -122,7 +151,7 @@ export class TrackDataGraphComponent {
     this.chartData = this.selectedTrackFiles.map((file) => {
       const azimuth = file.initialOrbitProperties.azimuth.value;
       const elevation = file.initialOrbitProperties.elevation.value;
-      const inclination = file.initialOrbitProperties.inclination.value
+      const inclination = file.initialOrbitProperties.inclination.value;
       return { az: azimuth, el: elevation, slope: inclination };
     });
     this.chartOptions.xaxis.categories = this.labelsShown;
@@ -163,10 +192,37 @@ export class TrackDataGraphComponent {
 
   selectedFilters: string[] = [];
 
-  filterCheckboxes(event: Event, seriesName: string) {
-    const isChecked = (event.target as HTMLRuxCheckboxElement).checked
-    isChecked ? this.chart?.showSeries(seriesName) :
-      this.chart?.hideSeries(seriesName)
+  // toggleSeries(event: Event) {
+  //   this.chart?.toggleSeries((event.target as HTMLRuxCheckboxElement).value);
+  //   //this.chart?.updateOptions({chart: {redrawOnParentResize: true}})
+  // }
+
+  updateMarkerSize() {
+    this.series.forEach((series: any) => {
+      if (series.name === 'Az' || series.name === 'El') {
+        this.chart?.updateOptions({
+          markers: {
+            size: 6,
+          },
+        });
+      }
+      if (series.name === 'Slope') {
+        this.chart?.updateOptions({
+          markers: {
+            size: 0,
+          },
+        });
+      }
+    });
+  }
+
+  toggleData(index: number) {
+    const series = this.series[index];
+    series.visible = !series.visible;
+
+    const updatedSeries = this.series.filter((data: any) => data.visible);
+    this.chart?.updateSeries(updatedSeries);
+    //this.updateMarkerSize();
   }
 
   onDelete() {
@@ -258,26 +314,7 @@ export class TrackDataGraphComponent {
       show: false,
     },
     markers: {
-        size: [6, 6, 0],
-      // discrete: [{
-      //   seriesIndex: 0,
-      //   dataPointIndex: 7,
-      //   fillColor: '#e3e3e3',
-      //   strokeColor: '#fff',
-      //   size: 6,
-      //   shape: "circle" // "circle" | "square" | "rect"
-      // }, {
-      //   seriesIndex: 1,
-      //   dataPointIndex: 11,
-      //   fillColor: '#f7f4f3',
-      //   strokeColor: '#eee',
-      //   size: 6,
-      //   shape: "circle" // "circle" | "square" | "rect"
-      // }
-      // , {
-      //   seriesIndex: 2,
-      //   size: 0,
-      // }]
+      size: [6, 6, 0],
     },
     stroke: {
       width: 2,
@@ -299,7 +336,6 @@ export class TrackDataGraphComponent {
           colors: 'var(--color-text-primary)',
         },
       },
-      title: 'test',
     },
     tooltip: {
       enabled: true,
