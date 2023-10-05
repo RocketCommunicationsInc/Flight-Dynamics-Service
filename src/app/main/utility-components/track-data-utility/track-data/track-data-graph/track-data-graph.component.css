@@ -20,7 +20,7 @@
 }
 
 .legend rux-checkbox {
-  padding: var(--spacing-1);
+  border-bottom: 4px solid;
 }
 
 .button-wrapper {

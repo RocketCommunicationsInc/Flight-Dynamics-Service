@@ -34,10 +34,19 @@
     [tooltip]="chartOptions.tooltip"
   ></apx-chart>
 
-  <div class="legend" #legend>
-    <rux-checkbox label="Az" (ruxchange)="filterCheckboxes(0)" />
-    <rux-checkbox label="El" (ruxchange)="filterCheckboxes(1)" />
-    <rux-checkbox label="Range" (ruxchange)="filterCheckboxes(2)" />
+  <div class="legend">
+    <div
+      class="checkboxes"
+      *ngFor="let series of series; let i = index; let last = last"
+    >
+      <rux-checkbox
+        *ngIf="!last"
+        [style.border-color]="series.color"
+        [checked]="series.visible"
+        (ruxchange)="filterCheckboxes($event, series.name)"
+      />
+      <label *ngIf="!last"> {{ series.name }}</label>
+    </div>
   </div>
 </div>
 <footer>

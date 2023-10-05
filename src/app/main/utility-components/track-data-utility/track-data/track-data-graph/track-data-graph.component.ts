@@ -1,4 +1,10 @@
-import { Component, ViewChild, ElementRef, DestroyRef, inject } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  DestroyRef,
+  inject,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
@@ -33,10 +39,10 @@ type ChartOptions = {
 };
 
 type ChartDataItem = {
-  az: number
-  el: number
-  slope: number[] | number
-}
+  az: number;
+  el: number;
+  slope: number[] | number;
+};
 
 @Component({
   selector: 'fds-track-data-graph',
@@ -55,40 +61,41 @@ export class TrackDataGraphComponent {
   @ViewChild(ChartComponent) chart?: ChartComponent;
   @ViewChild('legend') legend?: ElementRef;
 
-  selectedTrackFiles$ = this.store.select(selectCurrentSpaceCraftTrackFiles)
-  selectedTrackFiles: TrackFile[] = []
+  selectedTrackFiles$ = this.store.select(selectCurrentSpaceCraftTrackFiles);
+  selectedTrackFiles: TrackFile[] = [];
 
   //chart variables
-  chartData: ChartDataItem[] = []
-  chartFilter: string[] =[]
+  chartData: ChartDataItem[] = [];
+  chartFilter: string[] = [];
   disableUndo: boolean = true;
 
-  series: ApexAxisChartSeries|any = [
+  series: ApexAxisChartSeries | any = [
     {
       name: 'Az',
-      data: [1,2,3,4,5],
+      data: [1, 2, 3, 4, 5],
       type: 'scatter',
       visible: true,
       color: 'var(--color-data-visualization-2)',
     },
     {
       name: 'El',
-      data: [1,2,3,4,5],
+      data: [1, 2, 3, 4, 5],
       type: 'scatter',
       visible: true,
       color: 'var(--color-data-visualization-1)',
+
     },
     {
       name: 'Slope',
-      data: [1,2,3,4,5],
+      data: [1, 2, 3, 4, 5],
       type: 'line',
       visible: true,
       color: 'var(--color-data-visualization-3)',
     },
-  ]
+  ];
 
   zoomLevel: number = 20;
-  dates: string[] = []
+  dates: string[] = [];
   labelsShown: string[] = [];
 
   dataPointLength: number = 0;
@@ -96,74 +103,83 @@ export class TrackDataGraphComponent {
   deletedDataPoints: any[] | null = [];
 
   //subscription cleanup
-  destroyRef = inject(DestroyRef)
+  destroyRef = inject(DestroyRef);
   destroyed = new Subject();
 
-  constructor(private store: Store){
-    this.selectedTrackFiles$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
-      this.selectedTrackFiles = res || []
-    })
+  constructor(private store: Store) {
+    this.selectedTrackFiles$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((res) => {
+        this.selectedTrackFiles = res || [];
+      });
   }
 
-  ngOnInit(){
-    this.dates = this.selectedTrackFiles.map((file) => file.creationDate.toLocaleDateString());
-    this.labelsShown = this.dates
+  ngOnInit() {
+    this.dates = this.selectedTrackFiles.map((file) =>
+      file.creationDate.toLocaleDateString()
+    );
+    this.labelsShown = this.dates;
     this.chartData = this.selectedTrackFiles.map((file) => {
-      const azimuth = file.initialOrbitProperties.azimuth.value
-      const elevation =  file.initialOrbitProperties.elevation.value
-      return {az: azimuth, el: elevation, slope: [azimuth,elevation]};
-    })
-    this.chartOptions.xaxis.categories = this.labelsShown
-    this.updateSeries(this.chartData)
-
+      const azimuth = file.initialOrbitProperties.azimuth.value;
+      const elevation = file.initialOrbitProperties.elevation.value;
+      const inclination = file.initialOrbitProperties.inclination.value
+      return { az: azimuth, el: elevation, slope: inclination };
+    });
+    this.chartOptions.xaxis.categories = this.labelsShown;
+    this.updateSeries(this.chartData);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.destroyed.next(true);
     this.destroyed.complete();
   }
 
-  toggleChartSize(drawerOpen: boolean){
+  toggleChartSize(drawerOpen: boolean) {
     this.chart?.updateOptions({
       chart: {
         width: drawerOpen ? '76%' : '100%',
       },
     });
-    this.legend?.nativeElement.classList.toggle('legend-pushed', drawerOpen)
+    this.legend?.nativeElement.classList.toggle('legend-pushed', drawerOpen);
   }
 
   updateSeries = (data: ChartDataItem[]) => {
-    let dataPointLength: number = 0
-    const updatedData = this.series.map((series:any)=> {
-      const key = series.name.toLowerCase() as keyof ChartDataItem
+    let dataPointLength: number = 0;
+    const updatedData = this.series.map((series: any) => {
+      const key = series.name.toLowerCase() as keyof ChartDataItem;
 
-      const newData = data.map(datum => {
-        dataPointLength = dataPointLength + 1
-        return datum[key]})
+      const newData = data.map((datum) => {
+        dataPointLength = dataPointLength + 1;
+        return datum[key];
+      });
 
-      return this.chartData[0].hasOwnProperty(key) ? {...series, data: newData} : series
-    })
+      return this.chartData[0].hasOwnProperty(key)
+        ? { ...series, data: newData }
+        : series;
+    });
     this.series = updatedData;
-    this.dataPointLength = dataPointLength
-  }
+    this.dataPointLength = dataPointLength;
+  };
 
   selectedFilters: string[] = [];
 
-  filterCheckboxes(seriesIndex: number) {
-
-    this.series =
-      const newSeries = this.series.map((series:ApexAxisChartSeries|any, index:number)=>{
-        return index === seriesIndex ? {...series, visible: !series.visible} : series
-      })
-      this.chart?.updateSeries()
+  filterCheckboxes(event: Event, seriesName: string) {
+    const isChecked = (event.target as HTMLRuxCheckboxElement).checked
+    isChecked ? this.chart?.showSeries(seriesName) :
+      this.chart?.hideSeries(seriesName)
   }
 
   onDelete() {
     if (this.dataPointToDelete !== null) {
-      this.selectedTrackFiles.filter((_, index) => index !== this.dataPointToDelete);
+      this.selectedTrackFiles.filter(
+        (_, index) => index !== this.dataPointToDelete
+      );
 
       //take the removed obj and put the value in to a deletePointsArray for undo btn
-      const removedObj = this.selectedTrackFiles.splice(this.dataPointToDelete, 1);
+      const removedObj = this.selectedTrackFiles.splice(
+        this.dataPointToDelete,
+        1
+      );
       const fileSize = removedObj.map((file) => file.fileSize);
       this.deletedDataPoints?.push(fileSize.pop());
 
@@ -195,8 +211,8 @@ export class TrackDataGraphComponent {
     this.labelsShown = this.dates.slice(0, this.zoomLevel);
 
     //Update both series, categories, and labels on zoom
-    const zoomedData = this.chartData.slice(0, this.zoomLevel)
-    this.updateSeries(zoomedData)
+    const zoomedData = this.chartData.slice(0, this.zoomLevel);
+    this.updateSeries(zoomedData);
     this.chart?.updateOptions({
       xaxis: {
         categories: this.labelsShown,
@@ -242,7 +258,26 @@ export class TrackDataGraphComponent {
       show: false,
     },
     markers: {
-      size: [6, 6, 0],
+        size: [6, 6, 0],
+      // discrete: [{
+      //   seriesIndex: 0,
+      //   dataPointIndex: 7,
+      //   fillColor: '#e3e3e3',
+      //   strokeColor: '#fff',
+      //   size: 6,
+      //   shape: "circle" // "circle" | "square" | "rect"
+      // }, {
+      //   seriesIndex: 1,
+      //   dataPointIndex: 11,
+      //   fillColor: '#f7f4f3',
+      //   strokeColor: '#eee',
+      //   size: 6,
+      //   shape: "circle" // "circle" | "square" | "rect"
+      // }
+      // , {
+      //   seriesIndex: 2,
+      //   size: 0,
+      // }]
     },
     stroke: {
       width: 2,
@@ -273,7 +308,7 @@ export class TrackDataGraphComponent {
       },
       theme: '',
       custom: ({ series, seriesIndex, dataPointIndex }: any) => {
-        console.log(series)
+        console.log(series);
         return (
           '<div class="tooltip-box">' +
           '<span> DGS' +
@@ -281,7 +316,9 @@ export class TrackDataGraphComponent {
           '<span> ' +
           this.dates[dataPointIndex] +
           '</span> <br/>' +
-          '<span>' + this.chartOptions.series[seriesIndex].name + ':' +
+          '<span>' +
+          this.chartOptions.series[seriesIndex].name +
+          ':' +
           series[seriesIndex][dataPointIndex] +
           '</span>' +
           '</div>'
