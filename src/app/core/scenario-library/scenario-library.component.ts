@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { AppStore } from 'src/app/+state/app.model';
 import { Observable, Subscription } from 'rxjs';
 import { Dictionary } from '@ngrx/entity';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -32,7 +33,7 @@ export class ScenarioLibraryComponent {
   scenarios$: Observable<Scenario[]> = this.store.select(selectAllScenarios);
   spacecrafts: Dictionary<Spacecraft> | null | undefined;
   spacecrafts$: Subscription = this.store
-    .pipe(select(selectSpacecraftEntities))
+    .pipe(takeUntilDestroyed(), select(selectSpacecraftEntities))
     .subscribe((result) => (this.spacecrafts = result));
 
   constructor(
