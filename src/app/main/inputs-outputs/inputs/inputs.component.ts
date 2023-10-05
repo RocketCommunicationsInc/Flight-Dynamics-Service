@@ -34,15 +34,10 @@ export class InputsComponent {
   }>;
   processedTrackFile: ProcessedTrackFile | undefined;
   currentTrackFileId: string | undefined;
-  trackfilesArr: TrackFile[] = [];
   trackfiles$: Observable<TrackFile[] | undefined> = this.store.select(
     selectCurrentSpaceCraftTrackFiles
   );
-  trackfiles: Subscription = this.trackfiles$.subscribe(
-    (result) => result?.map((files) => this.trackfilesArr.push(files))
-  );
 
-  currentTrackFile: any = {};
   currentTrackFile$: Subscription = this.store
     .pipe(
       takeUntilDestroyed(),
@@ -54,7 +49,6 @@ export class InputsComponent {
       const epochEnd = result!.epochRangeStart.getTime();
       const diffTime = (epochStart - epochEnd) / (1000 * 3600 * 24);
       this.currentTrackFileId = result!.id;
-      this.currentTrackFile = result!.tleSourceFile;
 
       this.inputForm = new FormGroup({
         databaseFile: new FormControl(result!.tleSourceFile.name),
@@ -96,43 +90,8 @@ export class InputsComponent {
   }
 
   handleSelect(e: any): void {
-    this.isDisabled = false;
-    const event = e as CustomEvent;
-    const fileId: string = event.detail.getAttribute('data-id');
     this.store.dispatch(
-      TrackFilesActions.trackFileSelected({ trackFileId: fileId })
+      TrackFilesActions.trackFileSelected({ trackFileId: e.target.value })
     );
-  }
-
-  @ViewChild('popup', { static: false }) popup?: HTMLRuxPopUpElement;
-
-  showPopup() {
-    if (this.popup) {
-      this.popup.show();
-    }
-  }
-
-  results: any[] = [];
-  hasValue: boolean = false;
-  noResults: boolean = false;
-  isDisabled: boolean = false;
-
-  handleInput(event: any) {
-    this.results = [];
-    if (event.target.value !== '') {
-      this.showPopup();
-      this.hasValue = true;
-      this.trackfilesArr.filter((file) => {
-        if (file.name.includes(event.target.value)) {
-          this.results.push(file);
-          if (this.results.length >= 1) {
-            this.noResults = false;
-          }
-        } else this.noResults = true;
-      });
-    } else {
-      this.hasValue = false;
-      this.isDisabled = true;
-    }
   }
 }
