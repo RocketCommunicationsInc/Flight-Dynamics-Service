@@ -12,17 +12,18 @@ import type {
 
 const generateScenario = (scenarioName: string): Scenario => {
   const numOfSpaceCraft = faker.number.int({ min: 4, max: 8 });
+  const scenarioId = crypto.randomUUID();
 
   return {
-    id: crypto.randomUUID(),
+    id: scenarioId,
     name: scenarioName,
     spaceCraft: Array(numOfSpaceCraft)
       .fill(null)
-      .map(() => generateSpacecraft()),
+      .map(() => generateSpacecraft(scenarioId)),
   };
 };
 
-const generateSpacecraft = (): Spacecraft => {
+const generateSpacecraft = (scenarioId: string): Spacecraft => {
   const catalogIdNum = faker.number.int({ min: 1000, max: 9999 });
   const trackFileArrayLength = faker.number.int({ min: 20, max: 30 });
 
@@ -33,6 +34,7 @@ const generateSpacecraft = (): Spacecraft => {
       faker.string.uuid()
     ),
     eventData: [],
+    scenarioRefId: scenarioId,
   };
 };
 

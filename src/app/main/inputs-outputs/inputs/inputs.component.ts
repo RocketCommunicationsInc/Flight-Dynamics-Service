@@ -31,6 +31,17 @@ import { OutputDataDisplayService } from '../../output-data-display/output-data-
   styleUrls: ['./inputs.component.css'],
 })
 export class InputsComponent {
+  // scenario data
+  currentScenarioId: string | undefined | null;
+  currentScenarioId$: Subscription = this.store
+    .pipe(
+      takeUntilDestroyed(),
+      filter((val) => val !== null),
+      select(selectSelectedScenarioId)
+    )
+    .subscribe((result) => (this.currentScenarioId = result));
+    
+  // input form initial declarations
   inputForm!: FormGroup<{
     databaseFile: FormControl<string | null>;
     orbitSource: FormControl<string | null>;
@@ -40,16 +51,10 @@ export class InputsComponent {
     thrustProfile: FormControl<string | null>;
     processedTrackFile: FormControl<string | null>;
   }>;
+
+  //trackfile data
   processedTrackFile: ProcessedTrackFile | undefined;
   currentTrackFileId: string | undefined;
-  currentScenarioId: string | undefined | null;
-  currentScenarioId$: Subscription = this.store
-    .pipe(
-      takeUntilDestroyed(),
-      filter((val) => val !== null),
-      select(selectSelectedScenarioId)
-    )
-    .subscribe((result) => (this.currentScenarioId = result));
   trackfiles$: Observable<TrackFile[] | undefined> = this.store.select(
     selectCurrentSpaceCraftTrackFiles
   );

@@ -1,11 +1,17 @@
-import { Component, DestroyRef, inject} from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { selectCurrentSpaceCraftTrackFiles, selectCurrentTrackFile } from 'src/app/+state/app.selectors';
+import {
+  selectCurrentSpaceCraftTrackFiles,
+  selectCurrentTrackFile,
+} from 'src/app/+state/app.selectors';
 import { TrackFile } from 'src/app/types/data.types';
-import { TrackFilesActions } from 'src/app/+state/app.actions';
+import {
+  SpacecraftActions,
+  TrackFilesActions,
+} from 'src/app/+state/app.actions';
 import { TrackFilesTableService } from '../track-files-table.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
@@ -19,9 +25,9 @@ import { Subject } from 'rxjs';
   styleUrls: ['./track-files.component.css'],
 })
 export class TrackFilesComponent {
-  trackFiles$ = this.store.select(selectCurrentSpaceCraftTrackFiles)
-  selectedTrackFile$ = this.store.select(selectCurrentTrackFile)
-  trackFiles: TrackFile[] = []
+  trackFiles$ = this.store.select(selectCurrentSpaceCraftTrackFiles);
+  selectedTrackFile$ = this.store.select(selectCurrentTrackFile);
+  trackFiles: TrackFile[] = [];
   selectedTrackFile: TrackFile | null = null;
 
   //editing
@@ -29,18 +35,25 @@ export class TrackFilesComponent {
   editTrackFile: boolean = false;
 
   // Cleans up subscriptions to avoid memory leaks
-  destroyRef = inject(DestroyRef)
+  destroyRef = inject(DestroyRef);
   destroyed = new Subject();
 
-  constructor(private store: Store, public trackFilesTableService: TrackFilesTableService){}
+  constructor(
+    private store: Store,
+    public trackFilesTableService: TrackFilesTableService
+  ) {}
 
-  ngOnInit(){
-    this.trackFiles$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => this.trackFiles = res || [])
-    this.selectedTrackFile$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res)=> this.selectedTrackFile = res)
+  ngOnInit() {
+    this.trackFiles$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((res) => (this.trackFiles = res || []));
+    this.selectedTrackFile$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((res) => (this.selectedTrackFile = res));
     this.trackFilesTableService.initialize(this.trackFiles);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.destroyed.next(true);
     this.destroyed.complete();
   }
@@ -49,9 +62,11 @@ export class TrackFilesComponent {
     this.trackFilesTableService.filter(event.target.value);
   }
 
-  onRowClick(event: Event, id:string) {
-    if((event.target as HTMLElement).nodeName === "RUX-CHECKBOX") return;
-    this.store.dispatch(TrackFilesActions.trackFileSelected({trackFileId: id}))
+  onRowClick(event: Event, id: string) {
+    if ((event.target as HTMLElement).nodeName === 'RUX-CHECKBOX') return;
+    this.store.dispatch(
+      TrackFilesActions.trackFileSelected({ trackFileId: id })
+    );
   }
 
   handleEdit() {
@@ -61,14 +76,23 @@ export class TrackFilesComponent {
   }
 
   handleCancel() {
-    this.editedContent = ''
+    this.editedContent = '';
     this.editTrackFile = false;
   }
 
   handleSave() {
-    if(this.selectedTrackFile) this.store.dispatch(TrackFilesActions.trackFileModified({trackFileId: this.selectedTrackFile.id, updatedTrackFile: {...this.selectedTrackFile, comment: this.editedContent}}))
-    this.editedContent=''
+    if (this.selectedTrackFile) {
+      this.store.dispatch(
+        TrackFilesActions.trackFileModified({
+          trackFileId: this.selectedTrackFile.id,
+          updatedTrackFile: {
+            ...this.selectedTrackFile,
+            comment: this.editedContent,
+          },
+        })
+      );
+    }
+    this.editedContent = '';
     this.editTrackFile = false;
   }
-
 }

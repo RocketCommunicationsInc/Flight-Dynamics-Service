@@ -6,6 +6,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
 import { ToastService } from 'src/app/shared/toast.service';
+import { SpacecraftActions } from 'src/app/+state/app.actions';
+import { LogData } from 'src/app/types/data.types';
 
 const upperCaseFirstLetter = (word: string) => {
   return word.charAt(0).toUpperCase() + word.slice(1);
@@ -26,7 +28,13 @@ interface Utility {
 })
 export class UtilityToolkitComponent {
   @Input({ required: true }) currentToolkitPath: undefined | string;
+  spacecraftId: string | undefined;
+  scenarioId: string | undefined;
   spacecraft$ = this.store.select(selectCurrentSpacecraft);
+  spacecraftSub = this.spacecraft$.subscribe((result) => {
+    this.spacecraftId = result?.id;
+    this.scenarioId = result?.scenarioRefId;
+  });
   isConfirmCloseOpen = false;
 
   constructor(
@@ -74,6 +82,17 @@ export class UtilityToolkitComponent {
   }
 
   createReport() {
+    this.store.dispatch(
+      SpacecraftActions.spacecraftEventAdded({
+        scenarioId: this.scenarioId!,
+        spacecraftId: this.spacecraftId!,
+        event: {
+          timestamp: new Date(),
+          status: 'standby',
+          message: 'Report generated.',
+        },
+      })
+    );
     this.toast.addToast({
       message: 'Report Created',
       hideClose: false,

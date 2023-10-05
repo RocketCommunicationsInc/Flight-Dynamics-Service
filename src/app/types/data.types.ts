@@ -13,6 +13,7 @@ export type Spacecraft = {
   catalogId: string;
   trackFileIds: string[];
   eventData: LogData[];
+  scenarioRefId: string;
 };
 
 export type SpacecraftEntity = {
