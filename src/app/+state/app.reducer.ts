@@ -5,16 +5,30 @@ import {
   TrackFilesActions,
   AppActions,
 } from './app.actions';
-import { AppStore, ScenariosState, TrackFilesState } from './app.model';
-import { scenarioAdapter, trackFileAdapter } from './app.adapters';
+import {
+  AppStore,
+  ScenariosState,
+  SpacecraftsState,
+  TrackFilesState,
+} from './app.model';
+import {
+  scenarioAdapter,
+  spacecraftAdapter,
+  trackFileAdapter,
+} from './app.adapters';
 
 const initialScenarios: ScenariosState = scenarioAdapter.getInitialState({});
+
+const initialSpacecrafts: SpacecraftsState = spacecraftAdapter.getInitialState(
+  {}
+);
 
 const initialTrackFiles: TrackFilesState = trackFileAdapter.getInitialState({});
 
 export const initialState: AppStore = {
   scenarios: initialScenarios,
   trackFiles: initialTrackFiles,
+  spacecrafts: initialSpacecrafts,
   selectedSpacecraftId: null,
   selectedScenarioId: null,
   selectedTrackFileId: null,
@@ -26,14 +40,15 @@ export const AppReducer = createReducer(
   //Appwide Actions
   on(AppActions.initializeIds, (state) => {
     const selectedScenario = state.scenarios.entities[state.scenarios.ids[0]];
-    const selectedSpacecraft = selectedScenario?.spaceCraft[0];
-    const selectedTrackFileId = selectedSpacecraft?.trackFileIds[0] || null;
+    const selectedSpacecraftId = selectedScenario!.spaceCraftIds[0].id;
+    const selectedTrackFileId =
+      state.spacecrafts.entities[selectedSpacecraftId]!.trackFileIds[0] || null;
 
     return {
       ...state,
       selectedTrackFileId,
       selectedScenarioId: selectedScenario?.id || null,
-      selectedSpacecraftId: selectedSpacecraft?.id || null,
+      selectedSpacecraftId: selectedSpacecraftId || null,
     };
   }),
 
@@ -68,15 +83,22 @@ export const AppReducer = createReducer(
     ...state,
     selectedTrackFileId: trackFileId,
   })),
-  on(TrackFilesActions.trackFileModified, (state, {trackFileId, updatedTrackFile}) => ({
-    ...state,
-    trackFiles: trackFileAdapter.updateOne({
-      id: trackFileId,
-      changes: {
-        ...state.trackFiles.entities[trackFileId], ...updatedTrackFile
-      }
-    }, state.trackFiles)
-  })),
+  on(
+    TrackFilesActions.trackFileModified,
+    (state, { trackFileId, updatedTrackFile }) => ({
+      ...state,
+      trackFiles: trackFileAdapter.updateOne(
+        {
+          id: trackFileId,
+          changes: {
+            ...state.trackFiles.entities[trackFileId],
+            ...updatedTrackFile,
+          },
+        },
+        state.trackFiles
+      ),
+    })
+  ),
   on(
     TrackFilesActions.trackFileProcessed,
     (state, { trackFileId, processedTrackFile }) => ({
@@ -95,6 +117,12 @@ export const AppReducer = createReducer(
   ),
 
   // Spacecraft actions
+  on(SpacecraftActions.spacecraftsRetrieved, (state, { spacecrafts }) => {
+    return {
+      ...state,
+      spacecrafts: spacecraftAdapter.addMany(spacecrafts, initialSpacecrafts),
+    };
+  }),
   on(SpacecraftActions.spacecraftIdSelected, (state, { spacecraftId }) => ({
     ...state,
     selectedSpacecraftId: spacecraftId,

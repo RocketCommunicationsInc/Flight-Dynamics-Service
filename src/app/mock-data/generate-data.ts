@@ -16,19 +16,21 @@ const generateScenario = (scenarioName: string): Scenario => {
   return {
     id: crypto.randomUUID(),
     name: scenarioName,
-    spaceCraft: Array(numOfSpaceCraft)
+    spaceCraftIds: Array(numOfSpaceCraft)
       .fill(null)
-      .map(() => generateSpacecraft()),
+      .map(() => ({
+        id: crypto.randomUUID(),
+        catalogId: 'IRON ' + faker.number.int({ min: 1000, max: 9999 }),
+      })),
   };
 };
 
-const generateSpacecraft = (): Spacecraft => {
-  const catalogIdNum = faker.number.int({ min: 1000, max: 9999 });
+const generateSpacecraft = (id: string, catalogId: string): Spacecraft => {
   const trackFileArrayLength = faker.number.int({ min: 20, max: 30 });
 
   return {
-    id: crypto.randomUUID(),
-    catalogId: 'IRON ' + catalogIdNum,
+    id: id,
+    catalogId: catalogId,
     trackFileIds: Array.from(Array(trackFileArrayLength), (_) =>
       faker.string.uuid()
     ),
@@ -231,15 +233,21 @@ const scenarioNames = ['Nominal OD', 'Post SK', 'Training'];
 export const mockScenarios = scenarioNames.map((name) =>
   generateScenario(name)
 );
-const spaceCraft = mockScenarios.flatMap((scenario) => scenario.spaceCraft);
+export const mockSpaceCrafts = mockScenarios.flatMap((scenario) => {
+  return scenario.spaceCraftIds.map((craftIdObject) =>
+    generateSpacecraft(craftIdObject.id, craftIdObject.catalogId)
+  );
+});
 const trackFileIdsBySpaceCraftId: { [key: string]: string[] } = {};
-spaceCraft.forEach((spacecraft) => {
+mockSpaceCrafts.forEach((spacecraft) => {
   trackFileIdsBySpaceCraftId[spacecraft.id] = spacecraft.trackFileIds;
 });
 export const mockTrackFiles = Object.entries(
   trackFileIdsBySpaceCraftId
 ).flatMap(([spacecraftId, trackFileIds]) => {
-  return trackFileIds.map((id, index) => generateTrackFile(spacecraftId, id, index));
+  return trackFileIds.map((id, index) =>
+    generateTrackFile(spacecraftId, id, index)
+  );
 });
 
 export const randomNum = (min = 1e9, max = 9e9) => {

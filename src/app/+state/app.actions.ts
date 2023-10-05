@@ -1,5 +1,10 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { ProcessedTrackFile, Scenario, TrackFile } from '../types/data.types';
+import {
+  ProcessedTrackFile,
+  Scenario,
+  Spacecraft,
+  TrackFile,
+} from '../types/data.types';
 
 export const AppActions = createActionGroup({
   source: 'App',
@@ -11,6 +16,8 @@ export const AppActions = createActionGroup({
 export const SpacecraftActions = createActionGroup({
   source: 'Spacecraft',
   events: {
+    'Spacecrafts Requested': emptyProps(),
+    'Spacecrafts Retrieved': props<{ spacecrafts: Spacecraft[] }>(),
     'Spacecraft Id Selected': props<{ spacecraftId: string }>(),
   },
 });
@@ -30,7 +37,10 @@ export const TrackFilesActions = createActionGroup({
     'Track Files Requested': emptyProps(),
     'Track Files Retrieved': props<{ trackFiles: TrackFile[] }>(),
     'Track File Selected': props<{ trackFileId: string }>(),
-    "Track File Modified": props<{ trackFileId: string, updatedTrackFile: TrackFile}>(),
+    'Track File Modified': props<{
+      trackFileId: string;
+      updatedTrackFile: TrackFile;
+    }>(),
     'Track File Processed': props<{
       processedTrackFile: ProcessedTrackFile;
       trackFileId: string;

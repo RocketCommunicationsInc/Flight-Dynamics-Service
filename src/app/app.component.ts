@@ -19,6 +19,7 @@ import {
   ScenariosActions,
   TrackFilesActions,
   AppActions,
+  SpacecraftActions,
 } from './+state/app.actions';
 
 @Component({
@@ -52,6 +53,7 @@ export class AppComponent {
     private router: Router
   ) {
     this.store.dispatch(ScenariosActions.scenariosRequested());
+    this.store.dispatch(SpacecraftActions.spacecraftsRequested());
     this.store.dispatch(TrackFilesActions.trackFilesRequested());
     this.store.dispatch(AppActions.initializeIds());
     this.toasts
