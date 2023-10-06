@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { BehaviorSubject } from 'rxjs';
 import { TableService, ColumnDefs } from 'src/app/shared/table.service';
 import { TrackFile } from 'src/app/types/data.types';
 
@@ -10,6 +10,9 @@ export type TrackData = TrackFile & {
   providedIn: 'root',
 })
 export class TrackFilesTableService extends TableService<TrackData> {
+
+  private tableData = new BehaviorSubject<TrackData[]>([])
+  tableData$ = this.tableData.asObservable()
 
   filter(selection: string): void {
     const today = new Date();
@@ -41,8 +44,11 @@ export class TrackFilesTableService extends TableService<TrackData> {
     this.data = newData
   }
 
+  trackDataForTable: TrackFile[] = []
+
   initialize(data: TrackFile[], columnDefs: ColumnDefs<any>[]){
     const trackdata = data.map((trackfile) => ({...trackfile, filtered: false}))
+    this.trackDataForTable = trackdata
     this.init({
       columnDefs: columnDefs,
       data: trackdata
@@ -57,6 +63,22 @@ export class TrackFilesTableService extends TableService<TrackData> {
   selectFiltered(event: Event){
     const isChecked = (event.target as HTMLRuxCheckboxElement).checked;
     this.data = this.data.map(row => !row.filtered ? {...row, selected: isChecked} : row)
+  }
+
+  getTableData() {
+    console.log(this.data, "data in service")
+    const data = [...this.trackDataForTable]
+    this.tableData.next(data as any[])
+  }
+
+  updateTableData(data: TrackFile[]) {
+    // const trackdata = data.map((trackfile) => ({...trackfile, filtered: false}))
+    // console.log(trackdata, "trackdata")
+    // this.init({
+    //   columnDefs: [],
+    //   data: trackdata
+    // });
+    this.tableData.next(data as any[])
   }
 
 }
