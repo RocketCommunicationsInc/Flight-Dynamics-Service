@@ -193,6 +193,7 @@ export class TrackDataGraphComponent {
     });
     this.chart?.updateSeries(updatedSeries);
     this.chart?.updateOptions({ markers: { size: [...markers] } });
+
   }
 
 
@@ -254,20 +255,16 @@ export class TrackDataGraphComponent {
    },
       events: {
         dataPointSelection: (event: any, chartContext: any, config: any) => {
-          this.selectedDataPoint = event.target
-          console.log(event, chartContext, config)
-          //Change the color of selected data point
-          const dataPoints = document.querySelectorAll('.apexcharts-marker');
-          dataPoints.forEach((el) => {
-            el.classList.remove('selected-data-point');
-            el.classList.add('data-point-hover');
-          });
-          const seriesIndex = chartContext.w.globals.seriesNames[config.seriesIndex]
-          this.seriesIndexName = seriesIndex
-
-        this.selectedDataPoint.classList.add(
+          const oldPoint = this.selectedDataPoint
+          oldPoint?.classList.remove(
             'selected-data-point'
           );
+
+          event.target.classList.add(
+              'selected-data-point'
+            );
+
+          this.selectedDataPoint = event.target
         },
       },
     },
