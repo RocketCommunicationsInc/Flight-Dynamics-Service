@@ -54,6 +54,14 @@ rux-container::part(body) {
   margin-right: var(--spacing-6);
 }
 
+.heading span {
+  display: flex;
+}
+
+.heading span rux-status {
+  margin-right: var(--spacing-2);
+}
+
 .alerts {
   display: flex;
   gap: var(--spacing-6);

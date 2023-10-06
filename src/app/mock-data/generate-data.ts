@@ -14,6 +14,11 @@ export const randomNum = (min = 1e9, max = 9e9) => {
   return faker.number.int({ min, max });
 };
 
+export const randNumWithDecimals = (min: number, max: number) => {
+  const randomNum = Math.random() * (max - min) + min;
+  return Number(randomNum.toPrecision(4));
+};
+
 const generateScenario = (scenarioName: string): Scenario => {
   const numOfSpaceCraft = faker.number.int({ min: 4, max: 8 });
 
