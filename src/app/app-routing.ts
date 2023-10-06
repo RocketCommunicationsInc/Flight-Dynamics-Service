@@ -2,7 +2,6 @@ import { Route } from '@angular/router';
 import { LogUtilityComponent } from './main/utility-components/log-utility/log-utility.component';
 import { InputsOutputsDataDisplayComponent } from './main/inputs-outputs-data-display/inputs-outputs-data-display.component';
 import { TrackDataUtilityComponent } from './main/utility-components/track-data-utility/track-data-utility.component';
-import { PropagatorUtilityComponent } from './main/utility-components/propagator-utility/propagator-utility.component';
 import { validSpacecraftGuard } from './guards/valid-spacecraft.guard';
 
 export const Routes: Route[] = [
@@ -29,7 +28,10 @@ export const Routes: Route[] = [
       },
       {
         path: 'propagator',
-        component: PropagatorUtilityComponent,
+        loadComponent: () =>
+          import(
+            './main/utility-components/propagator-utility/propagator-utility.component'
+          ).then((mod) => mod.PropagatorUtilityComponent),
       },
       {
         path: '**',
