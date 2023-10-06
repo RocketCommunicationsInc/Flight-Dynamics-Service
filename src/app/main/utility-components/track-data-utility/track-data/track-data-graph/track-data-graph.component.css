@@ -82,3 +82,9 @@ footer {
 :host ::ng-deep .hidden-data-point {
   fill: transparent;
 }
+
+:host ::ng-deep .hide-node {
+  fill-opacity: 0;
+  stroke-opacity: 0;
+  pointer-events: none;
+}

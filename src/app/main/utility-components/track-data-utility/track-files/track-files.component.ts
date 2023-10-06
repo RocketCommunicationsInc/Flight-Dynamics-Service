@@ -51,7 +51,6 @@ export class TrackFilesComponent {
 
   getTrackFileData() {
     const data = [...this.trackFiles];
-    console.log( this.trackFilesTableService.updateTableData(data), "data in table")
     this.trackFilesTableService.updateTableData(data);
   }
 

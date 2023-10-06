@@ -66,7 +66,6 @@ export class TrackFilesTableService extends TableService<TrackData> {
   }
 
   getTableData() {
-    console.log(this.data, "data in service")
     const data = [...this.trackDataForTable]
     this.tableData.next(data as any[])
   }

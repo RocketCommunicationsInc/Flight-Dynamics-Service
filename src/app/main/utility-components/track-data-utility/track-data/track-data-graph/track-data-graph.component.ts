@@ -68,7 +68,6 @@ export class TrackDataGraphComponent {
 
   //chart variables
   chartData: ChartDataItem[] = [];
-  chartFilter: string[] = [];
   disableUndo: boolean = true;
 
   series: ApexAxisChartSeries | any = [
@@ -103,7 +102,7 @@ export class TrackDataGraphComponent {
   labelsShown: string[] = [];
 
   dataPointLength: number = 0;
-  dataPointToDelete: number | null = null;
+  selectedDataPoint: number | null | any = null;
   deletedDataPoints: any[] | null = [];
 
   //subscription cleanup
@@ -132,19 +131,6 @@ export class TrackDataGraphComponent {
   tableTrackFiles: TrackFile[] = [];
 
   ngOnInit() {
-    // this.trackFilesTableService.getTableData();
-    // console.log(this.trackFilesTableService.getTableData(), 'fetch that data pleeeasee');
-    //     this.trackFilesTableService.tableData$.subscribe((tData) =>{
-    //       this.tableTrackFiles = tData
-    //     })
-    // this.trackFilesTableService.initialize(this.tableTrackFiles, []);
-    // console.log(this.tableTrackFiles, 't files');
-    //     this.trackFilesTableService.selectAll();
-    //     console.log(this.tableTrackFiles, "graph files")
-
-    //    const azimuth2 = this.tableTrackFiles.map((data) => data.initialOrbitProperties.azimuth.value)
-
-    // console.log(azimuth2)
     this.orderByDate(this.selectedTrackFiles);
 
     this.dates = this.selectedTrackFiles.map((file) =>
@@ -209,44 +195,25 @@ export class TrackDataGraphComponent {
     this.chart?.updateOptions({ markers: { size: [...markers] } });
   }
 
+
+
   onDelete() {
-    const dataPoints = document.querySelectorAll('.apexcharts-marker');
-if(this.dataPointLength !== null)
-    console.log()
-    // if (this.dataPointToDelete !== null) {
-    //   this.selectedTrackFiles.filter(
-    //     (_, index) => index !== this.dataPointToDelete
-    //   );
-
-    //   //take the removed obj and put the value in to a deletePointsArray for undo btn
-    //   const removedObj = this.selectedTrackFiles.splice(
-    //     this.dataPointToDelete,
-    //     1
-    //   );
-    //   const fileSize = removedObj.map((file) => file.fileSize);
-    //   this.deletedDataPoints?.push(fileSize.pop());
-
-    //   //get the updated files for series data
-    //   // this.selectedTrackFiles = this.selectedTrackFiles.map((file) => file.fileSize);
-    //   // this.updateChartData(this.fileSize);
-    //   // this.dataPointLength = this.fileSize.length;
-
-    //   this.dataPointToDelete = null;
-    //   this.disableUndo = false;
-    //}
+    if(!this.selectedDataPoint) return;
+    this.selectedDataPoint.classList.add('hide-node')
+    this.deletedDataPoints?.push(this.selectedDataPoint)
+    if((this.deletedDataPoints as number[]).length >= 1) {
+      this.disableUndo = false
+    }
   }
 
   onUndo() {
-    const lastValRemoved = this.deletedDataPoints?.pop();
-    const deletedArr = (this.deletedDataPoints as number[]).length;
-    // if (Number(lastValRemoved)) {
-    //   this.fileSize.push(Number(lastValRemoved));
-    //   if (deletedArr < 1) {
-    //     this.disableUndo = true;
-    //   }
-    // }
-    // this.updateChartData(this.fileSize);
-    // this.dataPointLength = this.fileSize.length;
+    const newUndoArray = this.deletedDataPoints
+    const undoVal = newUndoArray?.pop()
+    undoVal.classList.remove('hide-node')
+    this.deletedDataPoints = newUndoArray;
+    if((this.deletedDataPoints as number[]).length < 1) {
+      this.disableUndo = true
+    }
   }
 
   handleZoom(event: any) {
@@ -264,6 +231,13 @@ if(this.dataPointLength !== null)
     });
   }
 
+  practiceDelete() {
+    if(this.selectedDataPoint !== null) {
+    }
+  }
+
+  seriesIndexName: string = ''
+
   chartOptions: Partial<ChartOptions> | any = {
     series: this.series,
     chart: {
@@ -275,19 +249,23 @@ if(this.dataPointLength !== null)
       zoom: {
         enabled: false,
       },
+      active: {
+        allowMultipleDataPointsSelection: false,
+   },
       events: {
         dataPointSelection: (event: any, chartContext: any, config: any) => {
-          this.dataPointToDelete = this.selectedTrackFiles.findIndex(
-            (file) => file.fileSize === config?.dataPointIndex
-          );
+          this.selectedDataPoint = event.target
+          console.log(event, chartContext, config)
           //Change the color of selected data point
           const dataPoints = document.querySelectorAll('.apexcharts-marker');
           dataPoints.forEach((el) => {
             el.classList.remove('selected-data-point');
             el.classList.add('data-point-hover');
           });
-          console.log(dataPoints[config.dataPointIndex], "data point")
-          dataPoints[config.dataPointIndex].classList.add(
+          const seriesIndex = chartContext.w.globals.seriesNames[config.seriesIndex]
+          this.seriesIndexName = seriesIndex
+
+        this.selectedDataPoint.classList.add(
             'selected-data-point'
           );
         },
@@ -307,6 +285,16 @@ if(this.dataPointLength !== null)
     stroke: {
       width: 2,
       curve: 'smooth',
+    },
+    animation: {
+      enabled: false,
+      speed: 0,
+      animateGradually: {
+        enabled: false,
+      },
+      dynamicAnimation: {
+        enabled: false,
+      },
     },
     xaxis: {
       categories: this.labelsShown,
@@ -332,7 +320,6 @@ if(this.dataPointLength !== null)
       },
       theme: '',
       custom: ({ series, seriesIndex, dataPointIndex }: any) => {
-        console.log(series);
         return (
           '<div class="tooltip-box">' +
           '<span> DGS' +
