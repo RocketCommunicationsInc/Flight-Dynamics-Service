@@ -1,5 +1,9 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ScenariosActions, TrackFilesActions } from './app.actions';
+import {
+  ScenariosActions,
+  SpacecraftActions,
+  TrackFilesActions,
+} from './app.actions';
 import { exhaustMap, map } from 'rxjs';
 import { inject } from '@angular/core';
 import { MockDataService } from '../api/mock-data.service';
@@ -12,6 +16,21 @@ const loadScenarios = createEffect(
         return scenarioService.getScenarios().pipe(
           map((scenarios) => {
             return ScenariosActions.scenariosRetrieved({ scenarios });
+          })
+        );
+      })
+    ),
+  { functional: true }
+);
+
+const loadSpacecrafts = createEffect(
+  (spacecraftService = inject(MockDataService)) =>
+    inject(Actions).pipe(
+      ofType(SpacecraftActions.spacecraftsRequested),
+      exhaustMap(() => {
+        return spacecraftService.getSpacecrafts().pipe(
+          map((spacecrafts) => {
+            return SpacecraftActions.spacecraftsRetrieved({ spacecrafts });
           })
         );
       })
@@ -36,5 +55,6 @@ const loadTrackFiles = createEffect(
 
 export const AppEffects = {
   loadScenarios,
+  loadSpacecrafts,
   loadTrackFiles,
 };

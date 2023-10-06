@@ -1,7 +1,12 @@
+interface SpaceCraftIds {
+  id: string;
+  catalogId: string;
+}
+
 export type Scenario = {
   id: string;
   name: string;
-  spaceCraft: Spacecraft[];
+  spaceCraftIds: SpaceCraftIds[];
 };
 
 export type ScenarioEntity = {
@@ -55,7 +60,7 @@ export type TrackFile = {
   processedTrackFile: ProcessedTrackFile | null;
   initialOrbitProperties: OrbitProperties;
   //!Todo: this is a temp data holder until we decide what 'edit track file' is supposed to do
-  comment?: string
+  comment?: string;
 };
 
 export type TrackFileEntity = {

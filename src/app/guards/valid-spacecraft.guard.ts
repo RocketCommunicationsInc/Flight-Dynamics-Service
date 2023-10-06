@@ -13,7 +13,7 @@ export const validSpacecraftGuard: CanActivateFn = (route, state) => {
   const getRoutes = (scenarios: Scenario[]) => {
     let routes: string[] = [];
     scenarios.map((scenario) => {
-      scenario.spaceCraft.map((craft) => {
+      scenario.spaceCraftIds.map((craft) => {
         routes.push(
           `${scenario.name.trim().replace(/\s/g, '-')}-${craft.catalogId
             .trim()
