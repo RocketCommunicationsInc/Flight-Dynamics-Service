@@ -11,21 +11,27 @@ import { TrackFile } from 'src/app/types/data.types';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
-import { TrackFilesTableService } from '../track-files-table.service';
+import { TrackData, TrackFilesDataUtilityService } from '../track-files-data.service';
+import { TableService } from 'src/app/shared/table.service';
 
 @Component({
   selector: 'fds-track-files',
   standalone: true,
   imports: [CommonModule, AstroComponentsModule, FormsModule],
-  providers: [TrackFilesTableService],
+  providers: [TableService],
   templateUrl: './track-files.component.html',
   styleUrls: ['./track-files.component.css'],
 })
 export class TrackFilesComponent {
+
+  sharedData = this.trackFilesService.get()
+
   trackFiles$ = this.store.select(selectCurrentSpaceCraftTrackFiles);
   selectedTrackFile$ = this.store.select(selectCurrentTrackFile);
   trackFiles: TrackFile[] = [];
   selectedTrackFile: TrackFile | null = null;
+
+  selectedIds: string[] = []
 
   //editing
   editedContent: string = '';
@@ -46,24 +52,39 @@ export class TrackFilesComponent {
 
   constructor(
     private store: Store,
-    public trackFilesTableService: TrackFilesTableService
+    public trackFilesService: TrackFilesDataUtilityService,
+    public tableService: TableService<any>
   ) {}
 
-  getTrackFileData() {
-    const data = [...this.trackFiles];
-    this.trackFilesTableService.updateTableData(data);
-  }
-
   ngOnInit() {
-    this.getTrackFileData()
     this.trackFiles$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => (this.trackFiles = res || []));
     this.selectedTrackFile$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => (this.selectedTrackFile = res));
-    this.trackFilesTableService.initialize(this.trackFiles, this.columnDefs);
-    this.trackFilesTableService.selectAll();
+
+    this.tableService.init({
+      columnDefs: this.columnDefs,
+      data: this.trackFilesService.makeTrackData(this.trackFiles)
+    });
+    this.selectAll();
+    this.setFiles(this.trackFiles)
+  }
+
+
+  setFiles(data:TrackFile[]):void {
+   this.trackFilesService.set(data)
+  }
+
+  selectAll(): void {
+    this.tableService.data = this.tableService.data.map((row) => ({...row, selected: true}))
+
+  }
+
+  selectFiltered(event: Event){
+    const isChecked = (event.target as HTMLRuxCheckboxElement).checked;
+    this.tableService.data = this.tableService.data.map(row => !row.filtered ? {...row, selected: isChecked} : row)
   }
 
   ngOnDestroy() {
@@ -72,7 +93,37 @@ export class TrackFilesComponent {
   }
 
   onSelect(event: any) {
-    this.trackFilesTableService.filter(event.target.value);
+    this.filter(event.target.value);
+  }
+
+  filter(selection: string): void {
+    const today = new Date();
+    const within7Days = new Date();
+    const within30Days = new Date();
+    const within90Days = new Date();
+    within7Days.setDate(today.getDate() - 7);
+    within30Days.setDate(today.getDate() - 30);
+    within90Days.setDate(today.getDate() - 90);
+
+    let newData = [...this.tableService.data]
+
+    if (selection === 'all') {
+      newData = this.tableService.data.map(row => ({...row, filtered: false}))
+    }
+
+    if (selection === 'seven-days') {
+      newData = this.tableService.data.map((row) => row.creationDate >= within7Days ? {...row, filtered: false} : {...row, filtered: true});
+    }
+
+    if (selection === 'thirty-days') {
+      newData = this.tableService.data.map((row) => row.creationDate >= within30Days ? {...row, filtered: false} : {...row, filtered: true});
+    }
+
+    if (selection === 'ninety-days') {
+      newData = this.tableService.data.map((row) => row.creationDate >= within90Days ? {...row, filtered: false} : {...row, filtered: true});
+    }
+
+    this.tableService.data = newData
   }
 
   onRowClick(event: Event, id: string) {

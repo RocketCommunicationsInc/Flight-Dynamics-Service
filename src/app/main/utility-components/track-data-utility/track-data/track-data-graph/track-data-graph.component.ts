@@ -26,7 +26,6 @@ import { Store } from '@ngrx/store';
 import { selectCurrentSpaceCraftTrackFiles } from 'src/app/+state/app.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TrackFile } from 'src/app/types/data.types';
-import { TrackFilesTableService } from '../../track-files-table.service';
 
 type ChartOptions = {
   series: ApexAxisChartSeries | any;
@@ -57,7 +56,6 @@ type ChartDataItem = {
   ],
   templateUrl: './track-data-graph.component.html',
   styleUrls: ['./track-data-graph.component.css'],
-  providers: [TrackFilesTableService],
 })
 export class TrackDataGraphComponent {
   @ViewChild(ChartComponent) chart?: ChartComponent;
@@ -110,8 +108,7 @@ export class TrackDataGraphComponent {
   destroyed = new Subject();
 
   constructor(
-    private store: Store,
-    public trackFilesTableService: TrackFilesTableService
+    private store: Store
   ) {
     this.selectedTrackFiles$
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -127,8 +124,6 @@ export class TrackDataGraphComponent {
       return Number(firstDate) - Number(lastDate);
     });
   }
-
-  tableTrackFiles: TrackFile[] = [];
 
   ngOnInit() {
     this.orderByDate(this.selectedTrackFiles);

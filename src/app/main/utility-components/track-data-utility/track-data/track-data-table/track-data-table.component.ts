@@ -8,7 +8,9 @@ import { Store } from '@ngrx/store';
 import { selectCurrentSpaceCraftTrackFiles } from 'src/app/+state/app.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TrackFile } from 'src/app/types/data.types';
-import { TrackFilesTableService } from '../../track-files-table.service';
+import { TrackFilesDataUtilityService } from '../../track-files-data.service';
+import { TableService } from 'src/app/shared/table.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -20,13 +22,14 @@ import { TrackFilesTableService } from '../../track-files-table.service';
     SitesComponent,
     SettingsComponent,
   ],
+  providers: [TableService],
   templateUrl: './track-data-table.component.html',
   styleUrls: ['./track-data-table.component.css'],
 })
 export class TrackDataTableComponent {
 
-  selectedTrackFiles$ = this.store.select(selectCurrentSpaceCraftTrackFiles)
-  selectedTrackFiles: TrackFile[] = []
+  sharedData$ = this.trackFilesService.get()
+  sharedData: any[] = []
 
   //table variables
   columnDefs = [
@@ -39,14 +42,19 @@ export class TrackDataTableComponent {
   destroyRef = inject(DestroyRef)
   destroyed = new Subject();
 
-  constructor(private store: Store, public trackFilesTableService: TrackFilesTableService){
-    this.selectedTrackFiles$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
-      this.selectedTrackFiles = res || []
-    })
+  constructor(public trackFilesService: TrackFilesDataUtilityService, public tableService: TableService<any>){
   }
 
   ngOnInit(){
-    this.trackFilesTableService.initialize(this.selectedTrackFiles, this.columnDefs);
+    this.sharedData$.subscribe(res => {
+      console.log(res)
+      this.sharedData = res})
+    this.getFiles()
+    console.log(this.sharedData)
+
+  }
+  getFiles(){
+    this.tableService.init({data: this.sharedData, columnDefs: this.columnDefs});
   }
 
   ngOnDestroy(){

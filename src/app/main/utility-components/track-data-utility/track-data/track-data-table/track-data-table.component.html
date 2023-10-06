@@ -1,16 +1,17 @@
 <div class="table-wrapper">
+  <div>{{ sharedData$ | async | json }}</div>
   <table>
     <thead>
       <tr>
         <th
-          *ngFor="let col of trackFilesTableService.columns"
+          *ngFor="let col of tableService.columns"
           [ngClass]="{ sortable: col.sortable }"
           [attr.type]="col.type"
         >
           <div
             [ngClass]="{ active: col.sorted }"
             class="h-stack"
-            (click)="trackFilesTableService.sort(col)"
+            (click)="tableService.sort(col)"
           >
             {{ col.header }}
             <rux-icon *ngIf="col.sortable" [icon]="col.icon" size="small" />
@@ -19,10 +20,10 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let row of trackFilesTableService.data">
+      <ng-container *ngFor="let row of tableService.data">
         <tr *ngIf="!row.filtered">
           <td
-            *ngFor="let col of trackFilesTableService.columns"
+            *ngFor="let col of tableService.columns"
             [ngSwitch]="col.field"
             [attr.type]="col.type"
             [ngClass]="{ sortable: col.sortable }"
