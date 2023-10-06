@@ -78,3 +78,7 @@ footer {
 :host ::ng-deep .selected-data-point {
   fill: var(--color-data-visualization-1);
 }
+
+:host ::ng-deep .hidden-data-point {
+  fill: transparent;
+}

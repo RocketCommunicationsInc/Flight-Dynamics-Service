@@ -78,6 +78,7 @@ export class TrackDataGraphComponent {
       type: 'scatter',
       color: 'var(--color-data-visualization-2)',
       visible: true,
+      markerSize: 6,
     },
     {
       name: 'El',
@@ -85,6 +86,7 @@ export class TrackDataGraphComponent {
       type: 'scatter',
       color: 'var(--color-data-visualization-6)',
       visible: true,
+      markerSize: 6,
     },
     {
       name: 'Slope',
@@ -92,6 +94,7 @@ export class TrackDataGraphComponent {
       type: 'line',
       color: 'var(--color-data-visualization-3)',
       visible: true,
+      markerSize: 0,
     },
   ];
 
@@ -192,61 +195,45 @@ export class TrackDataGraphComponent {
 
   selectedFilters: string[] = [];
 
-  // toggleSeries(event: Event) {
-  //   this.chart?.toggleSeries((event.target as HTMLRuxCheckboxElement).value);
-  //   //this.chart?.updateOptions({chart: {redrawOnParentResize: true}})
-  // }
-
-  updateMarkerSize() {
-    this.series.forEach((series: any) => {
-      if (series.name === 'Az' || series.name === 'El') {
-        this.chart?.updateOptions({
-          markers: {
-            size: 6,
-          },
-        });
-      }
-      if (series.name === 'Slope') {
-        this.chart?.updateOptions({
-          markers: {
-            size: 0,
-          },
-        });
-      }
-    });
-  }
-
   toggleData(index: number) {
     const series = this.series[index];
     series.visible = !series.visible;
 
-    const updatedSeries = this.series.filter((data: any) => data.visible);
+    let markers: number[] = [];
+
+    const updatedSeries = this.series.filter((data: any) => {
+      if (data.visible) markers.push(data.markerSize);
+      return data.visible;
+    });
     this.chart?.updateSeries(updatedSeries);
-    //this.updateMarkerSize();
+    this.chart?.updateOptions({ markers: { size: [...markers] } });
   }
 
   onDelete() {
-    if (this.dataPointToDelete !== null) {
-      this.selectedTrackFiles.filter(
-        (_, index) => index !== this.dataPointToDelete
-      );
+    const dataPoints = document.querySelectorAll('.apexcharts-marker');
+if(this.dataPointLength !== null)
+    console.log()
+    // if (this.dataPointToDelete !== null) {
+    //   this.selectedTrackFiles.filter(
+    //     (_, index) => index !== this.dataPointToDelete
+    //   );
 
-      //take the removed obj and put the value in to a deletePointsArray for undo btn
-      const removedObj = this.selectedTrackFiles.splice(
-        this.dataPointToDelete,
-        1
-      );
-      const fileSize = removedObj.map((file) => file.fileSize);
-      this.deletedDataPoints?.push(fileSize.pop());
+    //   //take the removed obj and put the value in to a deletePointsArray for undo btn
+    //   const removedObj = this.selectedTrackFiles.splice(
+    //     this.dataPointToDelete,
+    //     1
+    //   );
+    //   const fileSize = removedObj.map((file) => file.fileSize);
+    //   this.deletedDataPoints?.push(fileSize.pop());
 
-      //get the updated files for series data
-      // this.selectedTrackFiles = this.selectedTrackFiles.map((file) => file.fileSize);
-      // this.updateChartData(this.fileSize);
-      // this.dataPointLength = this.fileSize.length;
+    //   //get the updated files for series data
+    //   // this.selectedTrackFiles = this.selectedTrackFiles.map((file) => file.fileSize);
+    //   // this.updateChartData(this.fileSize);
+    //   // this.dataPointLength = this.fileSize.length;
 
-      this.dataPointToDelete = null;
-      this.disableUndo = false;
-    }
+    //   this.dataPointToDelete = null;
+    //   this.disableUndo = false;
+    //}
   }
 
   onUndo() {
@@ -299,6 +286,7 @@ export class TrackDataGraphComponent {
             el.classList.remove('selected-data-point');
             el.classList.add('data-point-hover');
           });
+          console.log(dataPoints[config.dataPointIndex], "data point")
           dataPoints[config.dataPointIndex].classList.add(
             'selected-data-point'
           );
