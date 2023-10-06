@@ -19,7 +19,6 @@ import { ViewModelComponent } from './view-model/view-model.component';
 })
 export class ViewOrbitComponent {
   toggleControls() {
-    console.log('showControls');
     this.showControlsPanel = !this.showControlsPanel;
   }
 
