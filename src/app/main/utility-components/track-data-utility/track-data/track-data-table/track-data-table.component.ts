@@ -4,13 +4,9 @@ import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { SitesComponent } from '../sites/sites.component';
 import { SettingsComponent } from '../settings/settings.component';
-import { Store } from '@ngrx/store';
-import { selectCurrentSpaceCraftTrackFiles } from 'src/app/+state/app.selectors';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TrackFile } from 'src/app/types/data.types';
 import { TrackFilesDataUtilityService } from '../../track-files-data.service';
 import { TableService } from 'src/app/shared/table.service';
-import { Observable } from 'rxjs';
 
 
 @Component({
