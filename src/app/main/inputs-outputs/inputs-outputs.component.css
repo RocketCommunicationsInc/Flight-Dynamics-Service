@@ -11,3 +11,14 @@ rux-tab-panel {
 rux-container {
   --body-padding: 0;
 }
+
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-2);
+}
+
+.footer rux-button {
+  width: 20rem;
+}
+
