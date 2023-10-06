@@ -68,3 +68,10 @@ export const selectCurrentSpaceCraftTrackFiles = createSelector(
     return spacecraftAllTrackFiles;
   }
 );
+
+export const selectCurrentTrackFileEphemerisData = createSelector(
+  selectCurrentTrackFile,
+  (TrackFile): { [key: string]: number } | null => {
+    return TrackFile!.ephemerisSourceFile.satCords;
+  }
+);
