@@ -11,16 +11,43 @@
       "prefix": "fds",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser-esbuild",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "outputPath": "dist/flight-dynamics",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
-            "scripts": ["node_modules/apexcharts/dist/apexcharts.min.js"]
+            "allowedCommonJsDependencies": [
+              "nosleep.js",
+              "apexcharts",
+              "grapheme-splitter",
+              "bitmap-sdf",
+              "rbush",
+              "earcut",
+              "mersenne-twister",
+              "urijs",
+              "protobufjs/dist/minimal/protobuf.js",
+              "dompurify"
+            ],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/cesium/Build/Cesium",
+                "output": "assets/cesium"
+              }
+            ],
+            "styles": [
+              "src/styles.css",
+              "node_modules/cesium/Build/Cesium/Widgets/widgets.css"
+            ],
+            "scripts": [
+              "node_modules/apexcharts/dist/apexcharts.min.js",
+              "node_modules/cesium/Build/Cesium/Cesium.js"
+            ],
+            "customWebpackConfig": { "path": "./custom-webpack.config.js" }
           },
           "configurations": {
             "production": {
@@ -28,7 +55,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "15mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -48,7 +75,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "configurations": {
             "production": {
               "browserTarget": "flight-dynamics:build:production"

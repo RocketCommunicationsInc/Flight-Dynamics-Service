@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import {
   ScenariosActions,
   SpacecraftActions,
@@ -10,12 +10,15 @@ import {
 import {
   selectAllScenarios,
   selectSelectedSpacecraftId,
+  selectSpacecraftEntities,
 } from '../../+state/app.selectors';
 import { ToastService } from '../../shared/toast.service';
 import { Scenario, Spacecraft } from '../../types/data.types';
 import { Router } from '@angular/router';
 import { AppStore } from 'src/app/+state/app.model';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { Dictionary } from '@ngrx/entity';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   standalone: true,
   selector: 'fds-scenario-library',
@@ -28,6 +31,10 @@ export class ScenarioLibraryComponent {
     selectSelectedSpacecraftId
   );
   scenarios$: Observable<Scenario[]> = this.store.select(selectAllScenarios);
+  spacecrafts: Dictionary<Spacecraft> | null | undefined;
+  spacecrafts$: Subscription = this.store
+    .pipe(takeUntilDestroyed(), select(selectSpacecraftEntities))
+    .subscribe((result) => (this.spacecrafts = result));
 
   constructor(
     private toasts: ToastService,
@@ -41,29 +48,23 @@ export class ScenarioLibraryComponent {
     scenario.setExpanded(!scenario.expanded);
   }
 
-  onSpacecraftSelected(spacecraft: Spacecraft, scenario: Scenario) {
+  onSpacecraftSelected(spacecraftId: string, scenario: Scenario) {
     this.store.dispatch(
-      SpacecraftActions.spacecraftIdSelected({ spacecraftId: spacecraft.id })
+      SpacecraftActions.spacecraftIdSelected({ spacecraftId: spacecraftId })
     );
     this.store.dispatch(
       ScenariosActions.scenarioSelected({ scenarioId: scenario.id })
     );
     this.store.dispatch(
       TrackFilesActions.trackFileSelected({
-        trackFileId: spacecraft.trackFileIds[0],
-      })
-    );
-
-    this.store.dispatch(
-      TrackFilesActions.trackFileSelected({
-        trackFileId: spacecraft.trackFileIds[0],
+        trackFileId: this.spacecrafts![spacecraftId]!.trackFileIds[0],
       })
     );
 
     this.router.navigateByUrl(
-      `${scenario.name.trim().replace(/\s/g, '-')}-${spacecraft.catalogId
-        .trim()
-        .replace(/\s/g, '-')}` || ''
+      `${scenario.name.trim().replace(/\s/g, '-')}-${this.spacecrafts![
+        spacecraftId
+      ]!.catalogId.trim().replace(/\s/g, '-')}` || ''
     );
   }
 
@@ -81,4 +82,9 @@ export class ScenarioLibraryComponent {
       closeAfter: 3000,
     });
   }
+}
+function selectAllSpacecraftEntities(
+  selectAllSpacecraftEntities: any
+): Observable<Spacecraft[]> {
+  throw new Error('Function not implemented.');
 }

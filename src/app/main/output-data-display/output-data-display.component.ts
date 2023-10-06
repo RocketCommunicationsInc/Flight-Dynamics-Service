@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import type { Tabs } from 'src/app/types/Tabs';
@@ -89,24 +89,25 @@ export class OutputDataDisplayComponent implements OnInit {
     this.showTable = false;
   }
 
+  @ViewChild('cumulative') cumulative?: ElementRef;
+  @ViewChild('pass1') pass1?: ElementRef;
+  @ViewChild('pass2') pass2?: ElementRef;
+  @ViewChild('pass3') pass3?: ElementRef;
+
   handleAntennaSelect(event: any) {
     const target = event.target.value;
-    const cumulative = document?.getElementById('cumulative');
-    const pass1 = document?.getElementById('pass1');
-    const pass2 = document?.getElementById('pass2');
-    const pass3 = document?.getElementById('pass3');
 
-    if (target === 'cumulative' && cumulative) {
-      cumulative.scrollIntoView({ behavior: 'smooth' });
+    if (target === 'cumulative' && this.cumulative) {
+      this.cumulative.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }
-    if (target === 'pass1' && pass1) {
-      pass1.scrollIntoView({ behavior: 'smooth' });
+    if (target === 'pass1' && this.pass1) {
+      this.pass1.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }
-    if (target === 'pass2' && pass2) {
-      pass2.scrollIntoView({ behavior: 'smooth' });
+    if (target === 'pass2' && this.pass2) {
+      this.pass2.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }
-    if (target === 'pass3' && pass3) {
-      pass3.scrollIntoView({ behavior: 'smooth' });
+    if (target === 'pass3' && this.pass3) {
+      this.pass3.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }
   }
 }
