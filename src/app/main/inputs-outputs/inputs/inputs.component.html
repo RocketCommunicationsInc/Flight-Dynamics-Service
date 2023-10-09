@@ -1,45 +1,13 @@
 <form class="inputs_form" [formGroup]="inputForm" (ngSubmit)="onSubmit()">
   <div class="inputs_main">
-    <rux-pop-up placement="bottom" close-on-select #popup>
-      <rux-input
-        slot="trigger"
-        type="search"
-        label="Database File"
-        formControlName="databaseFile"
-        (ruxinput)="handleInput($event)"
+    <rux-select (ruxchange)="handleSelect($event)" label="Database File">
+      <rux-option
+        *ngFor="let trackfile of trackfiles$ | async"
+        [label]="trackfile.name"
+        [value]="trackfile.id"
       />
-      <rux-menu *ngIf="!hasValue" (ruxmenuselected)="handleSelect($event)">
-        <span>Latest Track File</span>
-        <ng-container
-          *ngFor="let trackfile of trackfiles$ | async; let latestFile = first"
-        >
-          <rux-menu-item
-            *ngIf="latestFile"
-            [attr.data-id]="trackfile.id"
-            value="{{ trackfile.name }}"
-            >{{ trackfile.name }}</rux-menu-item
-          >
+    </rux-select>
 
-          <rux-menu-item-divider *ngIf="latestFile" />
-          <span *ngIf="latestFile">Recent Track Files</span>
-          <div #recentFiles>
-            <rux-menu-item *ngIf="recentFiles" [attr.data-id]="trackfile.id">{{
-              trackfile.name
-            }}</rux-menu-item>
-          </div>
-        </ng-container>
-      </rux-menu>
-
-      <rux-menu *ngIf="hasValue" (ruxmenuselected)="handleSelect($event)">
-        <span>Results</span>
-        <rux-menu-item [attr.data-id]="file.id" *ngFor="let file of results">{{
-          file.name
-        }}</rux-menu-item>
-        <div *ngIf="noResults" class="no-results">
-          No results match the given search parameters.
-        </div>
-      </rux-menu>
-    </rux-pop-up>
     <rux-input label="Orbit Source" formControlName="orbitSource" />
     <rux-input
       label="Epoch"
@@ -63,7 +31,7 @@
     />
   </div>
   <div class="inputs_footer">
-    <rux-button [disabled]="isDisabled" (click)="handleBanner()" type="submit"
+    <rux-button (click)="handleBanner()" type="submit"
       >Determine Orbit</rux-button
     >
   </div>

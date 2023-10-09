@@ -10,13 +10,13 @@
       [attr.expanded]="scenario === (scenarios$ | async )![0]"
     >
       {{ scenario?.name }}
-      <ng-container *ngFor="let spacecraft of scenario?.spaceCraft">
+      <ng-container *ngFor="let spacecraftId of scenario?.spaceCraftIds">
         <rux-tree-node
           slot="node"
-          (ruxtreenodeselected)="onSpacecraftSelected(spacecraft, scenario!)"
-          [selected]="(selectedSpacecraftId$ | async) === spacecraft.id"
+          (ruxtreenodeselected)="onSpacecraftSelected(spacecraftId.id, scenario!)"
+          [selected]="(selectedSpacecraftId$ | async) === spacecraftId.id"
         >
-          {{ spacecraft.catalogId }}
+          {{ spacecraftId.catalogId }}
         </rux-tree-node>
       </ng-container>
     </rux-tree-node>

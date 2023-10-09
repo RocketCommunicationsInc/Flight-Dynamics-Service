@@ -2,17 +2,25 @@
   height: inherit;
 }
 
+.table-wrapper th[type='number'] .h-stack {
+  justify-content: flex-start;
+}
+
+.table-wrapper td {
+  text-align: left;
+}
+
 .status-wrapper {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .status-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  /* TODO: width may need adjusment once elevation sizes are known
-  * this sets how close the staus symbol is to the value in the cell
-  */
-  width: 6rem;
+  justify-content: flex-start;
+}
+
+.status-container rux-status {
+  margin-left: var(--spacing-2);
 }
