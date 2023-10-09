@@ -4,7 +4,7 @@ import { AstroComponentsModule } from '@astrouxds/angular';
 import { Tabs } from 'src/app/types/Tabs';
 import { InputsComponent } from './inputs/inputs.component';
 import { OutputsComponent } from './outputs/outputs.component';
-
+import { OutputDataDisplayService } from '../output-data-display/output-data-display.service';
 
 @Component({
   selector: 'fds-inputs-outputs',
@@ -24,4 +24,10 @@ export class InputsOutputsComponent {
     { label: 'Inputs', id: 'inputs-tab', selected: true },
     { label: 'Outputs', id: 'outputs-tab', selected: false },
   ];
+
+  constructor(private bannerService: OutputDataDisplayService) {}
+
+  handleBanner() {
+    this.bannerService.handleBanner();
+  }
 }

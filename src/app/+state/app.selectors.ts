@@ -1,6 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { Spacecraft, SpacecraftEntity, TrackFile } from '../types/data.types';
-import { ScenariosState } from './app.model';
+import { TrackFile } from '../types/data.types';
 import {
   scenarioAdapter,
   spacecraftAdapter,
