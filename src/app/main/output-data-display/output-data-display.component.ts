@@ -8,6 +8,7 @@ import { OutputDataDisplayService } from './output-data-display.service';
 import { CurrentView } from './output-data-display.model';
 import { PerformanceTableComponent } from './performance-table/performance-table.component';
 import { ToastService } from 'src/app/shared/toast.service';
+import { LogDataService } from 'src/app/shared/event-log.service';
 
 @Component({
   selector: 'fds-output-data-display',
@@ -47,6 +48,7 @@ export class OutputDataDisplayComponent implements OnInit {
   constructor(
     public outputDataDisplayService: OutputDataDisplayService,
     private toasts: ToastService,
+    private logData: LogDataService,
     private bannerService: OutputDataDisplayService
   ) {}
 
@@ -56,6 +58,12 @@ export class OutputDataDisplayComponent implements OnInit {
       hideClose: false,
       closeAfter: 3000,
     });
+
+    this.logData.addEvent({
+      timestamp: new Date(),
+      status: 'standby',
+      message: 'TLE created',
+    });
   }
 
   handleEphemeris() {
@@ -63,6 +71,12 @@ export class OutputDataDisplayComponent implements OnInit {
       message: 'Ephemeris Created',
       hideClose: false,
       closeAfter: 3000,
+    });
+
+    this.logData.addEvent({
+      timestamp: new Date(),
+      status: 'standby',
+      message: 'Ephemeris created',
     });
   }
 

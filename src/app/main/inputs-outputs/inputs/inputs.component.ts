@@ -23,6 +23,7 @@ import {
 import { MockDataService } from 'src/app/api/mock-data.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OutputDataDisplayService } from '../../output-data-display/output-data-display.service';
+import { LogDataService } from 'src/app/shared/event-log.service';
 
 @Component({
   selector: 'fds-inputs',
@@ -97,28 +98,9 @@ export class InputsComponent {
   constructor(
     private store: Store<AppStore>,
     private ProcessTrackFileService: MockDataService,
-    private bannerService: OutputDataDisplayService
+    private bannerService: OutputDataDisplayService,
+    private logData: LogDataService
   ) {}
-
-  sendLogData(data: LogData) {
-    // this.store.dispatch(
-    //   SpacecraftActions.spacecraftEventAdded({
-    //     scenarioId: this.currentScenarioId!,
-    //     spacecraftId: this.currentTrackFile!.spaceCraftRefId,
-    //     event: data,
-    //   })
-    // );
-
-    this.store.dispatch(
-      SpacecraftActions.spacecraftModified({
-        spacecraftId: this.currentTrackFile!.spaceCraftRefId,
-        updatedSpacecraft: {
-          ...this.spacecraft!,
-          eventData: [...this.spacecraft!.eventData, ...[data]],
-        },
-      })
-    );
-  }
 
   handleBanner() {
     this.bannerService.handleBanner();
@@ -131,13 +113,16 @@ export class InputsComponent {
     )),
       //Dispatch processed trackfile as a property of the current trackfile, back into state
       this.store.dispatch(
-        TrackFilesActions.trackFileProcessed({
-          trackFileId: this.processedTrackFile.trackFileRefId!,
-          processedTrackFile: this.processedTrackFile,
+        TrackFilesActions.trackFileModified({
+          trackFileId: this.currentTrackFile!.id,
+          updatedTrackFile: {
+            ...this.currentTrackFile!,
+            processedTrackFile: this.processedTrackFile,
+          },
         })
       );
 
-    this.sendLogData({
+    this.logData.addEvent({
       timestamp: new Date(),
       status: 'normal',
       message: `Processed trackfile created from ${this.currentTrackFile?.name}`,

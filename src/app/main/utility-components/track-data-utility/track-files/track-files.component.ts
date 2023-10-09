@@ -15,6 +15,7 @@ import {
 import { TrackFilesTableService } from '../track-files-table.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
+import { LogDataService } from 'src/app/shared/event-log.service';
 
 @Component({
   selector: 'fds-track-files',
@@ -40,10 +41,9 @@ export class TrackFilesComponent {
 
   constructor(
     private store: Store,
-    public trackFilesTableService: TrackFilesTableService
-  ) {}
-
-  ngOnInit() {
+    public trackFilesTableService: TrackFilesTableService,
+    private logData: LogDataService
+  ) {
     this.trackFiles$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => (this.trackFiles = res || []));
@@ -91,6 +91,12 @@ export class TrackFilesComponent {
           },
         })
       );
+
+      this.logData.addEvent({
+        timestamp: new Date(),
+        status: 'normal',
+        message: `${this.selectedTrackFile.name} edited.`,
+      });
     }
     this.editedContent = '';
     this.editTrackFile = false;

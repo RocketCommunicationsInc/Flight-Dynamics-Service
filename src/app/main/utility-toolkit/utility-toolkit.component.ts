@@ -6,8 +6,9 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
 import { ToastService } from 'src/app/shared/toast.service';
-import { SpacecraftActions } from 'src/app/+state/app.actions';
-import { LogData, Spacecraft } from 'src/app/types/data.types';
+import { Spacecraft } from 'src/app/types/data.types';
+import { LogDataService } from 'src/app/shared/event-log.service';
+import { Observable } from 'rxjs';
 
 const upperCaseFirstLetter = (word: string) => {
   return word.charAt(0).toUpperCase() + word.slice(1);
@@ -28,18 +29,17 @@ interface Utility {
 })
 export class UtilityToolkitComponent {
   @Input({ required: true }) currentToolkitPath: undefined | string;
-  spacecraft: Spacecraft | null | undefined;
-  spacecraft$ = this.store.select(selectCurrentSpacecraft);
-  spacecraftSub = this.spacecraft$.subscribe((result) => {
-    this.spacecraft = result;
-  });
+  spacecraft$: Observable<Spacecraft | null | undefined> = this.store.select(
+    selectCurrentSpacecraft
+  );
   isConfirmCloseOpen = false;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private store: Store,
-    private toast: ToastService
+    private toast: ToastService,
+    private logData: LogDataService
   ) {}
 
   utilities: Utility[] = [
@@ -80,36 +80,11 @@ export class UtilityToolkitComponent {
   }
 
   createReport() {
-    // this.store.dispatch(
-    //   SpacecraftActions.spacecraftEventAdded({
-    //     scenarioId: this.scenarioId!,
-    //     spacecraftId: this.spacecraftId!,
-    //     event: {
-    //       timestamp: new Date(),
-    //       status: 'standby',
-    //       message: 'Report generated.',
-    //     },
-    //   })
-    // );
-
-    this.store.dispatch(
-      SpacecraftActions.spacecraftModified({
-        spacecraftId: this.spacecraft!.id,
-        updatedSpacecraft: {
-          ...this.spacecraft!,
-          eventData: [
-            ...this.spacecraft!.eventData,
-            ...[
-              {
-                timestamp: new Date(),
-                status: 'standby',
-                message: 'Report generated.',
-              },
-            ],
-          ],
-        },
-      })
-    );
+    this.logData.addEvent({
+      timestamp: new Date(),
+      status: 'standby',
+      message: 'Report generated.',
+    });
 
     this.toast.addToast({
       message: 'Report Created',

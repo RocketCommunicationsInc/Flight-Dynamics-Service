@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { LogData, Spacecraft } from 'src/app/types/data.types';
 import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
 import { Store } from '@ngrx/store';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -20,8 +21,9 @@ export class LogUtilityComponent {
   );
   logData: LogData[] | undefined = [];
 
-  spacecraft = this.spacecraft$.subscribe((result) => {
-    this.logData = result?.eventData;
-  });
-  constructor(private store: Store) {}
+  constructor(private store: Store) {
+    this.spacecraft$.pipe(takeUntilDestroyed()).subscribe((result) => {
+      this.logData = result?.eventData;
+    });
+  }
 }
