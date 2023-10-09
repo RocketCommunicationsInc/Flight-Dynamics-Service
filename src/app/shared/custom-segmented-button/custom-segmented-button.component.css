@@ -54,5 +54,6 @@ button.active {
   }
   &:hover {
     border-color: var(--color-background-interactive-hover, #92cbff);
+    background-color: var(--color-background-surface-selected, #1c3f5e);
   }
 }
