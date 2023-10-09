@@ -24,36 +24,20 @@
 
     <div *ngIf="showGraph" class="button-wrapper">
       <rux-button
-        *ngIf="!isSitesDrawerOpen"
         size="small"
         secondary
+        (click)="toggleSitesDrawer()"
+        [icon]="isSitesDrawerOpen ? 'keyboard-backspace' : null"
         [disabled]="isSettingsDrawerOpen"
-        (click)="toggleSitesDrawer()"
-        >Sites</rux-button
+        >{{ !isSitesDrawerOpen ? 'Sites' : 'Close' }}</rux-button
       >
       <rux-button
-        *ngIf="isSitesDrawerOpen"
         size="small"
         secondary
-        (click)="toggleSitesDrawer()"
-        icon="keyboard-backspace"
-        >Close</rux-button
-      >
-      <rux-button
-        *ngIf="!isSettingsDrawerOpen"
-        size="small"
-        secondary
+        (click)="toggleSettingsDrawer()"
+        [icon]="isSettingsDrawerOpen ? 'keyboard-backspace' : null"
         [disabled]="isSitesDrawerOpen"
-        (click)="toggleSettingsDrawer()"
-        >Settings</rux-button
-      >
-      <rux-button
-        *ngIf="isSettingsDrawerOpen"
-        size="small"
-        secondary
-        (click)="toggleSettingsDrawer()"
-        icon="keyboard-backspace"
-        >Close</rux-button
+        >{{ !isSettingsDrawerOpen ? 'Settings' : 'Close' }}</rux-button
       >
     </div>
   </header>

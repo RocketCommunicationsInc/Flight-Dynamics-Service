@@ -10,3 +10,10 @@ header {
   justify-content: space-between;
   padding-inline: var(--spacing-4);
 }
+
+.button-wrapper {
+  display: flex;
+  & rux-button {
+    width: var(--spacing-24);
+  }
+}

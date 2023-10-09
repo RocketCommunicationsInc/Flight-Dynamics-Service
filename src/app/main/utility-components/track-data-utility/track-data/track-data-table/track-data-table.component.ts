@@ -38,8 +38,7 @@ export class TrackDataTableComponent {
   destroyRef = inject(DestroyRef)
   destroyed = new Subject();
 
-  constructor(public trackFilesService: TrackFilesDataUtilityService, public tableService: TableService<any>){
-  }
+  constructor(public trackFilesService: TrackFilesDataUtilityService, public tableService: TableService<any>){}
 
   ngOnInit(){
     this.sharedTableData$.subscribe(res => {

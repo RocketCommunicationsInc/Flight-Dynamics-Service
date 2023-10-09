@@ -75,7 +75,8 @@ export function getChartOptions(events: {}, custom: {}, labelsShown: string[]): 
 
   return ({
     chart:{
-      height: 425,
+      width: '100%',
+      height: '100%',
       type: 'line' as ChartType,
       toolbar: {
         show: false,

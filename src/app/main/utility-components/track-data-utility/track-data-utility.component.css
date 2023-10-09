@@ -10,18 +10,11 @@
   grid-template-rows: min-content auto;
 }
 
-.header-and-tabs {
+rux-tabs {
   grid-area: header;
 }
 
-.header-and-tabs > header {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-2);
-  padding: var(--spacing-2) var(--spacing-1);
-}
-
-.header-and-tabs + * {
+rux-tabs + * {
   grid-area: container;
   overflow: hidden;
 }
