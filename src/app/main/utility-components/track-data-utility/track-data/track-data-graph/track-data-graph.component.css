@@ -5,20 +5,22 @@
   display: grid;
   grid-template-areas:
     'tool-bar'
-    'container';
+    'chart'
+    'footer';
   grid-template-columns: 1fr;
-  grid-template-rows: max-content auto;
+  grid-template-rows: max-content auto max-content;
 }
 
 .chart-wrapper {
-  grid-area: container;
+  grid-area: chart;
   position: relative;
   height: 100%;
+  min-height: 400px;
 }
 
 .legend {
   position: absolute;
-  bottom: 125px;
+  top: 250px;
   right: 100px;
   display: flex;
   flex-direction: column;
@@ -27,8 +29,8 @@
 }
 
 .legend-pushed {
-  right: 460px;
-  bottom: 145px;
+  right: 36%;
+  top: 225px;
 }
 
 .legend rux-checkbox {
@@ -65,8 +67,7 @@ footer {
   justify-content: center;
   gap: var(--spacing-8);
   padding-bottom: var(--spacing-6);
-  position: fixed;
-  bottom: 0;
+  grid-area: footer;
   text-align: center;
   width: 82%;
 }

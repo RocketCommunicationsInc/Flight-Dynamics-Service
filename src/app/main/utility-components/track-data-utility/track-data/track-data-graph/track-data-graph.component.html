@@ -34,7 +34,7 @@
     [legend]="chartOptions.legend"
   ></apx-chart>
 
-  <div class="legend">
+  <div class="legend" #legend>
     <div class="checkboxes" *ngFor="let series of series; let i = index">
       <rux-checkbox
         [style.border-color]="series.color"

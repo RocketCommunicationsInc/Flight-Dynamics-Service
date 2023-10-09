@@ -1,6 +1,9 @@
 .track-data {
   position: relative;
   overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 }
 
 header {

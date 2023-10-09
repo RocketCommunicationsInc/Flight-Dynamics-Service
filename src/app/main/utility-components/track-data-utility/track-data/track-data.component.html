@@ -41,12 +41,10 @@
       >
     </div>
   </header>
-  <div *ngIf="showGraph">
+  <ng-container *ngIf="showGraph">
     <fds-track-data-graph #trackDataGraph></fds-track-data-graph>
-  </div>
-
-  <!--Table Component: ToDo split into two components-->
-  <div *ngIf="showTable">
+  </ng-container>
+  <ng-container *ngIf="showTable">
     <fds-track-data-table></fds-track-data-table>
-  </div>
+  </ng-container>
 </div>

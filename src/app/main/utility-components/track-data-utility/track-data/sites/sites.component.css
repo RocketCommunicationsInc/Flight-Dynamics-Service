@@ -1,5 +1,6 @@
 .sites-drawer {
   width: 22rem;
+  box-sizing: border-box;
   background-color: var(--color-background-surface-default);
   position: absolute;
   top: 0;
