@@ -43,7 +43,6 @@ export class TrackDataTableComponent {
 
   ngOnInit(){
     this.sharedTableData$.subscribe(res => {
-      console.log(res)
       this.sharedTableData = res})
     this.getFiles()
   }

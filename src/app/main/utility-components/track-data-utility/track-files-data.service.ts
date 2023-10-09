@@ -21,8 +21,6 @@ export class TrackFilesDataUtilityService {
 
   set(newData: TrackFile[]): void{
     this.checkedTrackFiles.next(newData)
-    console.log(newData, 'newData')
-    console.log(this.checkedTrackFiles)
   }
 
   makeTrackData(data: TrackFile[]){
