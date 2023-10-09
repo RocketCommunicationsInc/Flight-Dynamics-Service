@@ -1,5 +1,15 @@
 <div class="controls">
-  <rux-button (click)="toggleControls()">Controls</rux-button>
+  <rux-button size="small" *ngIf="!showControlsPanel" (click)="toggleControls()"
+    >Controls</rux-button
+  >
+  <rux-button
+    *ngIf="showControlsPanel"
+    size="small"
+    secondary
+    (click)="toggleControls()"
+    icon="keyboard-backspace"
+    >Close</rux-button
+  >
 </div>
 
 <fds-propagator-controls [showControlsPanel]="showControlsPanel" />
