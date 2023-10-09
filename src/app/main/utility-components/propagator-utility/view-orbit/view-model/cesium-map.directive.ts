@@ -22,6 +22,7 @@ import {
   standalone: true,
 })
 export class CesiumMapDirective implements OnInit, OnChanges, OnDestroy {
+  initialMetersFromEarth = 36_000_000;
   cameraChangeUnsubscribe: () => void = () => undefined;
   viewer: Viewer;
   constructor(private el: ElementRef) {
@@ -31,27 +32,35 @@ export class CesiumMapDirective implements OnInit, OnChanges, OnDestroy {
     this.viewer.camera.maximumZoomFactor = 1;
   }
 
-  @Input() cameraZoom: number = 36_000_000;
+  @Input() zoomLevel: number = 100;
   @Input() name: string = '';
   @Input() satPos1X: number = 0;
   @Input() satPos1Y: number = 0;
   @Input() satPos2X: number = 0;
   @Input() satPos2Y: number = 0;
-  @Output() cameraChangePercentage = new EventEmitter<number>();
+  @Output() onCameraChange = new EventEmitter<number>();
 
   ngAfterContentInit(): void {
     this.cameraChangeUnsubscribe = this.viewer.camera.changed.addEventListener(
-      (e: number) => this.cameraChangePercentage.emit(e)
+      /**
+       *
+       * @param _ https://cesium.com/learn/cesiumjs/ref-doc/Camera.html#changed
+       */
+      (_: number) => {
+        const newHeight = this.viewer.camera.positionCartographic.height;
+        const newZoomLevel = (newHeight / this.initialMetersFromEarth) * 100;
+        this.onCameraChange.emit(newZoomLevel);
+      }
     );
   }
 
   ngOnInit(): void {
-    this.viewer.camera.zoomOut(this.cameraZoom);
+    this.viewer.camera.zoomOut(this.initialMetersFromEarth);
     this.viewer.camera.flyTo({
       destination: Cartesian3.fromDegrees(
         this.satPos1X,
         this.satPos1Y,
-        this.viewer.camera.positionCartographic.height
+        this.initialMetersFromEarth
       ),
     });
     this.addPoint(this.satPos1X, this.satPos1Y);
@@ -60,20 +69,19 @@ export class CesiumMapDirective implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['cameraZoom'].isFirstChange()) {
-      this.viewer.camera.zoomIn(changes['cameraZoom'].currentValue);
-    } else if (
-      changes['cameraZoom'].currentValue > changes['cameraZoom'].previousValue
-    ) {
-      //zoom out
-      this.viewer.camera.zoomOut(
-        changes['cameraZoom'].currentValue - changes['cameraZoom'].previousValue
-      );
-    } else {
-      this.viewer.camera.zoomIn(
-        changes['cameraZoom'].previousValue - changes['cameraZoom'].currentValue
-      );
+    const zoomLevel = changes['zoomLevel'];
+    const prev = (zoomLevel.previousValue / 100) * this.initialMetersFromEarth;
+    const curr = (zoomLevel.currentValue / 100) * this.initialMetersFromEarth;
+
+    if (zoomLevel.isFirstChange()) {
+      return;
     }
+    if (curr > prev) {
+      this.viewer.camera.zoomOut(curr);
+      return;
+    }
+
+    this.viewer.camera.zoomIn(curr);
   }
 
   ngOnDestroy(): void {

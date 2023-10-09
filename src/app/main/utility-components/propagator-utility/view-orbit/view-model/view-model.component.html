@@ -10,9 +10,9 @@
     <rux-slider
       [value]="zoomLevel"
       (ruxchange)="handleZoom($event)"
-      step="1000000"
+      step="1"
       min="0"
-      max="36000000"
+      max="100"
     />
     <rux-icon icon="search" size="extra-small" />
   </div>
@@ -20,8 +20,8 @@
 <div
   *ngIf="ephemData$ | async as ephemData"
   fdsCesiumMap
-  [cameraZoom]="zoomLevel"
-  (cameraChangePercentage)="onCameraScrollChange($event)"
+  [zoomLevel]="zoomLevel"
+  (onCameraChange)="onCameraScrollChange($event)"
   [satPos1X]="ephemData['satPos1X']"
   [satPos1Y]="ephemData['satPos1Y']"
   [satPos2X]="ephemData['satPos2X']"
