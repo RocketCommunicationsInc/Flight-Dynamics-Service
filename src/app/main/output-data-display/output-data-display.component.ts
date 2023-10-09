@@ -42,8 +42,6 @@ export class OutputDataDisplayComponent implements OnInit {
   showBanner: boolean = false;
   dateAndTime = new Date();
 
-  @Output() rightClick: EventEmitter<any> = new EventEmitter();
-
   showGraph: boolean = false;
   showTable: boolean = true;
   leftIcon = 'notes';
