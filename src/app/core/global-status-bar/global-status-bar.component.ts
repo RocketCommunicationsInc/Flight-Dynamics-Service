@@ -21,9 +21,8 @@ export class GlobalStatusBarComponent {
     const key: 'mode' | 'unavailable' = (e as CustomEvent).detail.value;
     menuActions[key]();
   }
-  /**
-   * Show the 'feature not implemented' toast.
-   */
+
+  //Show the 'feature not implemented' toast.
   showToast() {
     this.toasts.addToast({
       message: 'This feature has not been implemented.',
