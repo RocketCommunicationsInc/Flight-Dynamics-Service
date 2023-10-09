@@ -1,3 +1,27 @@
 :host {
   height: 100%;
+  overflow: hidden;
+  display: grid;
+
+  grid-template-areas:
+    'header'
+    'container';
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content auto;
+}
+
+.header-and-tabs {
+  grid-area: header;
+}
+
+.header-and-tabs > header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-1);
+}
+
+.header-and-tabs + * {
+  grid-area: container;
+  overflow: hidden;
 }
