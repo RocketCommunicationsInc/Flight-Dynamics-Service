@@ -25,13 +25,13 @@
   <apx-chart
     *ngIf="series"
     [series]="series"
+    [tooltip]="chartOptions.tooltip"
     [chart]="chartOptions.chart"
     [xaxis]="chartOptions.xaxis"
     [yaxis]="chartOptions.yaxis"
     [markers]="chartOptions.markers"
     [stroke]="chartOptions.stroke"
     [legend]="chartOptions.legend"
-    [tooltip]="chartOptions.tooltip"
   ></apx-chart>
 
   <div class="legend">
