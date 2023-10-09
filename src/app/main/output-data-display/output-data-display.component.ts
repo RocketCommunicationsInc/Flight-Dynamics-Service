@@ -44,10 +44,14 @@ export class OutputDataDisplayComponent implements OnInit {
 
   @Output() rightClick: EventEmitter<any> = new EventEmitter();
 
+  showGraph: boolean = false;
+  showTable: boolean = true;
   leftIcon = 'notes';
   leftText = 'Table';
   rightIcon = 'show-chart';
   rightText = 'Graph';
+  leftBtnActive: boolean = true;
+  rightBtnActive: boolean = false;
 
   ngOnInit(): void {
     this.bannerService.showBanner$.subscribe((visible) => {
@@ -66,17 +70,20 @@ export class OutputDataDisplayComponent implements OnInit {
     private bannerService: OutputDataDisplayService
   ) {}
 
-  showGraph: boolean = false;
-  showTable: boolean = true;
+
 
   viewTable() {
     this.showGraph = false;
     this.showTable = true;
+    this.leftBtnActive = true;
+    this.rightBtnActive = false;
   }
 
   viewGraph() {
     this.showGraph = true;
     this.showTable = false;
+    this.rightBtnActive = true;
+    this.leftBtnActive = false;
   }
 
   handleTLE() {
@@ -104,7 +111,6 @@ export class OutputDataDisplayComponent implements OnInit {
       });
     }
   }
-
 
   @ViewChild('cumulative') cumulative?: ElementRef;
   @ViewChild('pass1') pass1?: ElementRef;

@@ -14,6 +14,8 @@ export class CustomSegmentedButtonComponent {
   @Input() rightIcon: string = '';
   @Input() leftText: string = '';
   @Input() rightText: string = '';
+  @Input() isLeftBtnActive = false;
+  @Input() isRightBtnActive = false;
   @Output() leftClick = new EventEmitter();
   @Output() rightClick = new EventEmitter();
 }
