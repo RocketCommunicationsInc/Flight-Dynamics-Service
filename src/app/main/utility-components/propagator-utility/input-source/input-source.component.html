@@ -17,21 +17,44 @@
 <form>
   <h3>Source Settings</h3>
   <section class="form-section">
-    <rux-select label="Orbit Source">
-      <rux-option label="Ephemeris" />
-      <rux-option label="TLE" />
+    <rux-select label="Orbit Source" (ruxchange)="handleSelectMenu($event)">
+      <rux-option value="TLE" label="TLE" />
+      <rux-option value="Ephem" label="Ephemeris" />
     </rux-select>
 
     <rux-pop-up placement="bottom" closeOnSelect="true">
-      <rux-input placeholder="eph_020120.ephm" slot="trigger" />
-      <rux-menu>
+      <rux-input
+        *ngIf="!showEphemFiles"
+        placeholder="tle_020120.tle"
+        slot="trigger"
+        [value]="selectedMenuItem"
+        type="search"
+      />
+      <rux-input
+        *ngIf="showEphemFiles"
+        placeholder="eph_100820.ephm"
+        slot="trigger"
+        [value]="selectedMenuItem"
+        type="search"
+      />
+      <rux-menu (ruxmenuselected)="handlePopup($event)" *ngIf="!showEphemFiles">
         <span>Recent TLE Files</span>
-        <rux-menu-item>tle_12242019_1.tle</rux-menu-item>
-        <rux-menu-item>tle_12242019_1.tle</rux-menu-item>
-        <rux-menu-item>tle_12242019_1.tle</rux-menu-item>
-        <rux-menu-item>tle_12242019_1.tle</rux-menu-item>
-        <rux-menu-item>tle_12242019_1.tle</rux-menu-item>
+        <rux-menu-item *ngFor="let tle of TLEFiles" value="{{ tle }}">{{
+          tle
+        }}</rux-menu-item>
+        <rux-menu-item-divider />
         <span>Import TLE File</span>
+        <rux-menu-item disabled>Drop File Here</rux-menu-item>
+      </rux-menu>
+
+      <rux-menu (ruxmenuselected)="handlePopup($event)" *ngIf="showEphemFiles">
+        <span>Recent TLE Files</span>
+        <rux-menu-item *ngFor="let eph of EphemFiles" value="{{ eph }}">{{
+          eph
+        }}</rux-menu-item>
+        <rux-menu-item-divider />
+        <span>Import TLE File</span>
+        <rux-menu-item disabled>Drop File Here</rux-menu-item>
       </rux-menu>
     </rux-pop-up>
   </section>
@@ -64,6 +87,6 @@
 </form>
 
 <footer>
-  <rux-button>Secondary Action</rux-button>
-  <rux-button>Primary Action</rux-button>
+  <rux-button secondary (click)="handleCancel()">Cancel</rux-button>
+  <rux-button (click)="handleSettings()">Save Settings</rux-button>
 </footer>
