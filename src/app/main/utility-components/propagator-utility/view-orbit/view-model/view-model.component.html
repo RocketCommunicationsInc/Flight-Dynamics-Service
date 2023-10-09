@@ -7,13 +7,27 @@
 
   <div class="zoom-wrapper">
     <rux-icon icon="search" size="1.5rem" />
-    <rux-slider [value]="zoomLevel" (ruxchange)="handleZoom($event)" step="1000000" min="0" max="36000000" />
+    <rux-slider
+      [value]="zoomLevel"
+      (ruxchange)="handleZoom($event)"
+      step="1000000"
+      min="0"
+      max="36000000"
+    />
     <rux-icon icon="search" size="extra-small" />
   </div>
 </div>
-<div fdsCesiumMap [cameraZoom]="zoomLevel" [satPos1X]="(ephemData$ | async)!['satPos1X']"
-  [satPos1Y]="(ephemData$ | async)!['satPos1Y']" [satPos2X]="(ephemData$ | async)!['satPos2X']"
-  [satPos2Y]="(ephemData$ | async)!['satPos2Y']" [name]="(trackFile$ | async)!.name"></div>
+<div
+  *ngIf="ephemData$ | async as ephemData"
+  fdsCesiumMap
+  [cameraZoom]="zoomLevel"
+  (cameraChangePercentage)="onCameraScrollChange($event)"
+  [satPos1X]="ephemData['satPos1X']"
+  [satPos1Y]="ephemData['satPos1Y']"
+  [satPos2X]="ephemData['satPos2X']"
+  [satPos2Y]="ephemData['satPos2Y']"
+  [name]="(trackFile$ | async)!.name"
+></div>
 
 <footer>
   <rux-icon icon="play" size="normal" />

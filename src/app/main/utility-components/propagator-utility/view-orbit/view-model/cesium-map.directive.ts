@@ -1,8 +1,11 @@
 import {
   Directive,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { OnInit } from '@angular/core';
@@ -18,7 +21,8 @@ import {
   selector: '[fdsCesiumMap]',
   standalone: true,
 })
-export class CesiumMapDirective implements OnInit, OnChanges {
+export class CesiumMapDirective implements OnInit, OnChanges, OnDestroy {
+  cameraChangeUnsubscribe: () => void = () => undefined;
   viewer: Viewer;
   constructor(private el: ElementRef) {
     this.viewer = new Viewer(this.el.nativeElement);
@@ -27,12 +31,19 @@ export class CesiumMapDirective implements OnInit, OnChanges {
     this.viewer.camera.maximumZoomFactor = 1;
   }
 
-  @Input() cameraZoom: number = 36000000;
+  @Input() cameraZoom: number = 36_000_000;
   @Input() name: string = '';
   @Input() satPos1X: number = 0;
   @Input() satPos1Y: number = 0;
   @Input() satPos2X: number = 0;
   @Input() satPos2Y: number = 0;
+  @Output() cameraChangePercentage = new EventEmitter<number>();
+
+  ngAfterContentInit(): void {
+    this.cameraChangeUnsubscribe = this.viewer.camera.changed.addEventListener(
+      (e: number) => this.cameraChangePercentage.emit(e)
+    );
+  }
 
   ngOnInit(): void {
     this.viewer.camera.zoomOut(this.cameraZoom);
@@ -63,6 +74,10 @@ export class CesiumMapDirective implements OnInit, OnChanges {
         changes['cameraZoom'].previousValue - changes['cameraZoom'].currentValue
       );
     }
+  }
+
+  ngOnDestroy(): void {
+    this.cameraChangeUnsubscribe();
   }
 
   /**
