@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 
@@ -9,4 +9,6 @@ import { AstroComponentsModule } from '@astrouxds/angular';
   templateUrl: './propagator-controls.component.html',
   styleUrls: ['./propagator-controls.component.css'],
 })
-export class PropagatorControlsComponent {}
+export class PropagatorControlsComponent {
+  @Input() showControlsPanel: boolean = false;
+}
