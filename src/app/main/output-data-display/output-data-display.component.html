@@ -33,12 +33,14 @@
             </div>
           </div>
           <div>
-            <rux-button icon="notes" secondary (click)="viewTable()"
-              >Table</rux-button
-            >
-            <rux-button icon="show-chart" secondary (click)="viewGraph()"
-              >Graph</rux-button
-            >
+            <fds-custom-segmented-button
+              [leftIcon]="leftIcon"
+              [leftText]="leftText"
+              [rightText]="rightText"
+              [rightIcon]="rightIcon"
+              (leftClick)="viewTable()"
+              (rightClick)="viewGraph()"
+            ></fds-custom-segmented-button>
           </div>
           <div class="action-btn-wrapper">
             <rux-button secondary (click)="handleTLE()">Create TLE</rux-button>

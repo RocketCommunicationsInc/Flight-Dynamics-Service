@@ -1,0 +1,33 @@
+button {
+  background-color: var(--segmented-button-background-color);
+  padding: var(--spacing-2, 0.5rem) var(--spacing-4, 1rem);
+
+  color: var(--color-text-interactive-default);
+  font-size: var(--font-control-body-1-font-size, 1rem);
+  font-weight: var(--font-control-body-1-font-weight, 400);
+  line-height: var(--font-control-body-1-line-height, calc(20 / 16));
+  letter-spacing: var(--font-control-body-1-letter-spacing, 0.005em);
+
+  cursor: pointer;
+  border: 1px solid var(--color-background-interactive-default, #4dacff);
+
+  height: 1.625rem;
+
+  cursor: pointer;
+}
+
+span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.first-btn {
+  border-radius: var(--radius-base, 3px) 0 0 var(--radius-base, 3px);
+  border-right: none;
+}
+
+.second-btn {
+  border-radius: 0 var(--radius-base, 3px) var(--radius-base, 3px) 0;
+  border-right: 1px solid var(--color-background-interactive-default, #4dacff);
+}

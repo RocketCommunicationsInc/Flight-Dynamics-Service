@@ -2,6 +2,7 @@ form.outputs_form {
   display: flex;
   flex-direction: column;
   padding-inline: var(--spacing-4);
+  padding-top: var(--spacing-4);
 }
 
 rux-checkbox {
