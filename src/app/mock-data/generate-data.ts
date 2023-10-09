@@ -10,6 +10,15 @@ import type {
   OrbitProperties,
 } from '../types/data.types';
 
+export const randomNum = (min = 1e9, max = 9e9) => {
+  return faker.number.int({ min, max });
+};
+
+export const randNumWithDecimals = (min: number, max: number) => {
+  const randomNum = Math.random() * (max - min) + min;
+  return Number(randomNum.toPrecision(4));
+};
+
 const generateScenario = (scenarioName: string): Scenario => {
   const numOfSpaceCraft = faker.number.int({ min: 4, max: 8 });
   const scenarioId = crypto.randomUUID();
@@ -17,19 +26,25 @@ const generateScenario = (scenarioName: string): Scenario => {
   return {
     id: scenarioId,
     name: scenarioName,
-    spaceCraft: Array(numOfSpaceCraft)
+    spaceCraftIds: Array(numOfSpaceCraft)
       .fill(null)
-      .map(() => generateSpacecraft(scenarioId)),
+      .map(() => ({
+        id: crypto.randomUUID(),
+        catalogId: 'IRON ' + faker.number.int({ min: 1000, max: 9999 }),
+      })),
   };
 };
 
-const generateSpacecraft = (scenarioId: string): Spacecraft => {
-  const catalogIdNum = faker.number.int({ min: 1000, max: 9999 });
+const generateSpacecraft = (
+  id: string,
+  catalogId: string,
+  scenarioId: string
+): Spacecraft => {
   const trackFileArrayLength = faker.number.int({ min: 20, max: 30 });
 
   return {
-    id: crypto.randomUUID(),
-    catalogId: 'IRON ' + catalogIdNum,
+    id: id,
+    catalogId: catalogId,
     trackFileIds: Array.from(Array(trackFileArrayLength), (_) =>
       faker.string.uuid()
     ),
@@ -52,7 +67,14 @@ const generateTrackFile = (
     name: 'trackfile_' + index,
     creationDate: faker.date.recent({ days: 120 }),
     fileSize: fileSizeNum,
-    ephemerisSourceFile: generateEphemerisFile(id, index),
+    ephemerisSourceFile: generateEphemerisFile(
+      id,
+      index,
+      randomNum(-400, 1000),
+      randomNum(-400, 1000),
+      randomNum(-400, 800),
+      randomNum(-400, 800)
+    ),
     tleSourceFile: generateTLEFile(id, index),
     epochRangeStart: epoch,
     epochRangeEnd: faker.date.soon({ refDate: epoch, days: 5 }),
@@ -64,11 +86,22 @@ const generateTrackFile = (
 
 const generateEphemerisFile = (
   trackFileId: string,
-  index: number
+  index: number,
+  satPos1X: number,
+  satPos1Y: number,
+  satPos2X: number,
+  satPos2Y: number
 ): EphemerisFile => {
   return {
     id: crypto.randomUUID(),
     trackFileRefId: trackFileId,
+
+    satCords: {
+      satPos1X: satPos1X,
+      satPos1Y: satPos1Y,
+      satPos2X: satPos2X,
+      satPos2Y: satPos2Y,
+    },
     name: `trackfile_${trackFileId}_Ephemeris.txt`,
     epoch: faker.date.recent({ refDate: new Date(), days: 7 }),
     positionX: 1,
@@ -234,9 +267,13 @@ const scenarioNames = ['Nominal OD', 'Post SK', 'Training'];
 export const mockScenarios = scenarioNames.map((name) =>
   generateScenario(name)
 );
-const spaceCraft = mockScenarios.flatMap((scenario) => scenario.spaceCraft);
+export const mockSpaceCrafts = mockScenarios.flatMap((scenario) => {
+  return scenario.spaceCraftIds.map((craftIdObject) =>
+    generateSpacecraft(craftIdObject.id, craftIdObject.catalogId, scenario.id)
+  );
+});
 const trackFileIdsBySpaceCraftId: { [key: string]: string[] } = {};
-spaceCraft.forEach((spacecraft) => {
+mockSpaceCrafts.forEach((spacecraft) => {
   trackFileIdsBySpaceCraftId[spacecraft.id] = spacecraft.trackFileIds;
 });
 export const mockTrackFiles = Object.entries(
@@ -246,7 +283,3 @@ export const mockTrackFiles = Object.entries(
     generateTrackFile(spacecraftId, id, index)
   );
 });
-
-export const randomNum = (min = 1e9, max = 9e9) => {
-  return faker.number.int({ min, max });
-};

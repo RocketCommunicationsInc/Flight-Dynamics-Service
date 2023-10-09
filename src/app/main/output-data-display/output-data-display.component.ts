@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import type { Tabs } from 'src/app/types/Tabs';
@@ -66,6 +66,16 @@ export class OutputDataDisplayComponent implements OnInit {
     });
   }
 
+  handleDataSelect(event: any) {
+    if (event.target.value) {
+      this.toasts.addToast({
+        message: 'This feature has not been implemented',
+        hideClose: false,
+        closeAfter: 3000,
+      });
+    }
+  }
+
   showGraph: boolean = false;
   showTable: boolean = true;
 
@@ -77,5 +87,27 @@ export class OutputDataDisplayComponent implements OnInit {
   viewGraph() {
     this.showGraph = true;
     this.showTable = false;
+  }
+
+  @ViewChild('cumulative') cumulative?: ElementRef;
+  @ViewChild('pass1') pass1?: ElementRef;
+  @ViewChild('pass2') pass2?: ElementRef;
+  @ViewChild('pass3') pass3?: ElementRef;
+
+  handleAntennaSelect(event: any) {
+    const target = event.target.value;
+
+    if (target === 'cumulative' && this.cumulative) {
+      this.cumulative.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (target === 'pass1' && this.pass1) {
+      this.pass1.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (target === 'pass2' && this.pass2) {
+      this.pass2.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (target === 'pass3' && this.pass3) {
+      this.pass3.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }

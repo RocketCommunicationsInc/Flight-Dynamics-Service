@@ -5,13 +5,14 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   LogData,
   ProcessedTrackFile,
+  Spacecraft,
   TrackFile,
 } from 'src/app/types/data.types';
 import { filter, Observable, Subscription } from 'rxjs';
 import {
+  selectCurrentSpacecraft,
   selectCurrentSpaceCraftTrackFiles,
   selectCurrentTrackFile,
-  selectSelectedScenarioId,
 } from 'src/app/+state/app.selectors';
 import { select, Store } from '@ngrx/store';
 import { AppStore } from 'src/app/+state/app.model';
@@ -33,14 +34,20 @@ import { OutputDataDisplayService } from '../../output-data-display/output-data-
 export class InputsComponent {
   // scenario data
   currentScenarioId: string | undefined | null;
-  currentScenarioId$: Subscription = this.store
+
+  //spacecraft data
+  spacecraft: Spacecraft | null | undefined;
+  spacecraft$: Subscription = this.store
     .pipe(
       takeUntilDestroyed(),
       filter((val) => val !== null),
-      select(selectSelectedScenarioId)
+      select(selectCurrentSpacecraft)
     )
-    .subscribe((result) => (this.currentScenarioId = result));
-    
+    .subscribe((result) => {
+      this.spacecraft = result;
+      this.currentScenarioId = result?.scenarioRefId;
+    });
+
   // input form initial declarations
   inputForm!: FormGroup<{
     databaseFile: FormControl<string | null>;
@@ -94,11 +101,21 @@ export class InputsComponent {
   ) {}
 
   sendLogData(data: LogData) {
+    // this.store.dispatch(
+    //   SpacecraftActions.spacecraftEventAdded({
+    //     scenarioId: this.currentScenarioId!,
+    //     spacecraftId: this.currentTrackFile!.spaceCraftRefId,
+    //     event: data,
+    //   })
+    // );
+
     this.store.dispatch(
-      SpacecraftActions.spacecraftEventAdded({
-        scenarioId: this.currentScenarioId!,
+      SpacecraftActions.spacecraftModified({
         spacecraftId: this.currentTrackFile!.spaceCraftRefId,
-        event: data,
+        updatedSpacecraft: {
+          ...this.spacecraft!,
+          eventData: [...this.spacecraft!.eventData, ...[data]],
+        },
       })
     );
   }
@@ -128,10 +145,8 @@ export class InputsComponent {
   }
 
   handleSelect(e: any): void {
-    const event = e as CustomEvent;
-    const fileId: string = event.detail.getAttribute('data-id');
     this.store.dispatch(
-      TrackFilesActions.trackFileSelected({ trackFileId: fileId })
+      TrackFilesActions.trackFileSelected({ trackFileId: e.target.value })
     );
   }
 }

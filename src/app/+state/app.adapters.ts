@@ -1,5 +1,5 @@
 import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Scenario, TrackFile } from '../types/data.types';
+import { Scenario, Spacecraft, TrackFile } from '../types/data.types';
 
 export function sortByName(
   a: Scenario | TrackFile,
@@ -9,8 +9,8 @@ export function sortByName(
 }
 
 export function sortById(
-  a: Scenario | TrackFile,
-  b: Scenario | TrackFile
+  a: Scenario | TrackFile | Spacecraft,
+  b: Scenario | TrackFile | Spacecraft
 ): number {
   return a.id.localeCompare(b.id);
 }
@@ -18,6 +18,11 @@ export function sortById(
 export const scenarioAdapter: EntityAdapter<Scenario> =
   createEntityAdapter<Scenario>({
     sortComparer: sortByName,
+  });
+
+export const spacecraftAdapter: EntityAdapter<Spacecraft> =
+  createEntityAdapter<Spacecraft>({
+    sortComparer: sortById,
   });
 
 export const trackFileAdapter: EntityAdapter<TrackFile> =

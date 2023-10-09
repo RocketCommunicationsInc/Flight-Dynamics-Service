@@ -1,7 +1,12 @@
+interface SpaceCraftIds {
+  id: string;
+  catalogId: string;
+}
+
 export type Scenario = {
   id: string;
   name: string;
-  spaceCraft: Spacecraft[];
+  spaceCraftIds: SpaceCraftIds[];
 };
 
 export type ScenarioEntity = {
@@ -75,6 +80,9 @@ export type EphemerisFile = {
   id: string;
   trackFileRefId: string;
   name: string;
+  satCords: {
+    [key: string]: number;
+  };
   epoch: Date;
   positionX: number;
   positionY: number;

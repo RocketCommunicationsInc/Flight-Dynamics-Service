@@ -3,6 +3,7 @@ import {
   LogData,
   ProcessedTrackFile,
   Scenario,
+  Spacecraft,
   TrackFile,
 } from '../types/data.types';
 
@@ -16,11 +17,12 @@ export const AppActions = createActionGroup({
 export const SpacecraftActions = createActionGroup({
   source: 'Spacecraft',
   events: {
+    'Spacecrafts Requested': emptyProps(),
+    'Spacecrafts Retrieved': props<{ spacecrafts: Spacecraft[] }>(),
     'Spacecraft Id Selected': props<{ spacecraftId: string }>(),
-    'Spacecraft Event Added': props<{
-      scenarioId: string;
+    'Spacecraft Modified': props<{
       spacecraftId: string;
-      event: LogData;
+      updatedSpacecraft: Spacecraft;
     }>(),
   },
 });

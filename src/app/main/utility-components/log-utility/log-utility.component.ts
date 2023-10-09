@@ -15,7 +15,7 @@ import { Store } from '@ngrx/store';
   imports: [AstroComponentsModule, RouterLink, RouterOutlet, CommonModule],
 })
 export class LogUtilityComponent {
-  spacecraft$: Observable<Spacecraft | null> = this.store.select(
+  spacecraft$: Observable<Spacecraft | null | undefined> = this.store.select(
     selectCurrentSpacecraft
   );
   logData: LogData[] | undefined = [];

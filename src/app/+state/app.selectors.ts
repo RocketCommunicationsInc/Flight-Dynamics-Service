@@ -1,7 +1,11 @@
 import { createSelector } from '@ngrx/store';
 import { Spacecraft, SpacecraftEntity, TrackFile } from '../types/data.types';
 import { ScenariosState } from './app.model';
-import { scenarioAdapter, trackFileAdapter } from './app.adapters';
+import {
+  scenarioAdapter,
+  spacecraftAdapter,
+  trackFileAdapter,
+} from './app.adapters';
 import { appFeature } from './app.reducer';
 
 export const {
@@ -9,6 +13,7 @@ export const {
   reducer,
   selectAppState,
   selectScenarios,
+  selectSpacecrafts,
   selectTrackFiles,
   selectSelectedSpacecraftId,
   selectSelectedScenarioId,
@@ -23,26 +28,15 @@ export const {
   selectAll: selectAllTrackFiles,
   selectEntities: selectTrackFileEntities,
 } = trackFileAdapter.getSelectors(selectTrackFiles);
-
-export const selectAllSpacecrafts = createSelector(
-  selectScenarios,
-  (state: ScenariosState) => {
-    let spacecrafts: Spacecraft[] = [];
-    state.ids.map((id) => {
-      state.entities[id]?.spaceCraft.map((craft) => spacecrafts.push(craft));
-    });
-    const spacecraftsEntity: SpacecraftEntity = spacecrafts.reduce(
-      (prev, next) => ({ ...prev, [next.id]: next }),
-      {}
-    );
-    return spacecraftsEntity;
-  }
-);
+export const {
+  selectAll: selectAllSpacecrafts,
+  selectEntities: selectSpacecraftEntities,
+} = spacecraftAdapter.getSelectors(selectSpacecrafts);
 
 export const selectCurrentSpacecraft = createSelector(
-  selectAllSpacecrafts,
+  selectSpacecraftEntities,
   selectSelectedSpacecraftId,
-  (spacecrafts: SpacecraftEntity, spacecraftId: string | null) => {
+  (spacecrafts, spacecraftId: string | null) => {
     if (!spacecraftId) return null;
     return spacecrafts[spacecraftId];
   }
@@ -72,5 +66,12 @@ export const selectCurrentSpaceCraftTrackFiles = createSelector(
       }
     }
     return spacecraftAllTrackFiles;
+  }
+);
+
+export const selectCurrentTrackFileEphemerisData = createSelector(
+  selectCurrentTrackFile,
+  (TrackFile): { [key: string]: number } | null => {
+    return TrackFile!.ephemerisSourceFile.satCords;
   }
 );

@@ -46,17 +46,54 @@ rux-menu {
   align-items: flex-end;
 }
 
-.inputs_input-menu-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-}
-
-.inputs_input-menu-wrapper rux-select {
+.inputs_input-button-wrapper rux-input {
+  width: 100%;
   padding-inline-end: var(--spacing-3);
 }
 
 .inputs_footer {
   margin-inline: auto;
   padding-block-start: var(--spacing-3);
+}
+
+.inputs_footer rux-button {
+  width: 20rem;
+}
+
+.inputs_input-button-wrapper rux-input:nth-of-type(1) {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+rux-pop-up {
+  width: 100%;
+}
+
+rux-pop-up::part(arrow) {
+  display: none;
+}
+
+rux-pop-up::part(popup-content) {
+  width: calc(100% - 2rem);
+  margin-top: -0.75rem;
+}
+
+rux-menu {
+  max-height: 15rem;
+  overflow: auto;
+  width: 100%;
+}
+
+rux-pop-up span {
+  font-style: italic;
+  padding-inline: var(--spacing-2);
+}
+
+.no-results {
+  text-decoration: none;
+  padding: var(--spacing-4);
+}
+
+.orbit-source-input {
+  padding: 0;
 }
