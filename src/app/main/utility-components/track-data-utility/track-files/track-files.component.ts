@@ -11,7 +11,7 @@ import { TrackFile } from 'src/app/types/data.types';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
-import { TrackData, TrackFilesDataUtilityService } from '../track-files-data.service';
+import { TrackFilesDataUtilityService } from '../track-files-data.service';
 import { TableService } from 'src/app/shared/table.service';
 
 @Component({
@@ -79,7 +79,6 @@ export class TrackFilesComponent {
 
   selectAll(): void {
     this.tableService.data = this.tableService.data.map((row) => ({...row, selected: true}))
-
   }
 
   selectFiltered(event: Event){
@@ -87,7 +86,19 @@ export class TrackFilesComponent {
     this.tableService.data = this.tableService.data.map(row => !row.filtered ? {...row, selected: isChecked} : row)
   }
 
+  //on destroy we update the data with trackfiles
+  updateSharedTableData(data: any[]){
+    const checkedTrackData = data.filter(datum => datum.selected)
+    const updatedData = checkedTrackData.map(trackData => {
+      const {filter, selected, ...trackFile } = trackData
+      return trackFile
+    })
+    this.trackFilesService.set(updatedData)
+  }
+
+
   ngOnDestroy() {
+    this.updateSharedTableData(this.tableService.data)
     this.destroyed.next(true);
     this.destroyed.complete();
   }

@@ -52,7 +52,7 @@
               >
                 <rux-checkbox
                   *ngSwitchCase="'id'"
-                  [checked]="row.selected || row.id === selectedTrackFile!.id"
+                  [checked]="row.selected"
                   (ruxchange)="tableService.selectRow($event, row)"
                   [disabled]="editTrackFile"
                 />

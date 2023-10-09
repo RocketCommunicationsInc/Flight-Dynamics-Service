@@ -24,8 +24,8 @@ import { TableService } from 'src/app/shared/table.service';
 })
 export class TrackDataTableComponent {
 
-  sharedData$ = this.trackFilesService.get()
-  sharedData: any[] = []
+  sharedTableData$ = this.trackFilesService.get()
+  sharedTableData: any[] = []
 
   //table variables
   columnDefs = [
@@ -42,15 +42,13 @@ export class TrackDataTableComponent {
   }
 
   ngOnInit(){
-    this.sharedData$.subscribe(res => {
+    this.sharedTableData$.subscribe(res => {
       console.log(res)
-      this.sharedData = res})
+      this.sharedTableData = res})
     this.getFiles()
-    console.log(this.sharedData)
-
   }
   getFiles(){
-    this.tableService.init({data: this.sharedData, columnDefs: this.columnDefs});
+    this.tableService.init({data: this.sharedTableData, columnDefs: this.columnDefs});
   }
 
   ngOnDestroy(){

@@ -22,10 +22,9 @@ import {
 } from 'ng-apexcharts';
 import { SitesComponent } from '../sites/sites.component';
 import { SettingsComponent } from '../settings/settings.component';
-import { Store } from '@ngrx/store';
-import { selectCurrentSpaceCraftTrackFiles } from 'src/app/+state/app.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TrackFile } from 'src/app/types/data.types';
+import { TrackFilesDataUtilityService } from '../../track-files-data.service';
 
 type ChartOptions = {
   series: ApexAxisChartSeries | any;
@@ -61,8 +60,8 @@ export class TrackDataGraphComponent {
   @ViewChild(ChartComponent) chart?: ChartComponent;
   @ViewChild('legend') legend?: ElementRef;
 
-  selectedTrackFiles$ = this.store.select(selectCurrentSpaceCraftTrackFiles);
-  selectedTrackFiles: TrackFile[] = [];
+  sharedTrackFiles$ = this.trackFilesService.get();
+  sharedTrackFiles: TrackFile[] = [];
 
   //chart variables
   chartData: ChartDataItem[] = [];
@@ -108,12 +107,12 @@ export class TrackDataGraphComponent {
   destroyed = new Subject();
 
   constructor(
-    private store: Store
+    public trackFilesService: TrackFilesDataUtilityService
   ) {
-    this.selectedTrackFiles$
+    this.sharedTrackFiles$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => {
-        this.selectedTrackFiles = res || [];
+        this.sharedTrackFiles = res || [];
       });
   }
 
@@ -126,13 +125,13 @@ export class TrackDataGraphComponent {
   }
 
   ngOnInit() {
-    this.orderByDate(this.selectedTrackFiles);
+    this.orderByDate(this.sharedTrackFiles);
 
-    this.dates = this.selectedTrackFiles.map((file) =>
+    this.dates = this.sharedTrackFiles.map((file) =>
       file.creationDate.toLocaleDateString()
     );
     this.labelsShown = this.dates;
-    this.chartData = this.selectedTrackFiles.map((file) => {
+    this.chartData = this.sharedTrackFiles.map((file) => {
       const azimuth = file.initialOrbitProperties.azimuth.value;
       const elevation = file.initialOrbitProperties.elevation.value;
       const inclination = file.initialOrbitProperties.inclination.value;
@@ -191,8 +190,6 @@ export class TrackDataGraphComponent {
 
   }
 
-
-
   onDelete() {
     if(!this.selectedDataPoint) return;
     this.selectedDataPoint.classList.add('hide-node')
@@ -225,11 +222,6 @@ export class TrackDataGraphComponent {
         tickAmount: this.labelsShown.length,
       },
     });
-  }
-
-  practiceDelete() {
-    if(this.selectedDataPoint !== null) {
-    }
   }
 
   seriesIndexName: string = ''
