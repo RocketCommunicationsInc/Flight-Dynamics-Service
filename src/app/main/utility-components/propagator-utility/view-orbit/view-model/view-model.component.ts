@@ -31,7 +31,7 @@ export class ViewModelComponent {
     selectCurrentTrackFile
   );
   showControlsPanel: boolean = false;
-  zoomLevel: number = 100;
+  zoomLevel: number = 36_000_000;
 
   constructor(private store: Store) {}
 
@@ -43,7 +43,7 @@ export class ViewModelComponent {
     this.showControlsPanel = !this.showControlsPanel;
   }
 
-  onCameraScrollChange(newZoomLevel: number) {
-    this.zoomLevel = newZoomLevel > 100 ? 100 : Math.floor(newZoomLevel);
+  onMetersFromEarthChange(newMetersFromEarth: number) {
+    this.zoomLevel = newMetersFromEarth;
   }
 }
