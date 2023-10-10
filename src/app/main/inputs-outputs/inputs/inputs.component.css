@@ -51,15 +51,6 @@ rux-menu {
   padding-inline-end: var(--spacing-3);
 }
 
-.inputs_footer {
-  margin-inline: auto;
-  padding-block-start: var(--spacing-3);
-}
-
-.inputs_footer rux-button {
-  width: 20rem;
-}
-
 .inputs_input-button-wrapper rux-input:nth-of-type(1) {
   margin-bottom: 0;
   padding-bottom: 0;

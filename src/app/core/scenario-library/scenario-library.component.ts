@@ -72,9 +72,7 @@ export class ScenarioLibraryComponent {
     this.showToast();
   }
 
-  /**
-   * Show the 'feature not implemented' toast.
-   */
+  //Show the 'feature not implemented' toast.
   showToast() {
     this.toasts.addToast({
       message: 'This feature has not been implemented.',
@@ -82,9 +80,4 @@ export class ScenarioLibraryComponent {
       closeAfter: 3000,
     });
   }
-}
-function selectAllSpacecraftEntities(
-  selectAllSpacecraftEntities: any
-): Observable<Spacecraft[]> {
-  throw new Error('Function not implemented.');
 }

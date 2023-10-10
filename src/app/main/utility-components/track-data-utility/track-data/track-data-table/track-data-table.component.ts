@@ -8,7 +8,6 @@ import { TrackFile } from 'src/app/types/data.types';
 import { TrackFilesDataUtilityService } from '../../track-files-data.service';
 import { TableService } from 'src/app/shared/table.service';
 
-
 @Component({
   selector: 'fds-track-data-table',
   standalone: true,

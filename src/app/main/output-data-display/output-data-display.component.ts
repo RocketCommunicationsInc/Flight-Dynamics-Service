@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import type { Tabs } from 'src/app/types/Tabs';
@@ -8,6 +15,7 @@ import { OutputDataDisplayService } from './output-data-display.service';
 import { CurrentView } from './output-data-display.model';
 import { PerformanceTableComponent } from './performance-table/performance-table.component';
 import { ToastService } from 'src/app/shared/toast.service';
+import { CustomSegmentedButtonComponent } from 'src/app/shared/custom-segmented-button/custom-segmented-button.component';
 
 @Component({
   selector: 'fds-output-data-display',
@@ -18,6 +26,7 @@ import { ToastService } from 'src/app/shared/toast.service';
     SolutionGraphComponent,
     SolutionTableComponent,
     PerformanceTableComponent,
+    CustomSegmentedButtonComponent,
   ],
   templateUrl: './output-data-display.component.html',
   styleUrls: ['./output-data-display.component.css'],
@@ -32,6 +41,15 @@ export class OutputDataDisplayComponent implements OnInit {
 
   showBanner: boolean = false;
   dateAndTime = new Date();
+
+  showGraph: boolean = false;
+  showTable: boolean = true;
+  leftIcon = 'notes';
+  leftText = 'Table';
+  rightIcon = 'show-chart';
+  rightText = 'Graph';
+  leftBtnActive: boolean = true;
+  rightBtnActive: boolean = false;
 
   ngOnInit(): void {
     this.bannerService.showBanner$.subscribe((visible) => {
@@ -49,6 +67,22 @@ export class OutputDataDisplayComponent implements OnInit {
     private toasts: ToastService,
     private bannerService: OutputDataDisplayService
   ) {}
+
+
+
+  viewTable() {
+    this.showGraph = false;
+    this.showTable = true;
+    this.leftBtnActive = true;
+    this.rightBtnActive = false;
+  }
+
+  viewGraph() {
+    this.showGraph = true;
+    this.showTable = false;
+    this.rightBtnActive = true;
+    this.leftBtnActive = false;
+  }
 
   handleTLE() {
     this.toasts.addToast({
@@ -74,19 +108,6 @@ export class OutputDataDisplayComponent implements OnInit {
         closeAfter: 3000,
       });
     }
-  }
-
-  showGraph: boolean = false;
-  showTable: boolean = true;
-
-  viewTable() {
-    this.showGraph = false;
-    this.showTable = true;
-  }
-
-  viewGraph() {
-    this.showGraph = true;
-    this.showTable = false;
   }
 
   @ViewChild('cumulative') cumulative?: ElementRef;

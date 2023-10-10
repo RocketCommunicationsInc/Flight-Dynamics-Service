@@ -1,12 +1,22 @@
 <header>
   <div>
-    <rux-button (click)="viewModel()" id="graph" icon="public" size="small" secondary>View Model</rux-button>
-    <rux-button (click)="viewTable()" id="table" icon="notes" size="small" secondary>View Table</rux-button>
+    <fds-custom-segmented-button
+      [leftIcon]="leftIcon"
+      [leftText]="leftText"
+      [rightText]="rightText"
+      [rightIcon]="rightIcon"
+      (leftClick)="viewModel()"
+      (rightClick)="viewTable()"
+      [isLeftBtnActive]="leftBtnActive"
+      [isRightBtnActive]="rightBtnActive"
+    ></fds-custom-segmented-button>
   </div>
   <div *ngIf="showModel" class="button-wrapper">
     <rux-button size="small" secondary>Item 3</rux-button>
     <rux-button size="small" secondary>Settings</rux-button>
-    <rux-button size="small" secondary (click)="toggleControls()">Controls</rux-button>
+    <rux-button size="small" secondary (click)="toggleControls()"
+      >Controls</rux-button
+    >
   </div>
 </header>
 

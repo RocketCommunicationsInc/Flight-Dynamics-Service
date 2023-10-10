@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import {
@@ -8,6 +9,7 @@ import { SitesComponent } from './sites/sites.component';
 import { SettingsComponent } from './settings/settings.component';
 import { TrackDataGraphComponent } from './track-data-graph/track-data-graph.component';
 import { TrackDataTableComponent } from './track-data-table/track-data-table.component';
+import { CustomSegmentedButtonComponent } from 'src/app/shared/custom-segmented-button/custom-segmented-button.component';
 
 @Component({
   selector: 'fds-track-data',
@@ -19,7 +21,8 @@ import { TrackDataTableComponent } from './track-data-table/track-data-table.com
     SitesComponent,
     SettingsComponent,
     TrackDataGraphComponent,
-    TrackDataTableComponent
+    TrackDataTableComponent,
+    CustomSegmentedButtonComponent
   ],
   templateUrl: './track-data.component.html',
   styleUrls: ['./track-data.component.css'],
@@ -32,6 +35,12 @@ export class TrackDataComponent {
   isSettingsDrawerOpen: boolean = false;
   showGraph: boolean = true;
   showTable: boolean = false;
+  leftIcon = 'notes';
+  leftText = 'Graph';
+  rightIcon = 'show-chart';
+  rightText = 'Table';
+  leftBtnActive: boolean = true;
+  rightBtnActive: boolean = false;
 
   toggleSitesDrawer() {
     this.isSitesDrawerOpen = !this.isSitesDrawerOpen;
@@ -46,6 +55,8 @@ export class TrackDataComponent {
   viewTable() {
     this.showGraph = false;
     this.showTable = true;
+    this.isSitesDrawerOpen = false
+    this.isSettingsDrawerOpen = false
     this.isSitesDrawerOpen = false
     this.isSettingsDrawerOpen = false
   }

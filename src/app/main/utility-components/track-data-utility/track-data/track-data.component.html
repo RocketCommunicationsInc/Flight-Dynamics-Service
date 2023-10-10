@@ -1,22 +1,16 @@
 <div class="track-data">
   <header>
     <div>
-      <rux-button
-        (click)="viewGraph()"
-        id="graph"
-        icon="show-chart"
-        size="small"
-        secondary
-        >View Graph</rux-button
-      >
-      <rux-button
-        (click)="viewTable()"
-        id="table"
-        icon="notes"
-        size="small"
-        secondary
-        >View Table</rux-button
-      >
+      <fds-custom-segmented-button
+        [leftIcon]="leftIcon"
+        [leftText]="leftText"
+        [rightText]="rightText"
+        [rightIcon]="rightIcon"
+        (leftClick)="viewGraph()"
+        (rightClick)="viewTable()"
+        [isLeftBtnActive]="leftBtnActive"
+        [isRightBtnActive]="rightBtnActive"
+      ></fds-custom-segmented-button>
     </div>
 
     <fds-sites [isSitesDrawerOpen]="isSitesDrawerOpen" />
