@@ -40,21 +40,6 @@ export class CesiumMapDirective implements OnInit, OnChanges, OnDestroy {
   @Input() satPos2Y: number = 0;
   @Output() onMetersFromEarthChange = new EventEmitter<number>();
 
-  ngAfterContentInit(): void {
-    this.cameraChangeUnsubscribe = this.viewer.camera.changed.addEventListener(
-      /**
-       *
-       * @param _ https://cesium.com/learn/cesiumjs/ref-doc/Camera.html#changed
-       */
-      (_: number) => {
-        const newMetersFromEarth = Math.floor(
-          this.viewer.camera.positionCartographic.height
-        );
-        this.onMetersFromEarthChange.emit(newMetersFromEarth);
-      }
-    );
-  }
-
   ngOnInit(): void {
     this.viewer.camera.zoomOut(this.initialMetersFromEarth);
     this.viewer.camera.flyTo({
@@ -67,6 +52,19 @@ export class CesiumMapDirective implements OnInit, OnChanges, OnDestroy {
     this.addPoint(this.satPos1X, this.satPos1Y);
     this.addPoint(this.satPos2X, this.satPos2Y);
     this.addLine(this.satPos1X, this.satPos1Y, this.satPos2X, this.satPos2Y);
+
+    this.cameraChangeUnsubscribe = this.viewer.camera.changed.addEventListener(
+      /**
+       *
+       * @param _ https://cesium.com/learn/cesiumjs/ref-doc/Camera.html#changed
+       */
+      (_: number) => {
+        const newMetersFromEarth = Math.floor(
+          this.viewer.camera.positionCartographic.height
+        );
+        this.onMetersFromEarthChange.emit(newMetersFromEarth);
+      }
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
