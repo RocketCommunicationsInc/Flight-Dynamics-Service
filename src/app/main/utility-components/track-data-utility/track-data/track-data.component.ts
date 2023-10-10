@@ -8,6 +8,7 @@ import { SitesComponent } from './sites/sites.component';
 import { SettingsComponent } from './settings/settings.component';
 import { TrackDataGraphComponent } from './track-data-graph/track-data-graph.component';
 import { TrackDataTableComponent } from './track-data-table/track-data-table.component';
+import { CustomSegmentedButtonComponent } from 'src/app/shared/custom-segmented-button/custom-segmented-button.component';
 
 @Component({
   selector: 'fds-track-data',
@@ -19,7 +20,8 @@ import { TrackDataTableComponent } from './track-data-table/track-data-table.com
     SitesComponent,
     SettingsComponent,
     TrackDataGraphComponent,
-    TrackDataTableComponent
+    TrackDataTableComponent,
+    CustomSegmentedButtonComponent
   ],
   templateUrl: './track-data.component.html',
   styleUrls: ['./track-data.component.css'],
@@ -32,6 +34,12 @@ export class TrackDataComponent {
   isSettingsDrawerOpen: boolean = false;
   showGraph: boolean = true;
   showTable: boolean = false;
+  leftIcon = 'notes';
+  leftText = 'Graph';
+  rightIcon = 'show-chart';
+  rightText = 'Table';
+  leftBtnActive: boolean = true;
+  rightBtnActive: boolean = false;
 
   toggleSitesDrawer() {
     this.isSitesDrawerOpen = !this.isSitesDrawerOpen;

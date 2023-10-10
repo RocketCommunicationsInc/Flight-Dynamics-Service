@@ -12,6 +12,6 @@ export class SitesComponent {
   @Input() isSitesDrawerOpen: boolean = false;
 
   handleFilter(event: any) {
-    const checkbox = event.target as HTMLRuxCheckboxElement;
+   // const checkbox = event.target as HTMLRuxCheckboxElement;
   }
 }
