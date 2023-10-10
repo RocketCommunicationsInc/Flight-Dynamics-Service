@@ -68,4 +68,5 @@ section span {
 
 section span rux-icon {
   margin-left: auto;
+  cursor: not-allowed;
 }

@@ -10,8 +10,4 @@ import { AstroComponentsModule } from '@astrouxds/angular';
 })
 export class SitesComponent {
   @Input() isSitesDrawerOpen: boolean = false;
-
-  handleFilter(event: any) {
-   // const checkbox = event.target as HTMLRuxCheckboxElement;
-  }
 }

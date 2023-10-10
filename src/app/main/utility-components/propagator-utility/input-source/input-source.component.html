@@ -12,7 +12,7 @@
   >
 </div>
 
-<fds-propagator-controls [showControlsPanel]="showControlsPanel" />
+<fds-propagator-controls [showControlsPanel]="showControlsPanel"/>
 
 <form>
   <h3>Source Settings</h3>
@@ -35,7 +35,8 @@
         placeholder="eph_100820.ephm"
         slot="trigger"
         [value]="selectedMenuItem"
-        type="search"
+                type="search"
+
       />
       <rux-menu (ruxmenuselected)="handlePopup($event)" *ngIf="!showEphemFiles">
         <span>Recent TLE Files</span>

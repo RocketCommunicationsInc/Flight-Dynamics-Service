@@ -45,13 +45,13 @@
       <h3>Perturbations</h3>
       <span>
         <rux-checkbox>Atmospheric Drag</rux-checkbox>
-        <rux-icon size="small" icon="keyboard-arrow-down" />
+        <rux-icon size="small" icon="keyboard-arrow-right" />
       </span>
     </section>
   </form>
 
   <div slot="footer">
-    <rux-button secondary>Cancel</rux-button>
-    <rux-button>Save</rux-button>
+    <rux-button (click)="onCancel()" secondary>Cancel</rux-button>
+    <rux-button (click)="onSave()">Save</rux-button>
   </div>
 </rux-container>

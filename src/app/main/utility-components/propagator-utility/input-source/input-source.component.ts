@@ -28,7 +28,7 @@ export class InputSourceComponent {
   }
 
   handleCancel() {
-    this.toasts.defaultToast()
+    this.toasts.defaultToast();
   }
 
   showEphemFiles: boolean = false;
