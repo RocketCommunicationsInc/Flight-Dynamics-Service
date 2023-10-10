@@ -8,7 +8,6 @@ import { TrackFile } from 'src/app/types/data.types';
 import { TrackFilesDataUtilityService } from '../../track-files-data.service';
 import { TableService } from 'src/app/shared/table.service';
 
-
 @Component({
   selector: 'fds-track-data-table',
   standalone: true,
@@ -38,12 +37,10 @@ export class TrackDataTableComponent {
   destroyRef = inject(DestroyRef)
   destroyed = new Subject();
 
-  constructor(public trackFilesService: TrackFilesDataUtilityService, public tableService: TableService<any>){
-  }
+  constructor(public trackFilesService: TrackFilesDataUtilityService, public tableService: TableService<any>){}
 
   ngOnInit(){
     this.sharedTableData$.subscribe(res => {
-      console.log(res)
       this.sharedTableData = res})
     this.getFiles()
   }

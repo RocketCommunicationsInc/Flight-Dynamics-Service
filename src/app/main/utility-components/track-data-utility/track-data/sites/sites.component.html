@@ -4,19 +4,22 @@
 >
   <header slot="header">Tracking Sites</header>
 
-  <rux-checkbox (ruxchange)="handleFilter($event)" label="Display All" />
-  <rux-checkbox label="CPCA" />
-  <rux-checkbox label="OAFB" />
-  <rux-checkbox label="HTS" />
-  <rux-checkbox label="VTS" />
-  <rux-checkbox label="SAFB" />
-  <rux-checkbox label="CTS" />
-  <rux-checkbox label="TVCF-E" />
-  <rux-checkbox label="DGS" />
-  <rux-checkbox label="TTS" />
-  <rux-checkbox label="GTS" />
-  <rux-checkbox label="NHS" />
-  <rux-checkbox label="BAFB" />
-  <rux-checkbox label="CDS" />
-
+  <rux-checkbox
+    checked
+    (ruxchange)="handleFilter($event)"
+    label="Display All"
+  />
+  <rux-checkbox label="CPCA" disabled />
+  <rux-checkbox label="OAFB" disabled />
+  <rux-checkbox label="HTS" disabled />
+  <rux-checkbox label="VTS" disabled />
+  <rux-checkbox label="SAFB" disabled />
+  <rux-checkbox label="CTS" disabled />
+  <rux-checkbox label="TVCF-E" disabled />
+  <rux-checkbox label="DGS" disabled />
+  <rux-checkbox label="TTS" disabled />
+  <rux-checkbox label="GTS" disabled />
+  <rux-checkbox label="NHS" disabled />
+  <rux-checkbox label="BAFB" disabled />
+  <rux-checkbox label="CDS" disabled />
 </rux-container>
