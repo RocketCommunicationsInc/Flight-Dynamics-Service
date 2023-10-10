@@ -16,6 +16,8 @@ header {
 
 .button-wrapper {
   display: flex;
+  gap: var(--spacing-3);
+
   & rux-button {
     width: var(--spacing-24);
   }
