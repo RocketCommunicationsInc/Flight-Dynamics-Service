@@ -5,8 +5,10 @@
 
 header {
   display: flex;
-  padding-block: var(--spacing-4);
+  padding-block: var(--spacing-3);
   gap: var(--spacing-2);
   justify-content: space-between;
   padding-inline: var(--spacing-4);
+  background-color: var(--color-background-surface-header);
+
 }
