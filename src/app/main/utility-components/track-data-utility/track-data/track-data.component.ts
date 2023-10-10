@@ -32,12 +32,10 @@ export class TrackDataComponent {
   //show/hide variables
   isSitesDrawerOpen: boolean = false;
   isSettingsDrawerOpen: boolean = false;
-  showGraph: boolean = true;
-  showTable: boolean = false;
-  leftIcon = 'notes';
-  leftText = 'Graph';
-  rightIcon = 'show-chart';
-  rightText = 'Table';
+  leftIcon: string = 'notes';
+  leftText: string = 'Graph';
+  rightIcon: string = 'show-chart';
+  rightText: string = 'Table';
   leftBtnActive: boolean = true;
   rightBtnActive: boolean = false;
 
@@ -52,14 +50,15 @@ export class TrackDataComponent {
   }
 
   viewTable() {
-    this.showGraph = false;
-    this.showTable = true;
     this.isSitesDrawerOpen = false
     this.isSettingsDrawerOpen = false
+    this.leftBtnActive = false
+    this.rightBtnActive = true
+
   }
 
   viewGraph() {
-    this.showGraph = true;
-    this.showTable = false;
+    this.leftBtnActive = true;
+    this.rightBtnActive = false;
   }
 }

@@ -1,6 +1,9 @@
 .track-data {
   position: relative;
   overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 }
 
 header {
@@ -11,4 +14,13 @@ header {
   padding-inline: var(--spacing-4);
   background-color: var(--color-background-surface-header);
 
+}
+
+.button-wrapper {
+  display: flex;
+  gap: var(--spacing-3);
+
+  & rux-button {
+    width: var(--spacing-24);
+  }
 }

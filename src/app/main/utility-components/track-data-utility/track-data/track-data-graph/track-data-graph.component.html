@@ -25,16 +25,16 @@
   <apx-chart
     *ngIf="series"
     [series]="series"
+    [tooltip]="chartOptions.tooltip"
     [chart]="chartOptions.chart"
     [xaxis]="chartOptions.xaxis"
     [yaxis]="chartOptions.yaxis"
     [markers]="chartOptions.markers"
     [stroke]="chartOptions.stroke"
     [legend]="chartOptions.legend"
-    [tooltip]="chartOptions.tooltip"
   ></apx-chart>
 
-  <div class="legend">
+  <div class="legend" #legend>
     <div class="checkboxes" *ngFor="let series of series; let i = index">
       <rux-checkbox
         [style.border-color]="series.color"
