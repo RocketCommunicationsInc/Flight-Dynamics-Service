@@ -16,7 +16,7 @@
     <fds-sites [isSitesDrawerOpen]="isSitesDrawerOpen" />
     <fds-settings [isSettingsDrawerOpen]="isSettingsDrawerOpen" />
 
-    <div *ngIf="showGraph" class="button-wrapper">
+    <div *ngIf="leftBtnActive" class="button-wrapper">
       <rux-button
         size="small"
         secondary
@@ -35,10 +35,10 @@
       >
     </div>
   </header>
-  <ng-container *ngIf="showGraph">
+  <ng-container *ngIf="leftBtnActive">
     <fds-track-data-graph #trackDataGraph></fds-track-data-graph>
   </ng-container>
-  <ng-container *ngIf="showTable">
+  <ng-container *ngIf="rightBtnActive">
     <fds-track-data-table></fds-track-data-table>
   </ng-container>
 </div>
