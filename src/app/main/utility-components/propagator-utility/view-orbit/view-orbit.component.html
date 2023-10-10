@@ -12,8 +12,8 @@
     ></fds-custom-segmented-button>
   </div>
   <div *ngIf="showModel" class="button-wrapper">
-    <rux-button size="small" secondary>Item 3</rux-button>
-    <rux-button size="small" secondary>Settings</rux-button>
+    <rux-button (click)="onClick()" size="small" secondary>Item 3</rux-button>
+    <rux-button (click)="onClick()" size="small" secondary>Settings</rux-button>
     <rux-button size="small" secondary (click)="toggleControls()"
       >Controls</rux-button
     >

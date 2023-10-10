@@ -132,6 +132,8 @@ export const generateSatProperties = (): OrbitProperties => {
   return {
     argOfPerigee: generateArgOfPerigee(),
     apogee: generateApogee(),
+    azimuth: generateAzimuth(),
+    elevation: generateElevation(),
     meanMotionDDot: generateMeanMotionDDot(),
     perigee: generatePerigee(),
     semiMajorAxis: generateSemiMajorAxis(),
@@ -252,6 +254,19 @@ const generateMass = (): OrbitProperty => {
   return {
     value: faker.number.int({ min: 20, max: 1000 }),
     unit: 'kg',
+  };
+};
+
+const generateAzimuth = (): OrbitProperty => {
+  return {
+    value: faker.number.int({ min: 0, max: 360 }),
+    unit: 'deg',
+  };
+};
+const generateElevation = (): OrbitProperty => {
+  return {
+    value: faker.number.int({ min: 10, max: 90 }),
+    unit: 'deg',
   };
 };
 

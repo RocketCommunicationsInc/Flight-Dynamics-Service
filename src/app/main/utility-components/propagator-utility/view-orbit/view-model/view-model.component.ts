@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { PropagatorControlsComponent } from '../../propagator-controls/propagator-controls.component';
@@ -9,7 +9,7 @@ import {
 } from 'src/app/+state/app.selectors';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { EphemerisFile, TrackFile } from 'src/app/types/data.types';
+import { TrackFile } from 'src/app/types/data.types';
 
 @Component({
   selector: 'fds-view-model',

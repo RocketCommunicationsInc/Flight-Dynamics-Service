@@ -17,7 +17,7 @@ export class PropagatorControlsComponent {
 
   onSave() {
     this.toasts.addToast({
-      message: 'Controls saved',
+      message: 'Controls Saved',
       hideClose: false,
       closeAfter: 3000,
     });

@@ -1,6 +1,6 @@
 <div>
   <div class="button-wrapper">
-    <span> Raw Track Files</span>
+    <span>Raw Track Files</span>
     <rux-select label="Filter By" (ruxchange)="onSelect($event)">
       <rux-option label="All" value="all" />
       <rux-option label="Last 7 Days" value="seven-days" />
@@ -15,21 +15,21 @@
         <thead>
           <tr>
             <th
-              *ngFor="let col of trackFilesTableService.columns"
+              *ngFor="let col of tableService.columns"
               [ngSwitch]="col.field"
               [ngClass]="{ sortable: col.sortable }"
               [attr.type]="col.type"
             >
               <rux-checkbox
                 *ngSwitchCase="'id'"
-                [checked]="trackFilesTableService.areAllSelected()"
-                (ruxchange)="trackFilesTableService.selectFiltered($event)"
+                [checked]="tableService.areAllSelected()"
+                (ruxchange)="selectFiltered($event)"
               />
               <div
                 *ngSwitchDefault
                 [ngClass]="{ active: col.sorted }"
                 class="h-stack"
-                (click)="trackFilesTableService.sort(col)"
+                (click)="tableService.sort(col)"
               >
                 {{ col.header }}
                 <rux-icon *ngIf="col.sortable" [icon]="col.icon" size="small" />
@@ -38,22 +38,22 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let row of trackFilesTableService.data">
+          <ng-container *ngFor="let row of tableService.data">
             <tr
               [attr.selected]="row.id === selectedTrackFile!.id"
               (click)="onRowClick($event, row.id)"
               *ngIf="!row.filtered"
             >
               <td
-                *ngFor="let col of trackFilesTableService.columns"
+                *ngFor="let col of tableService.columns"
                 [ngSwitch]="col.field"
                 [attr.type]="col.type"
                 [ngClass]="{ sortable: col.sortable }"
               >
                 <rux-checkbox
                   *ngSwitchCase="'id'"
-                  [checked]="row.selected || row.id === selectedTrackFile!.id"
-                  (ruxchange)="trackFilesTableService.selectRow($event, row)"
+                  [checked]="row.selected"
+                  (ruxchange)="tableService.selectRow($event, row)"
                   [disabled]="editTrackFile"
                 />
                 <ng-container *ngSwitchCase="'creationDate'">

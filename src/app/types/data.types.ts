@@ -44,6 +44,8 @@ export type OrbitProperties = {
   meanMotionDot: OrbitProperty;
   meanAnomaly: OrbitProperty;
   mass: OrbitProperty;
+  azimuth: OrbitProperty;
+  elevation: OrbitProperty;
 };
 
 export type TrackFile = {

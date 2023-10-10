@@ -21,7 +21,7 @@ export class InputSourceComponent {
 
   handleSettings() {
     this.toasts.addToast({
-      message: 'Settings saved',
+      message: 'Settings Saved',
       hideClose: false,
       closeAfter: 3000,
     });
