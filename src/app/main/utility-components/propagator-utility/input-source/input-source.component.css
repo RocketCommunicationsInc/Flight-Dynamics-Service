@@ -68,3 +68,7 @@ rux-input[type='number'] {
   justify-content: flex-end;
   padding-inline-start: var(--spacing-8);
 }
+
+.controls-btn {
+  width: 6.125rem;
+}

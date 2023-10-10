@@ -1,5 +1,9 @@
 <div class="controls">
-  <rux-button size="small" *ngIf="!showControlsPanel" (click)="toggleControls()"
+  <rux-button
+    class="controls-btn"
+    size="small"
+    *ngIf="!showControlsPanel"
+    (click)="toggleControls()"
     >Controls</rux-button
   >
   <rux-button
@@ -8,11 +12,12 @@
     secondary
     (click)="toggleControls()"
     icon="keyboard-backspace"
+    class="controls-btn"
     >Close</rux-button
   >
 </div>
 
-<fds-propagator-controls [showControlsPanel]="showControlsPanel"/>
+<fds-propagator-controls [showControlsPanel]="showControlsPanel" />
 
 <form>
   <h3>Source Settings</h3>
@@ -35,8 +40,7 @@
         placeholder="eph_100820.ephm"
         slot="trigger"
         [value]="selectedMenuItem"
-                type="search"
-
+        type="search"
       />
       <rux-menu (ruxmenuselected)="handlePopup($event)" *ngIf="!showEphemFiles">
         <span>Recent TLE Files</span>
