@@ -28,11 +28,7 @@ export class InputSourceComponent {
   }
 
   handleCancel() {
-    this.toasts.addToast({
-      message: 'This feature has not been implemented.',
-      hideClose: false,
-      closeAfter: 3000,
-    });
+    this.toasts.defaultToast()
   }
 
   showEphemFiles: boolean = false;

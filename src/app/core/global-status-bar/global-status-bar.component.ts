@@ -22,17 +22,13 @@ export class GlobalStatusBarComponent {
     menuActions[key]();
   }
 
-  //Show the 'feature not implemented' toast.
+  //Show the default 'feature not implemented' toast.
   showToast() {
-    this.toasts.addToast({
-      message: 'This feature has not been implemented.',
-      hideClose: false,
-      closeAfter: 3000,
-    });
+    this.toasts.defaultToast()
   }
 
   constructor(private toasts: ToastService) {
     this.lightMode = false;
-    this.showToast();
+    this.showToast()
   }
 }
