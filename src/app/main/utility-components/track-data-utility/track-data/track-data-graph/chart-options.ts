@@ -117,13 +117,14 @@ export function getChartOptions(events: {}, custom: {}, labelsShown: string[]): 
   xaxis: {
     categories: labelsShown,
     axisTicks: {
-      show: false,
+      show: true,
     },
     axisBorder: {
       show: true,
       color: 'var(--color-text-primary)',
     },
     labels: {
+      rotate: -45,
       enabled: true,
       show: true,
       style: {
