@@ -30,16 +30,11 @@ export class ViewModelComponent {
   trackFile$: Observable<TrackFile | null> = this.store.select(
     selectCurrentTrackFile
   );
-  showControlsPanel: boolean = false;
   zoomLevel: number = 36000000;
 
   constructor(private store: Store) {}
 
   handleZoom(event: any) {
     this.zoomLevel = event.target.value;
-  }
-
-  toggleControls() {
-    this.showControlsPanel = !this.showControlsPanel;
   }
 }

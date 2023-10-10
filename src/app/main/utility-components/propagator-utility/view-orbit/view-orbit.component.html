@@ -33,7 +33,10 @@
   </div>
 </header>
 
-<fds-propagator-controls [showControlsPanel]="showControlsPanel" />
+<fds-propagator-controls
+  [showControlsPanel]="showControlsPanel"
+  (onCancel)="toggleControls()"
+/>
 
 <fds-view-model *ngIf="showModel; else showTable" />
 

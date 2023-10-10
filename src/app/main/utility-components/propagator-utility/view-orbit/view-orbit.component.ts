@@ -21,10 +21,6 @@ import { ToastService } from 'src/app/shared/toast.service';
   styleUrls: ['./view-orbit.component.css'],
 })
 export class ViewOrbitComponent {
-  toggleControls() {
-    this.showControlsPanel = !this.showControlsPanel;
-  }
-
   showControlsPanel: boolean = false;
   showModel: boolean = true;
   leftIcon = 'public';
@@ -33,6 +29,10 @@ export class ViewOrbitComponent {
   rightText = 'Table';
   leftBtnActive: boolean = true;
   rightBtnActive: boolean = false;
+
+  toggleControls() {
+    this.showControlsPanel = !this.showControlsPanel;
+  }
 
   viewTable() {
     this.showModel = false;

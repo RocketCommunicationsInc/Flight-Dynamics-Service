@@ -51,7 +51,7 @@
   </form>
 
   <div slot="footer">
-    <rux-button (click)="onCancel()" secondary>Cancel</rux-button>
+    <rux-button (click)="onCancel.emit()" secondary>Cancel</rux-button>
     <rux-button (click)="onSave()">Save</rux-button>
   </div>
 </rux-container>
