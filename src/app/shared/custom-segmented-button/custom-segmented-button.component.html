@@ -1,0 +1,16 @@
+<button
+  [class.active]="isLeftBtnActive"
+  class="first-btn"
+  (click)="leftClick.emit()"
+>
+  <span> <rux-icon size="1.25rem" icon="{{ leftIcon }}" />{{ leftText }} </span>
+</button>
+<button
+  [class.active]="isRightBtnActive"
+  class="second-btn"
+  (click)="rightClick.emit()"
+>
+  <span>
+    <rux-icon size="1.25rem" icon="{{ rightIcon }}" />{{ rightText }}
+  </span>
+</button>

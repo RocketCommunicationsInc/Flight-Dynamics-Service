@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
-  LogData,
   ProcessedTrackFile,
   Spacecraft,
   TrackFile,
@@ -16,13 +15,9 @@ import {
 } from 'src/app/+state/app.selectors';
 import { select, Store } from '@ngrx/store';
 import { AppStore } from 'src/app/+state/app.model';
-import {
-  SpacecraftActions,
-  TrackFilesActions,
-} from 'src/app/+state/app.actions';
+import { TrackFilesActions } from 'src/app/+state/app.actions';
 import { MockDataService } from 'src/app/api/mock-data.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { OutputDataDisplayService } from '../../output-data-display/output-data-display.service';
 import { LogDataService } from 'src/app/shared/event-log.service';
 
 @Component({
@@ -98,13 +93,8 @@ export class InputsComponent {
   constructor(
     private store: Store<AppStore>,
     private ProcessTrackFileService: MockDataService,
-    private bannerService: OutputDataDisplayService,
     private logData: LogDataService
   ) {}
-
-  handleBanner() {
-    this.bannerService.handleBanner();
-  }
 
   onSubmit(): void {
     // generate processed trackFile using service

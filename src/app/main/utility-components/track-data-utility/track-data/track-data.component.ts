@@ -17,6 +17,7 @@ import {
 import { Files } from 'src/app/types/Files';
 import { SitesComponent } from './sites/sites.component';
 import { SettingsComponent } from './settings/settings.component';
+import { CustomSegmentedButtonComponent } from 'src/app/shared/custom-segmented-button/custom-segmented-button.component';
 
 type Sort = 'ASC' | 'DESC' | '';
 
@@ -40,6 +41,7 @@ type ChartOptions = {
     NgApexchartsModule,
     SitesComponent,
     SettingsComponent,
+    CustomSegmentedButtonComponent,
   ],
   templateUrl: './track-data.component.html',
   styleUrls: ['./track-data.component.css'],
@@ -53,6 +55,12 @@ export class TrackDataComponent {
   isSettingsDrawerOpen: boolean = false;
   showGraph: boolean = true;
   showTable: boolean = false;
+  leftIcon = 'notes';
+  leftText = 'Graph';
+  rightIcon = 'show-chart';
+  rightText = 'Table';
+  leftBtnActive: boolean = true;
+  rightBtnActive: boolean = false;
 
   shrinkChart() {
     this.chart?.updateOptions({
@@ -99,11 +107,15 @@ export class TrackDataComponent {
     this.showTable = true;
     this.isSitesDrawerOpen = false;
     this.isSettingsDrawerOpen = false;
+    this.rightBtnActive = true;
+    this.leftBtnActive = false;
   }
 
   viewGraph() {
     this.showGraph = true;
     this.showTable = false;
+    this.leftBtnActive = true;
+    this.rightBtnActive = false;
   }
 
   filteredData: Files[] = this.dummyFileData;
