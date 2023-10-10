@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import {
