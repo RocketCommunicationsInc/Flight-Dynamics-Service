@@ -2,38 +2,41 @@
   <table>
     <thead>
       <tr>
-        <th
-          *ngFor="let col of tableService.columns"
-          [ngClass]="{ sortable: col.sortable }"
-          [attr.type]="col.type"
-        >
-          <div
-            [ngClass]="{ active: col.sorted }"
-            class="h-stack"
-            (click)="tableService.sort(col)"
+        <ng-container *ngFor="let col of tableColumns">
+          <th
+            [ngClass]="{ sortable: col.sortable }"
+            [attr.type]="col.type"
+            *ngIf="col.field !== 'id'"
           >
-            {{ col.header }}
-            <rux-icon *ngIf="col.sortable" [icon]="col.icon" size="small" />
-          </div>
-        </th>
+            <div
+              [ngClass]="{ active: col.sorted }"
+              class="h-stack"
+              (click)="trackFilesService.tableService.sort(col)"
+            >
+              {{ col.header }}
+              <rux-icon *ngIf="col.sortable" [icon]="col.icon" size="small" />
+            </div>
+          </th>
+        </ng-container>
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let row of tableService.data">
-        <tr *ngIf="!row.filtered">
-          <td
-            *ngFor="let col of tableService.columns"
-            [ngSwitch]="col.field"
-            [attr.type]="col.type"
-            [ngClass]="{ sortable: col.sortable }"
-          >
-            <ng-container *ngSwitchCase="'creationDate'">
-              {{ row.creationDate | date: 'MM/dd/YYYY' }}
-            </ng-container>
-            <ng-container *ngSwitchDefault>
-              {{ row[col.field] }}
-            </ng-container>
-          </td>
+      <ng-container *ngFor="let row of trackFilesService.tableService.data">
+        <tr *ngIf="row.selected">
+          <ng-container *ngFor="let col of tableColumns">
+            <td
+              [ngSwitch]="col.field"
+              [attr.type]="col.type"
+              [ngClass]="{ sortable: col.sortable }"
+            >
+              <ng-container *ngSwitchCase="'creationDate'">
+                {{ row.creationDate | date: 'MM/dd/YYYY' }}
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                {{ row[col.field] }}
+              </ng-container>
+            </td>
+          </ng-container>
         </tr>
       </ng-container>
     </tbody>

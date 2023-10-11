@@ -15,7 +15,6 @@ import {
 } from 'ng-apexcharts';
 import { SitesComponent } from '../sites/sites.component';
 import { SettingsComponent } from '../settings/settings.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TrackFile } from 'src/app/types/data.types';
 import { TrackFilesDataUtilityService } from '../../track-files-data.service';
 import { ChartOptions, getChartOptions, getSeries } from './chart-options';
@@ -45,8 +44,7 @@ export class TrackDataGraphComponent {
   @ViewChild(ChartComponent) chartComponent?: ChartComponent;
   @ViewChild('legend') legend?: ElementRef;
 
-  sharedTrackFiles$ = this.trackFilesService.get();
-  sharedTrackFiles: TrackFile[] = [];
+  selectedData: any = null
 
   //chart variables
   chartOptions: ChartOptions = {}
@@ -104,13 +102,7 @@ export class TrackDataGraphComponent {
 
   constructor(
     public trackFilesService: TrackFilesDataUtilityService
-  ) {
-    this.sharedTrackFiles$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((res) => {
-        this.sharedTrackFiles = res || [];
-      });
-  }
+  ) {}
 
   orderByDate(data: TrackFile[]) {
     return data.sort((a, b) => {
@@ -121,15 +113,16 @@ export class TrackDataGraphComponent {
   }
 
   ngOnInit() {
+    this.selectedData = this.trackFilesService.tableService.data.filter(item => item.selected)
     this.chartOptions = getChartOptions(this.chartEvents, this.tooltipEvent, this.labelsShown)
     this.series = getSeries()
-    this.orderByDate(this.sharedTrackFiles);
+    this.orderByDate(this.selectedData);
 
-    this.dates = this.sharedTrackFiles.map((file) =>
+    this.dates = this.selectedData.map((file: any) =>
       file.creationDate.toLocaleDateString()
     );
     this.labelsShown = this.dates;
-    this.chartData = this.sharedTrackFiles.map((file) => {
+    this.chartData = this.selectedData.map((file:any) => {
       const azimuth = file.initialOrbitProperties.azimuth.value;
       const elevation = file.initialOrbitProperties.elevation.value;
       const inclination = file.initialOrbitProperties.inclination.value;
@@ -137,11 +130,6 @@ export class TrackDataGraphComponent {
     });
     this.chartOptions.xaxis.categories = this.labelsShown;
     this.updateSeries(this.chartData);
-  }
-
-  ngOnDestroy() {
-    this.destroyed.next(true);
-    this.destroyed.complete();
   }
 
   toggleChartSize(drawerOpen: boolean) {

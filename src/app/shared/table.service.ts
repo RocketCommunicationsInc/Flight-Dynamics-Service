@@ -13,7 +13,7 @@ export interface ColumnDefs<TData> {
   sortable?: boolean;
 }
 
-interface Column<TData> extends ColumnDefs<TData> {
+export interface Column<TData> extends ColumnDefs<TData> {
   sorted: Sorted;
   icon: 'arrow-drop-up' | 'arrow-drop-down';
   type: string;
