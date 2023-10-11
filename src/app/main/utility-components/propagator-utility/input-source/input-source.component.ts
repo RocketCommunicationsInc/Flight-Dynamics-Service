@@ -11,7 +11,12 @@ import {
 import { filter, Subscription } from 'rxjs';
 import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { Store, select } from '@ngrx/store';
-import type { TrackFile } from '../../../../types/data.types';
+import type { EphemerisFile } from '../../../../types/data.types';
+import {
+  generateEphemerisFile,
+  randomNum,
+} from 'src/app/mock-data/generate-data';
+import { TrackFilesActions } from 'src/app/+state/app.actions';
 @Component({
   selector: 'fds-input-source',
   standalone: true,
@@ -41,11 +46,13 @@ export class InputSourceComponent {
     startTime: FormControl<Date | null>;
     span: FormControl<number | null>;
   }>;
+  currentTrackFileId: string | null = null;
 
   currentTrackFile$: Subscription = this.store
     .pipe(select(selectCurrentTrackFile))
     .subscribe((result: any) => {
       console.log(result);
+      this.currentTrackFileId = result.id;
       this.sourceSettingsForm = new FormGroup({
         orbitSourceName: new FormControl(result!.ephemerisSourceFile.name),
         epoch: new FormControl(
@@ -59,8 +66,29 @@ export class InputSourceComponent {
       });
     });
 
-  onSubmit($event: any) {
-    console.log($event);
+  onSubmit() {
+    if (this.currentTrackFileId === null) return;
+    if (!this.sourceSettingsForm.value.epoch) return;
+    const parsedEpoch: Date = new Date(
+      Date.parse(this.sourceSettingsForm.value.epoch)
+    );
+    // generate new EphemerisFile
+    const newEphemerisSourceFile: EphemerisFile = generateEphemerisFile(
+      this.currentTrackFileId,
+      parsedEpoch,
+      14,
+      randomNum(-400, 1000),
+      randomNum(-400, 1000),
+      randomNum(-400, 800),
+      randomNum(-400, 800)
+    );
+    //Dispatch processed trackfile as a property of the current trackfile, back into state
+    this.store.dispatch(
+      TrackFilesActions.trackFileProcessed({
+        trackFileId: this.currentTrackFileId,
+        ephemerisSourceFile: newEphemerisSourceFile,
+      })
+    );
   }
 }
 
