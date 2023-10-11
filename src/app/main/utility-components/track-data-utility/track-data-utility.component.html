@@ -1,8 +1,17 @@
-<rux-tabs (click)="tabSelect($event)">
-  <rux-tab id="files" small selected="true">Select Files</rux-tab>
-  <rux-tab id="data" small>Filter/Edit Data</rux-tab>
-</rux-tabs>
-<ng-container [ngSwitch]="selectedTab">
-  <fds-track-files *ngSwitchCase="'files'" />
-  <fds-track-data *ngSwitchCase="'data'" />
-</ng-container>
+<fds-tabbed-child-container
+  [tabs]="tabs"
+  [hasTabPanels]="true"
+  tabsParentId="track-data-tabs"
+  [isUtilityContainer]="true"
+>
+  <ng-container panels>
+    <rux-tab-panel aria-labelledby="files">
+      <fds-track-files />
+    </rux-tab-panel>
+    <div (mousedown)="renderChart()">
+      <rux-tab-panel aria-labelledby="data">
+        <fds-track-data />
+      </rux-tab-panel>
+    </div>
+  </ng-container>
+</fds-tabbed-child-container>

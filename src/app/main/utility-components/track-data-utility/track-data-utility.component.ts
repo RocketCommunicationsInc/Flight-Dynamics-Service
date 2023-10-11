@@ -5,6 +5,8 @@ import { TrackFilesComponent } from 'src/app/main/utility-components/track-data-
 import { TrackDataComponent } from 'src/app/main/utility-components/track-data-utility/track-data/track-data.component';
 import { Store } from '@ngrx/store';
 import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
+import { Tabs } from 'src/app/types/Tabs';
+import { TabbedChildContainerComponent } from 'src/app/shared';
 @Component({
   selector: 'fds-track-data-util',
   standalone: true,
@@ -13,19 +15,21 @@ import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
     AstroComponentsModule,
     TrackFilesComponent,
     TrackDataComponent,
+    TabbedChildContainerComponent
   ],
   templateUrl: './track-data-utility.component.html',
   styleUrls: ['./track-data-utility.component.css'],
 })
 export class TrackDataUtilityComponent {
-  currentSpacecraft$ = this.store.select(selectCurrentSpacecraft)
-  selectedTab: string = 'files';
-
   constructor(private store: Store){}
+  currentSpacecraft$ = this.store.select(selectCurrentSpacecraft)
 
-  tabSelect(event: any) {
-    if (event.target.id) {
-      this.selectedTab = event.target.id;
-    }
+  renderChart() {
+    window.dispatchEvent(new Event('resize')) 
   }
+
+  tabs: Tabs[] = [
+    { label: 'Select Files', id: 'files', selected: true },
+    { label: 'Filter/Edit Data', id: 'data', selected: false },
+  ];
 }
