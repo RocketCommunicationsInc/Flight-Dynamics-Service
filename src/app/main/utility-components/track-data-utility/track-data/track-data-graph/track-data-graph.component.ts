@@ -16,7 +16,7 @@ import {
 import { SitesComponent } from '../sites/sites.component';
 import { SettingsComponent } from '../settings/settings.component';
 import { TrackFile } from 'src/app/types/data.types';
-import { TrackFilesDataUtilityService } from '../../track-files-data.service';
+import { TableData, TrackFilesDataUtilityService } from '../../track-files-data.service';
 import { ChartOptions, getChartOptions, getSeries } from './chart-options';
 
 
@@ -44,7 +44,8 @@ export class TrackDataGraphComponent {
   @ViewChild(ChartComponent) chartComponent?: ChartComponent;
   @ViewChild('legend') legend?: ElementRef;
 
-  selectedData: any = null
+  selectedData: TableData[] = []
+  noData: boolean = true
 
   //chart variables
   chartOptions: ChartOptions = {}
@@ -114,6 +115,7 @@ export class TrackDataGraphComponent {
 
   ngOnInit() {
     this.selectedData = this.trackFilesService.tableService.data.filter(item => item.selected)
+    this.noData = this.selectedData.length < 1
     this.chartOptions = getChartOptions(this.chartEvents, this.tooltipEvent, this.labelsShown)
     this.series = getSeries()
     this.orderByDate(this.selectedData);
@@ -213,4 +215,8 @@ export class TrackDataGraphComponent {
       },
     });
   }
+
+  // viewTrackFiles(){
+  //   console.log('gonna view those!')
+  // }
 }

@@ -1,6 +1,10 @@
 <div class="button-wrapper">
-  <span>Raw Track Files</span>
-  <rux-select label="Filter By" (ruxchange)="onSelect($event)">
+  <span>Raw Track Files ({{ trackFilesService.numberSelected }} Selected)</span>
+  <rux-select
+    label="Filter By"
+    (ruxchange)="onSelect($event)"
+    [value]="this.trackFilesService.currentFilter"
+  >
     <rux-option label="All" value="all" />
     <rux-option label="Last 7 Days" value="seven-days" />
     <rux-option label="Last 30 Days" value="thirty-days" />
@@ -21,7 +25,7 @@
           >
             <rux-checkbox
               *ngSwitchCase="'id'"
-              [checked]="trackFilesService.tableService.areAllSelected()"
+              [checked]="areAllFilteredSelected()"
               (ruxchange)="this.trackFilesService.selectFiltered($event)"
             />
             <div
@@ -52,9 +56,7 @@
               <rux-checkbox
                 *ngSwitchCase="'id'"
                 [checked]="row.selected"
-                (ruxchange)="
-                  trackFilesService.tableService.selectRow($event, row)
-                "
+                (ruxchange)="trackFilesService.selectTrackFile($event, row)"
                 [disabled]="editTrackFile"
               />
               <ng-container *ngSwitchCase="'creationDate'">

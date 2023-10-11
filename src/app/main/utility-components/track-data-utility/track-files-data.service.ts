@@ -4,12 +4,16 @@ import { Subject } from 'rxjs';
 import { ColumnDefs, TableService } from 'src/app/shared/table.service';
 import { TrackFile } from 'src/app/types/data.types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { selectCurrentSpaceCraftTrackFiles, selectCurrentTrackFile } from 'src/app/+state/app.selectors';
+import { selectCurrentSpaceCraftTrackFiles, selectCurrentSpacecraft, selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
 
 export type TrackData = TrackFile & {
   filtered?: boolean
 }
+
+export type TableData = TrackData & {
+  selected: boolean;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +24,8 @@ export class TrackFilesDataUtilityService {
   selectedTrackFile$ = this.store.select(selectCurrentTrackFile);
   trackFiles: TrackFile[] = [];
   selectedTrackFile: TrackFile | null = null;
+  currentFilter: string|null = null
+  numberSelected: number = 0
 
     //table defs
     columnDefs: ColumnDefs<TrackData>[] = [
@@ -42,20 +48,24 @@ export class TrackFilesDataUtilityService {
       .subscribe((res) => {
         const response = res ? res : []
         this.trackFiles = response
-          if(response){
-            const trackData = this.makeTrackData(response)
-
-            this.tableService.init({
-              columnDefs: this.columnDefs,
-              data: trackData,
-            })
-
-            this.selectAll()
-        }
       });
+
     this.selectedTrackFile$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => (this.selectedTrackFile = res));
+
+    this.store.select(selectCurrentSpacecraft)
+    .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(()=>{
+        if(this.trackFiles){
+          const trackData = this.makeTrackData(this.trackFiles)
+          this.tableService.init({
+            columnDefs: this.columnDefs,
+            data: trackData,
+          })
+          this.selectAll()
+          }
+        })
   }
 
   ngOnDestroy() {
@@ -63,22 +73,30 @@ export class TrackFilesDataUtilityService {
     this.destroyed.complete();
   }
 
-  get() {
-    return this.tableService.data
-  }
-
   makeTrackData(data: TrackFile[]){
     return data.map((trackfile) => ({...trackfile, filtered: false}))
+  }
+
+  updateNumberSelected(){
+    this.numberSelected = this.tableService.data.filter(row => row.selected).length
   }
 
   //table stuff
   selectAll(): void {
     this.tableService.data = this.tableService.data.map((row) => ({...row, selected: true}))
+    this.numberSelected = this.tableService.data.length
+  }
+
+  selectTrackFile(event: Event, file: TableData){
+    this.tableService.selectRow(event, file)
+    const isChecked = (event.target as HTMLRuxCheckboxElement).checked;
+    this.numberSelected = isChecked ? this.numberSelected + 1 : this.numberSelected - 1
   }
 
   selectFiltered(event: Event){
     const isChecked = (event.target as HTMLRuxCheckboxElement).checked;
-    this.tableService.data = this.tableService.data.map(row => !row.filtered ? {...row, selected: isChecked} : row)
+    this.tableService.data = this.tableService.data.map(row => { return !row.filtered ? {...row, selected: isChecked} : row})
+    this.numberSelected = this.tableService.data.filter(row => row.selected).length;
   }
 
   filter(selection: string): void {
@@ -109,6 +127,7 @@ export class TrackFilesDataUtilityService {
     }
 
     this.tableService.data = newData
+    this.currentFilter = selection !== 'all' ? selection : null
   }
 
   //dispatch stuff:

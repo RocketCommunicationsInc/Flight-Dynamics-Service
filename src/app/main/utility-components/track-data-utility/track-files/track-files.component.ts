@@ -1,19 +1,8 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormsModule } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import {
-  selectCurrentSpaceCraftTrackFiles,
-  selectCurrentTrackFile,
-} from 'src/app/+state/app.selectors';
-import { TrackFile } from 'src/app/types/data.types';
-import { TrackFilesActions } from 'src/app/+state/app.actions';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Subject } from 'rxjs';
-import { TrackFilesDataUtilityService } from '../track-files-data.service';
-import { TableService } from 'src/app/shared/table.service';
-
+import {TableData, TrackFilesDataUtilityService } from '../track-files-data.service';
 @Component({
   selector: 'fds-track-files',
   standalone: true,
@@ -21,6 +10,8 @@ import { TableService } from 'src/app/shared/table.service';
   templateUrl: './track-files.component.html',
   styleUrls: ['./track-files.component.css'],
 })
+
+
 export class TrackFilesComponent {
 
   //editing
@@ -32,7 +23,6 @@ export class TrackFilesComponent {
     public trackFilesService: TrackFilesDataUtilityService,
   ) {}
 
-
   onSelect(event: any) {
     this.trackFilesService.filter(event.target.value);
   }
@@ -43,7 +33,7 @@ export class TrackFilesComponent {
   }
 
   handleEdit() {
-    //!Todo: what are we actually editing here? Right now it's just a 'content' flag thats not in app state
+    //!Todo: what are we actually editing here? Right now it's just a tacked on 'content' state
     this.editedContent = this.trackFilesService.selectedTrackFile?.comment || this.lorem;
     this.editTrackFile = true;
   }
@@ -57,5 +47,9 @@ export class TrackFilesComponent {
     this.trackFilesService.saveToTrackFile(this.editedContent)
     this.editedContent = '';
     this.editTrackFile = false;
+  }
+
+  areAllFilteredSelected(){
+    return this.trackFilesService.tableService.data.every((row) => row.selected || (row.filtered && !row.selected));
   }
 }
