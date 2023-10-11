@@ -30,11 +30,20 @@ export class ViewModelComponent {
   trackFile$: Observable<TrackFile | null> = this.store.select(
     selectCurrentTrackFile
   );
-  zoomLevel: number = 36000000;
+  showControlsPanel: boolean = false;
+  zoomLevel: number = 36_000_000;
 
   constructor(private store: Store) {}
 
   handleZoom(event: any) {
     this.zoomLevel = event.target.value;
+  }
+
+  toggleControls() {
+    this.showControlsPanel = !this.showControlsPanel;
+  }
+
+  onMetersFromEarthChange(newMetersFromEarth: number) {
+    this.zoomLevel = newMetersFromEarth;
   }
 }
