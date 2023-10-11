@@ -54,7 +54,7 @@ export type TrackFile = {
   name: string;
   creationDate: Date;
   fileSize: number;
-  ephemerisSourceFile: EphemerisFile;
+  ephemerisSourceFile: EphemerisFile | null;
   tleSourceFile: TLEFile;
   epochRangeStart: Date;
   epochRangeEnd: Date;
@@ -80,9 +80,17 @@ export type EphemerisFile = {
   id: string;
   trackFileRefId: string;
   name: string;
+  ephemerides: Ephemeride[];
+  epoch: Date;
   satCords: {
-    [key: string]: number;
+    satPos1X: number;
+    satPos1Y: number;
+    satPos2X: number;
+    satPos2Y: number;
   };
+};
+
+export type Ephemeride = {
   epoch: Date;
   positionX: number;
   positionY: number;
@@ -97,11 +105,6 @@ export type TLEFile = {
   name: string;
   line1: string;
   line2: string;
-};
-
-export type Ephemeride = {
-  p: [number, number, number];
-  v: [number, number, number];
 };
 
 //TODO: work out performance table properties with design.
