@@ -20,8 +20,6 @@ import { TrackFile } from 'src/app/types/data.types';
 import { TrackFilesDataUtilityService } from '../../track-files-data.service';
 import { ChartOptions, getChartOptions, getSeries } from './chart-options';
 
-
-
 type ChartDataItem = {
   az: number;
   el: number;
@@ -49,7 +47,7 @@ export class TrackDataGraphComponent {
   sharedTrackFiles: TrackFile[] = [];
 
   //chart variables
-  chartOptions: ChartOptions = {}
+  chartOptions: ChartOptions = {};
   chartData: ChartDataItem[] = [];
   disableUndo: boolean = true;
 
@@ -63,48 +61,42 @@ export class TrackDataGraphComponent {
   selectedDataPoint: number | null | any = null;
   deletedDataPoints: any[] | null = [];
 
-  seriesIndexName: string = ''
+  seriesIndexName: string = '';
 
   chartEvents = {
     dataPointSelection: (event: any, chartContext: any, config: any) => {
-      const oldPoint = this.selectedDataPoint
-      oldPoint?.classList.remove(
-        'selected-data-point'
-      );
+      const oldPoint = this.selectedDataPoint;
+      oldPoint?.classList.remove('selected-data-point');
 
-      event.target.classList.add(
-          'selected-data-point'
-        );
+      event.target.classList.add('selected-data-point');
 
-      this.selectedDataPoint = event.target
+      this.selectedDataPoint = event.target;
     },
-  }
+  };
   tooltipEvent = {
-  custom: ({ series, seriesIndex, dataPointIndex }: any) => {
-    return (
-      '<div class="tooltip-box">' +
-      '<span> DGS' +
-      '</span> <br/>' +
-      '<span> ' +
-      this.dates[dataPointIndex] +
-      '</span> <br/>' +
-      '<span>' +
-      this.series[seriesIndex].name +
-      ':' +
-      series[seriesIndex][dataPointIndex] +
-      '</span>' +
-      '</div>'
-    );
-  },
-}
+    custom: ({ series, seriesIndex, dataPointIndex }: any) => {
+      return (
+        '<div class="tooltip-box">' +
+        '<span> DGS' +
+        '</span> <br/>' +
+        '<span> ' +
+        this.dates[dataPointIndex] +
+        '</span> <br/>' +
+        '<span>' +
+        this.series[seriesIndex].name +
+        ':' +
+        series[seriesIndex][dataPointIndex] +
+        '</span>' +
+        '</div>'
+      );
+    },
+  };
 
   //subscription cleanup
   destroyRef = inject(DestroyRef);
   destroyed = new Subject();
 
-  constructor(
-    public trackFilesService: TrackFilesDataUtilityService
-  ) {
+  constructor(public trackFilesService: TrackFilesDataUtilityService) {
     this.sharedTrackFiles$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => {
@@ -121,8 +113,12 @@ export class TrackDataGraphComponent {
   }
 
   ngOnInit() {
-    this.chartOptions = getChartOptions(this.chartEvents, this.tooltipEvent, this.labelsShown)
-    this.series = getSeries()
+    this.chartOptions = getChartOptions(
+      this.chartEvents,
+      this.tooltipEvent,
+      this.labelsShown
+    );
+    this.series = getSeries();
     this.orderByDate(this.sharedTrackFiles);
 
     this.dates = this.sharedTrackFiles.map((file) =>
@@ -176,39 +172,39 @@ export class TrackDataGraphComponent {
     series.visible = !series.visible;
 
     let markers: number[] = [];
-    let dataPoints: number = 0
+    let dataPoints: number = 0;
 
     const updatedSeries = this.series.filter((data: any) => {
-      if (data.visible){ markers.push(data.markerSize);
-        dataPoints = dataPoints + data.data.length
+      if (data.visible) {
+        markers.push(data.markerSize);
+        dataPoints = dataPoints + data.data.length;
       }
       return data.visible;
     });
-    this.dataPointLength = dataPoints
+    this.dataPointLength = dataPoints;
     this.chartComponent?.updateSeries(updatedSeries);
     this.chartComponent?.updateOptions({ markers: { size: [...markers] } });
-
   }
 
   onDelete() {
-    if(!this.selectedDataPoint) return;
-    this.selectedDataPoint.classList.add('hide-node')
-    this.deletedDataPoints?.push(this.selectedDataPoint)
-    if((this.deletedDataPoints as number[]).length >= 1) {
-      this.disableUndo = false
+    if (!this.selectedDataPoint) return;
+    this.selectedDataPoint.classList.add('hide-node');
+    this.deletedDataPoints?.push(this.selectedDataPoint);
+    if ((this.deletedDataPoints as number[]).length >= 1) {
+      this.disableUndo = false;
     }
-    this.dataPointLength = this.dataPointLength - 1
+    this.dataPointLength = this.dataPointLength - 1;
   }
 
   onUndo() {
-    const newUndoArray = this.deletedDataPoints
-    const undoVal = newUndoArray?.pop()
-    undoVal.classList.remove('hide-node')
+    const newUndoArray = this.deletedDataPoints;
+    const undoVal = newUndoArray?.pop();
+    undoVal.classList.remove('hide-node');
     this.deletedDataPoints = newUndoArray;
-    if((this.deletedDataPoints as number[]).length < 1) {
-      this.disableUndo = true
+    if ((this.deletedDataPoints as number[]).length < 1) {
+      this.disableUndo = true;
     }
-    this.dataPointLength = this.dataPointLength + 1
+    this.dataPointLength = this.dataPointLength + 1;
   }
 
   handleZoom(event: any) {
