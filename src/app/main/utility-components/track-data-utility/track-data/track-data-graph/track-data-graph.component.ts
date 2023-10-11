@@ -172,6 +172,9 @@ export class TrackDataGraphComponent {
       if (data.visible){ markers.push(data.markerSize);
         dataPoints = dataPoints + data.data.length
       }
+      if (data.visible){ markers.push(data.markerSize);
+        dataPoints = dataPoints + data.data.length
+      }
       return data.visible;
     });
     this.dataPointLength = dataPoints
@@ -188,6 +191,7 @@ export class TrackDataGraphComponent {
       this.disableUndo = false
     }
     this.dataPointLength = this.dataPointLength - 1
+    this.dataPointLength = this.dataPointLength - 1
   }
 
   onUndo() {
@@ -198,6 +202,7 @@ export class TrackDataGraphComponent {
     if((this.deletedDataPoints as number[]).length < 1) {
       this.disableUndo = true
     }
+    this.dataPointLength = this.dataPointLength + 1
     this.dataPointLength = this.dataPointLength + 1
   }
 
