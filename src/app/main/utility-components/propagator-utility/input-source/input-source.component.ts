@@ -77,8 +77,6 @@ export class InputSourceComponent {
     if (this.currentTrackFile === null) return;
     if (!this.sourceSettingsForm.value.epoch) return;
 
-    console.log(this.sourceSettingsForm);
-
     const parsedEpoch: Date = new Date(
       Date.parse(this.sourceSettingsForm.value.epoch)
     );
