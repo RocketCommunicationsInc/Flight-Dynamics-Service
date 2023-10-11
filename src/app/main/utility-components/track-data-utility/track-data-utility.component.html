@@ -10,8 +10,8 @@
       <rux-tab-panel aria-labelledby="files">
         <fds-track-files />
       </rux-tab-panel>
-      <!-- Second div to make sure it continues to render when you switch tabs in chrome -->
-      <div (mousedown)="renderChart()">
+      <!-- Second div to ensure it continues to render when you switch tabs in chrome -->
+      <div (mousemove)="renderChart()">
         <rux-tab-panel aria-labelledby="data">
           <fds-track-data />
         </rux-tab-panel>
