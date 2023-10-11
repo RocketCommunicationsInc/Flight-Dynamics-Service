@@ -88,7 +88,6 @@ export const generateEphemerisFile = (
   satPos2X: number,
   satPos2Y: number
 ): EphemerisFile => {
-  console.log(startDatetime);
   const firstEphemeride = {
     epoch: startDatetime,
     positionX: faker.number.int({ min: 300, max: 500 }),
@@ -101,8 +100,6 @@ export const generateEphemerisFile = (
 
   let endDatetime = new Date(startDatetime);
   endDatetime.setDate(endDatetime.getDate() + Number(span));
-  console.log(startDatetime);
-  console.log(endDatetime);
   const lastEphemeride = {
     epoch: endDatetime,
     positionX: faker.number.int({ min: 300, max: 500 }),
