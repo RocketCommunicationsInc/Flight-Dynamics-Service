@@ -1,9 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import {
-  NgApexchartsModule,
-} from 'ng-apexcharts';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { SitesComponent } from './sites/sites.component';
 import { SettingsComponent } from './settings/settings.component';
 import { TrackDataGraphComponent } from './track-data-graph/track-data-graph.component';
@@ -21,13 +19,13 @@ import { CustomSegmentedButtonComponent } from 'src/app/shared/custom-segmented-
     SettingsComponent,
     TrackDataGraphComponent,
     TrackDataTableComponent,
-    CustomSegmentedButtonComponent
+    CustomSegmentedButtonComponent,
   ],
   templateUrl: './track-data.component.html',
   styleUrls: ['./track-data.component.css'],
 })
 export class TrackDataComponent {
-  @ViewChild('trackDataGraph') trackDataGraph?: TrackDataGraphComponent|null
+  @ViewChild('trackDataGraph') trackDataGraph?: TrackDataGraphComponent | null;
 
   //show/hide variables
   isSitesDrawerOpen: boolean = false;
@@ -41,20 +39,19 @@ export class TrackDataComponent {
 
   toggleSitesDrawer() {
     this.isSitesDrawerOpen = !this.isSitesDrawerOpen;
-    this.trackDataGraph?.toggleChartSize(this.isSitesDrawerOpen)
+    this.trackDataGraph?.toggleChartSize(this.isSitesDrawerOpen);
   }
 
   toggleSettingsDrawer() {
     this.isSettingsDrawerOpen = !this.isSettingsDrawerOpen;
-    this.trackDataGraph?.toggleChartSize(this.isSettingsDrawerOpen)
+    this.trackDataGraph?.toggleChartSize(this.isSettingsDrawerOpen);
   }
 
   viewTable() {
-    this.isSitesDrawerOpen = false
-    this.isSettingsDrawerOpen = false
-    this.leftBtnActive = false
-    this.rightBtnActive = true
-
+    this.isSitesDrawerOpen = false;
+    this.isSettingsDrawerOpen = false;
+    this.leftBtnActive = false;
+    this.rightBtnActive = true;
   }
 
   viewGraph() {

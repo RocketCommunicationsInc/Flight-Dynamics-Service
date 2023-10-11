@@ -17,81 +17,72 @@
   >
 </div>
 
-<fds-propagator-controls [showControlsPanel]="showControlsPanel" (onCancel)="toggleControls()" />
+<fds-propagator-controls
+  [showControlsPanel]="showControlsPanel"
+  (onCancel)="toggleControls()"
+/>
 
-<form>
-  <h3>Source Settings</h3>
-  <section class="form-section">
-    <rux-select label="Orbit Source" (ruxchange)="handleSelectMenu($event)">
-      <rux-option value="TLE" label="TLE" />
-      <rux-option value="Ephem" label="Ephemeris" />
-    </rux-select>
+<form
+  id="sourceSettingsForm"
+  [formGroup]="sourceSettingsForm"
+  (ngSubmit)="onSubmit($event)"
+>
+  <div class="form-content">
+    <h3>Source Settings</h3>
+    <span>Trackfile: </span>
+    <span>{{ currentTrackFile?.name }}</span>
 
-    <rux-pop-up placement="bottom" closeOnSelect="true">
+    <h3>Epoch Settings</h3>
+    <section class="form-section">
       <rux-input
-        *ngIf="!showEphemFiles"
-        placeholder="tle_020120.tle"
-        slot="trigger"
-        [value]="selectedMenuItem"
-        type="search"
+        type="datetime-local"
+        label="Epoch"
+        formControlName="epoch"
+        placeholder="YYY/MM/DD 00:00:00"
+        required
+      />
+      <rux-select>
+        <rux-option label="UTCYmdHMs3" />
+      </rux-select>
+      <div class="switch-wrapper">
+        <rux-switch label="Include Item" formControlName="switch1"></rux-switch>
+        <rux-switch label="Include Item" formControlName="switch2"></rux-switch>
+      </div>
+    </section>
+
+    <h3>Date & Duration Settings</h3>
+    <section class="form-section date-duration">
+      <rux-select label="Date Format">
+        <rux-option label="UTC YmdHMs3" />
+      </rux-select>
+      <rux-input
+        type="date"
+        label="Start Date"
+        placeholder="eph_020120.ephm"
+        formControlName="startDate"
+        required
       />
       <rux-input
-        *ngIf="showEphemFiles"
-        placeholder="eph_100820.ephm"
-        slot="trigger"
-        [value]="selectedMenuItem"
-        type="search"
+        type="time"
+        label="Start Time"
+        placeholder="eph_020120.ephm"
+        formControlName="startTime"
+        required
       />
-      <rux-menu (ruxmenuselected)="handlePopup($event)" *ngIf="!showEphemFiles">
-        <span>Recent TLE Files</span>
-        <rux-menu-item *ngFor="let tle of TLEFiles" value="{{ tle }}">{{
-          tle
-        }}</rux-menu-item>
-        <rux-menu-item-divider />
-        <span>Import TLE File</span>
-        <rux-menu-item disabled>Drop File Here</rux-menu-item>
-      </rux-menu>
-
-      <rux-menu (ruxmenuselected)="handlePopup($event)" *ngIf="showEphemFiles">
-        <span>Recent TLE Files</span>
-        <rux-menu-item *ngFor="let eph of EphemFiles" value="{{ eph }}">{{
-          eph
-        }}</rux-menu-item>
-        <rux-menu-item-divider />
-        <span>Import TLE File</span>
-        <rux-menu-item disabled>Drop File Here</rux-menu-item>
-      </rux-menu>
-    </rux-pop-up>
-  </section>
-
-  <h3>Epoch Settings</h3>
-  <section class="form-section">
-    <rux-input
-      type="datetime-local"
-      label="Epoch"
-      placeholder="YYY/MM/DD 00:00:00"
-    />
-    <rux-select>
-      <rux-option label="UTCYmdHMs3" />
-    </rux-select>
-    <div class="switch-wrapper">
-      <rux-switch label="Include Item"></rux-switch>
-      <rux-switch label="Include Item"></rux-switch>
-    </div>
-  </section>
-
-  <h3>Date & Duration Settings</h3>
-  <section class="form-section">
-    <rux-select label="Date Format">
-      <rux-option label="UTC YmdHMs3" />
-    </rux-select>
-    <rux-input type="date" label="Start Date" placeholder="eph_020120.ephm" />
-    <rux-input type="time" label="Start Time" placeholder="eph_020120.ephm" />
-    <rux-input type="number" min="0" label="Span (Days)" placeholder="#" />
-  </section>
+      <rux-input
+        type="number"
+        min="0"
+        label="Span (Days)"
+        placeholder="#"
+        formControlName="span"
+        required
+      />
+    </section>
+  </div>
+  <footer>
+    <rux-button secondary (click)="handleCancel()">Cancel</rux-button>
+    <rux-button form="sourceSettingsForm" type="submit" value="Submit"
+      >Save Settings</rux-button
+    >
+  </footer>
 </form>
-
-<footer>
-  <rux-button secondary (click)="handleCancel()">Cancel</rux-button>
-  <rux-button (click)="handleSettings()">Save Settings</rux-button>
-</footer>

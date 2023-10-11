@@ -16,46 +16,31 @@ footer {
 
 form {
   background-color: var(--color-background-surface-default);
-  padding-inline: calc(var(--spacing-6) + 4px);
-  padding-block: var(--spacing-4);
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   flex-grow: 1;
   overflow: auto;
 }
 
 h3 {
-  padding-block-end: 1em;
+  padding-block: var(--spacing-8);
 }
 
 .form-section {
   display: flex;
   align-items: flex-end;
   gap: var(--spacing-2);
-  padding-block-end: var(--spacing-4);
 }
 
-rux-pop-up {
-  width: max-content;
+/* The flex-end alignment in form-section was causing a bigger gap between h3 & section */
+.date-duration {
+  margin-top: -1.5rem;
 }
 
-rux-pop-up::part(popup-content) {
-  min-width: 191px;
-  transform: translateY(-12px);
-
-  & rux-menu {
-    padding-inline-start: var(--spacing-2);
-  }
-}
-
-rux-pop-up::part(arrow) {
-  display: none;
-}
-
-rux-pop-up span {
-  padding-inline-start: var(--spacing-2);
-  font-style: italic;
+.form-content {
+  padding-inline: calc(var(--spacing-6) + 4px);
+  overflow: auto;
+  flex-grow: 1;
 }
 
 rux-input[type='number'] {
@@ -72,4 +57,16 @@ rux-input[type='number'] {
 
 .controls-btn {
   width: 6.125rem;
+}
+
+span:nth-of-type(1) {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weights-medium);
+}
+
+span:nth-of-type(2) {
+  font-style: italic;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weights-medium);
+  color: var(--color-text-secondary);
 }
