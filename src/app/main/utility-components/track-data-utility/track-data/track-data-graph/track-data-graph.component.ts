@@ -215,8 +215,4 @@ export class TrackDataGraphComponent {
       },
     });
   }
-
-  // viewTrackFiles(){
-  //   console.log('gonna view those!')
-  // }
 }
