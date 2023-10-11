@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { TrackFile } from '../types/data.types';
+import type { TrackFile, EphemerisFile } from '../types/data.types';
 import {
   scenarioAdapter,
   spacecraftAdapter,
@@ -70,7 +70,7 @@ export const selectCurrentSpaceCraftTrackFiles = createSelector(
 
 export const selectCurrentTrackFileEphemerisData = createSelector(
   selectCurrentTrackFile,
-  (TrackFile): { [key: string]: number } | null => {
-    return TrackFile!.ephemerisSourceFile.satCords;
+  (TrackFile): EphemerisFile | null => {
+    return TrackFile!.ephemerisSourceFile;
   }
 );

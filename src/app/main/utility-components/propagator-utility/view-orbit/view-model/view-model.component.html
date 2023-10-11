@@ -16,14 +16,14 @@
   </div>
 </div>
 <div
-  *ngIf="ephemData$ | async as ephemData"
+  *ngIf="(ephemData$ | async)?.satCords as satCords"
   fdsCesiumMap
   [zoomLevel]="zoomLevel"
   (onMetersFromEarthChange)="onMetersFromEarthChange($event)"
-  [satPos1X]="ephemData['satPos1X']"
-  [satPos1Y]="ephemData['satPos1Y']"
-  [satPos2X]="ephemData['satPos2X']"
-  [satPos2Y]="ephemData['satPos2Y']"
+  [satPos1X]="satCords['satPos1X']"
+  [satPos1Y]="satCords['satPos1Y']"
+  [satPos2X]="satCords['satPos2X']"
+  [satPos2Y]="satCords['satPos2Y']"
   [name]="(trackFile$ | async)!.name"
 ></div>
 
