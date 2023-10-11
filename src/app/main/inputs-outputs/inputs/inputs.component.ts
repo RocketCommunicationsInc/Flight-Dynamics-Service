@@ -1,15 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import {
-  ProcessedTrackFile,
-  Spacecraft,
-  TrackFile,
-} from 'src/app/types/data.types';
+import { ProcessedTrackFile, TrackFile } from 'src/app/types/data.types';
 import { filter, Observable, Subscription } from 'rxjs';
 import {
-  selectCurrentSpacecraft,
   selectCurrentSpaceCraftTrackFiles,
   selectCurrentTrackFile,
 } from 'src/app/+state/app.selectors';
@@ -20,6 +15,15 @@ import { MockDataService } from 'src/app/api/mock-data.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LogDataService } from 'src/app/shared/event-log.service';
 
+interface InputData {
+  databaseFile: string;
+  orbitSource: string;
+  epoch: Date;
+  epochRange: string;
+  epochSpan: number;
+  thrustProfile: string;
+  processedTrackFile: string | null;
+}
 @Component({
   selector: 'fds-inputs',
   standalone: true,
@@ -28,32 +32,8 @@ import { LogDataService } from 'src/app/shared/event-log.service';
   styleUrls: ['./inputs.component.css'],
 })
 export class InputsComponent {
-  // scenario data
-  currentScenarioId: string | undefined | null;
-
-  //spacecraft data
-  spacecraft: Spacecraft | null | undefined;
-  spacecraft$: Subscription = this.store
-    .pipe(
-      takeUntilDestroyed(),
-      filter((val) => val !== null),
-      select(selectCurrentSpacecraft)
-    )
-    .subscribe((result) => {
-      this.spacecraft = result;
-      this.currentScenarioId = result?.scenarioRefId;
-    });
-
-  // input form initial declarations
-  inputForm!: FormGroup<{
-    databaseFile: FormControl<string | null>;
-    orbitSource: FormControl<string | null>;
-    epoch: FormControl<Date | null>;
-    epochRange: FormControl<string | null>;
-    epochSpan: FormControl<number | null>;
-    thrustProfile: FormControl<string | null>;
-    processedTrackFile: FormControl<string | null>;
-  }>;
+  @Input() formGroup!: FormGroup<{}>;
+  formData: InputData | undefined;
 
   //trackfile data
   processedTrackFile: ProcessedTrackFile | undefined;
@@ -62,63 +42,72 @@ export class InputsComponent {
     selectCurrentSpaceCraftTrackFiles
   );
   currentTrackFile: TrackFile | null | undefined;
-  currentTrackFile$: Subscription = this.store
-    .pipe(
-      takeUntilDestroyed(),
-      select(selectCurrentTrackFile),
-      filter((val) => val !== null)
-    )
-    .subscribe((result) => {
+  currentTrackFileSub: Subscription;
+  currentTrackFile$ = this.store.select(selectCurrentTrackFile);
+  // .pipe(
+  //   takeUntilDestroyed(),
+  //   select(selectCurrentTrackFile),
+  //   filter((val) => val !== null)
+  // )
+  // .subscribe((result) => {
+  //   this.currentTrackFile = result;
+  //   const epochStart = result!.epochRangeEnd.getTime();
+  //   const epochEnd = result!.epochRangeStart.getTime();
+  //   const diffTime = (epochStart - epochEnd) / (1000 * 3600 * 24);
+  //   this.currentTrackFileId = result!.id;
+
+  //   // this.formData = {
+  //   //   databaseFile: result!.tleSourceFile.name,
+  //   //   orbitSource: result!.ephemerisSourceFile.name,
+  //   //   epoch: result!.creationDate,
+  //   //   epochRange: `${result!.epochRangeStart} - ${result!.epochRangeEnd}`,
+
+  //   //   epochSpan: diffTime,
+  //   //   thrustProfile: result!.thrustProfileFileName,
+  //   //   processedTrackFile:
+  //   //     result!.processedTrackFile && result!.processedTrackFile.name,
+  //   // };
+  //   this.formGroup!.addControl(
+  //     'orbitSource',
+  //     new FormControl(this.currentTrackFile!.ephemerisSourceFile.name)
+  //   );
+  // });
+
+  constructor(private store: Store<AppStore>) {
+    this.currentTrackFileSub = this.currentTrackFile$.subscribe((result) => {
       this.currentTrackFile = result;
       const epochStart = result!.epochRangeEnd.getTime();
       const epochEnd = result!.epochRangeStart.getTime();
       const diffTime = (epochStart - epochEnd) / (1000 * 3600 * 24);
       this.currentTrackFileId = result!.id;
 
-      this.inputForm = new FormGroup({
-        databaseFile: new FormControl(result!.tleSourceFile.name),
-        orbitSource: new FormControl(result!.ephemerisSourceFile.name),
-        epoch: new FormControl(result!.creationDate),
-        epochRange: new FormControl(
-          `${result!.epochRangeStart} - ${result!.epochRangeEnd}`
-        ),
-        epochSpan: new FormControl(diffTime),
-        thrustProfile: new FormControl(result!.thrustProfileFileName),
-        processedTrackFile: new FormControl(
-          result!.processedTrackFile && result!.processedTrackFile.name
-        ),
-      });
-    });
+      this.formData = {
+        databaseFile: result!.tleSourceFile.name,
+        orbitSource: result!.ephemerisSourceFile.name,
+        epoch: result!.creationDate,
+        epochRange: `${result!.epochRangeStart} - ${result!.epochRangeEnd}`,
 
-  constructor(
-    private store: Store<AppStore>,
-    private ProcessTrackFileService: MockDataService,
-    private logData: LogDataService
-  ) {}
-
-  onSubmit(): void {
-    // generate processed trackFile using service
-    (this.processedTrackFile = this.ProcessTrackFileService.processtrackFile(
-      this.currentTrackFileId!
-    )),
-      //Dispatch processed trackfile as a property of the current trackfile, back into state
-      this.store.dispatch(
-        TrackFilesActions.trackFileModified({
-          trackFileId: this.currentTrackFile!.id,
-          updatedTrackFile: {
-            ...this.currentTrackFile!,
-            processedTrackFile: this.processedTrackFile,
-          },
-        })
-      );
-
-    this.logData.addEvent({
-      timestamp: new Date(),
-      status: 'normal',
-      message: `Processed trackfile created from ${this.currentTrackFile?.name}`,
+        epochSpan: diffTime,
+        thrustProfile: result!.thrustProfileFileName,
+        processedTrackFile:
+          result!.processedTrackFile && result!.processedTrackFile.name,
+      };
     });
   }
 
+  ngOnInit() {
+    // this.formGroup!.addControl(
+    //   'orbitSource',
+    //   new FormControl(this.currentTrackFile!.ephemerisSourceFile.name)
+    // );
+    this.addFormControls(this.formData!);
+  }
+
+  addFormControls(inputData: InputData) {
+    for (const [key, value] of Object.entries(inputData)) {
+      this.formGroup!.addControl(key, new FormControl(value));
+    }
+  }
   handleSelect(e: any): void {
     this.store.dispatch(
       TrackFilesActions.trackFileSelected({ trackFileId: e.target.value })

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, filter, Observable, tap } from 'rxjs';
+import { filter } from 'rxjs';
 import { SpacecraftActions } from '../+state/app.actions';
 import { Spacecraft } from '../types/data.types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
