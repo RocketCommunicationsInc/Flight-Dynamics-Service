@@ -2,12 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { PropagatorControlsComponent } from '../propagator-controls/propagator-controls.component';
-import {
-  Form,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { filter, Subscription } from 'rxjs';
 import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { Store, select } from '@ngrx/store';
@@ -17,6 +12,7 @@ import {
   randomNum,
 } from 'src/app/mock-data/generate-data';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
+import { ToastService } from 'src/app/shared/toast.service';
 @Component({
   selector: 'fds-input-source',
   standalone: true,
@@ -30,7 +26,10 @@ import { TrackFilesActions } from 'src/app/+state/app.actions';
   styleUrls: ['./input-source.component.css'],
 })
 export class InputSourceComponent {
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private toasts: ToastService
+  ) {}
   showControlsPanel: boolean = false;
 
   toggleControls() {
@@ -65,9 +64,21 @@ export class InputSourceComponent {
       });
     });
 
-  onSubmit() {
+  onSubmit(event: SubmitEvent) {
+    if (this.sourceSettingsForm.status === 'INVALID') {
+      // show invalid form toast
+      this.toasts.addToast({
+        message: 'Please provide required values',
+        hideClose: false,
+        closeAfter: 3000,
+      });
+      return;
+    }
     if (this.currentTrackFile === null) return;
     if (!this.sourceSettingsForm.value.epoch) return;
+
+    console.log(this.sourceSettingsForm);
+
     const parsedEpoch: Date = new Date(
       Date.parse(this.sourceSettingsForm.value.epoch)
     );
@@ -98,5 +109,12 @@ export class InputSourceComponent {
         updatedTrackFile,
       })
     );
+
+    //Show the data updated toast.
+    this.toasts.addToast({
+      message: 'Orbit Ephemeris Data Updated',
+      hideClose: false,
+      closeAfter: 3000,
+    });
   }
 }
