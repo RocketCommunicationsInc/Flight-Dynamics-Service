@@ -1,17 +1,19 @@
-<fds-tabbed-child-container
-  [tabs]="tabs"
-  [hasTabPanels]="true"
-  tabsParentId="track-data-tabs"
-  [isUtilityContainer]="true"
->
-  <ng-container panels>
-    <rux-tab-panel aria-labelledby="files">
-      <fds-track-files />
-    </rux-tab-panel>
-    <div (mousedown)="renderChart()">
+<!-- To ensure the chart renders in Chrome and Safari-->
+<div (mousemove)="renderChart()">
+  <fds-tabbed-child-container
+    [tabs]="tabs"
+    [hasTabPanels]="true"
+    tabsParentId="track-data-tabs"
+    [isUtilityContainer]="true"
+  >
+    <ng-container panels>
+      <rux-tab-panel aria-labelledby="files">
+        <fds-track-files />
+      </rux-tab-panel>
+
       <rux-tab-panel aria-labelledby="data">
         <fds-track-data />
       </rux-tab-panel>
-    </div>
-  </ng-container>
-</fds-tabbed-child-container>
+    </ng-container>
+  </fds-tabbed-child-container>
+</div>

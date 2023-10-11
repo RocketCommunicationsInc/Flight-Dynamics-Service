@@ -15,17 +15,18 @@ import { TabbedChildContainerComponent } from 'src/app/shared';
     AstroComponentsModule,
     TrackFilesComponent,
     TrackDataComponent,
-    TabbedChildContainerComponent
+    TabbedChildContainerComponent,
   ],
   templateUrl: './track-data-utility.component.html',
   styleUrls: ['./track-data-utility.component.css'],
 })
 export class TrackDataUtilityComponent {
-  constructor(private store: Store){}
-  currentSpacecraft$ = this.store.select(selectCurrentSpacecraft)
+  constructor(private store: Store) {}
+  currentSpacecraft$ = this.store.select(selectCurrentSpacecraft);
 
   renderChart() {
-    window.dispatchEvent(new Event('resize')) 
+    const event = new CustomEvent('resize');
+    window.dispatchEvent(event);
   }
 
   tabs: Tabs[] = [
