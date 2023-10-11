@@ -23,14 +23,10 @@ export class ViewOrbitTableService {
   ephemerisData: Ephemeride[] = [];
   currentTrackFile$: Subscription = this.store
     .select(selectCurrentTrackFile)
-    .pipe(
-      takeUntilDestroyed(),
-      map(
-        (trackFile: TrackFile | null) =>
-          (this.ephemerisData = trackFile!.ephemerisSourceFile!.ephemerides)
-      )
-    )
-    .subscribe();
+    .pipe(takeUntilDestroyed())
+    .subscribe((trackFile: TrackFile | null) => {
+      this.ephemerisData = trackFile!.ephemerisSourceFile!.ephemerides;
+    });
 
   columnDefs: ColumnDefs<Ephemeride>[] = [
     { header: 'Epoch', field: 'epoch', sortable: true },
