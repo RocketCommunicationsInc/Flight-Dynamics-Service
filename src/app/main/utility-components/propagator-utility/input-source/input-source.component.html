@@ -42,6 +42,7 @@
         label="Epoch"
         formControlName="epoch"
         placeholder="YYY/MM/DD 00:00:00"
+        required
       />
       <rux-select>
         <rux-option label="UTCYmdHMs3" />
@@ -62,12 +63,14 @@
         label="Start Date"
         placeholder="eph_020120.ephm"
         formControlName="startDate"
+        required
       />
       <rux-input
         type="time"
         label="Start Time"
         placeholder="eph_020120.ephm"
         formControlName="startTime"
+        required
       />
       <rux-input
         type="number"
@@ -75,6 +78,7 @@
         label="Span (Days)"
         placeholder="#"
         formControlName="span"
+        required
       />
     </section>
   </div>

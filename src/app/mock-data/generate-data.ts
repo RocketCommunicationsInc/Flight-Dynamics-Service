@@ -88,6 +88,7 @@ export const generateEphemerisFile = (
   satPos2X: number,
   satPos2Y: number
 ): EphemerisFile => {
+  console.log(startDatetime);
   const firstEphemeride = {
     epoch: startDatetime,
     positionX: faker.number.int({ min: 300, max: 500 }),
@@ -98,8 +99,10 @@ export const generateEphemerisFile = (
     velocityZ: faker.number.int({ min: 300, max: 500 }),
   };
 
-  let endDatetime = startDatetime;
-  endDatetime.setDate(endDatetime.getDate() + span);
+  let endDatetime = new Date(startDatetime);
+  endDatetime.setDate(endDatetime.getDate() + Number(span));
+  console.log(startDatetime);
+  console.log(endDatetime);
   const lastEphemeride = {
     epoch: endDatetime,
     positionX: faker.number.int({ min: 300, max: 500 }),
@@ -110,9 +113,9 @@ export const generateEphemerisFile = (
     velocityZ: faker.number.int({ min: 300, max: 500 }),
   };
 
-  const betweenEphemerides = Array(30)
-    .fill(null)
-    .map(() => generateEphemeride(startDatetime, endDatetime));
+  const betweenEphemerides = Array.from(Array(30), (_) =>
+    generateEphemeride(startDatetime, endDatetime)
+  );
 
   return {
     id: crypto.randomUUID(),
@@ -130,8 +133,10 @@ export const generateEphemerisFile = (
 };
 
 const generateEphemeride = (start: Date, end: Date): Ephemeride => {
+  const fakeEpoch = faker.date.between({ from: start, to: end });
+
   return {
-    epoch: faker.date.between({ from: start, to: end }),
+    epoch: fakeEpoch,
     positionX: faker.number.int({ min: 300, max: 500 }),
     positionY: faker.number.int({ min: 300, max: 500 }),
     positionZ: faker.number.int({ min: 300, max: 500 }),

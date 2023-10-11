@@ -11,7 +11,7 @@ import {
 import { filter, Subscription } from 'rxjs';
 import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { Store, select } from '@ngrx/store';
-import type { EphemerisFile } from '../../../../types/data.types';
+import type { EphemerisFile, TrackFile } from '../../../../types/data.types';
 import {
   generateEphemerisFile,
   randomNum,
@@ -46,13 +46,12 @@ export class InputSourceComponent {
     startTime: FormControl<Date | null>;
     span: FormControl<number | null>;
   }>;
-  currentTrackFileId: string | null = null;
 
+  currentTrackFile: TrackFile | null = null;
   currentTrackFile$: Subscription = this.store
     .pipe(select(selectCurrentTrackFile))
     .subscribe((result: any) => {
-      console.log(result);
-      this.currentTrackFileId = result.id;
+      this.currentTrackFile = result;
       this.sourceSettingsForm = new FormGroup({
         orbitSourceName: new FormControl(result!.ephemerisSourceFile.name),
         epoch: new FormControl(
@@ -67,37 +66,37 @@ export class InputSourceComponent {
     });
 
   onSubmit() {
-    if (this.currentTrackFileId === null) return;
+    if (this.currentTrackFile === null) return;
     if (!this.sourceSettingsForm.value.epoch) return;
     const parsedEpoch: Date = new Date(
       Date.parse(this.sourceSettingsForm.value.epoch)
     );
+    const { startDate, startTime, span } = this.sourceSettingsForm.value;
+    const combinedDatetime = startDate + 'T' + startTime + ':00';
+
     // generate new EphemerisFile
     const newEphemerisSourceFile: EphemerisFile = generateEphemerisFile(
-      this.currentTrackFileId,
-      parsedEpoch,
-      14,
+      this.currentTrackFile.id,
+      new Date(combinedDatetime),
+      span || 14,
       randomNum(-400, 1000),
       randomNum(-400, 1000),
       randomNum(-400, 800),
       randomNum(-400, 800)
     );
+
+    const updatedTrackFile = {
+      ...this.currentTrackFile,
+      epoch: parsedEpoch,
+      ephemerisSourceFile: newEphemerisSourceFile,
+    };
+
     //Dispatch processed trackfile as a property of the current trackfile, back into state
     this.store.dispatch(
-      TrackFilesActions.trackFileProcessed({
-        trackFileId: this.currentTrackFileId,
-        ephemerisSourceFile: newEphemerisSourceFile,
+      TrackFilesActions.trackFileModified({
+        trackFileId: this.currentTrackFile.id,
+        updatedTrackFile,
       })
     );
   }
 }
-
-// ephemerisSourceFile: generateEphemerisFile(
-//   id,
-//   epoch,
-//   14,
-//   randomNum(-400, 1000),
-//   randomNum(-400, 1000),
-//   randomNum(-400, 800),
-//   randomNum(-400, 800)
-// ),
