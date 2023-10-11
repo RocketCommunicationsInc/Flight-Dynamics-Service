@@ -29,8 +29,16 @@
 >
   <div class="form-content">
     <h3>Source Settings</h3>
-    <span>Trackfile: </span>
-    <span>{{ currentTrackFile?.name }}</span>
+
+    <section class="form-section">
+      <rux-select label="Orbit Source">
+        <rux-option label="Ephemeris" />
+        <rux-option disabled="" label="TLE" />
+      </rux-select>
+      <rux-tooltip message="{{ currentTrackFile?.ephemerisSourceFile?.name }}">
+        <rux-input formControlName="orbitSourceName" readonly />
+      </rux-tooltip>
+    </section>
 
     <h3>Epoch Settings</h3>
     <section class="form-section">
