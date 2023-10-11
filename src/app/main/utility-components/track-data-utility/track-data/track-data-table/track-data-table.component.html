@@ -1,0 +1,41 @@
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th
+          *ngFor="let col of tableService.columns"
+          [ngClass]="{ sortable: col.sortable }"
+          [attr.type]="col.type"
+        >
+          <div
+            [ngClass]="{ active: col.sorted }"
+            class="h-stack"
+            (click)="tableService.sort(col)"
+          >
+            {{ col.header }}
+            <rux-icon *ngIf="col.sortable" [icon]="col.icon" size="small" />
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let row of tableService.data">
+        <tr *ngIf="!row.filtered">
+          <td
+            *ngFor="let col of tableService.columns"
+            [ngSwitch]="col.field"
+            [attr.type]="col.type"
+            [ngClass]="{ sortable: col.sortable }"
+          >
+            <ng-container *ngSwitchCase="'creationDate'">
+              {{ row.creationDate | date: 'MM/dd/YYYY' }}
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              {{ row[col.field] }}
+            </ng-container>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

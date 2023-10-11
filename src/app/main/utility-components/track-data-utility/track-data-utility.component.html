@@ -1,10 +1,8 @@
-<div>
-  <rux-tabs (click)="tabSelect($event)">
-    <rux-tab id="files" small selected="true">Select Files</rux-tab>
-    <rux-tab id="data" small>Filter/Edit Data</rux-tab>
-  </rux-tabs>
-</div>
-<div [ngSwitch]="selectedTab">
+<rux-tabs (click)="tabSelect($event)">
+  <rux-tab id="files" small selected="true">Select Files</rux-tab>
+  <rux-tab id="data" small>Filter/Edit Data</rux-tab>
+</rux-tabs>
+<ng-container [ngSwitch]="selectedTab">
   <fds-track-files *ngSwitchCase="'files'" />
   <fds-track-data *ngSwitchCase="'data'" />
-</div>
+</ng-container>

@@ -1,0 +1,96 @@
+:host {
+  height: 100%;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-areas:
+    'tool-bar'
+    'chart'
+    'footer';
+  grid-template-columns: 1fr;
+  grid-template-rows: max-content auto max-content;
+}
+
+.chart-wrapper {
+  grid-area: chart;
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.legend {
+  position: absolute;
+  top: 250px;
+  right: 100px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-background-base-default);
+  padding: var(--spacing-2);
+}
+
+.legend-pushed {
+  right: 30%;
+  top: 225px;
+}
+
+.legend rux-checkbox {
+  border-bottom: 4px solid;
+}
+
+.toolbar {
+  grid-area: tool-bar;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: var(--spacing-2);
+  padding-inline: var(--spacing-4);
+  background-color: var(--color-background-surface-header);
+}
+
+.toolbar-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+rux-slider {
+  width: 13rem;
+  padding-inline: var(--spacing-2);
+}
+
+.zoom-wrapper {
+  display: flex;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-8);
+  padding-bottom: var(--spacing-6);
+  grid-area: footer;
+  text-align: center;
+  width: 82%;
+}
+
+/* NG-DEEP is eventually going to be deprecated, but there is no alternative yet */
+:host ::ng-deep .tooltip-box {
+  background-color: var(--color-background-base-selected);
+  padding-inline: var(--spacing-3);
+  padding-block: var(--spacing-1);
+  border: none;
+}
+
+:host ::ng-deep .selected-data-point {
+  fill: var(--color-data-visualization-1);
+}
+
+:host ::ng-deep .hidden-data-point {
+  fill: transparent;
+}
+
+:host ::ng-deep .hide-node {
+  fill-opacity: 0;
+  stroke-opacity: 0;
+  pointer-events: none;
+}

@@ -33,16 +33,22 @@
             </div>
           </div>
           <div>
-            <rux-button icon="notes" secondary (click)="viewTable()"
-              >Table</rux-button
-            >
-            <rux-button icon="show-chart" secondary (click)="viewGraph()"
-              >Graph</rux-button
-            >
+            <fds-custom-segmented-button
+              [leftIcon]="leftIcon"
+              [leftText]="leftText"
+              [rightText]="rightText"
+              [rightIcon]="rightIcon"
+              (leftClick)="viewTable()"
+              (rightClick)="viewGraph()"
+              [isLeftBtnActive]="leftBtnActive"
+              [isRightBtnActive]="rightBtnActive"
+            ></fds-custom-segmented-button>
           </div>
           <div class="action-btn-wrapper">
-            <rux-button secondary (click)="handleTLE()">Create TLE</rux-button>
-            <rux-button (click)="handleEphemeris()"
+            <rux-button secondary (click)="handleTLE()" size="small"
+              >Create TLE</rux-button
+            >
+            <rux-button (click)="handleEphemeris()" size="small"
               >Create Ephemeris</rux-button
             >
           </div>
@@ -59,16 +65,29 @@
           <div class="heading">
             <h1>2</h1>
             <p>Discrepancies</p>
+            <span>
+              <rux-status status="serious" />Warning ({{
+                outputDataDisplayService.performanceWarnings
+              }})</span
+            >
           </div>
           <div class="data performance">
-            <rux-select label="Antenna">
+            <rux-select
+              label="Antenna"
+              (ruxchange)="handleAntennaSelect($event)"
+            >
               <rux-option value="cumulative" label="Cumulative" />
               <rux-option value="pass1" label="Pass 1" />
               <rux-option value="pass2" label="Pass 2" />
               <rux-option value="pass3" label="Pass 3" />
             </rux-select>
-            <rux-select label="Data Type">
+            <rux-select
+              label="Data Type"
+              (ruxchange)="handleDataSelect($event)"
+            >
               <rux-option value="range" label="Range" />
+              <rux-option value="azimuth" label="Azimuth" />
+              <rux-option value="elevation" label="Elevation" />
             </rux-select>
           </div>
         </div>
@@ -77,7 +96,7 @@
       <div class="antenna-tables-wrapper">
         <div class="sub-header">
           <div class="container">
-            <h3>Cumulative</h3>
+            <h3 #cumulative>Cumulative</h3>
             <div class="h-stack">
               <p>Reference Frame: Cartesian ECI</p>
               <p>|</p>
@@ -86,11 +105,11 @@
           </div>
         </div>
         <fds-performance-table
-          [data]="outputDataDisplayService.performanceData"
+          [data]="outputDataDisplayService.cumulativeData"
         />
         <div class="sub-header">
           <div class="container">
-            <h3>Pass 1</h3>
+            <h3 #pass1>Pass 1</h3>
           </div>
         </div>
         <fds-performance-table
@@ -98,19 +117,19 @@
         />
         <div class="sub-header">
           <div class="container">
-            <h3>Pass 2</h3>
+            <h3 #pass2>Pass 2</h3>
           </div>
         </div>
         <fds-performance-table
-          [data]="outputDataDisplayService.performanceData"
+          [data]="outputDataDisplayService.performanceData2"
         />
         <div class="sub-header">
           <div class="container">
-            <h3>Pass 3</h3>
+            <h3 #pass3>Pass 3</h3>
           </div>
         </div>
         <fds-performance-table
-          [data]="outputDataDisplayService.performanceData"
+          [data]="outputDataDisplayService.performanceData3"
         />
       </div>
     </rux-tab-panel>

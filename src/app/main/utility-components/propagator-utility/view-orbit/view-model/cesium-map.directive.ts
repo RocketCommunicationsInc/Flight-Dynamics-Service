@@ -1,8 +1,11 @@
 import {
   Directive,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { OnInit } from '@angular/core';
@@ -18,51 +21,69 @@ import {
   selector: '[fdsCesiumMap]',
   standalone: true,
 })
-export class CesiumMapDirective implements OnInit, OnChanges {
+export class CesiumMapDirective implements OnInit, OnChanges, OnDestroy {
+  initialMetersFromEarth = 36_000_000;
+  cameraChangeUnsubscribe: () => void = () => undefined;
   viewer: Viewer;
   constructor(private el: ElementRef) {
     this.viewer = new Viewer(this.el.nativeElement);
     this.viewer.scene.mode = SceneMode.SCENE2D;
     this.viewer.fullscreenButton.destroy();
-    this.viewer.camera.maximumZoomFactor = 1;
+    // this.viewer.camera.maximumZoomFactor = 1;
   }
 
-  @Input() cameraZoom: number = 36000000;
+  @Input() zoomLevel: number = this.initialMetersFromEarth;
   @Input() name: string = '';
   @Input() satPos1X: number = 0;
   @Input() satPos1Y: number = 0;
   @Input() satPos2X: number = 0;
   @Input() satPos2Y: number = 0;
+  @Output() onMetersFromEarthChange = new EventEmitter<number>();
 
   ngOnInit(): void {
-    this.viewer.camera.zoomOut(this.cameraZoom);
+    this.viewer.camera.zoomOut(this.initialMetersFromEarth);
     this.viewer.camera.flyTo({
       destination: Cartesian3.fromDegrees(
         this.satPos1X,
         this.satPos1Y,
-        this.viewer.camera.positionCartographic.height
+        this.initialMetersFromEarth
       ),
     });
     this.addPoint(this.satPos1X, this.satPos1Y);
     this.addPoint(this.satPos2X, this.satPos2Y);
     this.addLine(this.satPos1X, this.satPos1Y, this.satPos2X, this.satPos2Y);
+
+    this.cameraChangeUnsubscribe = this.viewer.camera.changed.addEventListener(
+      /**
+       *
+       * @param _ https://cesium.com/learn/cesiumjs/ref-doc/Camera.html#changed
+       */
+      (_: number) => {
+        const newMetersFromEarth = Math.floor(
+          this.viewer.camera.positionCartographic.height
+        );
+        this.onMetersFromEarthChange.emit(newMetersFromEarth);
+      }
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['cameraZoom'].isFirstChange()) {
-      this.viewer.camera.zoomIn(changes['cameraZoom'].currentValue);
-    } else if (
-      changes['cameraZoom'].currentValue > changes['cameraZoom'].previousValue
-    ) {
-      //zoom out
-      this.viewer.camera.zoomOut(
-        changes['cameraZoom'].currentValue - changes['cameraZoom'].previousValue
-      );
-    } else {
-      this.viewer.camera.zoomIn(
-        changes['cameraZoom'].previousValue - changes['cameraZoom'].currentValue
-      );
+    const zoomLevel = changes['zoomLevel'];
+    const prevMetersFromEarth = zoomLevel.previousValue;
+    const currMetersFromEartch = zoomLevel.currentValue;
+    if (zoomLevel.isFirstChange()) {
+      this.viewer.camera.zoomIn(currMetersFromEartch);
+      return;
     }
+    if (currMetersFromEartch > prevMetersFromEarth) {
+      this.viewer.camera.zoomOut(currMetersFromEartch);
+      return;
+    }
+    this.viewer.camera.zoomIn(currMetersFromEartch);
+  }
+
+  ngOnDestroy(): void {
+    this.cameraChangeUnsubscribe();
   }
 
   /**

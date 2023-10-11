@@ -1,108 +1,106 @@
-<div>
-  <div class="button-wrapper">
-    <span> Raw Track Files</span>
-    <rux-select label="Filter By" (ruxchange)="onSelect($event)">
-      <rux-option label="All" value="all" />
-      <rux-option label="Last 7 Days" value="seven-days" />
-      <rux-option label="Last 30 Days" value="thirty-days" />
-      <rux-option label="Last 90 Days" value="ninety-days" />
-    </rux-select>
-  </div>
+<div class="button-wrapper">
+  <span>Raw Track Files</span>
+  <rux-select label="Filter By" (ruxchange)="onSelect($event)">
+    <rux-option label="All" value="all" />
+    <rux-option label="Last 7 Days" value="seven-days" />
+    <rux-option label="Last 30 Days" value="thirty-days" />
+    <rux-option label="Last 90 Days" value="ninety-days" />
+  </rux-select>
+</div>
 
-  <div class="content">
-    <div class="table-wrapper">
-      <table [ngClass]="{ disabled: editTrackFile }">
-        <thead>
-          <tr>
-            <th
-              *ngFor="let col of trackFilesTableService.columns"
+<div class="content">
+  <div class="table-wrapper">
+    <table [ngClass]="{ disabled: editTrackFile }">
+      <thead>
+        <tr>
+          <th
+            *ngFor="let col of tableService.columns"
+            [ngSwitch]="col.field"
+            [ngClass]="{ sortable: col.sortable }"
+            [attr.type]="col.type"
+          >
+            <rux-checkbox
+              *ngSwitchCase="'id'"
+              [checked]="tableService.areAllSelected()"
+              (ruxchange)="selectFiltered($event)"
+            />
+            <div
+              *ngSwitchDefault
+              [ngClass]="{ active: col.sorted }"
+              class="h-stack"
+              (click)="tableService.sort(col)"
+            >
+              {{ col.header }}
+              <rux-icon *ngIf="col.sortable" [icon]="col.icon" size="small" />
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let row of tableService.data">
+          <tr
+            [attr.selected]="row.id === selectedTrackFile!.id"
+            (click)="onRowClick($event, row.id)"
+            *ngIf="!row.filtered"
+          >
+            <td
+              *ngFor="let col of tableService.columns"
               [ngSwitch]="col.field"
-              [ngClass]="{ sortable: col.sortable }"
               [attr.type]="col.type"
+              [ngClass]="{ sortable: col.sortable }"
             >
               <rux-checkbox
                 *ngSwitchCase="'id'"
-                [checked]="trackFilesTableService.areAllSelected()"
-                (ruxchange)="trackFilesTableService.selectFiltered($event)"
+                [checked]="row.selected"
+                (ruxchange)="tableService.selectRow($event, row)"
+                [disabled]="editTrackFile"
               />
-              <div
-                *ngSwitchDefault
-                [ngClass]="{ active: col.sorted }"
-                class="h-stack"
-                (click)="trackFilesTableService.sort(col)"
-              >
-                {{ col.header }}
-                <rux-icon *ngIf="col.sortable" [icon]="col.icon" size="small" />
-              </div>
-            </th>
+              <ng-container *ngSwitchCase="'creationDate'">
+                {{ row.creationDate | date: 'MM/dd/YYYY' }}
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                {{ row[col.field] }}
+              </ng-container>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngFor="let row of trackFilesTableService.data">
-            <tr
-              [attr.selected]="row.id === selectedTrackFile!.id"
-              (click)="onRowClick($event, row.id)"
-              *ngIf="!row.filtered"
-            >
-              <td
-                *ngFor="let col of trackFilesTableService.columns"
-                [ngSwitch]="col.field"
-                [attr.type]="col.type"
-                [ngClass]="{ sortable: col.sortable }"
-              >
-                <rux-checkbox
-                  *ngSwitchCase="'id'"
-                  [checked]="row.selected || row.id === selectedTrackFile!.id"
-                  (ruxchange)="trackFilesTableService.selectRow($event, row)"
-                  [disabled]="editTrackFile"
-                />
-                <ng-container *ngSwitchCase="'creationDate'">
-                  {{ row.creationDate | date: 'MM/dd/YYYY' }}
-                </ng-container>
-                <ng-container *ngSwitchDefault>
-                  {{ row[col.field] }}
-                </ng-container>
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
-    </div>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
 
-    <div class="file-wrapper">
-      <header>
-        <span>{{ selectedTrackFile ? selectedTrackFile.name : '' }}</span>
-        <div>
-          <rux-button
-            [disabled]="!editTrackFile"
-            borderless
-            secondary
-            icon="cancel"
-            (click)="handleCancel()"
-            >Cancel</rux-button
-          >
-          <rux-button
-            [disabled]="!editTrackFile"
-            borderless
-            secondary
-            icon="save"
-            (click)="handleSave()"
-            >Save</rux-button
-          >
-        </div>
-      </header>
-
-      <div class="file-content" *ngIf="!editTrackFile">
-        <rux-icon icon="antenna-transmit" size="7rem" />
-        <rux-button [disabled]="!selectedTrackFile!.id" (click)="handleEdit()"
-          >Edit Track File</rux-button
+  <div class="file-wrapper">
+    <header>
+      <span>{{ selectedTrackFile ? selectedTrackFile.name : '' }}</span>
+      <div>
+        <rux-button
+          [disabled]="!editTrackFile"
+          borderless
+          secondary
+          icon="cancel"
+          (click)="handleCancel()"
+          >Cancel</rux-button
+        >
+        <rux-button
+          [disabled]="!editTrackFile"
+          borderless
+          secondary
+          icon="save"
+          (click)="handleSave()"
+          >Save</rux-button
         >
       </div>
-      <rux-textarea
-        *ngIf="editTrackFile"
-        class="edit-file"
-        [(ngModel)]="editedContent"
-      />
+    </header>
+
+    <div class="file-content" *ngIf="!editTrackFile">
+      <rux-icon icon="antenna-transmit" size="7rem" />
+      <rux-button [disabled]="!selectedTrackFile!.id" (click)="handleEdit()"
+        >Edit Track File</rux-button
+      >
     </div>
+    <rux-textarea
+      *ngIf="editTrackFile"
+      class="edit-file"
+      [(ngModel)]="editedContent"
+    />
   </div>
 </div>
