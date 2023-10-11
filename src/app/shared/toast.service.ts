@@ -18,4 +18,12 @@ export class ToastService {
   public addToast(config: ToastConfig) {
     this._stackSubject.next(config);
   }
+
+  public defaultToast() {
+    this.addToast({
+      message: 'This feature has not been implemented.',
+      hideClose: false,
+      closeAfter: 3000,
+    });
+  }
 }

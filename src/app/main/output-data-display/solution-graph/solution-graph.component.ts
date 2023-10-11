@@ -97,7 +97,7 @@ export class SolutionGraphComponent {
     ],
     chart: {
       background: 'var(--color-background-base-default)',
-      height: 450,
+      height: 465,
       type: 'rangeBar',
       toolbar: {
         show: false,

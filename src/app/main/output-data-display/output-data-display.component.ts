@@ -3,8 +3,6 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  Output,
-  EventEmitter,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
@@ -102,11 +100,7 @@ export class OutputDataDisplayComponent implements OnInit {
 
   handleDataSelect(event: any) {
     if (event.target.value) {
-      this.toasts.addToast({
-        message: 'This feature has not been implemented',
-        hideClose: false,
-        closeAfter: 3000,
-      });
+      this.toasts.defaultToast()
     }
   }
 

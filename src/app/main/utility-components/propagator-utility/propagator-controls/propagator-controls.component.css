@@ -1,14 +1,23 @@
-:host {
+.controls-drawer {
+  width: 22rem;
+  background-color: var(--color-background-surface-default);
   position: absolute;
-  right: 0px;
-  height: 510px;
-  width: 400px;
+  top: 0;
+  right: -22rem;
+  height: calc(100% - 7.25rem);
+  margin-top: 3.35rem;
+  transition: right 0.3s;
+  padding-right: var(--spacing-1);
   z-index: 10;
 }
 
 rux-container::part(body) {
   padding-block: var(--spacing-0);
   overflow: auto;
+}
+
+.open-drawer {
+  right: 0;
 }
 
 div[slot='footer'] {
@@ -59,4 +68,5 @@ section span {
 
 section span rux-icon {
   margin-left: auto;
+  cursor: not-allowed;
 }

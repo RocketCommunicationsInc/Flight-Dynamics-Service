@@ -23,43 +23,25 @@ form {
 }
 
 h3 {
-  padding-block-end: 1em;
+  padding-bottom: var(--spacing-8);
+  padding-top: var(--spacing-4);
 }
 
 .form-section {
   display: flex;
   align-items: flex-end;
   gap: var(--spacing-2);
-  padding-block-end: var(--spacing-4);
+}
+
+/* The flex-end alignment in form-section was causing a bigger gap between h3 & section */
+.date-duration {
+  margin-top: -1.5rem;
 }
 
 .form-content {
-  padding-block-start: var(--spacing-4);
   padding-inline: calc(var(--spacing-6) + 4px);
   overflow: auto;
   flex-grow: 1;
-}
-
-rux-pop-up {
-  width: max-content;
-}
-
-rux-pop-up::part(popup-content) {
-  min-width: 191px;
-  transform: translateY(-12px);
-
-  & rux-menu {
-    padding-inline-start: var(--spacing-2);
-  }
-}
-
-rux-pop-up::part(arrow) {
-  display: none;
-}
-
-rux-pop-up span {
-  padding-inline-start: var(--spacing-2);
-  font-style: italic;
 }
 
 rux-input[type='number'] {
@@ -74,6 +56,18 @@ rux-input[type='number'] {
   padding-inline-start: var(--spacing-8);
 }
 
-.controls-panel {
-  position: relative;
+.controls-btn {
+  width: 6.125rem;
+}
+
+span:nth-of-type(1) {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weights-medium);
+}
+
+span:nth-of-type(2) {
+  font-style: italic;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weights-medium);
+  color: var(--color-text-secondary);
 }
