@@ -51,7 +51,7 @@ export class InputsComponent {
 
       this.inputForm = new FormGroup({
         databaseFile: new FormControl(result!.tleSourceFile.name),
-        orbitSource: new FormControl(result!.ephemerisSourceFile.name),
+        orbitSource: new FormControl(result!.ephemerisSourceFile!.name),
         epoch: new FormControl(result!.creationDate),
         epochRange: new FormControl(
           `${result!.epochRangeStart} - ${result!.epochRangeEnd}`

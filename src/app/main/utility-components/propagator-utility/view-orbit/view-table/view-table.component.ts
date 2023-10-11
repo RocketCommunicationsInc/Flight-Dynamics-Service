@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { ViewOrbitTableService } from '../view-orbit-table.service';
 import { TableService } from 'src/app/shared/table.service';
-import type { EphemerisFile } from 'src/app/types/data.types';
+import type { Ephemeride } from 'src/app/types/data.types';
 @Component({
   selector: 'fds-view-table',
   standalone: true,
@@ -14,7 +14,7 @@ import type { EphemerisFile } from 'src/app/types/data.types';
 })
 export class ViewTableComponent {
   constructor(
-    public tableService: TableService<EphemerisFile>,
+    public tableService: TableService<Ephemeride>,
     public viewOrbitTableService: ViewOrbitTableService
   ) {
     this.tableService.init({

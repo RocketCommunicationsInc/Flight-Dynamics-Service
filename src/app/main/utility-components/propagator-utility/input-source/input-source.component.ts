@@ -34,7 +34,7 @@ export class InputSourceComponent {
 
   sourceSettingsForm!: FormGroup<{
     orbitSourceName: FormControl<string | null>;
-    epoch: FormControl<Date | null>;
+    epoch: FormControl<null | string>;
     switch1: FormControl<boolean | null>;
     switch2: FormControl<boolean | null>;
     startDate: FormControl<Date | null>;
@@ -45,9 +45,12 @@ export class InputSourceComponent {
   currentTrackFile$: Subscription = this.store
     .pipe(select(selectCurrentTrackFile))
     .subscribe((result: any) => {
+      console.log(result);
       this.sourceSettingsForm = new FormGroup({
         orbitSourceName: new FormControl(result!.ephemerisSourceFile.name),
-        epoch: new FormControl(result!.epochRangeStart.getTime()),
+        epoch: new FormControl(
+          result!.epochRangeStart.toISOString().slice(0, 16)
+        ),
         switch1: new FormControl(false),
         switch2: new FormControl(false),
         startDate: new FormControl(),
@@ -60,3 +63,13 @@ export class InputSourceComponent {
     console.log($event);
   }
 }
+
+// ephemerisSourceFile: generateEphemerisFile(
+//   id,
+//   epoch,
+//   14,
+//   randomNum(-400, 1000),
+//   randomNum(-400, 1000),
+//   randomNum(-400, 800),
+//   randomNum(-400, 800)
+// ),
