@@ -1,4 +1,4 @@
-<!-- To ensure the chart renders in Chrome and Safari-->
+<!-- First div to ensure chart renders in safari -->
 <div (mousemove)="renderChart()">
   <fds-tabbed-child-container
     [tabs]="tabs"
@@ -10,10 +10,12 @@
       <rux-tab-panel aria-labelledby="files">
         <fds-track-files />
       </rux-tab-panel>
-
-      <rux-tab-panel aria-labelledby="data">
-        <fds-track-data />
-      </rux-tab-panel>
+      <!-- Second div to make sure it continues to render when you switch tabs in chrome -->
+      <div (mousedown)="renderChart()">
+        <rux-tab-panel aria-labelledby="data">
+          <fds-track-data />
+        </rux-tab-panel>
+      </div>
     </ng-container>
   </fds-tabbed-child-container>
 </div>
