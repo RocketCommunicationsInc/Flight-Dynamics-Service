@@ -2,11 +2,19 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import type { Status } from '@astrouxds/astro-web-components/dist/types/components';
 import { randomNum } from 'src/app/mock-data/generate-data';
-import { UnitMenuItems } from 'src/app/shared/units/units.model';
+import {
+  MenuItem,
+  UnitMenuItems,
+  RelevantUnits,
+} from 'src/app/shared/units/units.model';
 import { ColumnDefs } from 'src/app/shared/table.service';
 import { OrbitProperties } from 'src/app/types/data.types';
 import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
-import { PerformanceData, SolutionData } from './output-data-display.model';
+import {
+  PerformanceData,
+  SelectOption,
+  SolutionData,
+} from './output-data-display.model';
 import {
   PERFORMANCE_DATA,
   CUMULATIVE_DATA,
@@ -52,7 +60,9 @@ export class OutputDataDisplayService {
         if (status !== 'off') {
           this.deviations.push(status);
         }
-        
+
+        const relevantUnits: MenuItem[] = RelevantUnits[key];
+
         this.solutionData.push({
           deviation: randomNum(100, 300),
           difference: Number((finalVal - value).toPrecision(7)),
@@ -62,14 +72,10 @@ export class OutputDataDisplayService {
           property: this.camelCaseToTitleCase(key),
           status,
           trackFileId: trackFile.id,
-          units: [
-            { ...meters, selected: meters.val === unit },
-            { ...kilometers, selected: kilometers.val === unit },
-            { ...miles, selected: miles.val === unit },
-            { ...degrees, selected: degrees.val === unit },
-            { ...radians, selected: radians.val === unit },
-            { ...revolutions, selected: revolutions.val === unit },
-          ],
+          units: relevantUnits.map((obj) => {
+            obj.selected = true;
+            return obj;
+          }),
         });
       });
     });

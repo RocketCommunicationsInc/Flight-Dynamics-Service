@@ -10,5 +10,11 @@ export const Conversions: UnitConversion = {
   deg: (val: number) => `${val}\u00B0`,
   rad: (val: number) => val * (Math.PI / 180),
   km: (val: number) => val,
-  rev: (val: number) => val / 360,
+  rev: (val: number) => Math.abs(val / 360),
+  kg: (val: number) => Math.abs(val),
+  sec: (val: number) => Math.abs(val * 60),
+  min: (val: number) => Math.abs(val),
+  hr: (val: number) => Math.abs(val / 60),
+  day: (val: number) => Math.abs(val / 60 / 24),
+  num: (val: number) => Math.abs(val),
 };
