@@ -88,7 +88,14 @@ export class InputsComponent {
 
   addFormControls(inputData: InputData) {
     for (const [key, value] of Object.entries(inputData)) {
-      this.formGroup!.addControl(key, new FormControl(value));
+      if (key === 'epoch' || key === 'epochRange' || key === 'epochSpan') {
+        this.formGroup!.addControl(
+          key,
+          new FormControl({ value: value, disabled: true })
+        );
+      } else {
+        this.formGroup!.addControl(key, new FormControl(value));
+      }
     }
   }
   handleSelect(e: any): void {
