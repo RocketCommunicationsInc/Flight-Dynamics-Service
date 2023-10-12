@@ -84,8 +84,6 @@ export class InputsOutputsComponent {
       status: 'normal',
       message: `Processed trackfile created from ${this.currentTrackFile?.name}`,
     });
-    console.log('submit', this.processedTrackFile);
-    console.log('trackfile', this.currentTrackFile);
     this.handleBanner();
   }
 }
