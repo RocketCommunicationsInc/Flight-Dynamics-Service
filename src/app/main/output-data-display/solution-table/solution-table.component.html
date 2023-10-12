@@ -40,7 +40,7 @@
           />
 
           <div *ngSwitchCase="'difference'" class="status-col">
-            <rux-status [status]="row.status" />
+            <rux-status [status]="row.status" *ngIf="row.difference !== '-'" />
             <span>
               {{ row[col.field] | unitConverter: getRowUnit(row) }}
             </span>
