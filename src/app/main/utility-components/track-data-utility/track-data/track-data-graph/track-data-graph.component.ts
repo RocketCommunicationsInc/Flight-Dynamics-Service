@@ -15,9 +15,8 @@ import {
 } from 'ng-apexcharts';
 import { SitesComponent } from '../sites/sites.component';
 import { SettingsComponent } from '../settings/settings.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TrackFile } from 'src/app/types/data.types';
-import { TrackFilesDataUtilityService } from '../../track-files-data.service';
+import { TableData, TrackFilesDataUtilityService } from '../../track-files-data.service';
 import { ChartOptions, getChartOptions, getSeries } from './chart-options';
 
 type ChartDataItem = {
@@ -43,8 +42,8 @@ export class TrackDataGraphComponent {
   @ViewChild(ChartComponent) chartComponent?: ChartComponent;
   @ViewChild('legend') legend?: ElementRef;
 
-  sharedTrackFiles$ = this.trackFilesService.get();
-  sharedTrackFiles: TrackFile[] = [];
+  selectedData: TableData[] = []
+  noData: boolean = true
 
   //chart variables
   chartOptions: ChartOptions = {};
@@ -97,13 +96,9 @@ export class TrackDataGraphComponent {
   destroyRef = inject(DestroyRef);
   destroyed = new Subject();
 
-  constructor(public trackFilesService: TrackFilesDataUtilityService) {
-    this.sharedTrackFiles$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((res) => {
-        this.sharedTrackFiles = res || [];
-      });
-  }
+  constructor(
+    public trackFilesService: TrackFilesDataUtilityService
+  ) {}
 
   orderByDate(data: TrackFile[]) {
     return data.sort((a, b) => {
@@ -114,19 +109,21 @@ export class TrackDataGraphComponent {
   }
 
   ngOnInit() {
+    this.selectedData = this.trackFilesService.tableService.data.filter(item => item.selected)
+    this.noData = this.selectedData.length < 1
     this.chartOptions = getChartOptions(
       this.chartEvents,
       this.tooltipEvent,
       this.labelsShown
     );
     this.series = getSeries();
-    this.orderByDate(this.sharedTrackFiles);
+    this.orderByDate(this.selectedData);
 
-    this.dates = this.sharedTrackFiles.map((file) =>
+    this.dates = this.selectedData.map((file: any) =>
       file.creationDate.toLocaleDateString()
     );
     this.labelsShown = this.dates;
-    this.chartData = this.sharedTrackFiles.map((file) => {
+    this.chartData = this.selectedData.map((file:any) => {
       const azimuth = file.initialOrbitProperties.azimuth.value;
       const elevation = file.initialOrbitProperties.elevation.value;
       const inclination = file.initialOrbitProperties.inclination.value;
@@ -134,11 +131,6 @@ export class TrackDataGraphComponent {
     });
     this.chartOptions.xaxis.categories = this.labelsShown;
     this.updateSeries(this.chartData);
-  }
-
-  ngOnDestroy() {
-    this.destroyed.next(true);
-    this.destroyed.complete();
   }
 
   toggleChartSize(drawerOpen: boolean) {
@@ -176,9 +168,8 @@ export class TrackDataGraphComponent {
     let dataPoints: number = 0;
 
     const updatedSeries = this.series.filter((data: any) => {
-      if (data.visible) {
-        markers.push(data.markerSize);
-        dataPoints = dataPoints + data.data.length;
+      if (data.visible){ markers.push(data.markerSize);
+        dataPoints = dataPoints + data.data.length
       }
       return data.visible;
     });
@@ -194,7 +185,7 @@ export class TrackDataGraphComponent {
     if ((this.deletedDataPoints as number[]).length >= 1) {
       this.disableUndo = false;
     }
-    this.dataPointLength = this.dataPointLength - 1;
+    this.dataPointLength = this.dataPointLength - 1
   }
 
   onUndo() {
@@ -205,7 +196,7 @@ export class TrackDataGraphComponent {
     if ((this.deletedDataPoints as number[]).length < 1) {
       this.disableUndo = true;
     }
-    this.dataPointLength = this.dataPointLength + 1;
+    this.dataPointLength = this.dataPointLength + 1
   }
 
   handleZoom(event: any) {

@@ -20,32 +20,39 @@
     <rux-icon icon="search" size="1.5rem" />
   </div>
 </div>
+<ng-container *ngIf="!noData; else noDataTemplate">
+  <div class="chart-wrapper">
+    <apx-chart
+      *ngIf="series"
+      [series]="series"
+      [tooltip]="chartOptions.tooltip"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [yaxis]="chartOptions.yaxis"
+      [markers]="chartOptions.markers"
+      [stroke]="chartOptions.stroke"
+      [legend]="chartOptions.legend"
+    ></apx-chart>
 
-<div class="chart-wrapper">
-  <apx-chart
-    *ngIf="series"
-    [series]="series"
-    [tooltip]="chartOptions.tooltip"
-    [chart]="chartOptions.chart"
-    [xaxis]="chartOptions.xaxis"
-    [yaxis]="chartOptions.yaxis"
-    [markers]="chartOptions.markers"
-    [stroke]="chartOptions.stroke"
-    [legend]="chartOptions.legend"
-  ></apx-chart>
-
-  <div class="legend" #legend>
-    <div class="checkboxes" *ngFor="let series of series; let i = index">
-      <rux-checkbox
-        [style.border-color]="series.color"
-        [checked]="series.visible"
-        (ruxchange)="toggleData(i)"
-      />
-      <label> {{ series.name }}</label>
+    <div class="legend" #legend>
+      <div class="checkboxes" *ngFor="let series of series; let i = index">
+        <rux-checkbox
+          [style.border-color]="series.color"
+          [checked]="series.visible"
+          (ruxchange)="toggleData(i)"
+        />
+        <label> {{ series.name }}</label>
+      </div>
     </div>
   </div>
-</div>
-<footer>
-  <span>OD Quality Est: 82/100</span>
-  <span>Data Points: {{ dataPointLength }}</span>
-</footer>
+  <footer>
+    <span>OD Quality Est: 82/100</span>
+    <span>Data Points: {{ dataPointLength }}</span>
+  </footer>
+</ng-container>
+<ng-template #noDataTemplate>
+  <div class="no-files">
+    <h2>No Track Files Selected</h2>
+    <p>Please select track files to view the chart.</p>
+  </div>
+</ng-template>
