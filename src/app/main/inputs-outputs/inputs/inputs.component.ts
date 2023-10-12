@@ -45,10 +45,13 @@ export class InputsComponent {
   };
 
   // Trackfile data
+  currentTrackFile: TrackFile | null | undefined;
   currentTrackFile$: Subscription | undefined;
   trackfiles$: Observable<TrackFile[] | undefined> = this.store.select(
     selectCurrentSpaceCraftTrackFiles
   );
+
+  syncedValue: string | undefined;
 
   constructor(private store: Store<AppStore>) {}
 
@@ -61,6 +64,8 @@ export class InputsComponent {
         filter((val) => val !== null)
       )
       .subscribe((result) => {
+        this.currentTrackFile = result;
+        this.syncedValue = result!.tleSourceFile.name;
         const epochStart = result!.epochRangeEnd.getTime();
         const epochEnd = result!.epochRangeStart.getTime();
         const diffTime = (epochStart - epochEnd) / (1000 * 3600 * 24);
@@ -68,7 +73,7 @@ export class InputsComponent {
         this.addFormControls(this.formData!);
 
         this.formGroup.setValue({
-          databaseFile: result!.tleSourceFile.name,
+          databaseFile: result!.id,
           orbitSource: result!.ephemerisSourceFile.name,
           epoch: result!.creationDate,
           epochRange: `${result!.epochRangeStart} - ${result!.epochRangeEnd}`,
@@ -90,5 +95,9 @@ export class InputsComponent {
     this.store.dispatch(
       TrackFilesActions.trackFileSelected({ trackFileId: e.target.value })
     );
+
+    // value has to be set as a new form control for the select dropdown to work
+    const updatedValue = new FormControl(e.target.value);
+    this.formGroup.setControl('databaseFile', updatedValue);
   }
 }
