@@ -21,6 +21,7 @@ import {
   AppActions,
   SpacecraftActions,
 } from './+state/app.actions';
+import { LogDataConfig, LogDataService } from './shared/event-log.service';
 
 @Component({
   standalone: true,

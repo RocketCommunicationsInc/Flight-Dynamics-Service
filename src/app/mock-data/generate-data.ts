@@ -22,9 +22,10 @@ export const randNumWithDecimals = (min: number, max: number) => {
 
 const generateScenario = (scenarioName: string): Scenario => {
   const numOfSpaceCraft = faker.number.int({ min: 4, max: 8 });
+  const scenarioId = crypto.randomUUID();
 
   return {
-    id: crypto.randomUUID(),
+    id: scenarioId,
     name: scenarioName,
     spaceCraftIds: Array(numOfSpaceCraft)
       .fill(null)
@@ -35,7 +36,11 @@ const generateScenario = (scenarioName: string): Scenario => {
   };
 };
 
-const generateSpacecraft = (id: string, catalogId: string): Spacecraft => {
+const generateSpacecraft = (
+  id: string,
+  catalogId: string,
+  scenarioId: string
+): Spacecraft => {
   const trackFileArrayLength = faker.number.int({ min: 20, max: 30 });
 
   return {
@@ -44,6 +49,8 @@ const generateSpacecraft = (id: string, catalogId: string): Spacecraft => {
     trackFileIds: Array.from(Array(trackFileArrayLength), (_) =>
       faker.string.uuid()
     ),
+    eventData: [],
+    scenarioRefId: scenarioId,
   };
 };
 
@@ -314,7 +321,7 @@ export const mockScenarios = scenarioNames.map((name) =>
 );
 export const mockSpaceCrafts = mockScenarios.flatMap((scenario) => {
   return scenario.spaceCraftIds.map((craftIdObject) =>
-    generateSpacecraft(craftIdObject.id, craftIdObject.catalogId)
+    generateSpacecraft(craftIdObject.id, craftIdObject.catalogId, scenario.id)
   );
 });
 const trackFileIdsBySpaceCraftId: { [key: string]: string[] } = {};

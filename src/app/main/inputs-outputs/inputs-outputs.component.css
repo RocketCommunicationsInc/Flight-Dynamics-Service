@@ -12,13 +12,25 @@ rux-container {
   --body-padding: 0;
 }
 
+
+form.inputs_form {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--spacing-3);
+}
+
+rux-container::part(tab-bar) {
+  padding-block-end: 0;
+}
+
 .footer {
   display: flex;
   justify-content: center;
-  padding: var(--spacing-2);
 }
 
 .footer rux-button {
-  width: 21rem;
+  width: 100%;
 }
 

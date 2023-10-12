@@ -1,5 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import {
+  LogData,
   ProcessedTrackFile,
   Scenario,
   Spacecraft,
@@ -19,6 +20,10 @@ export const SpacecraftActions = createActionGroup({
     'Spacecrafts Requested': emptyProps(),
     'Spacecrafts Retrieved': props<{ spacecrafts: Spacecraft[] }>(),
     'Spacecraft Id Selected': props<{ spacecraftId: string }>(),
+    'Spacecraft Modified': props<{
+      spacecraftId: string;
+      updatedSpacecraft: Spacecraft;
+    }>(),
   },
 });
 

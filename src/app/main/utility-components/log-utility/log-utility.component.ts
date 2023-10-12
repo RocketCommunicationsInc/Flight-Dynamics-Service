@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { LogData } from 'src/app/types/data.types';
+import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
+import { Store } from '@ngrx/store';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -11,26 +16,13 @@ import { CommonModule } from '@angular/common';
   imports: [AstroComponentsModule, RouterLink, RouterOutlet, CommonModule],
 })
 export class LogUtilityComponent {
-  logData = [
-    {
-      timestamp: new Date(),
-      status: 'off',
-      message: 'Antenna DGS 1 went offline.',
-    },
-    {
-      timestamp: new Date(),
-      status: 'normal',
-      message: 'Antenna DGS 2 went offline.',
-    },
-    {
-      timestamp: new Date(),
-      status: 'serious',
-      message: 'Antenna DGS 3 went offline.',
-    },
-    {
-      timestamp: new Date(),
-      status: 'normal',
-      message: 'Antenna DGS 4 went offline.',
-    },
-  ];
+  logData: LogData[] | undefined = [];
+  spacecraft$: Subscription = this.store
+    .select(selectCurrentSpacecraft)
+    .pipe(takeUntilDestroyed())
+    .subscribe((result) => {
+      this.logData = result?.eventData;
+    });
+
+  constructor(private store: Store) {}
 }

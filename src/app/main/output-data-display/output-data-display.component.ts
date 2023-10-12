@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import type { Tabs } from 'src/app/types/Tabs';
@@ -13,6 +8,7 @@ import { OutputDataDisplayService } from './output-data-display.service';
 import { CurrentView } from './output-data-display.model';
 import { PerformanceTableComponent } from './performance-table/performance-table.component';
 import { ToastService } from 'src/app/shared/toast.service';
+import { LogDataService } from 'src/app/shared/event-log.service';
 import { CustomSegmentedButtonComponent } from 'src/app/shared/custom-segmented-button/custom-segmented-button.component';
 
 @Component({
@@ -63,10 +59,9 @@ export class OutputDataDisplayComponent implements OnInit {
   constructor(
     public outputDataDisplayService: OutputDataDisplayService,
     private toasts: ToastService,
+    private logData: LogDataService,
     private bannerService: OutputDataDisplayService
   ) {}
-
-
 
   viewTable() {
     this.showGraph = false;
@@ -88,6 +83,12 @@ export class OutputDataDisplayComponent implements OnInit {
       hideClose: false,
       closeAfter: 3000,
     });
+
+    this.logData.addEvent({
+      timestamp: new Date(),
+      status: 'standby',
+      message: 'TLE created',
+    });
   }
 
   handleEphemeris() {
@@ -96,11 +97,17 @@ export class OutputDataDisplayComponent implements OnInit {
       hideClose: false,
       closeAfter: 3000,
     });
+
+    this.logData.addEvent({
+      timestamp: new Date(),
+      status: 'standby',
+      message: 'Ephemeris created',
+    });
   }
 
   handleDataSelect(event: any) {
     if (event.target.value) {
-      this.toasts.defaultToast()
+      this.toasts.defaultToast();
     }
   }
 
