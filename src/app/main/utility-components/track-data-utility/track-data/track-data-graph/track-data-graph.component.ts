@@ -171,9 +171,6 @@ export class TrackDataGraphComponent {
       if (data.visible){ markers.push(data.markerSize);
         dataPoints = dataPoints + data.data.length
       }
-      if (data.visible){ markers.push(data.markerSize);
-        dataPoints = dataPoints + data.data.length
-      }
       return data.visible;
     });
     this.dataPointLength = dataPoints;
