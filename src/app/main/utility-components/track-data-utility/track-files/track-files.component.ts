@@ -13,6 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
 import { TrackFilesDataUtilityService } from '../track-files-data.service';
 import { TableService } from 'src/app/shared/table.service';
+import { LogDataService } from 'src/app/shared/event-log.service';
 
 @Component({
   selector: 'fds-track-files',
@@ -23,15 +24,14 @@ import { TableService } from 'src/app/shared/table.service';
   styleUrls: ['./track-files.component.css'],
 })
 export class TrackFilesComponent {
-
-  sharedData = this.trackFilesService.get()
+  sharedData = this.trackFilesService.get();
 
   trackFiles$ = this.store.select(selectCurrentSpaceCraftTrackFiles);
   selectedTrackFile$ = this.store.select(selectCurrentTrackFile);
   trackFiles: TrackFile[] = [];
   selectedTrackFile: TrackFile | null = null;
 
-  selectedIds: string[] = []
+  selectedIds: string[] = [];
 
   //editing
   editedContent: string = '';
@@ -52,6 +52,7 @@ export class TrackFilesComponent {
 
   constructor(
     private store: Store,
+    private logData: LogDataService,
     public trackFilesService: TrackFilesDataUtilityService,
     public tableService: TableService<any>
   ) {}
@@ -66,39 +67,42 @@ export class TrackFilesComponent {
 
     this.tableService.init({
       columnDefs: this.columnDefs,
-      data: this.trackFilesService.makeTrackData(this.trackFiles)
+      data: this.trackFilesService.makeTrackData(this.trackFiles),
     });
     this.selectAll();
-    this.setFiles(this.trackFiles)
+    this.setFiles(this.trackFiles);
   }
 
-
-  setFiles(data:TrackFile[]):void {
-   this.trackFilesService.set(data)
+  setFiles(data: TrackFile[]): void {
+    this.trackFilesService.set(data);
   }
 
   selectAll(): void {
-    this.tableService.data = this.tableService.data.map((row) => ({...row, selected: true}))
+    this.tableService.data = this.tableService.data.map((row) => ({
+      ...row,
+      selected: true,
+    }));
   }
 
-  selectFiltered(event: Event){
+  selectFiltered(event: Event) {
     const isChecked = (event.target as HTMLRuxCheckboxElement).checked;
-    this.tableService.data = this.tableService.data.map(row => !row.filtered ? {...row, selected: isChecked} : row)
+    this.tableService.data = this.tableService.data.map((row) =>
+      !row.filtered ? { ...row, selected: isChecked } : row
+    );
   }
 
   //on destroy we update the data with trackfiles
-  updateSharedTableData(data: any[]){
-    const checkedTrackData = data.filter(datum => datum.selected)
-    const updatedData = checkedTrackData.map(trackData => {
-      const {filter, selected, ...trackFile } = trackData
-      return trackFile
-    })
-    this.trackFilesService.set(updatedData)
+  updateSharedTableData(data: any[]) {
+    const checkedTrackData = data.filter((datum) => datum.selected);
+    const updatedData = checkedTrackData.map((trackData) => {
+      const { filter, selected, ...trackFile } = trackData;
+      return trackFile;
+    });
+    this.trackFilesService.set(updatedData);
   }
 
-
   ngOnDestroy() {
-    this.updateSharedTableData(this.tableService.data)
+    this.updateSharedTableData(this.tableService.data);
     this.destroyed.next(true);
     this.destroyed.complete();
   }
@@ -116,25 +120,40 @@ export class TrackFilesComponent {
     within30Days.setDate(today.getDate() - 30);
     within90Days.setDate(today.getDate() - 90);
 
-    let newData = [...this.tableService.data]
+    let newData = [...this.tableService.data];
 
     if (selection === 'all') {
-      newData = this.tableService.data.map(row => ({...row, filtered: false}))
+      newData = this.tableService.data.map((row) => ({
+        ...row,
+        filtered: false,
+      }));
     }
 
     if (selection === 'seven-days') {
-      newData = this.tableService.data.map((row) => row.creationDate >= within7Days ? {...row, filtered: false} : {...row, filtered: true});
+      newData = this.tableService.data.map((row) =>
+        row.creationDate >= within7Days
+          ? { ...row, filtered: false }
+          : { ...row, filtered: true }
+      );
     }
 
     if (selection === 'thirty-days') {
-      newData = this.tableService.data.map((row) => row.creationDate >= within30Days ? {...row, filtered: false} : {...row, filtered: true});
+      newData = this.tableService.data.map((row) =>
+        row.creationDate >= within30Days
+          ? { ...row, filtered: false }
+          : { ...row, filtered: true }
+      );
     }
 
     if (selection === 'ninety-days') {
-      newData = this.tableService.data.map((row) => row.creationDate >= within90Days ? {...row, filtered: false} : {...row, filtered: true});
+      newData = this.tableService.data.map((row) =>
+        row.creationDate >= within90Days
+          ? { ...row, filtered: false }
+          : { ...row, filtered: true }
+      );
     }
 
-    this.tableService.data = newData
+    this.tableService.data = newData;
   }
 
   onRowClick(event: Event, id: string) {
@@ -166,6 +185,12 @@ export class TrackFilesComponent {
           },
         })
       );
+
+    this.logData.addEvent({
+      timestamp: new Date(),
+      status: 'normal',
+      message: `${this.selectedTrackFile!.name} edited.`,
+    });
     this.editedContent = '';
     this.editTrackFile = false;
   }

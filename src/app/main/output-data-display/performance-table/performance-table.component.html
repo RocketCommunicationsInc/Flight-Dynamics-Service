@@ -34,7 +34,9 @@
                 <span>
                   {{ row[col.field].toString() | slice: 0 : 6 }}&deg;
                 </span>
-                <rux-status [status]="setStatus(row[col.field])" />
+                <ng-container *ngIf="setStatus(row[col.field]) !== ''">
+                  <rux-status [status]="setStatus(row[col.field])" />
+                </ng-container>
               </span>
             </span>
           </ng-container>

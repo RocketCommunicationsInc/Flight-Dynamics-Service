@@ -8,18 +8,21 @@
       >{{ tab.label }}</rux-tab
     >
   </rux-tabs>
-  <rux-tab-panels [attr.aria-labelledby]="tabsId">
-    <rux-tab-panel [attr.aria-labelledby]="tabs[0].id">
-      <fds-inputs />
-    </rux-tab-panel>
-    <rux-tab-panel [attr.aria-labelledby]="tabs[1].id">
-      <fds-outputs />
-    </rux-tab-panel>
-  </rux-tab-panels>
+  <form class="inputs_form" [formGroup]="inputForm" (ngSubmit)="onSubmit()">
+    <rux-tab-panels [attr.aria-labelledby]="tabsId">
+      <rux-tab-panel [attr.aria-labelledby]="tabs[0].id">
+        <fds-inputs [formGroup]="inputForm" />
+      </rux-tab-panel>
+      <rux-tab-panel [attr.aria-labelledby]="tabs[1].id">
+        <fds-outputs />
+      </rux-tab-panel>
+    </rux-tab-panels>
 
-  <div class="footer">
-    <rux-button (click)="handleBanner()" type="submit"
-      >Determine Orbit</rux-button
-    >
-  </div>
+    <div class="footer">
+      <rux-button type="submit"
+        >Determine Orbit</rux-button
+      >
+    </div>
+  </form>
+
 </rux-container>

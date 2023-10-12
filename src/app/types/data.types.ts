@@ -17,6 +17,8 @@ export type Spacecraft = {
   id: string;
   catalogId: string;
   trackFileIds: string[];
+  eventData: LogData[];
+  scenarioRefId: string;
 };
 
 export type SpacecraftEntity = {
@@ -105,6 +107,12 @@ export type TLEFile = {
   name: string;
   line1: string;
   line2: string;
+};
+
+export type LogData = {
+  timestamp: Date;
+  status: string;
+  message: string;
 };
 
 //TODO: work out performance table properties with design.

@@ -1,11 +1,10 @@
-<form class="inputs_form" [formGroup]="inputForm" (ngSubmit)="onSubmit()">
-  <div class="inputs_main">
-    <rux-select (ruxchange)="handleSelect($event)" label="Database File">
+<ng-container [formGroup]="formGroup">
+  <div class="inputs_form inputs_main">
+    <rux-select (ruxchange)="handleSelect($event)" label="Database File" formControlName="databaseFile">
       <rux-option
         *ngFor="let trackfile of trackfiles$ | async"
         [label]="trackfile.name"
-        [value]="trackfile.id"
-      />
+        [value]="trackfile.id" />
     </rux-select>
 
     <rux-input label="Orbit Source" formControlName="orbitSource" />
@@ -30,4 +29,4 @@
       formControlName="processedTrackFile"
     />
   </div>
-</form>
+</ng-container>

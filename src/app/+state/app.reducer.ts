@@ -99,22 +99,6 @@ export const AppReducer = createReducer(
       ),
     })
   ),
-  on(
-    TrackFilesActions.trackFileProcessed,
-    (state, { trackFileId, processedTrackFile }) => ({
-      ...state,
-      trackFiles: trackFileAdapter.updateOne(
-        {
-          id: trackFileId,
-          changes: {
-            ...state.trackFiles.entities[trackFileId],
-            processedTrackFile: processedTrackFile,
-          },
-        },
-        state.trackFiles
-      ),
-    })
-  ),
 
   // Spacecraft actions
   on(SpacecraftActions.spacecraftsRetrieved, (state, { spacecrafts }) => {
@@ -126,7 +110,23 @@ export const AppReducer = createReducer(
   on(SpacecraftActions.spacecraftIdSelected, (state, { spacecraftId }) => ({
     ...state,
     selectedSpacecraftId: spacecraftId,
-  }))
+  })),
+  on(
+    SpacecraftActions.spacecraftModified,
+    (state, { spacecraftId, updatedSpacecraft }) => ({
+      ...state,
+      spacecrafts: spacecraftAdapter.updateOne(
+        {
+          id: spacecraftId,
+          changes: {
+            ...state.spacecrafts.entities[spacecraftId],
+            ...updatedSpacecraft,
+          },
+        },
+        state.spacecrafts
+      ),
+    })
+  )
 );
 
 export const appFeature = createFeature({
