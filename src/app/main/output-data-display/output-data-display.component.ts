@@ -107,11 +107,7 @@ export class OutputDataDisplayComponent implements OnInit {
 
   handleDataSelect(event: any) {
     if (event.target.value) {
-      this.toasts.addToast({
-        message: 'This feature has not been implemented',
-        hideClose: false,
-        closeAfter: 3000,
-      });
+      this.toasts.defaultToast();
     }
   }
 

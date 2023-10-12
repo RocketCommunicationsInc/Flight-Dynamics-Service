@@ -74,7 +74,7 @@ export class InputsComponent {
 
         this.formGroup.setValue({
           databaseFile: result!.id,
-          orbitSource: result!.ephemerisSourceFile.name,
+          orbitSource: result!.ephemerisSourceFile!.name,
           epoch: result!.creationDate,
           epochRange: `${result!.epochRangeStart} - ${result!.epochRangeEnd}`,
 

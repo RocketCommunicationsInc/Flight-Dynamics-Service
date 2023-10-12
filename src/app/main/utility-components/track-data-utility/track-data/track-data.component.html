@@ -16,146 +16,29 @@
     <fds-sites [isSitesDrawerOpen]="isSitesDrawerOpen" />
     <fds-settings [isSettingsDrawerOpen]="isSettingsDrawerOpen" />
 
-    <div *ngIf="showGraph" class="button-wrapper">
+    <div *ngIf="leftBtnActive" class="button-wrapper">
       <rux-button
-        *ngIf="!isSitesDrawerOpen"
         size="small"
         secondary
+        (click)="toggleSitesDrawer()"
+        [icon]="isSitesDrawerOpen ? 'keyboard-backspace' : null"
         [disabled]="isSettingsDrawerOpen"
-        (click)="openSitesDrawer()"
-        >Sites</rux-button
+        >{{ !isSitesDrawerOpen ? 'Sites' : 'Close' }}</rux-button
       >
       <rux-button
-        *ngIf="isSitesDrawerOpen"
         size="small"
         secondary
-        (click)="openSitesDrawer()"
-        icon="keyboard-backspace"
-        >Close</rux-button
-      >
-      <rux-button
-        *ngIf="!isSettingsDrawerOpen"
-        size="small"
-        secondary
+        (click)="toggleSettingsDrawer()"
+        [icon]="isSettingsDrawerOpen ? 'keyboard-backspace' : null"
         [disabled]="isSitesDrawerOpen"
-        (click)="openSettingsDrawer()"
-        >Settings</rux-button
-      >
-      <rux-button
-        *ngIf="isSettingsDrawerOpen"
-        size="small"
-        secondary
-        (click)="openSettingsDrawer()"
-        icon="keyboard-backspace"
-        >Close</rux-button
+        >{{ !isSettingsDrawerOpen ? 'Settings' : 'Close' }}</rux-button
       >
     </div>
   </header>
-  <div *ngIf="showGraph">
-    <div class="toolbar">
-      <div class="toolbar-buttons">
-        <rux-button
-          [disabled]="disableUndo"
-          (click)="onUndo()"
-          iconOnly
-          icon="undo"
-        />
-        <rux-button (click)="onDelete()" iconOnly icon="delete" />
-      </div>
-
-      <div class="zoom-wrapper">
-        <rux-icon icon="search" size="extra-small" />
-        <rux-slider
-          [value]="zoomLevel"
-          (ruxchange)="handleZoom($event)"
-          min="5"
-          max="20"
-        />
-        <rux-icon icon="search" size="1.5rem" />
-      </div>
-    </div>
-
-    <div class="chart-wrapper">
-      <apx-chart
-        [series]="chartOptions.series"
-        [chart]="chartOptions.chart"
-        [xaxis]="chartOptions.xaxis"
-        [yaxis]="chartOptions.yaxis"
-        [markers]="chartOptions.markers"
-        [stroke]="chartOptions.stroke"
-        [legend]="chartOptions.legend"
-        [tooltip]="chartOptions.tooltip"
-      ></apx-chart>
-
-      <div class="legend" #legend>
-        <rux-checkbox label="Az" (ruxchange)="filterCheckboxes($event, 'Az')" />
-        <rux-checkbox label="El" (ruxchange)="filterCheckboxes($event, 'El')" />
-        <rux-checkbox
-          label="Range"
-          (ruxchange)="filterCheckboxes($event, 'Range')"
-        />
-      </div>
-    </div>
-    <footer>
-      <span>OD Quality Est: 82/100</span>
-      <span>Data Points: {{ dataPointLength }}</span>
-    </footer>
-  </div>
-
-  <div *ngIf="showTable">
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>File Name</th>
-            <th
-              (click)="sortColumn('date')"
-              (mouseenter)="showIcon = true"
-              (mouseleave)="showIcon = false"
-            >
-              Date
-              <span class="icon-span" [ngClass]="{ 'show-icon': showIcon }">
-                <rux-icon
-                  size="small"
-                  *ngIf="showIcon"
-                  [icon]="
-                    sortDirection === 'ASC'
-                      ? 'arrow-drop-down'
-                      : 'arrow-drop-up'
-                  "
-                />
-              </span>
-            </th>
-            <th
-              (click)="sortColumn('size')"
-              (mouseenter)="showSecondIcon = true"
-              (mouseleave)="showSecondIcon = false"
-            >
-              File Size
-              <span
-                class="icon-span"
-                [ngClass]="{ 'show-icon': showSecondIcon }"
-              >
-                <rux-icon
-                  size="small"
-                  *ngIf="showSecondIcon"
-                  [icon]="
-                    sortDirection === 'ASC'
-                      ? 'arrow-drop-down'
-                      : 'arrow-drop-up'
-                  "
-              /></span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let file of filteredData">
-            <td>{{ file.fileName }}</td>
-            <td>{{ file.date | date: 'MM/dd/YYYY' }}</td>
-            <td>{{ file.size }} kb</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <ng-container *ngIf="leftBtnActive">
+    <fds-track-data-graph #trackDataGraph></fds-track-data-graph>
+  </ng-container>
+  <ng-container *ngIf="rightBtnActive">
+    <fds-track-data-table></fds-track-data-table>
+  </ng-container>
 </div>

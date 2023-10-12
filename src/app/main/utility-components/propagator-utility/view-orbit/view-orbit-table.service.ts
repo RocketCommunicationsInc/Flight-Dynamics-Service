@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 
-// import { ODS_DATA, SUMMARY_DATA } from './output-data-display.data';
-import { Unit } from 'src/app/shared/units/units.model';
-import { Conversions } from 'src/app/shared/units/unit-conversions';
 import { ColumnDefs } from 'src/app/shared/table.service';
-import { EphemerisFile } from '../../../../types/data.types';
+import { Ephemeride } from '../../../../types/data.types';
 import { MenuItem } from 'src/app/shared/units/units.model';
-import type { Observable, Subscription } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import type { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import type { TrackFile } from '../../../../types/data.types';
 import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { Store } from '@ngrx/store';
@@ -23,18 +20,15 @@ export type DefaultValue = boolean | string | number | SelectOption[];
 })
 export class ViewOrbitTableService {
   constructor(private store: Store) {}
-  ephemerisData: EphemerisFile[] = [];
+  ephemerisData: Ephemeride[] = [];
   currentTrackFile$: Subscription = this.store
     .select(selectCurrentTrackFile)
-    .pipe(
-      takeUntilDestroyed(),
-      map((trackFile: TrackFile | null) =>
-        this.ephemerisData.push(trackFile!.ephemerisSourceFile)
-      )
-    )
-    .subscribe();
+    .pipe(takeUntilDestroyed())
+    .subscribe((trackFile: TrackFile | null) => {
+      this.ephemerisData = trackFile!.ephemerisSourceFile!.ephemerides;
+    });
 
-  columnDefs: ColumnDefs<EphemerisFile>[] = [
+  columnDefs: ColumnDefs<Ephemeride>[] = [
     { header: 'Epoch', field: 'epoch', sortable: true },
     { header: 'Position X', field: 'positionX' },
     { header: 'Position Y', field: 'positionY' },

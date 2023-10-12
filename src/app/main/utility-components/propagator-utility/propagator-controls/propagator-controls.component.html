@@ -1,4 +1,4 @@
-<rux-container>
+<rux-container [ngClass]="{ 'open-drawer': showControlsPanel }" class="controls-drawer">
   <span slot="header">Controls</span>
   <div slot="toolbar">
     <rux-select label="Propagator">
@@ -12,7 +12,7 @@
       <div class="row">
         <rux-input label="F10.7 Flux:" placeholder="000"></rux-input>
         <rux-select>
-          <rux-option label="flux-units" />
+          <rux-option label="Flux-units" />
         </rux-select>
       </div>
     </section>
@@ -45,13 +45,13 @@
       <h3>Perturbations</h3>
       <span>
         <rux-checkbox>Atmospheric Drag</rux-checkbox>
-        <rux-icon size="small" icon="keyboard-arrow-down" />
+        <rux-icon size="small" icon="keyboard-arrow-right" />
       </span>
     </section>
   </form>
 
   <div slot="footer">
-    <rux-button secondary>Cancel</rux-button>
-    <rux-button>Save</rux-button>
+    <rux-button (click)="onCancel.emit()" secondary>Cancel</rux-button>
+    <rux-button (click)="onSave()">Save</rux-button>
   </div>
 </rux-container>

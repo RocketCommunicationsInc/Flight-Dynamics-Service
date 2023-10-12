@@ -44,6 +44,7 @@ export class TableService<TData> {
 
   selectRow(e: Event, row: Data<TData>) {
     const isChecked = (e.target as HTMLRuxCheckboxElement).checked;
+
     row.selected = isChecked;
   }
 
