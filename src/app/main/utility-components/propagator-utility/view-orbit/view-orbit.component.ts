@@ -5,6 +5,7 @@ import { PropagatorControlsComponent } from '../propagator-controls/propagator-c
 import { ViewTableComponent } from './view-table/view-table.component';
 import { ViewModelComponent } from './view-model/view-model.component';
 import { CustomSegmentedButtonComponent } from 'src/app/shared/custom-segmented-button/custom-segmented-button.component';
+import { ToastService } from 'src/app/shared/toast.service';
 @Component({
   selector: 'fds-view-orbit',
   standalone: true,
@@ -20,10 +21,6 @@ import { CustomSegmentedButtonComponent } from 'src/app/shared/custom-segmented-
   styleUrls: ['./view-orbit.component.css'],
 })
 export class ViewOrbitComponent {
-  toggleControls() {
-    this.showControlsPanel = !this.showControlsPanel;
-  }
-
   showControlsPanel: boolean = false;
   showModel: boolean = true;
   leftIcon = 'public';
@@ -32,6 +29,10 @@ export class ViewOrbitComponent {
   rightText = 'Table';
   leftBtnActive: boolean = true;
   rightBtnActive: boolean = false;
+
+  toggleControls() {
+    this.showControlsPanel = !this.showControlsPanel;
+  }
 
   viewTable() {
     this.showModel = false;
@@ -43,5 +44,11 @@ export class ViewOrbitComponent {
     this.showModel = true;
     this.leftBtnActive = true;
     this.rightBtnActive = false;
+  }
+
+  constructor(private toast: ToastService) {}
+
+  onClick() {
+    this.toast.defaultToast();
   }
 }

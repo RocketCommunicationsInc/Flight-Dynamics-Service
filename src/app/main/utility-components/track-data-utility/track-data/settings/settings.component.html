@@ -14,7 +14,7 @@
     </rux-select>
   </div>
 
-  <rux-checkbox checked label="Cartesian Grid" />
+  <rux-checkbox (ruxchange)="onCheck()" checked label="Cartesian Grid" />
   <rux-checkbox disabled label="Polar Grid" />
   <rux-checkbox disabled label="Bounds" />
   <rux-checkbox disabled label="Nice Ticks" />

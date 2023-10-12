@@ -29,7 +29,6 @@ rux-icon {
 
 .second-btn {
   border-radius: 0 var(--radius-base, 3px) var(--radius-base, 3px) 0;
-  border-right: 1px solid var(--color-background-interactive-default, #4dacff);
 }
 
 .first-btn:hover {

@@ -76,7 +76,8 @@ export class TrackDataGraphComponent {
     custom: ({ series, seriesIndex, dataPointIndex }: any) => {
       return (
         '<div class="tooltip-box">' +
-        '<span> DGS' +
+        '<span>' +
+        this.series[seriesIndex].site +
         '</span> <br/>' +
         '<span> ' +
         this.dates[dataPointIndex] +

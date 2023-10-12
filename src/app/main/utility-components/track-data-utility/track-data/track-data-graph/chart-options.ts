@@ -21,23 +21,25 @@ export type ChartOptions = {
   tooltip?: ApexTooltip | any;
 };
 
-export function getSeries(){
-return [
+export function getSeries() {
+  return [
     {
       name: 'Az',
       data: [1, 2, 3, 4, 5],
       type: 'scatter',
-      color: 'var(--color-data-visualization-2)',
+      color: 'var(--color-data-visualization-1)',
       visible: true,
       markerSize: 6,
+      site: 'CPCA',
     },
     {
       name: 'El',
       data: [1, 2, 3, 4, 5],
       type: 'scatter',
-      color: 'var(--color-data-visualization-6)',
+      color: 'var(--color-data-visualization-5)',
       visible: true,
       markerSize: 6,
+      site: 'DGS',
     },
     {
       name: 'Slope',
@@ -47,11 +49,14 @@ return [
       visible: true,
       markerSize: 0,
     },
-  ]
+  ];
 }
 
-export function getChartOptions(events: {}, custom: {}, labelsShown: string[]): ChartOptions | any {
-
+export function getChartOptions(
+  events: {},
+  custom: {},
+  labelsShown: string[]
+): ChartOptions | any {
   const partialTooltip = {
     enabled: true,
     x: {
@@ -71,10 +76,10 @@ export function getChartOptions(events: {}, custom: {}, labelsShown: string[]): 
     marker: {
       show: false,
     },
-  }
+  };
 
-  return ({
-    chart:{
+  return {
+    chart: {
       width: '100%',
       height: 440,
       type: 'line' as ChartType,
@@ -90,64 +95,41 @@ export function getChartOptions(events: {}, custom: {}, labelsShown: string[]): 
       events: events,
     },
     dataLabels: {
-    style: {
-      cssClass: 'data-points',
-    },
-  },
-  legend: {
-    show: false,
-  },
-  markers: {
-    size: [6, 6, 0],
-  },
-  stroke: {
-    width: 2,
-    curve: 'smooth',
-  },
-  animation: {
-    enabled: false,
-    speed: 0,
-    animateGradually: {
-      enabled: false,
-    },
-    dynamicAnimation: {
-      enabled: false,
-    },
-  },
-  xaxis: {
-    categories: labelsShown,
-    axisTicks: {
-      show: true,
-    },
-    axisBorder: {
-      show: true,
-      color: 'var(--color-text-primary)',
-    },
-    labels: {
-      rotate: -45,
-      enabled: true,
-      show: true,
       style: {
-        colors: 'var(--color-text-primary)',
+        cssClass: 'data-points',
       },
     },
-  },
-  yaxis: [
-    {
-      title: {
-        text: 'Az/El (degrees)',
-        style: {
-          color: 'var(--color-text-primary)',
-        },
+    legend: {
+      show: false,
+    },
+    markers: {
+      size: [6, 6, 0],
+    },
+    stroke: {
+      width: 2,
+      curve: 'smooth',
+    },
+    animation: {
+      enabled: false,
+      speed: 0,
+      animateGradually: {
+        enabled: false,
       },
+      dynamicAnimation: {
+        enabled: false,
+      },
+    },
+    xaxis: {
+      categories: labelsShown,
       axisTicks: {
-        show: false,
+        show: true,
       },
       axisBorder: {
         show: true,
         color: 'var(--color-text-primary)',
       },
       labels: {
+        rotate: -45,
         enabled: true,
         show: true,
         style: {
@@ -155,31 +137,54 @@ export function getChartOptions(events: {}, custom: {}, labelsShown: string[]): 
         },
       },
     },
-    {
-      opposite: true,
-      title: {
-        text: 'Range (km)',
-        style: {
+    yaxis: [
+      {
+        title: {
+          text: 'Az/El (degrees)',
+          style: {
+            color: 'var(--color-text-primary)',
+          },
+        },
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: true,
           color: 'var(--color-text-primary)',
         },
-      },
-      axisTicks: {
-        show: false,
-      },
-      axisBorder: {
-        show: true,
-        color: 'var(--color-text-primary)',
-      },
-      labels: {
-        enabled: true,
-        show: true,
-        style: {
-          colors: 'var(--color-text-primary)',
+        labels: {
+          enabled: true,
+          show: true,
+          style: {
+            colors: 'var(--color-text-primary)',
+          },
         },
       },
-    },
-  ],
+      {
+        opposite: true,
+        title: {
+          text: 'Range (km)',
+          style: {
+            color: 'var(--color-text-primary)',
+          },
+        },
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: true,
+          color: 'var(--color-text-primary)',
+        },
+        labels: {
+          enabled: true,
+          show: true,
+          style: {
+            colors: 'var(--color-text-primary)',
+          },
+        },
+      },
+    ],
 
-  tooltip: {...partialTooltip, ...custom}
-})
-};
+    tooltip: { ...partialTooltip, ...custom },
+  };
+}

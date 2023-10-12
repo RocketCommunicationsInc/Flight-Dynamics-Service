@@ -1,7 +1,6 @@
 :host {
   height: 100%;
   overflow: hidden;
-
   display: grid;
   grid-template-areas:
     'tool-bar'
@@ -9,6 +8,7 @@
     'footer';
   grid-template-columns: 1fr;
   grid-template-rows: max-content auto max-content;
+  background-color: var(--color-background-base-default);
 }
 
 .chart-wrapper {
@@ -21,12 +21,13 @@
 
 .legend {
   position: absolute;
-  top: 250px;
+  top: 260px;
   right: 100px;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-background-base-default);
-  padding: var(--spacing-2);
+  padding-inline: var(--spacing-2);
+  padding-bottom: var(--spacing-2);
+  background-color: var(--color-background-surface-header);
 }
 
 .legend-pushed {
@@ -36,6 +37,12 @@
 
 .legend rux-checkbox {
   border-bottom: 4px solid;
+  margin-top: var(--spacing-2);
+}
+
+.legend label {
+  text-align: center;
+  margin-left: var(--spacing-1);
 }
 
 .toolbar {
@@ -45,7 +52,6 @@
   align-items: center;
   padding-block: var(--spacing-2);
   padding-inline: var(--spacing-4);
-  background-color: var(--color-background-surface-header);
 }
 
 .toolbar-buttons {
@@ -70,7 +76,7 @@ footer {
   padding-bottom: var(--spacing-6);
   grid-area: footer;
   text-align: center;
-  width: 82%;
+  width: 100%;
 }
 
 .no-files {
@@ -88,7 +94,7 @@ footer {
 }
 
 :host ::ng-deep .selected-data-point {
-  fill: var(--color-data-visualization-1);
+  fill: var(--color-palette-pink-600);
 }
 
 :host ::ng-deep .hidden-data-point {

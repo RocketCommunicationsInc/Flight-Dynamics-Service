@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { PropagatorControlsComponent } from '../propagator-controls/propagator-controls.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { filter, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { Store, select } from '@ngrx/store';
 import type { EphemerisFile, TrackFile } from '../../../../types/data.types';
@@ -114,5 +114,9 @@ export class InputSourceComponent {
       hideClose: false,
       closeAfter: 3000,
     });
+  }
+
+  handleCancel() {
+    this.toasts.defaultToast();
   }
 }
