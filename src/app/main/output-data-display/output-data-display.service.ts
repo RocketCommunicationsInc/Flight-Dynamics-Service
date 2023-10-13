@@ -45,17 +45,17 @@ export class OutputDataDisplayService {
       const initial = trackFile.initialOrbitProperties;
       const final = trackFile.processedTrackFile?.finalOrbitProperties;
       this.deviations = []; // clear existing deviations if any
+      this.solutionData = []; //clear existing solution data if any
       Object.entries(initial).forEach(([key, { unit, value }], index) => {
-        const finalVal = final ? final[key as keyof OrbitProperties].value : 0;
+        const finalVal = final ? final[key as keyof OrbitProperties].value : '-' ;
         const status = this.setStatus(index);
 
         if (status !== 'off') {
           this.deviations.push(status);
         }
-        
         this.solutionData.push({
-          deviation: randomNum(100, 300),
-          difference: Number((finalVal - value).toPrecision(7)),
+          deviation: finalVal === '-' ? '-' : randomNum(100, 300),
+          difference: finalVal === '-' ? '-' : Number((finalVal - value).toPrecision(7)),
           final: finalVal,
           id: crypto.randomUUID(),
           initial: value,
