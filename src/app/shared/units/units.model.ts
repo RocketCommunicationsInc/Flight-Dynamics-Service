@@ -10,7 +10,8 @@ export type Unit =
   | 'min'
   | 'hr'
   | 'day'
-  | 'num';
+  | 'num'
+  | 'lb';
 
 export interface MenuItem {
   val: Unit;
@@ -42,9 +43,13 @@ export const revolutions: MenuItem = {
   val: 'rev',
   label: 'Revolutions (rev)',
 };
-export const mass: MenuItem = {
+export const kilograms: MenuItem = {
   val: 'kg',
   label: 'Mass (kg)',
+};
+export const pounds: MenuItem = {
+  val: 'lb',
+  label: 'Pounds (lb)',
 };
 export const seconds: MenuItem = {
   val: 'sec',
@@ -74,7 +79,8 @@ export const UnitMenuItems = {
   degrees,
   radians,
   revolutions,
-  mass,
+  kilograms,
+  pounds,
   seconds,
   minutes,
   hours,
@@ -91,19 +97,19 @@ export type UnitPropertyMap = {
 };
 
 export const RelevantUnits: UnitPropertyMap = {
-  argOfPerigee: [degrees],
+  argOfPerigee: [degrees, radians],
   apogee: [kilometers, miles],
   meanMotion: [revolutions],
   perigee: [kilometers, miles],
   semiMajorAxis: [kilometers, miles],
-  inclination: [degrees],
-  raan: [degrees],
+  inclination: [degrees, radians],
+  raan: [radians, degrees],
   revNo: [revolutions],
-  meanAnomaly: [radians, degrees],
+  meanAnomaly: [degrees, radians],
   eccentricity: [number],
-  mass: [mass],
+  mass: [kilograms, pounds],
   meanMotionDDot: [revolutions],
   meanMotionDot: [revolutions],
-  bStar: [radians],
+  bStar: [degrees, radians],
   period: [seconds, minutes, hours, days],
 };
