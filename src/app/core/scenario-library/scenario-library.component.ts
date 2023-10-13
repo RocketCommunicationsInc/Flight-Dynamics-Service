@@ -13,7 +13,7 @@ import {
   selectSpacecraftEntities,
 } from '../../+state/app.selectors';
 import { ToastService } from '../../shared/toast.service';
-import { Scenario, Spacecraft } from '../../types/data.types';
+import type { Scenario, Spacecraft } from '../../types/data.types';
 import { Router } from '@angular/router';
 import { AppStore } from 'src/app/+state/app.model';
 import { Observable, Subscription } from 'rxjs';

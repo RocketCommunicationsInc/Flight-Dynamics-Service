@@ -1,6 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import {
-  LogData,
+import type {
   ProcessedTrackFile,
   Scenario,
   Spacecraft,

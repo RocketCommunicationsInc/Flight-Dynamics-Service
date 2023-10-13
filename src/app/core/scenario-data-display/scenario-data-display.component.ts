@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { UnitSelectorComponent } from '../../shared';
 import { UnitMenuItems, selectUnit } from '../../shared/units/units.model';
-import { OrbitProperties, Spacecraft } from 'src/app/types/data.types';
+import type { OrbitProperties, Spacecraft } from 'src/app/types/data.types';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import {

@@ -1,11 +1,4 @@
-import {
-  Component,
-  ViewChild,
-  ElementRef,
-  DestroyRef,
-  inject,
-} from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import {
@@ -15,7 +8,7 @@ import {
 } from 'ng-apexcharts';
 import { SitesComponent } from '../sites/sites.component';
 import { SettingsComponent } from '../settings/settings.component';
-import { TrackFile } from 'src/app/types/data.types';
+import type { TrackFile } from 'src/app/types/data.types';
 import {
   TableData,
   TrackFilesDataUtilityService,

@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TrackFile } from 'src/app/types/data.types';
+import type { TrackFile } from 'src/app/types/data.types';
 import { filter, Observable, Subscription } from 'rxjs';
 import {
   selectCurrentSpaceCraftTrackFiles,

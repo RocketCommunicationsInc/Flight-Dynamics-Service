@@ -6,7 +6,7 @@ import { InputsComponent } from './inputs/inputs.component';
 import { OutputsComponent } from './outputs/outputs.component';
 import { OutputDataDisplayService } from '../output-data-display/output-data-display.service';
 import { LogDataService } from 'src/app/shared/event-log.service';
-import { ProcessedTrackFile, TrackFile } from 'src/app/types/data.types';
+import type { ProcessedTrackFile, TrackFile } from 'src/app/types/data.types';
 import { Subscription } from 'rxjs';
 import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

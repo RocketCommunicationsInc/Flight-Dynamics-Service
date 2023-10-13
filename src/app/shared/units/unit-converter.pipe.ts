@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Conversions } from './unit-conversions';
-import { Unit } from './units.model';
+import type { Unit } from './units.model';
 
 @Pipe({
   name: 'unitConverter',
