@@ -5,6 +5,8 @@ import { TrackFilesComponent } from 'src/app/main/utility-components/track-data-
 import { TrackDataComponent } from 'src/app/main/utility-components/track-data-utility/track-data/track-data.component';
 import { Store } from '@ngrx/store';
 import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
+import { TrackFilesDataUtilityService } from './track-files-data.service';
+import { TableService } from 'src/app/shared/table.service';
 @Component({
   selector: 'fds-track-data-util',
   standalone: true,
@@ -14,6 +16,7 @@ import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
     TrackFilesComponent,
     TrackDataComponent,
   ],
+  providers: [TrackFilesDataUtilityService, TableService],
   templateUrl: './track-data-utility.component.html',
   styleUrls: ['./track-data-utility.component.css'],
 })

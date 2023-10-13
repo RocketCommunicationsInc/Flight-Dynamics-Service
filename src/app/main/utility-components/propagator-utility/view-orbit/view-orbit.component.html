@@ -1,18 +1,42 @@
 <header>
   <div>
-    <rux-button (click)="viewModel()" id="graph" icon="public" size="small" secondary>View Model</rux-button>
-    <rux-button (click)="viewTable()" id="table" icon="notes" size="small" secondary>View Table</rux-button>
+    <fds-custom-segmented-button
+      [leftIcon]="leftIcon"
+      [leftText]="leftText"
+      [rightText]="rightText"
+      [rightIcon]="rightIcon"
+      (leftClick)="viewModel()"
+      (rightClick)="viewTable()"
+      [isLeftBtnActive]="leftBtnActive"
+      [isRightBtnActive]="rightBtnActive"
+    ></fds-custom-segmented-button>
   </div>
   <div *ngIf="showModel" class="button-wrapper">
-    <rux-button size="small" secondary>Item 3</rux-button>
-    <rux-button size="small" secondary>Settings</rux-button>
-    <rux-button size="small" secondary (click)="toggleControls()">Controls</rux-button>
+    <rux-button (click)="onClick()" size="small" secondary>Item 3</rux-button>
+    <rux-button (click)="onClick()" size="small" secondary>Settings</rux-button>
+    <rux-button
+      class="controls-btn"
+      *ngIf="!showControlsPanel"
+      size="small"
+      (click)="toggleControls()"
+      >Controls</rux-button
+    >
+    <rux-button
+      *ngIf="showControlsPanel"
+      size="small"
+      secondary
+      (click)="toggleControls()"
+      icon="keyboard-backspace"
+      class="controls-btn"
+      >Close</rux-button
+    >
   </div>
 </header>
 
-<aside *ngIf="showControlsPanel" class="controls-panel">
-  <fds-propagator-controls />
-</aside>
+<fds-propagator-controls
+  [showControlsPanel]="showControlsPanel"
+  (onCancel)="toggleControls()"
+/>
 
 <fds-view-model *ngIf="showModel; else showTable" />
 

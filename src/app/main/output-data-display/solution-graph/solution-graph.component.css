@@ -1,6 +1,8 @@
 .solution-graph {
   background-color: var(--color-background-base-default);
   height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .legend {

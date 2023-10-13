@@ -8,6 +8,8 @@ import { OutputDataDisplayService } from './output-data-display.service';
 import { CurrentView } from './output-data-display.model';
 import { PerformanceTableComponent } from './performance-table/performance-table.component';
 import { ToastService } from 'src/app/shared/toast.service';
+import { LogDataService } from 'src/app/shared/event-log.service';
+import { CustomSegmentedButtonComponent } from 'src/app/shared/custom-segmented-button/custom-segmented-button.component';
 
 @Component({
   selector: 'fds-output-data-display',
@@ -18,6 +20,7 @@ import { ToastService } from 'src/app/shared/toast.service';
     SolutionGraphComponent,
     SolutionTableComponent,
     PerformanceTableComponent,
+    CustomSegmentedButtonComponent,
   ],
   templateUrl: './output-data-display.component.html',
   styleUrls: ['./output-data-display.component.css'],
@@ -33,6 +36,15 @@ export class OutputDataDisplayComponent implements OnInit {
   showBanner: boolean = false;
   dateAndTime = new Date();
 
+  showGraph: boolean = false;
+  showTable: boolean = true;
+  leftIcon = 'notes';
+  leftText = 'Table';
+  rightIcon = 'show-chart';
+  rightText = 'Graph';
+  leftBtnActive: boolean = true;
+  rightBtnActive: boolean = false;
+
   ngOnInit(): void {
     this.bannerService.showBanner$.subscribe((visible) => {
       this.showBanner = visible;
@@ -47,14 +59,35 @@ export class OutputDataDisplayComponent implements OnInit {
   constructor(
     public outputDataDisplayService: OutputDataDisplayService,
     private toasts: ToastService,
+    private logData: LogDataService,
     private bannerService: OutputDataDisplayService
   ) {}
+
+  viewTable() {
+    this.showGraph = false;
+    this.showTable = true;
+    this.leftBtnActive = true;
+    this.rightBtnActive = false;
+  }
+
+  viewGraph() {
+    this.showGraph = true;
+    this.showTable = false;
+    this.rightBtnActive = true;
+    this.leftBtnActive = false;
+  }
 
   handleTLE() {
     this.toasts.addToast({
       message: 'TLE Created',
       hideClose: false,
       closeAfter: 3000,
+    });
+
+    this.logData.addEvent({
+      timestamp: new Date(),
+      status: 'standby',
+      message: 'TLE created',
     });
   }
 
@@ -64,29 +97,18 @@ export class OutputDataDisplayComponent implements OnInit {
       hideClose: false,
       closeAfter: 3000,
     });
+
+    this.logData.addEvent({
+      timestamp: new Date(),
+      status: 'standby',
+      message: 'Ephemeris created',
+    });
   }
 
   handleDataSelect(event: any) {
     if (event.target.value) {
-      this.toasts.addToast({
-        message: 'This feature has not been implemented',
-        hideClose: false,
-        closeAfter: 3000,
-      });
+      this.toasts.defaultToast();
     }
-  }
-
-  showGraph: boolean = false;
-  showTable: boolean = true;
-
-  viewTable() {
-    this.showGraph = false;
-    this.showTable = true;
-  }
-
-  viewGraph() {
-    this.showGraph = true;
-    this.showTable = false;
   }
 
   @ViewChild('cumulative') cumulative?: ElementRef;

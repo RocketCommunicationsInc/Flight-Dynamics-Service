@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges,SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { UnitConverterPipe } from 'src/app/shared';
@@ -16,14 +16,17 @@ import { capitalize } from 'src/app/shared/utils';
   templateUrl: './solution-table.component.html',
   styleUrls: ['./solution-table.component.css'],
 })
-export class SolutionTableComponent {
+export class SolutionTableComponent implements OnChanges{
+  @Input() data: SolutionData[] = []
   constructor(
     public tableService: TableService<SolutionData>,
     public outputDataDisplayService: OutputDataDisplayService
-  ) {
+  ) {}
+
+  ngOnChanges({data}: SimpleChanges){
     this.tableService.init({
       columnDefs: this.outputDataDisplayService.columnDefs,
-      data: this.outputDataDisplayService.solutionData,
+      data: data.currentValue
     });
   }
 

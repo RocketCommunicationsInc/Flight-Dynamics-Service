@@ -69,22 +69,6 @@ export class ScenarioLibraryComponent {
   }
 
   onIconClick() {
-    this.showToast();
+    this.toasts.defaultToast();
   }
-
-  /**
-   * Show the 'feature not implemented' toast.
-   */
-  showToast() {
-    this.toasts.addToast({
-      message: 'This feature has not been implemented.',
-      hideClose: false,
-      closeAfter: 3000,
-    });
-  }
-}
-function selectAllSpacecraftEntities(
-  selectAllSpacecraftEntities: any
-): Observable<Spacecraft[]> {
-  throw new Error('Function not implemented.');
 }

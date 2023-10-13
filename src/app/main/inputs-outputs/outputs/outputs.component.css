@@ -1,43 +1,9 @@
-.outputs_header {
-  padding: var(--spacing-3);
-  background: var(--color-background-surface-header);
-}
-
-form.outputs_form {
+.outputs_form {
   display: flex;
   flex-direction: column;
-  padding-inline: var(--spacing-4);
+  padding: var(--spacing-1);
 }
 
-form.outputs_form > div {
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid var(--color-text-placeholder);
-  padding-block: var(--spacing-2);
-}
-
-form.outputs_form > div:first-child {
-  border-top: none;
-}
-
-form.outputs_form > div * {
-  padding-block: var(--spacing-3);
-}
-
-form.outputs_form > div rux-radio-group {
-  padding-block-start: var(--spacing-1);
-}
-
-form.outputs_form rux-radio-group rux-radio {
+rux-checkbox {
   padding-block: var(--spacing-1);
-  padding-inline-start: var(--spacing-6);
-}
-
-form.outputs_form rux-radio-group::part(radiogroup) {
-  padding: 0;
-  box-shadow: none;
-}
-
-.outputs_secondary {
-  padding-inline-start: var(--spacing-6);
 }

@@ -33,23 +33,32 @@
             </div>
           </div>
           <div>
-            <rux-button icon="notes" secondary (click)="viewTable()"
-              >Table</rux-button
-            >
-            <rux-button icon="show-chart" secondary (click)="viewGraph()"
-              >Graph</rux-button
-            >
+            <fds-custom-segmented-button
+              [leftIcon]="leftIcon"
+              [leftText]="leftText"
+              [rightText]="rightText"
+              [rightIcon]="rightIcon"
+              (leftClick)="viewTable()"
+              (rightClick)="viewGraph()"
+              [isLeftBtnActive]="leftBtnActive"
+              [isRightBtnActive]="rightBtnActive"
+            ></fds-custom-segmented-button>
           </div>
           <div class="action-btn-wrapper">
-            <rux-button secondary (click)="handleTLE()">Create TLE</rux-button>
-            <rux-button (click)="handleEphemeris()"
+            <rux-button secondary (click)="handleTLE()" size="small"
+              >Create TLE</rux-button
+            >
+            <rux-button (click)="handleEphemeris()" size="small"
               >Create Ephemeris</rux-button
             >
           </div>
         </div>
       </div>
 
-      <fds-solution-table *ngIf="showTable" />
+      <fds-solution-table
+        *ngIf="showTable"
+        [data]="outputDataDisplayService.solutionData"
+      />
       <fds-solution-graph *ngIf="showGraph" />
     </rux-tab-panel>
 

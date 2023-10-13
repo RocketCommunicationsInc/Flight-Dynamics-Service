@@ -17,6 +17,8 @@ export type Spacecraft = {
   id: string;
   catalogId: string;
   trackFileIds: string[];
+  eventData: LogData[];
+  scenarioRefId: string;
 };
 
 export type SpacecraftEntity = {
@@ -44,6 +46,8 @@ export type OrbitProperties = {
   meanMotionDot: OrbitProperty;
   meanAnomaly: OrbitProperty;
   mass: OrbitProperty;
+  azimuth: OrbitProperty;
+  elevation: OrbitProperty;
 };
 
 export type TrackFile = {
@@ -52,7 +56,7 @@ export type TrackFile = {
   name: string;
   creationDate: Date;
   fileSize: number;
-  ephemerisSourceFile: EphemerisFile;
+  ephemerisSourceFile: EphemerisFile | null;
   tleSourceFile: TLEFile;
   epochRangeStart: Date;
   epochRangeEnd: Date;
@@ -78,9 +82,17 @@ export type EphemerisFile = {
   id: string;
   trackFileRefId: string;
   name: string;
+  ephemerides: Ephemeride[];
+  epoch: Date;
   satCords: {
-    [key: string]: number;
+    satPos1X: number;
+    satPos1Y: number;
+    satPos2X: number;
+    satPos2Y: number;
   };
+};
+
+export type Ephemeride = {
   epoch: Date;
   positionX: number;
   positionY: number;
@@ -97,9 +109,10 @@ export type TLEFile = {
   line2: string;
 };
 
-export type Ephemeride = {
-  p: [number, number, number];
-  v: [number, number, number];
+export type LogData = {
+  timestamp: Date;
+  status: string;
+  message: string;
 };
 
 //TODO: work out performance table properties with design.

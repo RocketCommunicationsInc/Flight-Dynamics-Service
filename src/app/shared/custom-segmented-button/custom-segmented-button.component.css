@@ -1,0 +1,58 @@
+button {
+  background-color: var(--segmented-button-background-color);
+  padding: var(--spacing-2, 0.5rem) var(--spacing-4, 1rem);
+  color: var(--color-text-interactive-default);
+  font-size: var(--font-control-body-1-font-size, 1rem);
+  font-weight: var(--font-control-body-1-font-weight, 400);
+  line-height: var(--font-control-body-1-line-height, calc(20 / 16));
+  letter-spacing: var(--font-control-body-1-letter-spacing, 0.005em);
+  padding: var(--spacing-1, 0.25rem) var(--spacing-4, 1rem);
+  cursor: pointer;
+  border: 1px solid var(--color-background-interactive-default, #4dacff);
+  height: 18px;
+}
+
+span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+rux-icon {
+  padding-right: var(--spacing-1);
+}
+
+.first-btn {
+  border-radius: var(--radius-base, 3px) 0 0 var(--radius-base, 3px);
+  border-right: none;
+}
+
+.second-btn {
+  border-radius: 0 var(--radius-base, 3px) var(--radius-base, 3px) 0;
+}
+
+.first-btn:hover {
+  background-color: var(--color-background-surface-hover, #1c3851);
+  border-color: var(--color-background-interactive-hover, #92cbff);
+}
+
+.first-btn:hover + .second-btn {
+  border-left: var(--color-background-interactive-hover, #92cbff) 1px solid;
+}
+
+.second-btn:hover {
+  background-color: var(--color-background-surface-hover, #1c3851);
+  border-color: var(--color-background-interactive-hover, #92cbff);
+}
+
+button.active {
+  background-color: var(--color-background-surface-selected, #1c3f5e);
+  color: var(--color-text-primary, #ffffff);
+  & rux-icon {
+    color: var(--color-text-primary, #ffffff);
+  }
+  &:hover {
+    border-color: var(--color-background-interactive-hover, #92cbff);
+    background-color: var(--color-background-surface-selected, #1c3f5e);
+  }
+}
