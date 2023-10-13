@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TrackFile } from 'src/app/types/data.types';
+import type { TrackFile } from 'src/app/types/data.types';
 import { filter, Observable, Subscription } from 'rxjs';
 import {
   selectCurrentSpaceCraftTrackFiles,
@@ -88,7 +88,14 @@ export class InputsComponent {
 
   addFormControls(inputData: InputData) {
     for (const [key, value] of Object.entries(inputData)) {
-      this.formGroup!.addControl(key, new FormControl(value));
+      if (key === 'epoch' || key === 'epochRange' || key === 'epochSpan') {
+        this.formGroup!.addControl(
+          key,
+          new FormControl({ value: value, disabled: true })
+        );
+      } else {
+        this.formGroup!.addControl(key, new FormControl(value));
+      }
     }
   }
   handleSelect(e: any): void {

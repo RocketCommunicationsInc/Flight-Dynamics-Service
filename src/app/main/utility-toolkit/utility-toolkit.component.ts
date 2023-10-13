@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
 import { ToastService } from 'src/app/shared/toast.service';
-import { Spacecraft } from 'src/app/types/data.types';
+import type { Spacecraft } from 'src/app/types/data.types';
 import { LogDataService } from 'src/app/shared/event-log.service';
 import { Observable } from 'rxjs';
 

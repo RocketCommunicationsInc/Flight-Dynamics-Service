@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { filter } from 'rxjs';
 import { SpacecraftActions } from '../+state/app.actions';
-import { Spacecraft } from '../types/data.types';
+import type { Spacecraft } from '../types/data.types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { selectCurrentSpacecraft } from '../+state/app.selectors';
 

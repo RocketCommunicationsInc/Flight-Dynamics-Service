@@ -1,4 +1,4 @@
-import { Unit } from './units.model';
+import type { Unit } from './units.model';
 
 type UnitConversion = {
   [key in Unit]: (val: number) => number | string;

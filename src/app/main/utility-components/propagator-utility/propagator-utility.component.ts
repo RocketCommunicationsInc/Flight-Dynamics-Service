@@ -4,7 +4,7 @@ import { AstroComponentsModule } from '@astrouxds/angular';
 import { InputSourceComponent } from './input-source/input-source.component';
 import { ViewOrbitComponent } from './view-orbit/view-orbit.component';
 import { TabbedChildContainerComponent } from 'src/app/shared/tabbed-child-container/tabbed-child-container.component';
-import { Tabs } from 'src/app/types/Tabs';
+import type { Tabs } from 'src/app/types/Tabs';
 
 @Component({
   selector: 'fds-propagator-util',

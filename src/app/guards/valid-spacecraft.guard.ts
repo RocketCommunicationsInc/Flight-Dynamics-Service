@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs';
 import { selectAllScenarios } from '../+state/app.selectors';
-import { Scenario } from '../types/data.types';
+import type { Scenario } from '../types/data.types';
 
 export const validSpacecraftGuard: CanActivateFn = (route, state) => {
   const store = inject(Store);

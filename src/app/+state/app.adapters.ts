@@ -1,5 +1,5 @@
 import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Scenario, Spacecraft, TrackFile } from '../types/data.types';
+import type { Scenario, Spacecraft, TrackFile } from '../types/data.types';
 
 export function sortByName(
   a: Scenario | TrackFile,

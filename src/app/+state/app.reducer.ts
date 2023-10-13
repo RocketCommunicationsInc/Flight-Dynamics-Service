@@ -5,7 +5,7 @@ import {
   TrackFilesActions,
   AppActions,
 } from './app.actions';
-import {
+import type {
   AppStore,
   ScenariosState,
   SpacecraftsState,

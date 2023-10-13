@@ -51,7 +51,8 @@ export class OutputDataDisplayComponent implements OnInit {
       if (visible) {
         setTimeout(() => {
           this.showBanner = false;
-        }, 8000);
+          this.bannerService.handleBanner();
+        }, 5000);
       }
     });
   }

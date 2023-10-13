@@ -14,9 +14,9 @@ export interface SolutionData {
   id: string;
   property: string;
   initial: number;
-  final: number|string;
-  difference: number|string;
-  deviation: number|string;
+  final: number | string;
+  difference: number | string;
+  deviation: number | string;
   trackFileId: string;
   status: Status;
   units: MenuItem[];
