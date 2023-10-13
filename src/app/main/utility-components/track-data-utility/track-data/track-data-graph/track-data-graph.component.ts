@@ -16,7 +16,10 @@ import {
 import { SitesComponent } from '../sites/sites.component';
 import { SettingsComponent } from '../settings/settings.component';
 import { TrackFile } from 'src/app/types/data.types';
-import { TableData, TrackFilesDataUtilityService } from '../../track-files-data.service';
+import {
+  TableData,
+  TrackFilesDataUtilityService,
+} from '../../track-files-data.service';
 import { ChartOptions, getChartOptions, getSeries } from './chart-options';
 
 type ChartDataItem = {
@@ -42,8 +45,8 @@ export class TrackDataGraphComponent {
   @ViewChild(ChartComponent) chartComponent?: ChartComponent;
   @ViewChild('legend') legend?: ElementRef;
 
-  selectedData: TableData[] = []
-  noData: boolean = true
+  selectedData: TableData[] = [];
+  noData: boolean = true;
 
   //chart variables
   chartOptions: ChartOptions = {};
@@ -92,13 +95,7 @@ export class TrackDataGraphComponent {
     },
   };
 
-  //subscription cleanup
-  destroyRef = inject(DestroyRef);
-  destroyed = new Subject();
-
-  constructor(
-    public trackFilesService: TrackFilesDataUtilityService
-  ) {}
+  constructor(public trackFilesService: TrackFilesDataUtilityService) {}
 
   orderByDate(data: TrackFile[]) {
     return data.sort((a, b) => {
@@ -109,8 +106,10 @@ export class TrackDataGraphComponent {
   }
 
   ngOnInit() {
-    this.selectedData = this.trackFilesService.tableService.data.filter(item => item.selected)
-    this.noData = this.selectedData.length < 1
+    this.selectedData = this.trackFilesService.tableService.data.filter(
+      (item) => item.selected
+    );
+    this.noData = this.selectedData.length < 1;
     this.chartOptions = getChartOptions(
       this.chartEvents,
       this.tooltipEvent,
@@ -123,7 +122,7 @@ export class TrackDataGraphComponent {
       file.creationDate.toLocaleDateString()
     );
     this.labelsShown = this.dates;
-    this.chartData = this.selectedData.map((file:any) => {
+    this.chartData = this.selectedData.map((file: any) => {
       const azimuth = file.initialOrbitProperties.azimuth.value;
       const elevation = file.initialOrbitProperties.elevation.value;
       const inclination = file.initialOrbitProperties.inclination.value;
@@ -168,8 +167,9 @@ export class TrackDataGraphComponent {
     let dataPoints: number = 0;
 
     const updatedSeries = this.series.filter((data: any) => {
-      if (data.visible){ markers.push(data.markerSize);
-        dataPoints = dataPoints + data.data.length
+      if (data.visible) {
+        markers.push(data.markerSize);
+        dataPoints = dataPoints + data.data.length;
       }
       return data.visible;
     });
@@ -185,7 +185,7 @@ export class TrackDataGraphComponent {
     if ((this.deletedDataPoints as number[]).length >= 1) {
       this.disableUndo = false;
     }
-    this.dataPointLength = this.dataPointLength - 1
+    this.dataPointLength = this.dataPointLength - 1;
   }
 
   onUndo() {
@@ -196,7 +196,7 @@ export class TrackDataGraphComponent {
     if ((this.deletedDataPoints as number[]).length < 1) {
       this.disableUndo = true;
     }
-    this.dataPointLength = this.dataPointLength + 1
+    this.dataPointLength = this.dataPointLength + 1;
   }
 
   handleZoom(event: any) {
