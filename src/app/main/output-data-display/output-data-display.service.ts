@@ -47,7 +47,9 @@ export class OutputDataDisplayService {
       this.deviations = []; // clear existing deviations if any
       this.solutionData = []; //clear existing solution data if any
       Object.entries(initial).forEach(([key, { unit, value }], index) => {
-        const finalVal = final ? final[key as keyof OrbitProperties].value : '-' ;
+        const finalVal = final
+          ? final[key as keyof OrbitProperties].value
+          : '-';
         const status = this.setStatus(index);
 
         if (status !== 'off') {
@@ -55,7 +57,8 @@ export class OutputDataDisplayService {
         }
         this.solutionData.push({
           deviation: finalVal === '-' ? '-' : randomNum(100, 300),
-          difference: finalVal === '-' ? '-' : Number((finalVal - value).toPrecision(7)),
+          difference:
+            finalVal === '-' ? '-' : Number((finalVal - value).toPrecision(7)),
           final: finalVal,
           id: crypto.randomUUID(),
           initial: value,

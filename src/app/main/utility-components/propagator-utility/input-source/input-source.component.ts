@@ -26,10 +26,7 @@ import { ToastService } from 'src/app/shared/toast.service';
   styleUrls: ['./input-source.component.css'],
 })
 export class InputSourceComponent {
-  constructor(
-    private store: Store,
-    private toasts: ToastService
-  ) {}
+  constructor(private store: Store, private toasts: ToastService) {}
   showControlsPanel: boolean = false;
 
   toggleControls() {

@@ -24,11 +24,11 @@ export class GlobalStatusBarComponent {
 
   //Show the default 'feature not implemented' toast.
   showToast() {
-    this.toasts.defaultToast()
+    this.toasts.defaultToast();
   }
 
   constructor(private toasts: ToastService) {
     this.lightMode = false;
-    this.showToast()
+    this.showToast();
   }
 }

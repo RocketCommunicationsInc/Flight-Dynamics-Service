@@ -12,7 +12,6 @@ rux-container {
   --body-padding: 0;
 }
 
-
 form.inputs_form {
   display: flex;
   height: 100%;
@@ -33,4 +32,3 @@ rux-container::part(tab-bar) {
 .footer rux-button {
   width: 100%;
 }
-
