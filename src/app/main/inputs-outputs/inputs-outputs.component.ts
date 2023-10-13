@@ -7,18 +7,13 @@ import { OutputsComponent } from './outputs/outputs.component';
 import { OutputDataDisplayService } from '../output-data-display/output-data-display.service';
 import { LogDataService } from 'src/app/shared/event-log.service';
 import { ProcessedTrackFile, TrackFile } from 'src/app/types/data.types';
-import { filter, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { selectCurrentTrackFile } from 'src/app/+state/app.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select, Store } from '@ngrx/store';
 import { MockDataService } from 'src/app/api/mock-data.service';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'fds-inputs-outputs',
@@ -59,10 +54,6 @@ export class InputsOutputsComponent {
     this.inputForm = this.formBuilder.group({});
   }
 
-  handleBanner() {
-    this.bannerService.handleBanner();
-  }
-
   onSubmit(): void {
     // generate processed trackFile using service
     (this.processedTrackFile = this.ProcessTrackFileService.processtrackFile(
@@ -84,6 +75,6 @@ export class InputsOutputsComponent {
       status: 'normal',
       message: `Processed trackfile created from ${this.currentTrackFile?.name}`,
     });
-    this.handleBanner();
+    this.bannerService.handleBanner();
   }
 }
