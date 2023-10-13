@@ -1,7 +1,7 @@
 import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import { Tabs } from 'src/app/types/Tabs';
+import type { Tabs } from 'src/app/types/Tabs';
 
 @Component({
   selector: 'fds-tabbed-child-container',

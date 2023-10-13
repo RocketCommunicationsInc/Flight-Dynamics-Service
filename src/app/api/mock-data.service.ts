@@ -6,7 +6,7 @@ import {
   mockSpaceCrafts,
   mockTrackFiles,
 } from '../mock-data/generate-data';
-import { Scenario, Spacecraft, TrackFile } from '../types/data.types';
+import type { Scenario, Spacecraft, TrackFile } from '../types/data.types';
 
 @Injectable({
   providedIn: 'root',

@@ -8,7 +8,7 @@ describe('CustomSegmentedButtonComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CustomSegmentedButtonComponent]
+      imports: [CustomSegmentedButtonComponent],
     });
     fixture = TestBed.createComponent(CustomSegmentedButtonComponent);
     component = fixture.componentInstance;

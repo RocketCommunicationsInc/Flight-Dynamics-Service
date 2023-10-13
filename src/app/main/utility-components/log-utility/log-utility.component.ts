@@ -3,7 +3,7 @@ import { AstroComponentsModule } from '@astrouxds/angular';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { LogData } from 'src/app/types/data.types';
+import type { LogData } from 'src/app/types/data.types';
 import { selectCurrentSpacecraft } from 'src/app/+state/app.selectors';
 import { Store } from '@ngrx/store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

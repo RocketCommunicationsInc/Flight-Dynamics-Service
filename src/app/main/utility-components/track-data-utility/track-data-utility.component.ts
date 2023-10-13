@@ -21,10 +21,10 @@ import { TableService } from 'src/app/shared/table.service';
   styleUrls: ['./track-data-utility.component.css'],
 })
 export class TrackDataUtilityComponent {
-  currentSpacecraft$ = this.store.select(selectCurrentSpacecraft)
+  currentSpacecraft$ = this.store.select(selectCurrentSpacecraft);
   selectedTab: string = 'files';
 
-  constructor(private store: Store){}
+  constructor(private store: Store) {}
 
   tabSelect(event: any) {
     if (event.target.id) {
