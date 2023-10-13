@@ -99,6 +99,8 @@ export type UnitPropertyMap = {
 export const RelevantUnits: UnitPropertyMap = {
   argOfPerigee: [degrees, radians],
   apogee: [kilometers, miles],
+  azimuth: [degrees, radians],
+  elevation: [kilometers, miles, meters],
   meanMotion: [revolutions],
   perigee: [kilometers, miles],
   semiMajorAxis: [kilometers, miles],

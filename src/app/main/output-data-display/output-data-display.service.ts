@@ -64,6 +64,9 @@ export class OutputDataDisplayService {
           this.deviations.push(status);
         }
 
+        if (!RelevantUnits[key]) {
+          console.log('this key dont exisit: ', key);
+        }
         const relevantUnits: MenuItem[] = RelevantUnits[key];
 
         this.solutionData.push({
