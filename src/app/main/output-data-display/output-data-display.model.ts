@@ -19,7 +19,7 @@ export interface SolutionData {
   deviation: number | string;
   trackFileId: string;
   status: Status;
-  units: SelectOption[];
+  units: MenuItem[];
 }
 
 export type Property =
