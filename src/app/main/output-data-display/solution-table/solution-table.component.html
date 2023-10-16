@@ -28,8 +28,8 @@
           </div>
           <rux-select size="small" *ngSwitchCase="'units'" (ruxchange)="setRowUnit($event, row)"
             [value]="getRowUnit(row)">
-            <rux-option *ngFor="let unit of row.units" [label]="capitalize(unit.val)" [value]="unit.val" />
-
+            <rux-option *ngFor="let unit of relUnits[row.property.toLowerCase().replaceAll(' ', '')]"
+              [label]="capitalize(unit.val)" [value]="unit.val" />
           </rux-select>
 
           <ng-container *ngSwitchDefault>

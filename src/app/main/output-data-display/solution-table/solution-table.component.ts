@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AstroComponentsModule } from '@astrouxds/angular';
+import { AstroComponentsModule, RuxSelect } from '@astrouxds/angular';
 import { UnitConverterPipe } from 'src/app/shared';
 import { TableService } from 'src/app/shared/table.service';
-import { Unit } from 'src/app/shared/units/units.model';
+import { Unit, RelevantUnits } from 'src/app/shared/units/units.model';
 import { OutputDataDisplayService } from '../output-data-display.service';
 import { SolutionData } from '../output-data-display.model';
 import { capitalize } from 'src/app/shared/utils';
@@ -31,6 +31,7 @@ export class SolutionTableComponent implements OnChanges {
   }
 
   capitalize = capitalize;
+  relUnits = RelevantUnits;
 
   getRowUnit(row: SolutionData): Unit {
     const selected = row.units.find((unit) => unit.selected);

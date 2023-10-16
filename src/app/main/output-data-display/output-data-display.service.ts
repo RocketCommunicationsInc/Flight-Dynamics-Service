@@ -48,8 +48,20 @@ export class OutputDataDisplayService {
   constructor(private store: Store) {
     this.currentTrackFile$.pipe(takeUntilDestroyed()).subscribe((trackFile) => {
       if (!trackFile) return;
-      const { degrees, kilometers, meters, miles, radians, revolutions } =
-        UnitMenuItems;
+      const {
+        degrees,
+        kilometers,
+        meters,
+        miles,
+        radians,
+        revolutions,
+        hours,
+        seconds,
+        minutes,
+        days,
+        kilograms,
+        pounds,
+      } = UnitMenuItems;
       const initial = trackFile.initialOrbitProperties;
       const final = trackFile.processedTrackFile?.finalOrbitProperties;
       this.deviations = []; // clear existing deviations if any
@@ -64,11 +76,6 @@ export class OutputDataDisplayService {
           this.deviations.push(status);
         }
 
-        if (!RelevantUnits[key]) {
-          console.log('this key dont exisit: ', key);
-        }
-        const relevantUnits: MenuItem[] = RelevantUnits[key];
-
         this.solutionData.push({
           deviation: finalVal === '-' ? '-' : randomNum(100, 300),
           difference:
@@ -79,10 +86,20 @@ export class OutputDataDisplayService {
           property: this.camelCaseToTitleCase(key),
           status,
           trackFileId: trackFile.id,
-          units: relevantUnits.map((obj) => {
-            obj.selected = true;
-            return obj;
-          }),
+          units: [
+            { ...meters, selected: meters.val === unit },
+            { ...kilometers, selected: kilometers.val === unit },
+            { ...miles, selected: miles.val === unit },
+            { ...degrees, selected: degrees.val === unit },
+            { ...radians, selected: radians.val === unit },
+            { ...revolutions, selected: revolutions.val === unit },
+            { ...seconds, selected: seconds.val === unit },
+            { ...hours, selected: hours.val === unit },
+            { ...minutes, selected: minutes.val === unit },
+            { ...days, selected: days.val === unit },
+            { ...kilograms, selected: kilograms.val === unit },
+            { ...pounds, selected: pounds.val === unit },
+          ],
         });
       });
     });
