@@ -4,30 +4,30 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnDestroy,
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { OnInit } from '@angular/core';
 import {
   Cartesian3,
   Color,
   Viewer,
   PolylineOutlineMaterialProperty,
   SceneMode,
+  CzmlDataSource,
 } from 'cesium';
+import cesiumData from './cesium.json';
 
 @Directive({
   selector: '[fdsCesiumMap]',
   standalone: true,
 })
-export class CesiumMapDirective implements OnInit, OnChanges, OnDestroy {
+export class CesiumMapDirective {
   initialMetersFromEarth = 36_000_000;
   cameraChangeUnsubscribe: () => void = () => undefined;
   viewer: Viewer;
   constructor(private el: ElementRef) {
     this.viewer = new Viewer(this.el.nativeElement);
-    this.viewer.scene.mode = SceneMode.SCENE2D;
+    this.viewer.scene.mode = SceneMode.SCENE3D;
     this.viewer.fullscreenButton.destroy();
     // this.viewer.camera.maximumZoomFactor = 1;
   }
@@ -53,6 +53,12 @@ export class CesiumMapDirective implements OnInit, OnChanges, OnDestroy {
     this.addPoint(this.satPos2X, this.satPos2Y);
     this.addLine(this.satPos1X, this.satPos1Y, this.satPos2X, this.satPos2Y);
 
+    this.viewer.dataSources.add(
+      CzmlDataSource.load(cesiumData)
+    );
+
+    this.viewer.camera.flyHome(0);
+
     this.cameraChangeUnsubscribe = this.viewer.camera.changed.addEventListener(
       /**
        *
@@ -67,20 +73,20 @@ export class CesiumMapDirective implements OnInit, OnChanges, OnDestroy {
     );
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const zoomLevel = changes['zoomLevel'];
-    const prevMetersFromEarth = zoomLevel.previousValue;
-    const currMetersFromEartch = zoomLevel.currentValue;
-    if (zoomLevel.isFirstChange()) {
-      this.viewer.camera.zoomIn(currMetersFromEartch);
-      return;
-    }
-    if (currMetersFromEartch > prevMetersFromEarth) {
-      this.viewer.camera.zoomOut(currMetersFromEartch);
-      return;
-    }
-    this.viewer.camera.zoomIn(currMetersFromEartch);
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   const zoomLevel = changes['zoomLevel'];
+  //   const prevMetersFromEarth = zoomLevel.previousValue;
+  //   const currMetersFromEartch = zoomLevel.currentValue;
+  //   if (zoomLevel.isFirstChange()) {
+  //     this.viewer.camera.zoomIn(currMetersFromEartch);
+  //     return;
+  //   }
+  //   if (currMetersFromEartch > prevMetersFromEarth) {
+  //     this.viewer.camera.zoomOut(currMetersFromEartch);
+  //     return;
+  //   }
+  //   this.viewer.camera.zoomIn(currMetersFromEartch);
+  // }
 
   ngOnDestroy(): void {
     this.cameraChangeUnsubscribe();

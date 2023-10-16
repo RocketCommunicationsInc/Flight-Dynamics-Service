@@ -15,6 +15,7 @@ import {
 } from './output-data-display.data';
 import { BehaviorSubject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { LoremModule } from '@faker-js/faker';
 
 @Injectable({
   providedIn: 'root',
