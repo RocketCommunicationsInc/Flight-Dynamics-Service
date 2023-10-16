@@ -14,6 +14,7 @@ import {
   PolylineOutlineMaterialProperty,
   SceneMode,
   CzmlDataSource,
+  Cartesian2,
 } from 'cesium';
 import cesiumData from './cesium.json';
 
@@ -27,9 +28,10 @@ export class CesiumMapDirective {
   viewer: Viewer;
   constructor(private el: ElementRef) {
     this.viewer = new Viewer(this.el.nativeElement);
-    this.viewer.scene.mode = SceneMode.SCENE3D;
+    this.viewer.scene.mode = SceneMode.SCENE2D;
     this.viewer.fullscreenButton.destroy();
     // this.viewer.camera.maximumZoomFactor = 1;
+    // this.viewer.camera.
   }
 
   @Input() zoomLevel: number = this.initialMetersFromEarth;
@@ -73,20 +75,21 @@ export class CesiumMapDirective {
     );
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   const zoomLevel = changes['zoomLevel'];
-  //   const prevMetersFromEarth = zoomLevel.previousValue;
-  //   const currMetersFromEartch = zoomLevel.currentValue;
-  //   if (zoomLevel.isFirstChange()) {
-  //     this.viewer.camera.zoomIn(currMetersFromEartch);
-  //     return;
-  //   }
-  //   if (currMetersFromEartch > prevMetersFromEarth) {
-  //     this.viewer.camera.zoomOut(currMetersFromEartch);
-  //     return;
-  //   }
-  //   this.viewer.camera.zoomIn(currMetersFromEartch);
-  // }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.viewer.scene.mode !== SceneMode.SCENE2D) return;
+    const zoomLevel = changes['zoomLevel'];
+    const prevMetersFromEarth = zoomLevel.previousValue;
+    const currMetersFromEarth = zoomLevel.currentValue;
+    if (zoomLevel.isFirstChange()) {
+      this.viewer.camera.zoomIn(currMetersFromEarth);
+      return;
+    }
+    if (currMetersFromEarth > prevMetersFromEarth) {
+      this.viewer.camera.zoomOut(currMetersFromEarth);
+      return;
+    }
+    this.viewer.camera.zoomIn(currMetersFromEarth);
+  }
 
   ngOnDestroy(): void {
     this.cameraChangeUnsubscribe();
