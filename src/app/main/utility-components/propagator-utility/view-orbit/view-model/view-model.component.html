@@ -7,11 +7,7 @@
 
   <div class="zoom-wrapper">
     <rux-icon icon="search" size="1.5rem" />
-    <rux-slider
-      [value]="zoomLevel"
-      (ruxchange)="handleZoom($event)"
-      max="36000000"
-    />
+    <rux-slider [value]="zoomLevel" min="200000" max="70000000" />
     <rux-icon icon="search" size="extra-small" />
   </div>
 </div>
