@@ -230,7 +230,7 @@ const generateSemiMajorAxis = (): OrbitProperty => {
 
 const generateBStar = (): OrbitProperty => {
   return {
-    value: faker.number.float({ min: 0.0001, max: 0.0005, precision: 0.0001 }),
+    value: faker.number.float({ min: 0.0001, max: 0.0005, multipleOf: 0.0001 }),
     unit: 'er^-1',
   };
 };
@@ -244,14 +244,14 @@ const generateInclination = (): OrbitProperty => {
 
 const generatePeriod = (): OrbitProperty => {
   return {
-    value: faker.number.float({ min: 20, max: 2000, precision: 0.001 }),
+    value: faker.number.float({ min: 20, max: 2000, multipleOf: 0.001 }),
     unit: 'min',
   };
 };
 
 const generateMeanMotion = (): OrbitProperty => {
   return {
-    value: faker.number.float({ min: 1, max: 90, precision: 0.001 }),
+    value: faker.number.float({ min: 1, max: 90, multipleOf: 0.001 }),
     unit: 'deg/hr',
   };
 };
@@ -261,7 +261,7 @@ const generateEccentricity = (): OrbitProperty => {
     value: faker.number.float({
       min: 0.0004,
       max: 0.0007,
-      precision: 0.0000001,
+      multipleOf: 0.0000001,
     }),
     unit: '',
   };
@@ -275,14 +275,14 @@ const generateRaan = (): OrbitProperty => {
 };
 const generateRevNo = (): OrbitProperty => {
   return {
-    value: faker.number.float({ min: 0.2, max: 40, precision: 0.001 }),
+    value: faker.number.float({ min: 0.2, max: 40, multipleOf: 0.001 }),
     unit: '',
   };
 };
 
 const generateMeanMotionDot = (): OrbitProperty => {
   return {
-    value: faker.number.float({ min: 0.1, max: 40, precision: 0.0001 }),
+    value: faker.number.float({ min: 0.1, max: 40, multipleOf: 0.0001 }),
     unit: 'rev/day^2',
   };
 };
