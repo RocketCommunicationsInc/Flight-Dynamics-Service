@@ -21,9 +21,9 @@
     "@angular/platform-browser-dynamic": "^17.3.11",
     "@angular/router": "^17.3.11",
     "@astrouxds/angular": "^7.16.0",
-    "@ngrx/effects": "^16.2.0",
-    "@ngrx/entity": "^16.2.0",
-    "@ngrx/store": "^16.2.0",
+    "@ngrx/effects": "^18.0.1",
+    "@ngrx/entity": "^18.0.1",
+    "@ngrx/store": "^18.0.1",
     "apexcharts": "^3.42.0",
     "cesium": "^1.109.0",
     "ng-apexcharts": "^1.8.0",
@@ -44,6 +44,6 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "prettier": "3.0.3",
-    "typescript": "~5.2.2"
+    "typescript": "^5.4.2"
   }
 }
