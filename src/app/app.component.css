@@ -4,7 +4,7 @@
   padding: var(--spacing-050);
   column-gap: var(--spacing-2);
   grid-template-columns: minmax(18rem, 1.5fr) 2.75fr 8.25fr;
-  grid-template-rows: 7rem auto auto;
+  grid-template-rows: 4.5rem auto auto;
   grid-template-areas:
     'aside header header'
     'aside main main'
@@ -24,7 +24,7 @@
 
 .app-main {
   grid-area: main;
-  height: calc(100vh - 13.25rem);
+  height: calc(100vh - 10.66rem);
   display: flex;
   flex-direction: column;
 }
