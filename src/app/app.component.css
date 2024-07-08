@@ -40,3 +40,7 @@
 header {
   display: flex;
 }
+
+rux-toast-stack {
+top: 6rem;
+}
