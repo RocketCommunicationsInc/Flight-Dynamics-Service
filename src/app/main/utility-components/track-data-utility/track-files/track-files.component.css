@@ -112,6 +112,8 @@ header {
   align-items: center;
   padding-left: var(--spacing-4);
   justify-content: space-between;
+  padding-block: calc(var(--spacing-1) + var(--spacing-050));
+  box-shadow: var(--table-header-shadow);
 }
 
 .file-content {
