@@ -137,7 +137,7 @@ export class OutputDataDisplayService {
 
   private showBannerSubject = new BehaviorSubject<boolean>(false);
   showBanner$ = this.showBannerSubject.asObservable();
-  handleBanner() {
-    this.showBannerSubject.next(!this.showBannerSubject.value);
+  handleBanner(bool: boolean) {
+    this.showBannerSubject.next(bool);
   }
 }

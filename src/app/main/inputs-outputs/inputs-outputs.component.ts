@@ -75,6 +75,6 @@ export class InputsOutputsComponent {
       status: 'normal',
       message: `Processed trackfile created from ${this.currentTrackFile?.name}`,
     });
-    this.bannerService.handleBanner();
+    this.bannerService.handleBanner(true);
   }
 }
