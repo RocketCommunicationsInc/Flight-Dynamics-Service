@@ -1,15 +1,21 @@
-<fds-tabbed-child-container
-  [tabs]="tabs"
-  [hasTabPanels]="true"
-  tabsParentId="propagator-tabs"
-  [isUtilityContainer]="true"
->
-  <ng-container panels>
-    <rux-tab-panel aria-labelledby="input-source">
-      <fds-input-source />
-    </rux-tab-panel>
-    <rux-tab-panel aria-labelledby="view-orbit">
-      <fds-view-orbit />
-    </rux-tab-panel>
-  </ng-container>
-</fds-tabbed-child-container>
+<header>
+  <rux-tabs id="propagator-tabs" small>
+    <rux-tab
+        id="input-source"
+        selected="true"
+        >Input Source</rux-tab
+      >
+      <rux-tab
+        id="view-orbit"
+        >View Orbit</rux-tab
+      >
+  </rux-tabs>
+</header>
+<rux-tab-panels aria-labelledby="propagator-tabs">
+  <rux-tab-panel aria-labelledby="input-source">
+    <fds-input-source (closeUtility)="onCloseUtility(true)" />
+  </rux-tab-panel>
+  <rux-tab-panel aria-labelledby="view-orbit">
+    <fds-view-orbit />
+  </rux-tab-panel>
+</rux-tab-panels>

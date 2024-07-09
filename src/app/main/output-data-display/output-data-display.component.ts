@@ -27,11 +27,6 @@ import { CustomSegmentedButtonComponent } from 'src/app/shared/custom-segmented-
 })
 export class OutputDataDisplayComponent implements OnInit {
   currentView: CurrentView = 'View Table';
-  tabsId = 'output-data-display-tabs';
-  tabs: Tabs[] = [
-    { label: 'OD Solution', id: 'od-solution', selected: true },
-    { label: 'OD Performance', id: 'od-performance' },
-  ];
 
   showBanner: boolean = false;
   dateAndTime = new Date();

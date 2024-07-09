@@ -38,11 +38,6 @@ export class InputsOutputsComponent {
     .subscribe((result) => {
       this.currentTrackFile = result;
     });
-  tabsId = 'inputs-outputs-tabs';
-  tabs: Tabs[] = [
-    { label: 'Inputs', id: 'inputs-tab', selected: true },
-    { label: 'Outputs', id: 'outputs-tab', selected: false },
-  ];
 
   constructor(
     private bannerService: OutputDataDisplayService,

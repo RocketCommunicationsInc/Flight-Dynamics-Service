@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { PropagatorControlsComponent } from '../propagator-controls/propagator-controls.component';
@@ -26,8 +26,12 @@ import { ToastService } from 'src/app/shared/toast.service';
   styleUrls: ['./input-source.component.css'],
 })
 export class InputSourceComponent {
-  constructor(private store: Store, private toasts: ToastService) {}
+  constructor(
+    private store: Store,
+    private toasts: ToastService
+  ) {}
   showControlsPanel: boolean = false;
+  @Output() closeUtility = new EventEmitter<boolean>();
 
   toggleControls() {
     this.showControlsPanel = !this.showControlsPanel;
@@ -115,5 +119,6 @@ export class InputSourceComponent {
 
   handleCancel() {
     this.toasts.defaultToast();
+    this.closeUtility.emit(true);
   }
 }

@@ -2,18 +2,20 @@
   <div class="text-banner" *ngIf="showBanner">
     OD Successfully Completed on {{ dateAndTime | date: 'MM/dd/YY hh:mm' }}
   </div>
-  <rux-tabs slot="tab-bar" [id]="tabsId" small>
+  <rux-tabs slot="tab-bar" id="output-data-display-tabs" small>
     <rux-tab
-      [id]="tab.id"
-      [selected]="tab.selected"
-      [disabled]="tab.disabled"
-      *ngFor="let tab of tabs"
-      >{{ tab.label }}</rux-tab
-    >
+    id="od-solution"
+    selected="true"
+    >OD Solution</rux-tab
+  >
+  <rux-tab
+    id="od-performance"
+    >OD Performance</rux-tab
+  >
   </rux-tabs>
 
-  <rux-tab-panels [attr.aria-labelledby]="tabsId">
-    <rux-tab-panel [attr.aria-labelledby]="tabs[0].id">
+  <rux-tab-panels aria-labelledby="output-data-display-tabs">
+    <rux-tab-panel aria-labelledby="od-solution">
       <div class="sub-header">
         <div class="container">
           <div class="data">
@@ -62,7 +64,7 @@
       <fds-solution-graph *ngIf="showGraph" />
     </rux-tab-panel>
 
-    <rux-tab-panel [attr.aria-labelledby]="tabs[1].id">
+    <rux-tab-panel aria-labelledby="od-performance">
       <div class="sub-header">
         <div class="container">
           <div class="heading">
