@@ -3,15 +3,8 @@
     OD Successfully Completed on {{ dateAndTime | date: 'MM/dd/YY hh:mm' }}
   </div>
   <rux-tabs slot="tab-bar" id="output-data-display-tabs" small>
-    <rux-tab
-    id="od-solution"
-    selected="true"
-    >OD Solution</rux-tab
-  >
-  <rux-tab
-    id="od-performance"
-    >OD Performance</rux-tab
-  >
+    <rux-tab id="od-solution" selected="true">OD Solution</rux-tab>
+    <rux-tab id="od-performance">OD Performance</rux-tab>
   </rux-tabs>
 
   <rux-tab-panels aria-labelledby="output-data-display-tabs">
@@ -34,7 +27,7 @@
               </div>
             </div>
           </div>
-          <div>
+          <div class="action-btn-group">
             <fds-custom-segmented-button
               [leftIcon]="leftIcon"
               [leftText]="leftText"
@@ -45,14 +38,15 @@
               [isLeftBtnActive]="leftBtnActive"
               [isRightBtnActive]="rightBtnActive"
             ></fds-custom-segmented-button>
-          </div>
-          <div class="action-btn-wrapper">
-            <rux-button secondary (click)="handleTLE()" size="small"
-              >Create TLE</rux-button
-            >
-            <rux-button (click)="handleEphemeris()" size="small"
-              >Create Ephemeris</rux-button
-            >
+
+            <div class="action-btn-wrapper">
+              <rux-button secondary (click)="handleTLE()" size="small"
+                >Create TLE</rux-button
+              >
+              <rux-button (click)="handleEphemeris()" size="small"
+                >Create Ephemeris</rux-button
+              >
+            </div>
           </div>
         </div>
       </div>

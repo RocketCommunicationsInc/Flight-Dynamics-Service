@@ -6,6 +6,7 @@
 rux-tab-panels,
 rux-tab-panel {
   height: 100%;
+  overflow: auto;
 }
 
 rux-container {
@@ -14,7 +15,7 @@ rux-container {
 
 form.inputs_form {
   display: flex;
-  height: 100%;
+  height: calc(100% - 1.5rem);
   flex-direction: column;
   justify-content: space-between;
   padding: var(--spacing-3);
@@ -27,6 +28,7 @@ rux-container::part(tab-bar) {
 .footer {
   display: flex;
   justify-content: center;
+  padding-block-start: var(--spacing-3);
 }
 
 .footer rux-button {
