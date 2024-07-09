@@ -1,8 +1,14 @@
 <rux-container>
-  <ng-container [ngSwitch]="currentToolkitPath">
-    <div slot="header" *ngSwitchCase="'propagator'">Propagator Utility</div>
-    <div slot="header" *ngSwitchCase="'track-data'">Tracking Data Utility</div>
-    <div slot="header" *ngSwitchCase="'log'">Log Utility</div>
-  </ng-container>
+  @switch(currentToolkitPath) {
+    @case('propagator') {
+      <div slot="header">Propagator Utility</div>
+    }
+    @case('track-data') {
+      <div slot="header">Tracking Data Utility</div>
+    }
+    @case('log') {
+      <div slot="header">Log Utility</div>
+    }
+  }
   <router-outlet />
 </rux-container>

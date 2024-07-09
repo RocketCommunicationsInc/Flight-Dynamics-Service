@@ -71,3 +71,10 @@ span:nth-of-type(2) {
   font-weight: var(--font-weights-medium);
   color: var(--color-text-secondary);
 }
+
+rux-dialog::part(message) {
+  height: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

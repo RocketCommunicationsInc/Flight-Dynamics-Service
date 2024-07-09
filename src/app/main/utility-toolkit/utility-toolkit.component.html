@@ -1,39 +1,42 @@
 <h2>
   SPACECRAFT
-  <span *ngIf="spacecraft$ | async as spacecraft">
-    {{ spacecraft.catalogId }}</span
-  >
+  @if(spacecraft$ | async; as spacecraft) {
+    <span>
+      {{ spacecraft.catalogId }}</span
+    >
+  }
+  
 </h2>
 <div class="btns">
-  <ng-template #utlBtns>
+  @if (currentToolkitPath) {
+    <rux-button
+      (click)="isConfirmCloseOpen = true"
+      size="small"
+      borderless
+      icon="close"
+      >Close Utility</rux-button
+    >
+  } @else {
     <rux-button size="small" secondary icon="list-alt" (click)="createReport()"
       >Create Report</rux-button
     >
-
-    <rux-button
-      size="small"
-      secondary
-      [icon]="util.icon"
-      *ngFor="let util of utilities"
-      (click)="onClick(util)"
-    >
-      {{ util.label }}
-    </rux-button>
-  </ng-template>
-
-  <rux-button
-    *ngIf="currentToolkitPath; else utlBtns"
-    (click)="isConfirmCloseOpen = true"
-    size="small"
-    borderless
-    icon="close"
-    >Close Utility</rux-button
-  >
+    @for (util of utilities; track util.label) {
+      <rux-button
+        size="small"
+        secondary
+        [icon]="util.icon"
+        (click)="onClick(util)"
+      >
+        {{ util.label }}
+      </rux-button>
+    }
+  }
 </div>
-<rux-dialog
-  *ngIf="isConfirmCloseOpen"
-  open
-  header="Close?"
-  [message]="confirmMessage"
-  (ruxdialogclosed)="onConfirm($event)"
-/>
+@if (isConfirmCloseOpen) {
+  <rux-dialog
+    open
+    header="Close?"
+    [message]="confirmMessage"
+    (ruxdialogclosed)="onConfirm($event)"
+  />
+}

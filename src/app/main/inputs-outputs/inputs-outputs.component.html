@@ -1,19 +1,21 @@
 <rux-container>
-  <rux-tabs slot="tab-bar" [id]="tabsId" small>
+  <rux-tabs slot="tab-bar" id='inputs-outputs-tabs' small>
     <rux-tab
-      [id]="tab.id"
-      [selected]="tab.selected"
-      [disabled]="tab.disabled"
-      *ngFor="let tab of tabs"
-      >{{ tab.label }}</rux-tab
-    >
+        id="inputs-tab"
+        selected="true"
+        >Inputs</rux-tab
+      >
+      <rux-tab
+        id="outputs-tab"
+        >Outputs</rux-tab
+      >
   </rux-tabs>
   <form class="inputs_form" [formGroup]="inputForm" (ngSubmit)="onSubmit()">
-    <rux-tab-panels [attr.aria-labelledby]="tabsId">
-      <rux-tab-panel [attr.aria-labelledby]="tabs[0].id">
+    <rux-tab-panels aria-labelledby='inputs-outputs-tabs'>
+      <rux-tab-panel aria-labelledby="inputs-tab">
         <fds-inputs [formGroup]="inputForm" />
       </rux-tab-panel>
-      <rux-tab-panel [attr.aria-labelledby]="tabs[1].id">
+      <rux-tab-panel aria-labelledby="outputs-tab">
         <fds-outputs />
       </rux-tab-panel>
     </rux-tab-panels>

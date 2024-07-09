@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import type { Tabs } from 'src/app/types/Tabs';
 import { SolutionGraphComponent } from './solution-graph/solution-graph.component';
 import { SolutionTableComponent } from './solution-table/solution-table.component';
 import { OutputDataDisplayService } from './output-data-display.service';
@@ -27,11 +26,6 @@ import { CustomSegmentedButtonComponent } from 'src/app/shared/custom-segmented-
 })
 export class OutputDataDisplayComponent implements OnInit {
   currentView: CurrentView = 'View Table';
-  tabsId = 'output-data-display-tabs';
-  tabs: Tabs[] = [
-    { label: 'OD Solution', id: 'od-solution', selected: true },
-    { label: 'OD Performance', id: 'od-performance' },
-  ];
 
   showBanner: boolean = false;
   dateAndTime = new Date();

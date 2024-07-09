@@ -75,6 +75,8 @@ export class CesiumMapDirective {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.viewer.scene.mode !== SceneMode.SCENE2D) return;
+    if (!changes['zoomLevel']) return;
+
     const zoomLevel = changes['zoomLevel'];
     const prevMetersFromEarth = zoomLevel.previousValue;
     const currMetersFromEarth = zoomLevel.currentValue;
