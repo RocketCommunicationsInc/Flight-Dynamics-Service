@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
-import type { Tabs } from 'src/app/types/Tabs';
 import { SolutionGraphComponent } from './solution-graph/solution-graph.component';
 import { SolutionTableComponent } from './solution-table/solution-table.component';
 import { OutputDataDisplayService } from './output-data-display.service';

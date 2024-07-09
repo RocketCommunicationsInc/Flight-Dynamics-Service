@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AstroComponentsModule } from '@astrouxds/angular';
 import { PropagatorControlsComponent } from '../propagator-controls/propagator-controls.component';
@@ -13,6 +13,7 @@ import {
 } from 'src/app/mock-data/generate-data';
 import { TrackFilesActions } from 'src/app/+state/app.actions';
 import { ToastService } from 'src/app/shared/toast.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'fds-input-source',
   standalone: true,
@@ -26,12 +27,15 @@ import { ToastService } from 'src/app/shared/toast.service';
   styleUrls: ['./input-source.component.css'],
 })
 export class InputSourceComponent {
+  readonly router = inject(Router);
+
+  showControlsPanel: boolean = false;
+  isConfirmCloseOpen = false;
+
   constructor(
     private store: Store,
     private toasts: ToastService
   ) {}
-  showControlsPanel: boolean = false;
-  @Output() closeUtility = new EventEmitter<boolean>();
 
   toggleControls() {
     this.showControlsPanel = !this.showControlsPanel;
@@ -118,7 +122,13 @@ export class InputSourceComponent {
   }
 
   handleCancel() {
-    this.toasts.defaultToast();
-    this.closeUtility.emit(true);
+    this.isConfirmCloseOpen = true;
+  }
+
+  onConfirm(e: Event) {
+    this.isConfirmCloseOpen = false;
+    const isConfirmed = (e as CustomEvent).detail;
+    if (!isConfirmed) return;
+    this.router.navigate(['..']);
   }
 }

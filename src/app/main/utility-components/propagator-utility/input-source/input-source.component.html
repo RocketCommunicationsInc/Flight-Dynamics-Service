@@ -94,3 +94,12 @@
     >
   </footer>
 </form>
+
+@if (isConfirmCloseOpen) {
+  <rux-dialog
+    open
+    header="Close?"
+    message="Are you sure you want to close Propagator?"
+    (ruxdialogclosed)="onConfirm($event)"
+  />
+}
