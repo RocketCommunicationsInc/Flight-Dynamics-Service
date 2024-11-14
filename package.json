@@ -20,7 +20,7 @@
     "@angular/platform-browser": "^18.0.5",
     "@angular/platform-browser-dynamic": "^18.0.5",
     "@angular/router": "^18.0.5",
-    "@astrouxds/angular": "^7.22.1",
+    "@astrouxds/angular": "^7.24.1",
     "@ngrx/effects": "^18.0.1",
     "@ngrx/entity": "^18.0.1",
     "@ngrx/store": "^18.0.1",
